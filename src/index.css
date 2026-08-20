@@ -1,0 +1,100 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   Patholytics design tokens
+   Dark-first. Deep blue-grey ground, 1px low-contrast borders, single accent
+   (electric violet) reserved for CTAs, active links and numeric highlights.
+   Mono face is load-bearing: every score, percentage and stage renders in it.
+--------------------------------------------------------------------------- */
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Surfaces — ascending elevation */
+  --color-ground: #0a0e14;
+  --color-surface: #0f141c;
+  --color-elevated: #121821;
+  --color-raised: #171e29;
+
+  /* Hairlines */
+  --color-line: #1e2632;
+  --color-line-strong: #2a3444;
+
+  /* Type */
+  --color-ink: #e6eaf0;
+  --color-ink-muted: #8a94a6;
+  --color-ink-faint: #5c6678;
+
+  /* Accent — electric violet */
+  --color-accent: #7c5cff;
+  --color-accent-hover: #9b82ff;
+  --color-accent-soft: #1b1733;
+  --color-accent-ink: #cbbdff;
+
+  /* Status */
+  --color-danger: #f2555a;
+  --color-danger-soft: #2a1418;
+  --color-success: #34d399;
+
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+
+  --shadow-subtle: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.45), 0 8px 24px -12px rgb(0 0 0 / 0.6);
+  --shadow-pop: 0 8px 32px -8px rgb(0 0 0 / 0.7);
+}
+
+@layer base {
+  html {
+    background-color: var(--color-ground);
+    color-scheme: dark;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-ground);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    min-height: 100dvh;
+  }
+
+  /* Numbers, codes and identifiers always read as data, never as prose. */
+  .tabular {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--color-accent) 35%, transparent);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-xs);
+  }
+
+  * {
+    border-color: var(--color-line);
+  }
+}
+
+@layer utilities {
+  /* Faint grid, evokes a counting graticule without becoming decoration. */
+  .bg-graticule {
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--color-line) 55%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--color-line) 55%, transparent) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 0%, black 45%, transparent 100%);
+  }
+}
