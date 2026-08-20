@@ -1,0 +1,39 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // A user document is private to its owner. Nobody else reads or writes it,
+    // and there is no listing of the collection.
+    match /users/{uid} {
+      allow read: if isOwner(uid);
+
+      // Creation happens client-side on first sign-in. The document must be
+      // owned by the caller and must start on the free plan — a client cannot
+      // grant itself a paid plan before billing exists.
+      allow create: if isOwner(uid)
+                    && incoming().plan == 'free'
+                    && incoming().language is string
+                    && incoming().displayName is string;
+
+      // Only profile fields are writable. `plan` and `createdAt` are excluded,
+      // so upgrades will have to come from a trusted backend later.
+      allow update: if isOwner(uid)
+                    && changedKeys().hasOnly(['displayName', 'language', 'photoURL', 'updatedAt']);
+
+      allow delete: if false;
+    }
+
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function changedKeys() {
+      return request.resource.data.diff(resource.data).affectedKeys();
+    }
+  }
+}
