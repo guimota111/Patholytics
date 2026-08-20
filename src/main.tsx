@@ -6,6 +6,12 @@ import { AuthProvider } from '@/contexts/AuthProvider'
 import '@/i18n'
 import '@/index.css'
 
+// Gating the import (not just the call) is what keeps the Analytics SDK from
+// being fetched at all when measurement is switched off.
+if (import.meta.env.VITE_FIREBASE_MEASUREMENT_ID) {
+  void import('@/lib/analytics').then(({ initAnalytics }) => initAnalytics())
+}
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>

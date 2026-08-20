@@ -59,14 +59,25 @@ the tree for CI and deploys.
    | `VITE_FIREBASE_STORAGE_BUCKET`      | `storageBucket`       |
    | `VITE_FIREBASE_MESSAGING_SENDER_ID` | `messagingSenderId`   |
    | `VITE_FIREBASE_APP_ID`              | `appId`               |
+   | `VITE_FIREBASE_MEASUREMENT_ID`      | `measurementId`       |
 
 5. Put the same project id in `.firebaserc` (replacing the placeholder).
 6. **Authentication → Settings → Authorized domains**: add the hosting domain
    (`<project>.web.app`) and any custom domain, or Google sign-in will be
    rejected in production.
 
+`measurementId` is optional and drives Google Analytics. Leave it empty and the
+Analytics SDK is never imported — no chunk fetched, no tracking. Set it and
+analytics cookies start on the public landing page, which is the point at which
+a consent notice becomes a question worth answering for EU/LGPD visitors.
+
 These values ship in the client bundle — that is expected for Firebase web
 apps. Access is controlled by `firestore.rules` and Auth, not by hiding keys.
+
+Deploy `firestore.rules` before the first real sign-in. A database created in
+production mode denies every write until then, so the `users/{uid}` document
+can't be created and profiles stay empty (the app still loads — the failure is
+logged, not fatal).
 
 ## Deploy
 
@@ -109,7 +120,7 @@ src/
   hooks/          useAuth, useDismiss
   i18n/           i18next setup and locale JSON
   layouts/        MarketingLayout, AppLayout, AuthLayout
-  lib/            firebase, firestore, auth error mapping, helpers
+  lib/            firebase, firestore, analytics, auth error mapping, helpers
   pages/          Landing, Login, Signup, ResetPassword, Dashboard, Profile
   services/       Firestore access (userProfile)
 ```

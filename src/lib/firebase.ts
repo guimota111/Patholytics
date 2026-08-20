@@ -8,7 +8,11 @@ const firebaseConfig: FirebaseOptions = {
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || undefined,
 }
+
+/** Empty unless the project has Analytics enabled and the id is in `.env`. */
+export const measurementId = import.meta.env.VITE_FIREBASE_MEASUREMENT_ID ?? ''
 
 /**
  * True only when every required key is present. A fresh clone with an empty
