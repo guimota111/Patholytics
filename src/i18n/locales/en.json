@@ -1,0 +1,222 @@
+{
+  "common": {
+    "appName": "Patholytics",
+    "loading": "Loading…",
+    "save": "Save changes",
+    "saving": "Saving…",
+    "saved": "Saved",
+    "cancel": "Cancel",
+    "back": "Back",
+    "comingSoon": "Coming soon",
+    "language": "Language",
+    "email": "Email",
+    "password": "Password",
+    "name": "Full name",
+    "optional": "optional"
+  },
+  "nav": {
+    "product": "Product",
+    "tools": "Tools",
+    "login": "Log in",
+    "signup": "Create account",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "logout": "Log out",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "backToSite": "Back to site"
+  },
+  "landing": {
+    "hero": {
+      "eyebrow": "For practising pathologists",
+      "title": "The pathologist's toolkit, sharpened",
+      "subtitle": "Scoring, staging and differential support in one place — no spreadsheets, no guesswork.",
+      "ctaPrimary": "Create free account",
+      "ctaSecondary": "Log in",
+      "note": "Free while in beta. No card required."
+    },
+    "proposition": {
+      "title": "Built around the sign-out, not around the demo",
+      "subtitle": "Every tool exists because it removes a step you already do by hand.",
+      "items": {
+        "scores": {
+          "title": "Scores you can defend",
+          "body": "Grading and index calculators that show the inputs behind the number, so the result is reproducible on review."
+        },
+        "staging": {
+          "title": "Staging without the PDF hunt",
+          "body": "Interactive TNM assignment that keeps the criteria next to the choice instead of in a separate document."
+        },
+        "reporting": {
+          "title": "Report-ready output",
+          "body": "Results formatted to drop straight into a report — consistent wording, consistent units, no retyping."
+        },
+        "imaging": {
+          "title": "Image-assisted counting",
+          "body": "Hotspot and cellularity estimation from a photomicrograph, with the count always open to correction."
+        }
+      }
+    },
+    "toolsSection": {
+      "title": "The tools",
+      "subtitle": "Shipping one at a time. Everything below is in the queue.",
+      "footnote": "Tools are for professional use by qualified pathologists. Output supports — it never replaces — your judgement."
+    },
+    "cta": {
+      "title": "Set up an account now, use the tools as they land",
+      "subtitle": "Creating an account takes a minute and keeps your language and preferences in sync across devices.",
+      "button": "Create free account"
+    },
+    "footer": {
+      "tagline": "Precision tools for pathologists.",
+      "product": "Product",
+      "company": "Company",
+      "legal": "Legal",
+      "about": "About",
+      "contact": "Contact",
+      "changelog": "Changelog",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "disclaimer": "Medical disclaimer",
+      "rights": "All rights reserved.",
+      "placeholderNote": "Institutional pages are placeholders while the product is in beta."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Log in",
+      "subtitle": "Welcome back.",
+      "submit": "Log in",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Create one",
+      "forgot": "Forgot your password?"
+    },
+    "signup": {
+      "title": "Create your account",
+      "subtitle": "Free while Patholytics is in beta.",
+      "submit": "Create account",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Log in",
+      "passwordHint": "At least 6 characters.",
+      "terms": "By creating an account you agree to the Terms and the Privacy Policy."
+    },
+    "reset": {
+      "title": "Reset your password",
+      "subtitle": "We'll email you a link to set a new password.",
+      "submit": "Send reset link",
+      "sentTitle": "Check your inbox",
+      "sentBody": "If an account exists for {{email}}, a reset link is on its way. The link expires in one hour.",
+      "backToLogin": "Back to log in"
+    },
+    "google": "Continue with Google",
+    "divider": "or",
+    "errors": {
+      "invalidCredentials": "Email or password is incorrect.",
+      "emailInUse": "That email is already registered. Try logging in instead.",
+      "invalidEmail": "Enter a valid email address.",
+      "weakPassword": "Password must be at least 6 characters.",
+      "tooManyRequests": "Too many attempts. Wait a moment and try again.",
+      "popupClosed": "The Google window was closed before sign-in finished.",
+      "popupBlocked": "Your browser blocked the Google window. Allow pop-ups and try again.",
+      "network": "Network problem. Check your connection and try again.",
+      "requiredName": "Enter your name.",
+      "requiredEmail": "Enter your email.",
+      "requiredPassword": "Enter your password.",
+      "generic": "Something went wrong. Try again."
+    }
+  },
+  "dashboard": {
+    "greeting": "Hello, {{name}}",
+    "greetingFallback": "Hello",
+    "subtitle": "Your toolkit. Tools light up here as they ship.",
+    "available": "Available",
+    "inQueue": "In queue",
+    "statLabelAvailable": "Tools available",
+    "statLabelQueue": "Tools in the queue",
+    "statLabelPlan": "Current plan",
+    "emptyCategory": "Nothing here yet.",
+    "disclaimer": "For professional use. Results support clinical judgement and do not constitute a diagnosis."
+  },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "Your account details and preferences.",
+    "accountSection": "Account",
+    "preferencesSection": "Preferences",
+    "planSection": "Plan",
+    "displayName": "Display name",
+    "displayNamePlaceholder": "How should we address you?",
+    "emailReadOnly": "Email is tied to your sign-in method and can't be changed here.",
+    "preferredLanguage": "Preferred language",
+    "preferredLanguageHint": "Applied on every device you log in from.",
+    "memberSince": "Member since",
+    "planCurrent": "Current plan",
+    "planFree": "Free",
+    "planPlaceholder": "Billing isn't live yet. While Patholytics is in beta every tool is included at no cost, and you'll be told well before that changes.",
+    "planCta": "Plans and billing — coming soon",
+    "signOut": "Log out",
+    "updated": "Profile updated."
+  },
+  "tools": {
+    "categories": {
+      "calculators": {
+        "name": "Calculators & scores",
+        "description": "Reproducible grading and index calculations."
+      },
+      "staging": {
+        "name": "Staging",
+        "description": "TNM assignment with the criteria in reach."
+      },
+      "differential": {
+        "name": "Differential diagnosis",
+        "description": "Narrowing the list and choosing the next stain."
+      },
+      "imaging": {
+        "name": "Image-based & AI",
+        "description": "Counting and estimation assisted by photomicrographs."
+      }
+    },
+    "gleason": {
+      "name": "Gleason Calculator",
+      "description": "Primary and secondary patterns to Gleason score, Grade Group and report-ready wording."
+    },
+    "stager": {
+      "name": "Stager",
+      "description": "Interactive TNM staging by organ, with stage group resolved as you pick each category."
+    },
+    "nameThatCyst": {
+      "name": "Name That Cyst",
+      "description": "Identify cystic lesions from epithelial lining, contents and anatomical site."
+    },
+    "markerHelper": {
+      "name": "Marker Helper",
+      "description": "Turn a morphology into a ranked differential and a focused IHC panel."
+    },
+    "ki67": {
+      "name": "Ki-67 Calculator",
+      "description": "Hotspot proliferation index from an uploaded field, with the count open to correction."
+    },
+    "boneMarrow": {
+      "name": "Bone Marrow Cellularity",
+      "description": "Cellularity estimation from a trephine biopsy image, compared against age-expected ranges."
+    },
+    "ackerman": {
+      "name": "Ackerman Would Be Proud",
+      "description": "Dermatopathology differentials organised by reaction pattern and architecture."
+    }
+  },
+  "languages": {
+    "en": "English",
+    "pt-BR": "Português (Brasil)"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "subtitle": "That URL doesn't lead anywhere. It may have moved, or never existed.",
+    "home": "Go to homepage",
+    "dashboard": "Go to dashboard"
+  },
+  "setup": {
+    "title": "Firebase isn't configured yet",
+    "body": "Copy .env.example to .env and fill in the Firebase web app credentials, then restart the dev server. Authentication and profiles stay disabled until then.",
+    "envFile": ".env"
+  }
+}

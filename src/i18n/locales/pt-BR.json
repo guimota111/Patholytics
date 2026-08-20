@@ -1,0 +1,222 @@
+{
+  "common": {
+    "appName": "Patholytics",
+    "loading": "Carregando…",
+    "save": "Salvar alterações",
+    "saving": "Salvando…",
+    "saved": "Salvo",
+    "cancel": "Cancelar",
+    "back": "Voltar",
+    "comingSoon": "Em breve",
+    "language": "Idioma",
+    "email": "E-mail",
+    "password": "Senha",
+    "name": "Nome completo",
+    "optional": "opcional"
+  },
+  "nav": {
+    "product": "Produto",
+    "tools": "Ferramentas",
+    "login": "Entrar",
+    "signup": "Criar conta",
+    "dashboard": "Painel",
+    "profile": "Perfil",
+    "logout": "Sair",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "backToSite": "Voltar ao site"
+  },
+  "landing": {
+    "hero": {
+      "eyebrow": "Para quem assina laudo todo dia",
+      "title": "O instrumental do patologista, afiado",
+      "subtitle": "Scores, estadiamento e apoio ao diferencial em um só lugar — sem planilha, sem achismo.",
+      "ctaPrimary": "Criar conta grátis",
+      "ctaSecondary": "Entrar",
+      "note": "Grátis durante o beta. Sem cartão."
+    },
+    "proposition": {
+      "title": "Feito em torno do laudo, não da demonstração",
+      "subtitle": "Cada ferramenta existe porque elimina um passo que você já faz na mão.",
+      "items": {
+        "scores": {
+          "title": "Scores que se sustentam",
+          "body": "Calculadoras de graduação e índice que mostram os dados por trás do número, de modo que o resultado seja reprodutível na revisão."
+        },
+        "staging": {
+          "title": "Estadiamento sem caçar PDF",
+          "body": "Atribuição de TNM interativa, com o critério ao lado da escolha em vez de em outro documento."
+        },
+        "reporting": {
+          "title": "Saída pronta para o laudo",
+          "body": "Resultado formatado para entrar direto no texto — redação e unidades consistentes, sem redigitar."
+        },
+        "imaging": {
+          "title": "Contagem assistida por imagem",
+          "body": "Estimativa de hotspot e celularidade a partir de uma fotomicrografia, com a contagem sempre aberta a correção."
+        }
+      }
+    },
+    "toolsSection": {
+      "title": "As ferramentas",
+      "subtitle": "Entregues uma por vez. Tudo abaixo está na fila.",
+      "footnote": "Ferramentas de uso profissional por patologistas qualificados. O resultado apoia — nunca substitui — o seu julgamento."
+    },
+    "cta": {
+      "title": "Crie a conta agora e use cada ferramenta conforme ela chega",
+      "subtitle": "Criar conta leva um minuto e mantém idioma e preferências sincronizados entre dispositivos.",
+      "button": "Criar conta grátis"
+    },
+    "footer": {
+      "tagline": "Ferramentas de precisão para patologistas.",
+      "product": "Produto",
+      "company": "Empresa",
+      "legal": "Jurídico",
+      "about": "Sobre",
+      "contact": "Contato",
+      "changelog": "Novidades",
+      "privacy": "Privacidade",
+      "terms": "Termos",
+      "disclaimer": "Aviso médico",
+      "rights": "Todos os direitos reservados.",
+      "placeholderNote": "As páginas institucionais são placeholders enquanto o produto está em beta."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Entrar",
+      "subtitle": "Que bom te ver de novo.",
+      "submit": "Entrar",
+      "noAccount": "Ainda não tem conta?",
+      "signupLink": "Criar uma",
+      "forgot": "Esqueceu a senha?"
+    },
+    "signup": {
+      "title": "Crie sua conta",
+      "subtitle": "Grátis enquanto o Patholytics está em beta.",
+      "submit": "Criar conta",
+      "hasAccount": "Já tem conta?",
+      "loginLink": "Entrar",
+      "passwordHint": "No mínimo 6 caracteres.",
+      "terms": "Ao criar a conta você concorda com os Termos e a Política de Privacidade."
+    },
+    "reset": {
+      "title": "Redefinir sua senha",
+      "subtitle": "Enviamos por e-mail um link para você definir uma nova senha.",
+      "submit": "Enviar link",
+      "sentTitle": "Verifique sua caixa de entrada",
+      "sentBody": "Se existir uma conta para {{email}}, o link de redefinição está a caminho. Ele expira em uma hora.",
+      "backToLogin": "Voltar para o login"
+    },
+    "google": "Continuar com o Google",
+    "divider": "ou",
+    "errors": {
+      "invalidCredentials": "E-mail ou senha incorretos.",
+      "emailInUse": "Esse e-mail já está cadastrado. Tente entrar.",
+      "invalidEmail": "Informe um e-mail válido.",
+      "weakPassword": "A senha precisa ter pelo menos 6 caracteres.",
+      "tooManyRequests": "Tentativas demais. Aguarde um instante e tente de novo.",
+      "popupClosed": "A janela do Google foi fechada antes de concluir o login.",
+      "popupBlocked": "Seu navegador bloqueou a janela do Google. Libere os pop-ups e tente de novo.",
+      "network": "Problema de rede. Verifique sua conexão e tente de novo.",
+      "requiredName": "Informe seu nome.",
+      "requiredEmail": "Informe seu e-mail.",
+      "requiredPassword": "Informe sua senha.",
+      "generic": "Algo deu errado. Tente de novo."
+    }
+  },
+  "dashboard": {
+    "greeting": "Olá, {{name}}",
+    "greetingFallback": "Olá",
+    "subtitle": "Seu instrumental. As ferramentas acendem aqui conforme são entregues.",
+    "available": "Disponível",
+    "inQueue": "Na fila",
+    "statLabelAvailable": "Ferramentas disponíveis",
+    "statLabelQueue": "Ferramentas na fila",
+    "statLabelPlan": "Plano atual",
+    "emptyCategory": "Nada aqui ainda.",
+    "disclaimer": "Uso profissional. Os resultados apoiam o julgamento clínico e não constituem diagnóstico."
+  },
+  "profile": {
+    "title": "Perfil",
+    "subtitle": "Dados da sua conta e preferências.",
+    "accountSection": "Conta",
+    "preferencesSection": "Preferências",
+    "planSection": "Plano",
+    "displayName": "Nome de exibição",
+    "displayNamePlaceholder": "Como devemos te chamar?",
+    "emailReadOnly": "O e-mail está vinculado ao seu método de login e não pode ser alterado aqui.",
+    "preferredLanguage": "Idioma preferido",
+    "preferredLanguageHint": "Aplicado em todo dispositivo em que você entrar.",
+    "memberSince": "Membro desde",
+    "planCurrent": "Plano atual",
+    "planFree": "Grátis",
+    "planPlaceholder": "A cobrança ainda não está ativa. Enquanto o Patholytics está em beta, todas as ferramentas estão inclusas sem custo, e você será avisado com antecedência antes que isso mude.",
+    "planCta": "Planos e cobrança — em breve",
+    "signOut": "Sair",
+    "updated": "Perfil atualizado."
+  },
+  "tools": {
+    "categories": {
+      "calculators": {
+        "name": "Calculadoras e scores",
+        "description": "Graduação e índices calculados de forma reprodutível."
+      },
+      "staging": {
+        "name": "Estadiamento",
+        "description": "Atribuição de TNM com os critérios à mão."
+      },
+      "differential": {
+        "name": "Diagnóstico diferencial",
+        "description": "Estreitar a lista e escolher a próxima coloração."
+      },
+      "imaging": {
+        "name": "Baseadas em imagem e IA",
+        "description": "Contagem e estimativa assistidas por fotomicrografia."
+      }
+    },
+    "gleason": {
+      "name": "Gleason Calculator",
+      "description": "Padrões primário e secundário convertidos em escore de Gleason, Grade Group e redação pronta para o laudo."
+    },
+    "stager": {
+      "name": "Stager",
+      "description": "Estadiamento TNM interativo por órgão, com o grupo de estádio resolvido conforme você escolhe cada categoria."
+    },
+    "nameThatCyst": {
+      "name": "Name That Cyst",
+      "description": "Identificação de lesões císticas pelo revestimento epitelial, conteúdo e sítio anatômico."
+    },
+    "markerHelper": {
+      "name": "Marker Helper",
+      "description": "Transforma uma morfologia em diferencial ranqueado e painel de imuno-histoquímica direcionado."
+    },
+    "ki67": {
+      "name": "Ki-67 Calculator",
+      "description": "Índice de proliferação em hotspot a partir de um campo enviado, com a contagem aberta a correção."
+    },
+    "boneMarrow": {
+      "name": "Bone Marrow Cellularity",
+      "description": "Estimativa de celularidade a partir de imagem de biópsia de medula óssea, comparada à faixa esperada para a idade."
+    },
+    "ackerman": {
+      "name": "Ackerman Would Be Proud",
+      "description": "Diferenciais dermatopatológicos organizados por padrão de reação e arquitetura."
+    }
+  },
+  "languages": {
+    "en": "English",
+    "pt-BR": "Português (Brasil)"
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "subtitle": "Essa URL não leva a lugar nenhum. Pode ter mudado, ou nunca ter existido.",
+    "home": "Ir para a página inicial",
+    "dashboard": "Ir para o painel"
+  },
+  "setup": {
+    "title": "O Firebase ainda não está configurado",
+    "body": "Copie .env.example para .env, preencha as credenciais do app web do Firebase e reinicie o servidor de desenvolvimento. Autenticação e perfis ficam desativados até lá.",
+    "envFile": ".env"
+  }
+}
