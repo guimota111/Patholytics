@@ -4,6 +4,7 @@ import {
   Fingerprint,
   Grid3x3,
   ListTree,
+  Ruler,
   Microscope,
   ScanEye,
   TestTubes,
@@ -93,6 +94,14 @@ export const TOOLS: Tool[] = [
     icon: Microscope,
     category: 'imaging',
     status: 'coming-soon',
+  },
+  {
+    id: 'field-converter',
+    i18nKey: 'fieldConverter',
+    icon: Ruler,
+    category: 'calculators',
+    status: 'available',
+    path: '/tools/fields',
   },
   {
     id: 'tma',

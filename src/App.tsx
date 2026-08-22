@@ -19,6 +19,7 @@ const NotFoundPage = lazy(() => import('@/pages/NotFound'))
 const StagerIndexPage = lazy(() => import('@/pages/tools/StagerIndex'))
 const StagerCalculatorPage = lazy(() => import('@/pages/tools/StagerCalculator'))
 const TmaMapperPage = lazy(() => import('@/pages/tools/TmaMapper'))
+const FieldConverterPage = lazy(() => import('@/pages/tools/FieldConverter'))
 
 export default function App() {
   const { t } = useTranslation()
@@ -74,6 +75,7 @@ export default function App() {
             <Route path="/tools/stager/:calculatorId" element={<StagerCalculatorPage />} />
 
             <Route path="/tools/tma" element={<TmaMapperPage />} />
+            <Route path="/tools/fields" element={<FieldConverterPage />} />
           </Route>
 
           <Route path="*" element={<NotFoundPage />} />
