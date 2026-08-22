@@ -1,63 +1,56 @@
 import { useCallback, useRef, useState } from 'react'
-import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { LayoutGrid, LogOut, User as UserIcon } from 'lucide-react'
-import { Logo, LogoMark } from '@/components/ui/Logo'
+import { LayoutGrid, LogOut, Menu, User as UserIcon } from 'lucide-react'
+import { Logo } from '@/components/ui/Logo'
+import { AppSidebar } from '@/components/AppSidebar'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { useAuth } from '@/hooks/useAuth'
 import { useDismiss } from '@/hooks/useClickOutside'
-import { cn } from '@/lib/cn'
 
-/** Signed-in shell: dense header, no marketing chrome. */
+/**
+ * Signed-in shell: a persistent tool rail on the left, a dense top bar for
+ * account controls. Navigation lives entirely in the rail, so the bar stays
+ * empty of links and the content column runs the full remaining width.
+ */
 export function AppLayout() {
   const { t } = useTranslation()
-
-  const navItems = [
-    { to: '/dashboard', label: t('nav.dashboard'), icon: LayoutGrid },
-    { to: '/profile', label: t('nav.profile'), icon: UserIcon },
-  ]
+  const [menuOpen, setMenuOpen] = useState(false)
+  const closeMenu = useCallback(() => setMenuOpen(false), [])
 
   return (
-    <div className="flex min-h-dvh flex-col bg-ground">
-      <header className="sticky top-0 z-40 border-b border-line bg-ground/85 backdrop-blur-sm">
-        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-5">
-          <div className="flex items-center gap-6">
-            <Link to="/dashboard" aria-label={t('common.appName')}>
-              <Logo className="hidden sm:inline-flex" />
-              <LogoMark className="size-6 text-accent sm:hidden" />
-            </Link>
+    <div className="flex min-h-dvh bg-ground">
+      <AppSidebar open={menuOpen} onClose={closeMenu} />
 
-            <nav className="flex items-center gap-1">
-              {navItems.map((item) => (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  className={({ isActive }) =>
-                    cn(
-                      'inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-sm transition-colors',
-                      isActive
-                        ? 'bg-elevated text-ink'
-                        : 'text-ink-muted hover:bg-elevated hover:text-ink',
-                    )
-                  }
-                >
-                  <item.icon className="size-4" aria-hidden />
-                  {item.label}
-                </NavLink>
-              ))}
-            </nav>
+      <div className="flex min-w-0 flex-1 flex-col">
+        <header className="sticky top-0 z-30 border-b border-line bg-ground/85 backdrop-blur-sm">
+          <div className="shell flex h-14 items-center justify-between gap-4">
+            <div className="flex items-center gap-2 lg:hidden">
+              <button
+                type="button"
+                onClick={() => setMenuOpen(true)}
+                aria-label={t('nav.openMenu')}
+                aria-expanded={menuOpen}
+                className="-ml-1.5 rounded-md p-1.5 text-ink-muted transition-colors hover:bg-elevated hover:text-ink"
+              >
+                <Menu className="size-5" aria-hidden />
+              </button>
+              <Link to="/dashboard" aria-label={t('common.appName')}>
+                <Logo />
+              </Link>
+            </div>
+
+            <div className="flex items-center gap-1 lg:ml-auto">
+              <LanguageSwitcher />
+              <AccountMenu />
+            </div>
           </div>
+        </header>
 
-          <div className="flex items-center gap-1">
-            <LanguageSwitcher />
-            <AccountMenu />
-          </div>
-        </div>
-      </header>
-
-      <main className="flex-1">
-        <Outlet />
-      </main>
+        <main className="flex-1">
+          <Outlet />
+        </main>
+      </div>
     </div>
   )
 }

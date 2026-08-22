@@ -20,7 +20,7 @@ export default function DashboardPage() {
   ]
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-10">
+    <div className="shell py-10">
       <header>
         <h1 className="text-2xl font-semibold tracking-tight text-ink">
           {firstName ? t('dashboard.greeting', { name: firstName }) : t('dashboard.greetingFallback')}
@@ -64,7 +64,7 @@ export default function DashboardPage() {
               {tools.length === 0 ? (
                 <p className="mt-4 text-sm text-ink-faint">{t('dashboard.emptyCategory')}</p>
               ) : (
-                <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                   {tools.map((tool) => (
                     <ToolCard key={tool.id} tool={tool} />
                   ))}

@@ -13,7 +13,7 @@ export function MarketingLayout() {
   return (
     <div className="flex min-h-dvh flex-col bg-ground">
       <header className="sticky top-0 z-40 border-b border-line bg-ground/85 backdrop-blur-sm">
-        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5">
+        <div className="shell flex h-14 items-center justify-between">
           <Link to="/" aria-label={t('common.appName')}>
             <Logo />
           </Link>
@@ -89,7 +89,7 @@ function SiteFooter() {
 
   return (
     <footer className="border-t border-line bg-ground">
-      <div className="mx-auto max-w-6xl px-5 py-12">
+      <div className="shell py-12">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-3">
             <Logo />

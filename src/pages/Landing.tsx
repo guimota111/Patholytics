@@ -31,7 +31,7 @@ function Hero({ signedIn }: { signedIn: boolean }) {
         style={{ background: 'radial-gradient(circle, #7C5CFF 0%, transparent 65%)' }}
       />
 
-      <div className="relative mx-auto max-w-6xl px-5 py-24 sm:py-32">
+      <div className="shell relative py-24 sm:py-32">
         <div className="max-w-2xl">
           <Badge tone="accent">{t('landing.hero.eyebrow')}</Badge>
 
@@ -108,7 +108,7 @@ function Proposition() {
 
   return (
     <section id="product" className="scroll-mt-14 border-b border-line">
-      <div className="mx-auto max-w-6xl px-5 py-20 sm:py-24">
+      <div className="shell py-20 sm:py-24">
         <div className="max-w-2xl">
           <h2 className="text-2xl font-semibold tracking-tight text-balance text-ink sm:text-3xl">
             {t('landing.proposition.title')}
@@ -118,7 +118,7 @@ function Proposition() {
           </p>
         </div>
 
-        <div className="mt-12 grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2">
+        <div className="mt-12 grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
           {PROPOSITION_ITEMS.map((item) => (
             <div key={item.key} className="bg-elevated p-6">
               <span className="flex size-9 items-center justify-center rounded-md border border-line bg-surface text-accent">
@@ -143,7 +143,7 @@ function ToolsPreview() {
 
   return (
     <section id="tools" className="scroll-mt-14 border-b border-line">
-      <div className="mx-auto max-w-6xl px-5 py-20 sm:py-24">
+      <div className="shell py-20 sm:py-24">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-2xl">
             <h2 className="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
@@ -171,7 +171,7 @@ function ToolsPreview() {
 
         {/* Flat grid here on purpose — the dashboard is where the category
             grouping earns its keep; on the landing it just leaves gaps. */}
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           {TOOLS.map((tool) => (
             <ToolCard key={tool.id} tool={tool} variant="preview" />
           ))}
@@ -189,7 +189,7 @@ function ClosingCta({ signedIn }: { signedIn: boolean }) {
   const { t } = useTranslation()
 
   return (
-    <section className="mx-auto max-w-6xl px-5 py-20 sm:py-24">
+    <section className="shell py-20 sm:py-24">
       <div className="rounded-lg border border-line bg-elevated px-6 py-12 text-center shadow-card sm:px-12">
         <h2 className="mx-auto max-w-xl text-2xl font-semibold tracking-tight text-balance text-ink">
           {t('landing.cta.title')}

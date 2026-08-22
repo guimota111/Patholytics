@@ -55,109 +55,113 @@ export default function ProfilePage() {
     : '—'
 
   return (
-    <div className="mx-auto max-w-3xl px-5 py-10">
+    <div className="shell py-10">
       <header>
         <h1 className="text-2xl font-semibold tracking-tight text-ink">{t('profile.title')}</h1>
         <p className="mt-1.5 text-sm text-ink-muted">{t('profile.subtitle')}</p>
       </header>
 
-      <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>{t('profile.accountSection')}</CardTitle>
-          </CardHeader>
-          <CardBody className="space-y-5">
-            {errorKey && <ErrorAlert>{t(errorKey)}</ErrorAlert>}
+      <div className="mt-8 grid gap-6 xl:grid-cols-2 xl:items-start">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>{t('profile.accountSection')}</CardTitle>
+            </CardHeader>
+            <CardBody className="space-y-5">
+              {errorKey && <ErrorAlert>{t(errorKey)}</ErrorAlert>}
 
-            <Input
-              label={t('profile.displayName')}
-              value={displayName}
-              placeholder={t('profile.displayNamePlaceholder')}
-              onChange={(event) => {
-                setDisplayName(event.target.value)
-                setStatus('idle')
-              }}
-            />
+              <Input
+                className="sm:max-w-md"
+                label={t('profile.displayName')}
+                value={displayName}
+                placeholder={t('profile.displayNamePlaceholder')}
+                onChange={(event) => {
+                  setDisplayName(event.target.value)
+                  setStatus('idle')
+                }}
+              />
 
-            <Input
-              label={t('common.email')}
-              value={user?.email ?? ''}
-              hint={t('profile.emailReadOnly')}
-              readOnly
-              disabled
-            />
+              <Input
+                className="sm:max-w-md"
+                label={t('common.email')}
+                value={user?.email ?? ''}
+                hint={t('profile.emailReadOnly')}
+                readOnly
+                disabled
+              />
 
-            <div className="flex items-center justify-between border-t border-line pt-4 text-sm">
-              <span className="text-ink-muted">{t('profile.memberSince')}</span>
-              <span className="tabular text-ink">{memberSince}</span>
-            </div>
-          </CardBody>
-        </Card>
+              <div className="flex items-center justify-between border-t border-line pt-4 text-sm">
+                <span className="text-ink-muted">{t('profile.memberSince')}</span>
+                <span className="tabular text-ink">{memberSince}</span>
+              </div>
+            </CardBody>
+          </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>{t('profile.preferencesSection')}</CardTitle>
-          </CardHeader>
-          <CardBody className="space-y-1.5">
-            <label htmlFor="language" className="block text-sm font-medium text-ink">
-              {t('profile.preferredLanguage')}
-            </label>
-            <select
-              id="language"
-              value={language}
-              onChange={(event) => {
-                setLanguage(event.target.value as Language)
-                setStatus('idle')
-              }}
-              className="h-10 w-full rounded-md border border-line bg-surface px-3 text-sm text-ink transition-colors hover:border-line-strong sm:max-w-xs"
-            >
-              {SUPPORTED_LANGUAGES.map((code) => (
-                <option key={code} value={code}>
-                  {t(`languages.${code}`)}
-                </option>
-              ))}
-            </select>
-            <p className="text-xs text-ink-faint">{t('profile.preferredLanguageHint')}</p>
-          </CardBody>
-        </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>{t('profile.preferencesSection')}</CardTitle>
+            </CardHeader>
+            <CardBody className="space-y-1.5">
+              <label htmlFor="language" className="block text-sm font-medium text-ink">
+                {t('profile.preferredLanguage')}
+              </label>
+              <select
+                id="language"
+                value={language}
+                onChange={(event) => {
+                  setLanguage(event.target.value as Language)
+                  setStatus('idle')
+                }}
+                className="h-10 w-full rounded-md border border-line bg-surface px-3 text-sm text-ink transition-colors hover:border-line-strong sm:max-w-xs"
+              >
+                {SUPPORTED_LANGUAGES.map((code) => (
+                  <option key={code} value={code}>
+                    {t(`languages.${code}`)}
+                  </option>
+                ))}
+              </select>
+              <p className="text-xs text-ink-faint">{t('profile.preferredLanguageHint')}</p>
+            </CardBody>
+          </Card>
 
-        <div className="flex items-center gap-3">
-          <Button type="submit" loading={status === 'saving'}>
-            {status === 'saving' ? t('common.saving') : t('common.save')}
-          </Button>
-          {status === 'saved' && (
-            <span className="text-sm text-success" role="status">
-              {t('profile.updated')}
-            </span>
-          )}
-        </div>
-      </form>
-
-      <div className="mt-6 space-y-6">
-        <Card>
-          <CardHeader className="flex items-center justify-between gap-3">
-            <CardTitle>{t('profile.planSection')}</CardTitle>
-            <Badge tone="accent">{t('profile.planFree')}</Badge>
-          </CardHeader>
-          <CardBody className="space-y-4">
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-ink-muted">{t('profile.planCurrent')}</span>
-              <span className="tabular text-ink">{t('profile.planFree')}</span>
-            </div>
-            <p className="text-sm leading-relaxed text-ink-faint">{t('profile.planPlaceholder')}</p>
-            {/* Billing lands here — the surface is reserved, nothing is wired. */}
-            <Button variant="secondary" disabled>
-              <CreditCard className="size-4" aria-hidden />
-              {t('profile.planCta')}
+          <div className="flex items-center gap-3">
+            <Button type="submit" loading={status === 'saving'}>
+              {status === 'saving' ? t('common.saving') : t('common.save')}
             </Button>
-          </CardBody>
-        </Card>
+            {status === 'saved' && (
+              <span className="text-sm text-success" role="status">
+                {t('profile.updated')}
+              </span>
+            )}
+          </div>
+        </form>
 
-        <div className="border-t border-line pt-6">
-          <Button variant="danger" onClick={() => void handleSignOut()}>
-            <LogOut className="size-4" aria-hidden />
-            {t('profile.signOut')}
-          </Button>
+        <div className="space-y-6">
+          <Card>
+            <CardHeader className="flex items-center justify-between gap-3">
+              <CardTitle>{t('profile.planSection')}</CardTitle>
+              <Badge tone="accent">{t('profile.planFree')}</Badge>
+            </CardHeader>
+            <CardBody className="space-y-4">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-ink-muted">{t('profile.planCurrent')}</span>
+                <span className="tabular text-ink">{t('profile.planFree')}</span>
+              </div>
+              <p className="text-sm leading-relaxed text-ink-faint">{t('profile.planPlaceholder')}</p>
+              {/* Billing lands here — the surface is reserved, nothing is wired. */}
+              <Button variant="secondary" disabled>
+                <CreditCard className="size-4" aria-hidden />
+                {t('profile.planCta')}
+              </Button>
+            </CardBody>
+          </Card>
+
+          <div className="border-t border-line pt-6">
+            <Button variant="danger" onClick={() => void handleSignOut()}>
+              <LogOut className="size-4" aria-hidden />
+              {t('profile.signOut')}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

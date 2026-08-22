@@ -86,6 +86,25 @@
 }
 
 @layer utilities {
+  /* Page gutter. The shell spans the full viewport width by design; measure
+     caps belong on the prose and form blocks that need them, never here. */
+  .shell {
+    width: 100%;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .shell {
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .shell {
+      padding-inline: 2.5rem;
+    }
+  }
+
   /* Faint grid, evokes a counting graticule without becoming decoration. */
   .bg-graticule {
     background-image:
