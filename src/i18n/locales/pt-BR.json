@@ -174,6 +174,10 @@
       "imaging": {
         "name": "Baseadas em imagem e IA",
         "description": "Contagem e estimativa assistidas por fotomicrografia."
+      },
+      "workflow": {
+        "name": "Bancada e fluxo de trabalho",
+        "description": "Ferramentas que acompanham a rotina no microscópio, core a core e caso a caso."
       }
     },
     "gleason": {
@@ -181,8 +185,8 @@
       "description": "Padrões primário e secundário convertidos em escore de Gleason, Grade Group e redação pronta para o laudo."
     },
     "stager": {
-      "name": "Stager",
-      "description": "Estadiamento TNM interativo por órgão, com o grupo de estádio resolvido conforme você escolhe cada categoria."
+      "name": "Estadiador",
+      "description": "Estadiamento pTNM por sítio, a partir dos protocolos CAP / AJCC 8ª edição, com a linha do laudo pronta para copiar."
     },
     "nameThatCyst": {
       "name": "Name That Cyst",
@@ -203,7 +207,60 @@
     "ackerman": {
       "name": "Ackerman Would Be Proud",
       "description": "Diferenciais dermatopatológicos organizados por padrão de reação e arquitetura."
+    },
+    "tma": {
+      "name": "Mapeador de TMA",
+      "description": "Percorre um tissue microarray core a core e empilha todos os resultados para colar numa coluna de planilha."
     }
+  },
+  "stager": {
+    "subtitle": "Calculadoras de estadiamento TNM por sítio tumoral. Preencha os campos e copie a linha de estadiamento direto para o laudo.",
+    "calculators": "calculadoras",
+    "searchPlaceholder": "Buscar por tumor, sítio ou sistema",
+    "noResults": "Nenhuma calculadora corresponde a esta busca.",
+    "result": "Resultado",
+    "stageGroup": "Grupo prognóstico",
+    "reportLabel": "Texto para o laudo",
+    "reportPlaceholder": "Preencha os campos para gerar a linha de estadiamento.",
+    "copy": "Copiar laudo",
+    "copied": "Copiado",
+    "reset": "Limpar",
+    "notFound": "Calculadora não encontrada",
+    "notFoundBody": "O identificador do endereço não corresponde a nenhuma calculadora.",
+    "backToList": "Voltar às calculadoras",
+    "computeError": "Erro ao calcular: {{message}}",
+    "disclaimer": "Ferramenta de apoio ao patologista. O estadiamento final e a conferência do laudo são sempre responsabilidade do profissional — confira com a versão vigente dos protocolos CAP / AJCC."
+  },
+  "tma": {
+    "subtitle": "Leia um tissue microarray core a core e copie todos os resultados empilhados, prontos para colar numa coluna de planilha.",
+    "setupTitle": "Configure a lâmina de TMA",
+    "setupHint": "Informe quantos cores a lâmina tem, em linhas e colunas.",
+    "rows": "Linhas (vertical)",
+    "cols": "Colunas (horizontal)",
+    "coreCount": "{{cores}} cores",
+    "buildMap": "Montar mapa",
+    "mapTitle": "Mapa do TMA",
+    "mapLabel": "Mapa de cores",
+    "dimensions": "{{rows}} linhas × {{cols}} colunas",
+    "coreLabel": "Core {{coord}} — {{state}}",
+    "legendEmpty": "Vazio",
+    "legendFilled": "Preenchido",
+    "legendCurrent": "Core atual",
+    "progress": "{{filled}} de {{total}} cores preenchidos",
+    "currentCore": "Core atual",
+    "position": "Core {{index}} de {{total}} · linha {{row}}, coluna {{col}}",
+    "resultLabel": "Resultado do core",
+    "resultPlaceholder": "Digite o resultado deste core…",
+    "shortcutHint": "Ctrl/Cmd + Enter avança para o próximo core.",
+    "previous": "Anterior",
+    "next": "Próximo core",
+    "endOfMap": "Fim do mapa — todos os cores foram visitados.",
+    "filled": "preenchidos",
+    "copy": "Copiar resultados",
+    "copied": "Copiado",
+    "newMap": "Novo mapa",
+    "newMapConfirm": "Confirmar — descartar",
+    "privacy": "O mapa fica salvo apenas neste navegador, vinculado à sua conta — nada vai para o servidor. Copie os resultados antes de começar um mapa novo, ou eles se perdem."
   },
   "languages": {
     "en": "English",

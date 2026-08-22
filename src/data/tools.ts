@@ -2,6 +2,7 @@ import {
   Calculator,
   CircleDot,
   Fingerprint,
+  Grid3x3,
   ListTree,
   Microscope,
   ScanEye,
@@ -10,7 +11,7 @@ import {
 } from 'lucide-react'
 
 export type ToolStatus = 'available' | 'coming-soon'
-export type ToolCategoryId = 'calculators' | 'staging' | 'differential' | 'imaging'
+export type ToolCategoryId = 'calculators' | 'staging' | 'differential' | 'imaging' | 'workflow'
 
 export interface Tool {
   id: string
@@ -39,6 +40,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
   { id: 'staging', icon: ListTree, i18nKey: 'staging' },
   { id: 'differential', icon: TestTubes, i18nKey: 'differential' },
   { id: 'imaging', icon: Microscope, i18nKey: 'imaging' },
+  { id: 'workflow', icon: Grid3x3, i18nKey: 'workflow' },
 ]
 
 export const TOOLS: Tool[] = [
@@ -54,7 +56,8 @@ export const TOOLS: Tool[] = [
     i18nKey: 'stager',
     icon: ListTree,
     category: 'staging',
-    status: 'coming-soon',
+    status: 'available',
+    path: '/tools/stager',
   },
   {
     id: 'name-that-cyst',
@@ -90,6 +93,14 @@ export const TOOLS: Tool[] = [
     icon: Microscope,
     category: 'imaging',
     status: 'coming-soon',
+  },
+  {
+    id: 'tma',
+    i18nKey: 'tma',
+    icon: Grid3x3,
+    category: 'workflow',
+    status: 'available',
+    path: '/tools/tma',
   },
 ]
 

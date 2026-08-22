@@ -15,6 +15,11 @@ const DashboardPage = lazy(() => import('@/pages/Dashboard'))
 const ProfilePage = lazy(() => import('@/pages/Profile'))
 const NotFoundPage = lazy(() => import('@/pages/NotFound'))
 
+// Ferramentas — cada uma no seu proprio modulo, carregada sob demanda.
+const StagerIndexPage = lazy(() => import('@/pages/tools/StagerIndex'))
+const StagerCalculatorPage = lazy(() => import('@/pages/tools/StagerCalculator'))
+const TmaMapperPage = lazy(() => import('@/pages/tools/TmaMapper'))
+
 export default function App() {
   const { t } = useTranslation()
 
@@ -54,7 +59,7 @@ export default function App() {
             }
           />
 
-          {/* Signed-in shell. Tool routes get mounted here as they ship. */}
+          {/* Signed-in shell. One route block per tool. */}
           <Route
             element={
               <RequireAuth>
@@ -64,6 +69,11 @@ export default function App() {
           >
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+
+            <Route path="/tools/stager" element={<StagerIndexPage />} />
+            <Route path="/tools/stager/:calculatorId" element={<StagerCalculatorPage />} />
+
+            <Route path="/tools/tma" element={<TmaMapperPage />} />
           </Route>
 
           <Route path="*" element={<NotFoundPage />} />
