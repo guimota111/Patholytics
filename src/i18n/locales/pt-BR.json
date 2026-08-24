@@ -9,6 +9,7 @@
     "back": "Voltar",
     "comingSoon": "Em breve",
     "language": "Idioma",
+    "theme": "Tema",
     "email": "E-mail",
     "password": "Senha",
     "name": "Nome completo",
@@ -328,6 +329,11 @@
   "languages": {
     "en": "English",
     "pt-BR": "Português (Brasil)"
+  },
+  "theme": {
+    "light": "Claro",
+    "dark": "Escuro",
+    "system": "Seguir o sistema"
   },
   "notFound": {
     "title": "Página não encontrada",

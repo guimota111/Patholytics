@@ -2,6 +2,7 @@ import { Link, Outlet } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Logo } from '@/components/ui/Logo'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
+import { ThemeSwitcher } from '@/components/ThemeSwitcher'
 import { ButtonLink } from '@/components/ui/Button'
 import { useAuth } from '@/hooks/useAuth'
 
@@ -32,7 +33,8 @@ export function MarketingLayout() {
               {t('nav.tools')}
             </a>
 
-            <LanguageSwitcher className="mx-1" />
+            <ThemeSwitcher className="ml-1" />
+            <LanguageSwitcher className="mr-1" />
 
             {user ? (
               <ButtonLink to="/dashboard" size="sm">

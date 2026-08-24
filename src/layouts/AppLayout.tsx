@@ -5,6 +5,7 @@ import { LayoutGrid, LogOut, Menu, User as UserIcon } from 'lucide-react'
 import { Logo } from '@/components/ui/Logo'
 import { AppSidebar } from '@/components/AppSidebar'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
+import { ThemeSwitcher } from '@/components/ThemeSwitcher'
 import { useAuth } from '@/hooks/useAuth'
 import { useDismiss } from '@/hooks/useClickOutside'
 
@@ -41,6 +42,7 @@ export function AppLayout() {
             </div>
 
             <div className="flex items-center gap-1 lg:ml-auto">
+              <ThemeSwitcher />
               <LanguageSwitcher />
               <AccountMenu />
             </div>

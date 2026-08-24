@@ -9,6 +9,7 @@
     "back": "Back",
     "comingSoon": "Coming soon",
     "language": "Language",
+    "theme": "Theme",
     "email": "Email",
     "password": "Password",
     "name": "Full name",
@@ -328,6 +329,11 @@
   "languages": {
     "en": "English",
     "pt-BR": "Português (Brasil)"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "Follow system"
   },
   "notFound": {
     "title": "Page not found",
