@@ -50,7 +50,8 @@ export const TOOLS: Tool[] = [
     i18nKey: 'gleason',
     icon: Calculator,
     category: 'calculators',
-    status: 'coming-soon',
+    status: 'available',
+    path: '/tools/prostate',
   },
   {
     id: 'stager',

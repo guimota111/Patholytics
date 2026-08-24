@@ -1,0 +1,155 @@
+/* ==========================================================================
+   summary.ts — texto com os parâmetros calculados, para o patologista redigir
+   o laudo. Não é um laudo: é o conjunto de números e localizações.
+   ========================================================================== */
+
+import type { TFunction } from 'i18next'
+import type { Analysis, RegionResult, SiteRef } from './analysis'
+import { cellName, compactLabels, fmtN, gleasonText, joinList } from './format'
+import type { CaseState } from './types'
+
+export function buildSummary(state: CaseState, a: Analysis, t: TFunction, locale: string): string {
+  const n = (v: number | null | undefined, d = 1) => fmtN(v, d, locale)
+  const L: string[] = []
+  const k = (key: string, params?: Record<string, unknown>) => t(`prostate.summary.${key}`, params ?? {})
+  const and = t('prostate.summary.and')
+  const site = (s: SiteRef) =>
+    s.side === 'B' ? t(`prostate.site.${s.site}`) : `${t(`prostate.site.${s.site}`)} ${t(`prostate.side.${s.side}`)}`
+
+  if (!a.involvedCells && !a.margins.foci.length && !a.epe.cells.length) return ''
+
+  const { grid, globals } = state
+  L.push(k('header'))
+  L.push(
+    k('grid', {
+      cells: a.totalCells,
+      slices: grid.slices,
+      sectors: grid.sectors,
+      apex: grid.apexCassettes,
+      base: grid.baseCassettes,
+    }),
+  )
+  L.push(k(globals.g45Mode === 'ofTumor' ? 'modeOfTumor' : 'modeOfCassette'))
+
+  L.push('', k('volumeTitle'))
+  L.push(k('involved', { n: a.involvedCells, total: a.totalCells }))
+  L.push(k('volume', { pct: n(a.volumePct) }))
+  if (a.tumorGrams !== null) L.push(k('grams', { g: n(a.tumorGrams, 2), weight: n(globals.weightGrams, 1) }))
+
+  L.push('', k('gradeTitle'))
+  if (a.gleason && a.shares) {
+    const g = a.gleason
+    L.push(k('gleason', { text: gleasonText(g), gg: g.gradeGroup }))
+    L.push(k('patterns', { p3: n(a.shares.p3), p4: n(a.shares.p4), p5: n(a.shares.p5) }))
+    if (g.tertiary) L.push(k('tertiary', { pattern: g.tertiary.pattern, pct: n(g.tertiary.pct) }))
+    if (g.ignoredMinor) L.push(k('ignoredMinor', { pattern: g.ignoredMinor.pattern, pct: n(g.ignoredMinor.pct) }))
+  } else {
+    L.push(k('noTumor'))
+  }
+  if (a.cribriformOfG4 !== null) {
+    L.push(k('cribriform', { pct: n(a.cribriformOfG4), ofTumor: n(a.cribriformOfTumor) }))
+  } else {
+    L.push(k('cribriformNone'))
+  }
+  const idcLabel = t(`prostate.presence.${a.idc}`)
+  L.push(
+    a.idcCells.length
+      ? k('idcCells', { value: idcLabel, cells: compactLabels(a.idcCells.map((c) => c.label)) })
+      : k('idc', { value: idcLabel }),
+  )
+
+  L.push('', k('locationTitle'))
+  const regionLine = (r: RegionResult, name: string) =>
+    k('region', {
+      name,
+      involved: r.cellsInvolved,
+      total: r.cellsTotal,
+      region: n(r.pctOfRegion),
+      gland: n(r.pctOfGland),
+      gleason: gleasonText(r.gleason),
+      gg: r.gleason?.gradeGroup ?? '—',
+    })
+  const regionName = (key: string) => {
+    if (key === 'apex') return t('prostate.region.apex')
+    if (key === 'base') return t('prostate.region.base')
+    if (key.startsWith('slice:')) return t('prostate.region.slice', { n: key.slice(6) })
+    if (key.startsWith('sector:')) return t('prostate.sector.label', { id: key.slice(7) })
+    return key
+  }
+  const involvedSlices = a.bySlice.filter((r) => r.cellsInvolved)
+  const involvedSectors = a.bySector.filter((r) => r.cellsInvolved)
+  if (involvedSlices.length) {
+    L.push(k('bySlice'))
+    involvedSlices.forEach((r) => L.push(regionLine(r, regionName(r.key))))
+  }
+  if (involvedSectors.length) {
+    L.push(k('bySector'))
+    involvedSectors.forEach((r) => L.push(regionLine(r, regionName(r.key))))
+  }
+  if (a.laterality) L.push(k('laterality', { value: t(`prostate.laterality.${a.laterality}`) }))
+  const involvedCells = a.cells.filter((c) => c.tumor > 0)
+  if (involvedCells.length) L.push(k('cellsList', { cells: compactLabels(involvedCells.map((c) => c.cell.label)) }))
+
+  L.push('', k('marginsTitle'))
+  if (a.margins.foci.length) {
+    L.push(k('marginsInvolved', { n: a.margins.foci.length }))
+    for (const f of a.margins.foci) {
+      L.push(
+        k('marginFocus', {
+          site: site(f),
+          cell: cellName(f.cell, t),
+          label: f.cell.label,
+          mm: f.mm !== null ? `${n(f.mm)} mm` : '—',
+          pattern: f.pattern ?? '—',
+        }),
+      )
+    }
+    if (a.margins.totalMm > 0) {
+      L.push(
+        k('marginExtent', {
+          total: n(a.margins.totalMm),
+          max: n(a.margins.maxMm),
+          extent: t(`prostate.results.${a.margins.extent}`),
+        }),
+      )
+    }
+    if (a.margins.patterns.length) L.push(k('marginPatterns', { patterns: a.margins.patterns.join(', ') }))
+  } else {
+    L.push(k('marginsFree'))
+  }
+
+  L.push('', k('epeTitle'))
+  if (a.epe.cells.length) {
+    const sites = [...new Set(a.epe.cells.map((e) => site(e.site)))]
+    L.push(
+      k('epePresent', {
+        status: t(`prostate.epe.${a.epe.status}`),
+        sites: joinList(sites, and),
+        cells: compactLabels(a.epe.cells.map((e) => e.cell.label)),
+      }),
+    )
+  } else {
+    L.push(k('epeAbsent'))
+  }
+
+  L.push('', k('otherTitle'))
+  L.push(k('seminalVesicles', { value: t(`prostate.sv.${globals.seminalVesicles}`) }))
+  L.push(k('bladderNeck', { value: t(`prostate.bn.${globals.bladderNeck}`) }))
+  L.push(k('perineural', { value: t(`prostate.presence.${globals.perineural}`) }))
+  L.push(k('lymphovascular', { value: t(`prostate.presence.${globals.lymphovascular}`) }))
+  if (globals.adjacentInvasion) L.push(k('adjacentInvasion'))
+  if ((globals.lnTotal ?? 0) > 0 || (globals.lnPositive ?? 0) > 0) {
+    L.push(k('lymphNodes', { positive: globals.lnPositive ?? 0, total: globals.lnTotal ?? 0 }))
+  }
+
+  L.push('', k('stagingTitle'))
+  L.push(
+    k('staging', {
+      pT: a.staging.pT ?? '—',
+      pN: a.staging.pN,
+      r: a.staging.r ?? '—',
+    }),
+  )
+
+  return L.join('\n')
+}
