@@ -1,6 +1,7 @@
 import {
   Calculator,
   CircleDot,
+  ClipboardList,
   Fingerprint,
   Grid3x3,
   ListTree,
@@ -103,6 +104,14 @@ export const TOOLS: Tool[] = [
     category: 'calculators',
     status: 'available',
     path: '/tools/fields',
+  },
+  {
+    id: 'organizer',
+    i18nKey: 'organizer',
+    icon: ClipboardList,
+    category: 'workflow',
+    status: 'available',
+    path: '/tools/organizer',
   },
   {
     id: 'tma',

@@ -216,6 +216,10 @@
     "fieldConverter": {
       "name": "Conversor de campos",
       "description": "Tamanho do campo do seu microscópio, contagens de e para mm², e quantos campos cada protocolo exige."
+    },
+    "organizer": {
+      "name": "Organizador de casos",
+      "description": "Acompanhe casos por etapas definidas por você: suas listas, suas etapas, log de atualizações com data e contagem regressiva de prazo."
     }
   },
   "stager": {
@@ -554,5 +558,150 @@
     "title": "O Firebase ainda não está configurado",
     "body": "Copie .env.example para .env, preencha as credenciais do app web do Firebase e reinicie o servidor de desenvolvimento. Autenticação e perfis ficam desativados até lá.",
     "envFile": ".env"
+  },
+  "organizer": {
+    "subtitle": "Seus casos, nas etapas que você definir. Nada aqui é fixo: as etapas, os nomes delas e o código de cada caso são seus para configurar.",
+    "privacy": "Os casos ficam na sua conta e sincronizam entre seus dispositivos. Guarde o mínimo de identificação do paciente que o seu trabalho exigir — um código ou as iniciais costumam bastar.",
+    "footer": "Cada lista é só da sua conta. Ninguém mais lê, e nada é compartilhado entre usuários.",
+    "limit": "O plano gratuito guarda {{limit}} casos ativos. Casos arquivados não contam.",
+    "empty": {
+      "title": "Nenhuma lista ainda",
+      "description": "Uma lista guarda seus casos e as etapas por onde eles passam. Comece de um modelo e edite as etapas quando quiser.",
+      "action": "Criar a primeira lista"
+    },
+    "lists": {
+      "switch": "Trocar de lista",
+      "new": "Nova lista",
+      "settings": "Configurar"
+    },
+    "newList": {
+      "title": "Nova lista",
+      "create": "Criar lista",
+      "namePlaceholder": "Ex.: Rotina",
+      "template": "Etapas iniciais"
+    },
+    "templates": {
+      "surgicalPathology": "Patologia cirúrgica",
+      "simple": "Fluxo simples",
+      "research": "Projeto de pesquisa",
+      "blank": "Começar do zero"
+    },
+    "stageNames": {
+      "notSeen": "Não visto",
+      "seenNotReported": "Visto, não laudado",
+      "reported": "Laudado",
+      "partiallyEmbedded": "Parcialmente montado",
+      "others": "Outros",
+      "todo": "A fazer",
+      "inProgress": "Em andamento",
+      "waiting": "Aguardando",
+      "done": "Concluído",
+      "selected": "Selecionado",
+      "blocks": "Blocos",
+      "staining": "Coloração",
+      "analysis": "Análise",
+      "written": "Escrito"
+    },
+    "filters": {
+      "all": "Todos",
+      "pending": "Com pendência"
+    },
+    "sort": {
+      "manual": "Ordem manual",
+      "deadline": "Por prazo",
+      "created": "Mais recentes",
+      "alphabetical": "A a Z",
+      "stage": "Por etapa"
+    },
+    "toolbar": {
+      "search": "Buscar casos",
+      "sort": "Ordenar",
+      "select": "Selecionar",
+      "deleteSelected": "Excluir ({{count}})",
+      "clearReviewed": "Limpar ✓"
+    },
+    "list": {
+      "empty": "Nenhum caso em aberto nesta lista.",
+      "noMatch": "Nenhum caso corresponde a este filtro."
+    },
+    "row": {
+      "drag": "Arraste para reordenar",
+      "select": "Selecionar caso",
+      "reviewed": "Marcar como revisado",
+      "reviewedAt": "Revisado em {{when}}",
+      "copy": "Clique para copiar",
+      "copied": "Copiado",
+      "moveUp": "Mover para cima",
+      "moveDown": "Mover para baixo"
+    },
+    "case": {
+      "new": "Novo caso",
+      "save": "Salvar caso",
+      "title": "Título",
+      "titlePlaceholder": "Como você reconhece este caso",
+      "identifier": "Código",
+      "stage": "Etapa",
+      "deadline": "Prazo",
+      "deadlinePlaceholder": "3d, 4h, 25/12 14:00",
+      "deadlineHint": "Uma duração (3d, 2d4h, 45m) ou uma data.",
+      "deadlineInvalid": "Não é uma duração nem uma data.",
+      "tags": "Tags",
+      "tagsPlaceholder": "Separadas por vírgula",
+      "firstLog": "Primeira atualização",
+      "firstLogPlaceholder": "Uma linha sobre o caso",
+      "log": "Atualizações",
+      "logCount_one": "{{count}} entrada",
+      "logCount_other": "{{count}} entradas",
+      "logPlaceholder": "Nova entrada…",
+      "addLog": "Adicionar",
+      "notes": "Anotações",
+      "notesPlaceholder": "Descrição, comentários, o que valer a pena guardar…",
+      "pending": "Pendência",
+      "pendingShort": "Pendência",
+      "pendingPlaceholder": "O que está travando este caso",
+      "markPending": "Marcar pendência",
+      "resolvePending": "Resolver",
+      "archive": "Arquivar",
+      "move": "Mover de lista",
+      "delete": "Excluir"
+    },
+    "settings": {
+      "title": "Configurações da lista",
+      "name": "Nome da lista",
+      "identifierLabel": "Rótulo do código",
+      "identifierHint": "Como cada caso é numerado no seu sistema. Em branco, aparece como \"Código\".",
+      "reviewCheck": "Mostrar o ✓ em cada linha",
+      "reviewCheckHint": "Um visto com carimbo de hora, para percorrer a lista uma vez por dia.",
+      "stages": "Etapas",
+      "addStage": "Adicionar etapa",
+      "stageLimit": "Limite de {{max}} etapas atingido",
+      "removeStage": "Remover etapa",
+      "stageColor": "Cor da etapa",
+      "stageEmoji": "Emoji da etapa",
+      "applyTemplate": "Aplicar um modelo…",
+      "reassignTitle": "Casos sem etapa",
+      "reassignHint": "Estas etapas saíram mas ainda têm casos. Escolha para onde cada grupo vai — nenhum caso é apagado aqui.",
+      "delete": "Excluir lista",
+      "deleteConfirm": "Excluir lista e seus casos"
+    },
+    "move": {
+      "title": "Mover para outra lista",
+      "description": "Mover \"{{title}}\" mantém log, anotações e tags.",
+      "list": "Lista de destino",
+      "stage": "Etapa de chegada",
+      "confirm": "Mover caso"
+    },
+    "archive": {
+      "title": "Arquivados",
+      "empty": "Nada arquivado ainda.",
+      "restore": "Reabrir"
+    },
+    "delete": {
+      "title": "Confirmar exclusão",
+      "one": "Excluir \"{{title}}\"? Esta ação não pode ser desfeita.",
+      "many_one": "Excluir {{count}} caso? Esta ação não pode ser desfeita.",
+      "many_other": "Excluir {{count}} casos? Esta ação não pode ser desfeita.",
+      "confirm": "Excluir"
+    }
   }
 }
