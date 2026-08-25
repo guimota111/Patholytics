@@ -24,6 +24,18 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // Organizador de casos. Listas e casos sao dados de trabalho do proprio
+    // usuario: sem campo reservado, sem leitura cruzada, sem listagem por
+    // fora do dono. As regras ficam largas de proposito — todo o conteudo e
+    // livre e so o dono escreve.
+    match /users/{uid}/caseLists/{listId} {
+      allow read, write: if isOwner(uid);
+
+      match /cases/{caseId} {
+        allow read, write: if isOwner(uid);
+      }
+    }
+
     function isOwner(uid) {
       return request.auth != null && request.auth.uid == uid;
     }

@@ -216,6 +216,10 @@
     "fieldConverter": {
       "name": "Field converter",
       "description": "Field size of your own microscope, counts to and from mm², and how many fields each protocol requires."
+    },
+    "organizer": {
+      "name": "Case organizer",
+      "description": "Track cases through stages you define yourself: your own lists, your own stages, a timestamped update log and a deadline countdown."
     }
   },
   "stager": {
@@ -554,5 +558,150 @@
     "title": "Firebase isn't configured yet",
     "body": "Copy .env.example to .env and fill in the Firebase web app credentials, then restart the dev server. Authentication and profiles stay disabled until then.",
     "envFile": ".env"
+  },
+  "organizer": {
+    "subtitle": "Your cases, in the stages you decide. Nothing here is fixed: the stages, their names and the code each case carries are all yours to set.",
+    "privacy": "Cases are stored in your account and sync across your devices. Keep patient identification to the minimum your work needs — a code or initials are usually enough.",
+    "footer": "Every list belongs to your account alone. No one else reads it, and nothing is shared between users.",
+    "limit": "The free plan holds {{limit}} active cases. Archived cases do not count.",
+    "empty": {
+      "title": "No list yet",
+      "description": "A list holds your cases and the stages they move through. Start from a template and edit the stages whenever you like.",
+      "action": "Create the first list"
+    },
+    "lists": {
+      "switch": "Switch list",
+      "new": "New list",
+      "settings": "Settings"
+    },
+    "newList": {
+      "title": "New list",
+      "create": "Create list",
+      "namePlaceholder": "e.g. Daily sign-out",
+      "template": "Starting stages"
+    },
+    "templates": {
+      "surgicalPathology": "Surgical pathology",
+      "simple": "Simple workflow",
+      "research": "Research project",
+      "blank": "Start blank"
+    },
+    "stageNames": {
+      "notSeen": "Not seen",
+      "seenNotReported": "Seen, not reported",
+      "reported": "Reported",
+      "partiallyEmbedded": "Partially embedded",
+      "others": "Others",
+      "todo": "To do",
+      "inProgress": "In progress",
+      "waiting": "Waiting",
+      "done": "Done",
+      "selected": "Selected",
+      "blocks": "Blocks",
+      "staining": "Staining",
+      "analysis": "Analysis",
+      "written": "Written up"
+    },
+    "filters": {
+      "all": "All",
+      "pending": "Blocked"
+    },
+    "sort": {
+      "manual": "Manual order",
+      "deadline": "By deadline",
+      "created": "Newest first",
+      "alphabetical": "A to Z",
+      "stage": "By stage"
+    },
+    "toolbar": {
+      "search": "Search cases",
+      "sort": "Sort",
+      "select": "Select",
+      "deleteSelected": "Delete ({{count}})",
+      "clearReviewed": "Clear checks"
+    },
+    "list": {
+      "empty": "No open cases in this list.",
+      "noMatch": "No case matches this filter."
+    },
+    "row": {
+      "drag": "Drag to reorder",
+      "select": "Select case",
+      "reviewed": "Mark as checked",
+      "reviewedAt": "Checked {{when}}",
+      "copy": "Click to copy",
+      "copied": "Copied",
+      "moveUp": "Move up",
+      "moveDown": "Move down"
+    },
+    "case": {
+      "new": "New case",
+      "save": "Save case",
+      "title": "Title",
+      "titlePlaceholder": "How you recognise this case",
+      "identifier": "Code",
+      "stage": "Stage",
+      "deadline": "Deadline",
+      "deadlinePlaceholder": "3d, 4h, 25/12 14:00",
+      "deadlineHint": "A duration (3d, 2d4h, 45m) or a date.",
+      "deadlineInvalid": "Not a duration or a date.",
+      "tags": "Tags",
+      "tagsPlaceholder": "Comma separated",
+      "firstLog": "First update",
+      "firstLogPlaceholder": "One line about the case",
+      "log": "Updates",
+      "logCount_one": "{{count}} entry",
+      "logCount_other": "{{count}} entries",
+      "logPlaceholder": "New entry…",
+      "addLog": "Add",
+      "notes": "Notes",
+      "notesPlaceholder": "Description, comments, anything worth keeping…",
+      "pending": "Blocked because",
+      "pendingShort": "Blocked",
+      "pendingPlaceholder": "What is holding this case up",
+      "markPending": "Mark as blocked",
+      "resolvePending": "Resolve",
+      "archive": "Archive",
+      "move": "Move to list",
+      "delete": "Delete"
+    },
+    "settings": {
+      "title": "List settings",
+      "name": "List name",
+      "identifierLabel": "Code label",
+      "identifierHint": "What each case is numbered by in your system. Left empty, it reads \"Code\".",
+      "reviewCheck": "Show the check mark on each row",
+      "reviewCheckHint": "A tick with a timestamp, for going through the list once a day.",
+      "stages": "Stages",
+      "addStage": "Add stage",
+      "stageLimit": "Limit of {{max}} stages reached",
+      "removeStage": "Remove stage",
+      "stageColor": "Stage colour",
+      "stageEmoji": "Stage emoji",
+      "applyTemplate": "Apply a template…",
+      "reassignTitle": "Cases without a stage",
+      "reassignHint": "These stages are gone but still hold cases. Choose where each group lands — no case is ever deleted here.",
+      "delete": "Delete list",
+      "deleteConfirm": "Delete list and its cases"
+    },
+    "move": {
+      "title": "Move to another list",
+      "description": "Moving \"{{title}}\" keeps its log, notes and tags.",
+      "list": "Destination list",
+      "stage": "Stage on arrival",
+      "confirm": "Move case"
+    },
+    "archive": {
+      "title": "Archived",
+      "empty": "Nothing archived yet.",
+      "restore": "Reopen"
+    },
+    "delete": {
+      "title": "Confirm deletion",
+      "one": "Delete \"{{title}}\"? This cannot be undone.",
+      "many_one": "Delete {{count}} case? This cannot be undone.",
+      "many_other": "Delete {{count}} cases? This cannot be undone.",
+      "confirm": "Delete"
+    }
   }
 }

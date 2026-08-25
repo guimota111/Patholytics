@@ -91,7 +91,9 @@ and caches hashed assets for a year while keeping `index.html` uncached.
 
 ## Firestore data model
 
-One collection for now. Tools bring their own structures as they ship.
+The profile document plus the case organiser's own collections. Other tools
+keep their state in the browser; the organiser does not, because its data is
+accumulated over weeks and read from both phone and desktop.
 
 ```
 users/{uid}
@@ -110,6 +112,42 @@ sign-up step. `firestore.rules` restricts a document to its owner and allows a
 client to write only `displayName`, `language`, `photoURL` and `updatedAt` — so
 nobody can grant themselves a paid plan before billing is wired up.
 
+The case organiser adds two collections underneath the same user document.
+Everything in them is user-defined — the stage names, their colours, the label
+the identifier field carries — so the rules are deliberately wide: the owner
+reads and writes, nobody else touches it, and no field is reserved.
+
+```
+users/{uid}/caseLists/{listId}
+  name             string           shown in the list switcher
+  stages           array            { id, name, color, emoji } — up to 10, ordered
+  identifierLabel  string           'FAP', 'Accession'… empty falls back to "Code"
+  showReviewCheck  boolean          the tick with a timestamp on each row
+  order            number           position in the switcher
+  createdAt/updatedAt timestamp     server-set
+
+users/{uid}/caseLists/{listId}/cases/{caseId}
+  title        string        free text — the organiser never requires a patient name
+  identifier   string        optional, and never enforced as unique
+  stageId      string        points at one of the list's stages
+  tags         string[]      free labels, autocompleted from the ones already used
+  deadline     number | null milliseconds; drives the countdown
+  archived     boolean       archiving is independent of the stage, so reopening
+  archivedAt   number | null   restores the case exactly where it was
+  pending      { text, since } | null   blocked marker, valid in any stage
+  log          array         { text, ts } append-only, newest shown on the row
+  notes        string        long free text
+  order        number        manual position, in steps of 1000
+  reviewed     boolean       cleared on archive
+  reviewedAt   number | null
+  createdAt/updatedAt timestamp
+```
+
+Stages live on the list rather than on the user: two lists rarely share a
+workflow, which is the whole reason to have more than one. That is also why
+moving a case between lists asks which stage it lands in — there is no
+automatic equivalence between two different workflows.
+
 ## Project layout
 
 ```
@@ -123,6 +161,7 @@ src/
   lib/            firebase, firestore, analytics, auth error mapping, helpers
   pages/          Landing, Login, Signup, ResetPassword, Dashboard, Profile
   services/       Firestore access (userProfile)
+  tools/          one folder per tool — logic, storage and its own components
 ```
 
 ## Adding a tool later
