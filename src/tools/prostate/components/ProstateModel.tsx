@@ -278,7 +278,10 @@ export default function ProstateModel({ grid, analysis, theme, selected, onSelec
       const w = container.clientWidth
       const h = container.clientHeight
       if (!w || !h) return
-      renderer.setSize(w, h, false)
+      // updateStyle=true: o canvas precisa ficar em `w`×`h` px de CSS; sem isso,
+      // em telas com escala (devicePixelRatio > 1) ele estoura o contêiner e a
+      // peça aparece deslocada, mostrando só um canto.
+      renderer.setSize(w, h)
       camera.aspect = w / h
       camera.updateProjectionMatrix()
     }
