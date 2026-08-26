@@ -739,7 +739,7 @@
       "moveBanner": "Modo mover: arraste laudos, notas ou categorias para dentro de outra categoria (ou para Laudos/Notas para levar ao topo). Clique em Concluir ao terminar.",
       "export": "Exportar",
       "import": "Importar",
-      "importResult": "{{n}} itens importados.",
+      "importResult": "{{n}} itens importados; {{merged}} pastas já existentes foram reaproveitadas.",
       "importError": "Arquivo inválido: use um JSON exportado por esta ferramenta."
     },
     "row": {

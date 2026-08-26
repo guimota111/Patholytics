@@ -19,3 +19,6 @@ ui-debug.log
 .idea
 
 *.tsbuildinfo
+
+# One-off migration output (personal report data)
+arquivolaudos-export-*.json

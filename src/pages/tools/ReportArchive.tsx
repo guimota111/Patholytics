@@ -100,8 +100,8 @@ export default function ReportArchivePage() {
     try {
       const parsed = JSON.parse(await file.text()) as Partial<ArchiveExport>
       if (parsed.format !== 'patholytics.archive' || !Array.isArray(parsed.nodes)) throw new Error('bad format')
-      const n = await archive.importAll(parsed as ArchiveExport)
-      flash('ok', t('archive.toolbar.importResult', { n }))
+      const { created, merged } = await archive.importAll(parsed as ArchiveExport)
+      flash('ok', t('archive.toolbar.importResult', { n: created, merged }))
     } catch (e) {
       console.error(e)
       flash('error', t('archive.toolbar.importError'))

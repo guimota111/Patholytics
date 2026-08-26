@@ -739,7 +739,7 @@
       "moveBanner": "Move mode: drag reports, notes or categories into another category (or onto Reports/Notes to bring them to the top). Click Done when finished.",
       "export": "Export",
       "import": "Import",
-      "importResult": "{{n}} items imported.",
+      "importResult": "{{n}} items imported; {{merged}} existing folders were reused.",
       "importError": "Invalid file: use a JSON exported by this tool."
     },
     "row": {

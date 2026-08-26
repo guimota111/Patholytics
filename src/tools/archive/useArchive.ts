@@ -157,9 +157,9 @@ export function useArchive(seedLabels: string[]) {
   }, [nodes])
 
   const importAll = useCallback(
-    (data: ArchiveExport) => importNodes(requireUid(), data.nodes),
+    (data: ArchiveExport) => importNodes(requireUid(), data.nodes, nodes),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [uid],
+    [uid, nodes],
   )
 
   return {
