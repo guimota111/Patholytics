@@ -26,6 +26,8 @@
     "openMenu": "Abrir menu",
     "closeMenu": "Fechar menu",
     "sidebar": "Barra lateral",
+    "collapseMenu": "Recolher menu",
+    "expandMenu": "Expandir menu",
     "backToSite": "Voltar ao site"
   },
   "landing": {

@@ -14,14 +14,37 @@ import { useDismiss } from '@/hooks/useClickOutside'
  * account controls. Navigation lives entirely in the rail, so the bar stays
  * empty of links and the content column runs the full remaining width.
  */
+const COLLAPSED_KEY = 'patholytics.sidebar.v1'
+
+function readCollapsed(): boolean {
+  try {
+    return localStorage.getItem(COLLAPSED_KEY) === 'collapsed'
+  } catch {
+    return false
+  }
+}
+
 export function AppLayout() {
   const { t } = useTranslation()
   const [menuOpen, setMenuOpen] = useState(false)
   const closeMenu = useCallback(() => setMenuOpen(false), [])
+  // Read synchronously so a collapsed rail does not flash open on load.
+  const [collapsed, setCollapsed] = useState(readCollapsed)
+  const toggleCollapsed = useCallback(() => {
+    setCollapsed((value) => {
+      const next = !value
+      try {
+        localStorage.setItem(COLLAPSED_KEY, next ? 'collapsed' : 'expanded')
+      } catch {
+        // sem persistência a escolha vale só para esta sessão
+      }
+      return next
+    })
+  }, [])
 
   return (
     <div className="flex min-h-dvh bg-ground">
-      <AppSidebar open={menuOpen} onClose={closeMenu} />
+      <AppSidebar open={menuOpen} onClose={closeMenu} collapsed={collapsed} onToggleCollapsed={toggleCollapsed} />
 
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-30 border-b border-line bg-ground/85 backdrop-blur-sm">
