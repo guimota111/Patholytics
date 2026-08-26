@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/cn'
 import { LIST_TEMPLATES, stagesFromTemplate } from '../templates'
 import type { Stage } from '../types'
-import { Modal } from './Modal'
+import { Modal } from '@/components/ui/Modal'
 
 interface Props {
   onClose: () => void

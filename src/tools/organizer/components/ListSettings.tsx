@@ -4,7 +4,7 @@ import { ChevronDown, ChevronUp, Plus, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { LIST_TEMPLATES, STAGE_EMOJI_SUGGESTIONS, newStageId, stagesFromTemplate } from '../templates'
 import { MAX_STAGES, type CaseList, type Stage } from '../types'
-import { Modal } from './Modal'
+import { Modal } from '@/components/ui/Modal'
 
 export interface ListSettingsResult {
   name: string

@@ -1,4 +1,5 @@
 import {
+  Archive,
   Calculator,
   CircleDot,
   ClipboardList,
@@ -104,6 +105,14 @@ export const TOOLS: Tool[] = [
     category: 'calculators',
     status: 'available',
     path: '/tools/fields',
+  },
+  {
+    id: 'report-archive',
+    i18nKey: 'reportArchive',
+    icon: Archive,
+    category: 'workflow',
+    status: 'available',
+    path: '/tools/archive',
   },
   {
     id: 'organizer',

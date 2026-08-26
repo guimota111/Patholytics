@@ -148,6 +148,30 @@ workflow, which is the whole reason to have more than one. That is also why
 moving a case between lists asks which stage it lands in — there is no
 automatic equivalence between two different workflows.
 
+The report archive is a third collection under the user: one document per
+node of a tree. Categories and leaves (report templates and notes) share the
+shape; the two top-level archives, `root_reports` and `root_notes`, are virtual
+parents that never exist as documents. Same rule profile as the organiser — the
+owner reads and writes, nothing else.
+
+```
+users/{uid}/archive/{nodeId}
+  parentId     string        'root_reports' | 'root_notes' | another node id
+  type         'category' | 'report' | 'note'
+  label        string
+  content      string        template text; empty for categories
+  icon         string        emoji shown on a folder; empty for leaves
+  tags         string[]      free labels, searchable
+  copyCount    number        atomic increment on every copy; sorts siblings
+  favorite     boolean       pinned in the Favourites section
+  createdAt/updatedAt timestamp
+```
+
+Cascade deletes are resolved on the client (the whole tree is already in
+memory) and committed in batches; Export/Import round-trips the collection as
+JSON with fresh ids on import, which is also the migration path from the
+stand-alone ArquivosLaudos app.
+
 ## Project layout
 
 ```

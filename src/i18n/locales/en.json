@@ -220,6 +220,10 @@
     "organizer": {
       "name": "Case organizer",
       "description": "Track cases through stages you define yourself: your own lists, your own stages, a timestamped update log and a deadline countdown."
+    },
+    "reportArchive": {
+      "name": "Report archive",
+      "description": "Your report templates and notes in folders, with search, tags, favourites and one-click copy — synced to your account."
     }
   },
   "stager": {
@@ -702,6 +706,89 @@
       "many_one": "Delete {{count}} case? This cannot be undone.",
       "many_other": "Delete {{count}} cases? This cannot be undone.",
       "confirm": "Delete"
+    }
+  },
+  "archive": {
+    "subtitle": "Your report templates and notes in a tree of categories, searchable by title, text or tag, with favourites and a copy button. Stored in your account and synced across your devices.",
+    "privacy": "The archive is private: only your account reads and writes it. Use Export to keep a JSON copy — and Import to bring it back or migrate from another archive.",
+    "loadError": "The archive could not be loaded. Check your connection and reload the page.",
+    "roots": {
+      "reports": "Reports",
+      "notes": "Notes",
+      "favorites": "Favourites",
+      "favoritesEmpty": "Star a template to see it here."
+    },
+    "seed": {
+      "headNeck": "Head and neck",
+      "neuro": "Neuro",
+      "gi": "GI",
+      "hemato": "Haemato",
+      "dermato": "Dermato"
+    },
+    "toolbar": {
+      "search": "Search category, title, text or #tag…",
+      "clearSearch": "Clear search",
+      "addIn": "Add to:",
+      "backToTop": "back to the top of the archive",
+      "addCategory": "Category",
+      "addSubcategory": "Subcategory",
+      "addReport": "Report",
+      "addNote": "Note",
+      "move": "Move items",
+      "moveDone": "Done",
+      "moveBanner": "Move mode: drag reports, notes or categories into another category (or onto Reports/Notes to bring them to the top). Click Done when finished.",
+      "export": "Export",
+      "import": "Import",
+      "importResult": "{{n}} items imported.",
+      "importError": "Invalid file: use a JSON exported by this tool."
+    },
+    "row": {
+      "expand": "Expand",
+      "collapse": "Collapse",
+      "rename": "Rename",
+      "delete": "Delete",
+      "favorite": "Favourite",
+      "unfavorite": "Unfavourite",
+      "selectHint": "Click to select · double-click to open"
+    },
+    "panel": {
+      "empty": "Select a report or a note on the left to see the template here.",
+      "copy": "Copy template",
+      "copied": "Copied",
+      "copyError": "Could not copy — select the text and copy it manually.",
+      "copies_one": "Copied {{count}} time",
+      "copies_other": "Copied {{count}} times",
+      "edit": "Edit",
+      "close": "Close",
+      "noContentReport": "This report has no content yet.",
+      "noContentNote": "This note has no content yet.",
+      "tagSearch": "Search this tag"
+    },
+    "results": {
+      "none": "No results for this search.",
+      "count_one": "{{count}} result",
+      "count_other": "{{count}} results"
+    },
+    "dialog": {
+      "newCategory": "New category",
+      "rename": "Rename",
+      "createdIn": "Will be created inside {{target}}",
+      "name": "Name",
+      "icon": "Folder icon",
+      "create": "Create",
+      "newReport": "New report",
+      "newNote": "New note",
+      "editReport": "Edit report",
+      "editNote": "Edit note",
+      "titlePlaceholder": "Title",
+      "contentPlaceholder": "Template text…",
+      "tags": "Tags",
+      "tagPlaceholder": "Add a tag and press Enter",
+      "removeTag": "Remove tag {{tag}}",
+      "deleteTitle": "Confirm deletion",
+      "deleteConfirm": "Delete \"{{label}}\"?",
+      "deleteCascade": "Every subcategory, report and note inside it will be removed too.",
+      "error": "Something went wrong while saving. Try again."
     }
   }
 }

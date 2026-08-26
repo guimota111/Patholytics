@@ -220,6 +220,10 @@
     "organizer": {
       "name": "Organizador de casos",
       "description": "Acompanhe casos por etapas definidas por você: suas listas, suas etapas, log de atualizações com data e contagem regressiva de prazo."
+    },
+    "reportArchive": {
+      "name": "Arquivo de laudos",
+      "description": "Suas máscaras de laudo e notas em pastas, com busca, tags, favoritos e copiar com um clique — sincronizado na sua conta."
     }
   },
   "stager": {
@@ -702,6 +706,89 @@
       "many_one": "Excluir {{count}} caso? Esta ação não pode ser desfeita.",
       "many_other": "Excluir {{count}} casos? Esta ação não pode ser desfeita.",
       "confirm": "Excluir"
+    }
+  },
+  "archive": {
+    "subtitle": "Suas máscaras de laudo e notas numa árvore de categorias, com busca por título, texto ou tag, favoritos e um botão de copiar. Fica na sua conta e sincroniza entre os seus dispositivos.",
+    "privacy": "O arquivo é privado: só a sua conta lê e escreve nele. Use Exportar para guardar uma cópia em JSON — e Importar para trazê-la de volta ou migrar de outro arquivo.",
+    "loadError": "Não foi possível carregar o arquivo. Verifique a conexão e recarregue a página.",
+    "roots": {
+      "reports": "Laudos",
+      "notes": "Notas",
+      "favorites": "Favoritos",
+      "favoritesEmpty": "Marque uma máscara com ★ para vê-la aqui."
+    },
+    "seed": {
+      "headNeck": "Cabeça e pescoço",
+      "neuro": "Neuro",
+      "gi": "Gastro",
+      "hemato": "Hemato",
+      "dermato": "Dermato"
+    },
+    "toolbar": {
+      "search": "Buscar categoria, título, texto ou #tag…",
+      "clearSearch": "Limpar busca",
+      "addIn": "Adicionar em:",
+      "backToTop": "voltar ao topo do arquivo",
+      "addCategory": "Categoria",
+      "addSubcategory": "Subcategoria",
+      "addReport": "Laudo",
+      "addNote": "Nota",
+      "move": "Mover itens",
+      "moveDone": "Concluir",
+      "moveBanner": "Modo mover: arraste laudos, notas ou categorias para dentro de outra categoria (ou para Laudos/Notas para levar ao topo). Clique em Concluir ao terminar.",
+      "export": "Exportar",
+      "import": "Importar",
+      "importResult": "{{n}} itens importados.",
+      "importError": "Arquivo inválido: use um JSON exportado por esta ferramenta."
+    },
+    "row": {
+      "expand": "Expandir",
+      "collapse": "Recolher",
+      "rename": "Renomear",
+      "delete": "Excluir",
+      "favorite": "Favoritar",
+      "unfavorite": "Desfavoritar",
+      "selectHint": "Clique para selecionar · duplo clique para abrir"
+    },
+    "panel": {
+      "empty": "Selecione um laudo ou uma nota à esquerda para ver a máscara aqui.",
+      "copy": "Copiar máscara",
+      "copied": "Copiado",
+      "copyError": "Não foi possível copiar — selecione o texto e copie manualmente.",
+      "copies_one": "Copiado {{count}} vez",
+      "copies_other": "Copiado {{count}} vezes",
+      "edit": "Editar",
+      "close": "Fechar",
+      "noContentReport": "Este laudo ainda não tem conteúdo.",
+      "noContentNote": "Esta nota ainda não tem conteúdo.",
+      "tagSearch": "Buscar por esta tag"
+    },
+    "results": {
+      "none": "Nenhum resultado para essa busca.",
+      "count_one": "{{count}} resultado",
+      "count_other": "{{count}} resultados"
+    },
+    "dialog": {
+      "newCategory": "Nova categoria",
+      "rename": "Renomear",
+      "createdIn": "Será criado dentro de {{target}}",
+      "name": "Nome",
+      "icon": "Ícone da pasta",
+      "create": "Criar",
+      "newReport": "Novo laudo",
+      "newNote": "Nova nota",
+      "editReport": "Editar laudo",
+      "editNote": "Editar nota",
+      "titlePlaceholder": "Título",
+      "contentPlaceholder": "Texto da máscara…",
+      "tags": "Tags",
+      "tagPlaceholder": "Adicionar tag e apertar Enter",
+      "removeTag": "Remover tag {{tag}}",
+      "deleteTitle": "Confirmar exclusão",
+      "deleteConfirm": "Excluir \"{{label}}\"?",
+      "deleteCascade": "Todas as subcategorias, laudos e notas dentro dela também serão removidos.",
+      "error": "Ocorreu um erro ao salvar. Tente novamente."
     }
   }
 }

@@ -36,6 +36,13 @@ service cloud.firestore {
       }
     }
 
+    // Arquivo de laudos: arvore de categorias, laudos e notas do proprio
+    // usuario. Mesmo criterio do organizador — conteudo livre, so o dono le e
+    // escreve, nenhum campo reservado.
+    match /users/{uid}/archive/{nodeId} {
+      allow read, write: if isOwner(uid);
+    }
+
     function isOwner(uid) {
       return request.auth != null && request.auth.uid == uid;
     }
