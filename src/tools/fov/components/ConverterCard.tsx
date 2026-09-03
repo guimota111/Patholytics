@@ -14,6 +14,7 @@ import {
   isConfigValid,
   type MicroscopeConfig,
 } from '../optics'
+import { MoreSection, ResultBox } from './didactic'
 
 interface ConverterCardProps {
   config: MicroscopeConfig
@@ -28,10 +29,10 @@ const REFERENCE_FIELDS: { id: string; diameter: number; label: string }[] = [
   { id: '0.50', diameter: 0.5, label: '0,50 mm · 0,196 mm²' },
 ]
 
-const UNIT_AREAS = [1, 2, 5, 10]
+const UNIT_AREAS = [2, 5, 10]
 
-const selectClass =
-  'h-10 w-full rounded-md border border-line bg-surface px-3 text-sm text-ink transition-colors hover:border-line-strong'
+const bigInputClass =
+  'tabular h-12 w-24 rounded-lg border-2 border-line bg-surface px-3 text-center text-lg font-semibold text-ink transition-colors hover:border-line-strong focus:border-accent'
 
 export function ConverterCard({ config }: ConverterCardProps) {
   const { t, i18n } = useTranslation()
@@ -60,8 +61,7 @@ export function ConverterCard({ config }: ConverterCardProps) {
   const perMm2 = count !== '' && n > 0 ? densityPerMm2(c, n, a) : NaN
 
   const rv = Number(reverseValue)
-  const reverseCount =
-    reverseValue !== '' && n > 0 ? countInFields(rv, reverseUnit, n, a) : NaN
+  const reverseCount = reverseValue !== '' && n > 0 ? countInFields(rv, reverseUnit, n, a) : NaN
 
   const refDiameter =
     refId === 'custom' ? Number(refCustom) : (REFERENCE_FIELDS.find((r) => r.id === refId)?.diameter ?? NaN)
@@ -94,170 +94,161 @@ export function ConverterCard({ config }: ConverterCardProps) {
   }
 
   return (
-    <div className="rounded-lg border border-line bg-elevated shadow-card">
-      <div className="border-b border-line px-5 py-4">
-        <h2 className="text-sm font-semibold tracking-tight text-ink">{t('fov.convTitle')}</h2>
-        <p className="mt-1 text-sm text-ink-muted">{t('fov.convHint')}</p>
-      </div>
+    <div className="space-y-5">
+      {/* Frase para preencher: "Contei [x] mitoses em [y] campos, na objetiva [40×]". */}
+      <p className="flex flex-wrap items-center gap-x-2.5 gap-y-3 text-lg leading-relaxed text-ink">
+        {t('fov.sentencePre')}
+        <input
+          type="number"
+          inputMode="numeric"
+          min={0}
+          value={count}
+          onChange={(e) => setCount(e.target.value)}
+          aria-label={t('fov.count')}
+          placeholder="?"
+          className={bigInputClass}
+          autoFocus
+        />
+        {t('fov.sentenceMid')}
+        <input
+          type="number"
+          inputMode="numeric"
+          min={1}
+          value={fields}
+          onChange={(e) => setFields(e.target.value)}
+          aria-label={t('fov.fieldsCounted')}
+          className={bigInputClass}
+        />
+        {t('fov.sentenceFields')}
+        <select
+          value={objective}
+          onChange={(e) => setObjective(Number(e.target.value))}
+          aria-label={t('fov.objectiveUsed')}
+          className="h-12 rounded-lg border-2 border-line bg-surface px-3 text-lg font-semibold text-ink transition-colors hover:border-line-strong"
+        >
+          {OBJECTIVES.map((o) => (
+            <option key={o} value={o}>
+              {o}×
+            </option>
+          ))}
+        </select>
+      </p>
 
-      <div className="space-y-6 px-5 py-5">
-        <div className="grid gap-4 sm:grid-cols-3">
+      {Number.isFinite(perMm2) ? (
+        <ResultBox>
+          <p className="text-sm text-ink-muted">{t('fov.resultIs')}</p>
+          <p className="tabular mt-1 text-3xl font-bold text-accent-ink">
+            {fmt(perMm2, 2, lang)} <span className="text-xl font-semibold">{t('fov.perMm2Label')}</span>
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {UNIT_AREAS.map((u) => (
+              <span key={u} className="tabular rounded-full border border-accent/35 bg-elevated px-3 py-1 text-sm text-ink">
+                {fmt(perMm2 * u, 2, lang)} {t('fov.resultPer', { unit: u })}
+              </span>
+            ))}
+          </div>
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <Button type="button" size="sm" variant="secondary" onClick={() => void handleCopy()}>
+              {copied ? <Check className="size-4" aria-hidden /> : <Copy className="size-4" aria-hidden />}
+              {copied ? t('fov.copied') : t('fov.copy')}
+            </Button>
+            <span className="tabular text-xs text-ink-faint">{t('fov.areaCounted', { area: fmt(areaCounted, 2, lang) })}</span>
+          </div>
+        </ResultBox>
+      ) : (
+        <p className="text-sm text-ink-faint">{t('fov.convEmpty')}</p>
+      )}
+
+      <MoreSection label={t('fov.refToggle')}>
+        <p className="text-xs leading-relaxed text-ink-faint">{t('fov.refHint')}</p>
+        <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-1.5">
-            <label htmlFor="fov-conv-obj" className="block text-sm font-medium text-ink">
-              {t('fov.objectiveUsed')}
+            <label htmlFor="fov-ref" className="block text-sm font-medium text-ink">
+              {t('fov.refDiameter')}
             </label>
             <select
-              id="fov-conv-obj"
-              value={objective}
-              onChange={(e) => setObjective(Number(e.target.value))}
-              className={selectClass}
+              id="fov-ref"
+              value={refId}
+              onChange={(e) => setRefId(e.target.value)}
+              className="h-10 w-full rounded-md border border-line bg-elevated px-3 text-sm text-ink transition-colors hover:border-line-strong"
             >
-              {OBJECTIVES.map((o) => (
-                <option key={o} value={o}>
-                  {o}×
+              {REFERENCE_FIELDS.map((r) => (
+                <option key={r.id} value={r.id}>
+                  {r.label}
                 </option>
               ))}
+              <option value="custom">{t('fov.refCustom')}</option>
             </select>
-            {valid && (
-              <p className="tabular text-xs text-ink-faint">
-                Ø {fmt(d, 3, lang)} mm · {fmt(a, 3, lang)} mm²
-              </p>
-            )}
           </div>
-          <Input
-            type="number"
-            inputMode="numeric"
-            min={0}
-            className="tabular"
-            label={t('fov.count')}
-            value={count}
-            onChange={(e) => setCount(e.target.value)}
-          />
-          <Input
-            type="number"
-            inputMode="numeric"
-            min={1}
-            className="tabular"
-            label={t('fov.fieldsCounted')}
-            value={fields}
-            onChange={(e) => setFields(e.target.value)}
-          />
-        </div>
-
-        {Number.isFinite(perMm2) ? (
-          <div className="space-y-3">
-            <p className="tabular text-xs text-ink-faint">
-              {t('fov.areaCounted', { area: fmt(areaCounted, 3, lang) })}
-            </p>
-            <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-md border border-line bg-line sm:grid-cols-4">
-              {UNIT_AREAS.map((u) => (
-                <div key={u} className="bg-surface px-3 py-2.5">
-                  <dt className="text-xs tracking-wider text-ink-faint uppercase">
-                    {t('fov.resultPer', { unit: u })}
-                  </dt>
-                  <dd className="tabular mt-1 text-lg font-medium text-accent-ink">
-                    {fmt(perMm2 * u, 2, lang)}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-            <div className="flex items-center gap-2">
-              <Button type="button" size="sm" variant="secondary" onClick={() => void handleCopy()}>
-                {copied ? <Check className="size-4" aria-hidden /> : <Copy className="size-4" aria-hidden />}
-                {copied ? t('fov.copied') : t('fov.copy')}
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <p className="text-sm text-ink-faint">{t('fov.convEmpty')}</p>
-        )}
-
-        <div className="border-t border-line pt-5">
-          <h3 className="text-sm font-semibold tracking-tight text-ink">{t('fov.refTitle')}</h3>
-          <p className="mt-1 text-xs text-ink-faint">{t('fov.refHint')}</p>
-          <div className="mt-3 grid gap-4 sm:grid-cols-2">
-            <div className="space-y-1.5">
-              <label htmlFor="fov-ref" className="block text-sm font-medium text-ink">
-                {t('fov.refDiameter')}
-              </label>
-              <select id="fov-ref" value={refId} onChange={(e) => setRefId(e.target.value)} className={selectClass}>
-                {REFERENCE_FIELDS.map((r) => (
-                  <option key={r.id} value={r.id}>
-                    {r.label}
-                  </option>
-                ))}
-                <option value="custom">{t('fov.refCustom')}</option>
-              </select>
-            </div>
-            {refId === 'custom' && (
-              <Input
-                type="number"
-                inputMode="decimal"
-                step="0.001"
-                min={0.01}
-                className="tabular"
-                label={t('fov.refCustomDiameter')}
-                value={refCustom}
-                onChange={(e) => setRefCustom(e.target.value)}
-              />
-            )}
-          </div>
-          {Number.isFinite(per10Ref) && (
-            <p className="tabular mt-3 text-sm text-ink">
-              {t('fov.refResult', {
-                value: fmt(per10Ref, 1, lang),
-                diameter: fmt(refDiameter, 3, lang),
-                area: fmt(refArea * 10, 2, lang),
-              })}
-            </p>
-          )}
-        </div>
-
-        <div className="border-t border-line pt-5">
-          <h3 className="text-sm font-semibold tracking-tight text-ink">{t('fov.reverseTitle')}</h3>
-          <p className="mt-1 text-xs text-ink-faint">{t('fov.reverseHint')}</p>
-          <div className="mt-3 grid gap-4 sm:grid-cols-2">
+          {refId === 'custom' && (
             <Input
               type="number"
               inputMode="decimal"
-              step="0.1"
-              min={0}
+              step="0.001"
+              min={0.01}
               className="tabular"
-              label={t('fov.valuePer')}
-              value={reverseValue}
-              onChange={(e) => setReverseValue(e.target.value)}
+              label={t('fov.refCustomDiameter')}
+              value={refCustom}
+              onChange={(e) => setRefCustom(e.target.value)}
             />
-            <div className="space-y-1.5">
-              <label htmlFor="fov-rev-unit" className="block text-sm font-medium text-ink">
-                {t('fov.unitArea')}
-              </label>
-              <select
-                id="fov-rev-unit"
-                value={reverseUnit}
-                onChange={(e) => setReverseUnit(Number(e.target.value))}
-                className={selectClass}
-              >
-                {UNIT_AREAS.map((u) => (
-                  <option key={u} value={u}>
-                    {u} mm²
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-          {Number.isFinite(reverseCount) && (
-            <p className="tabular mt-3 text-sm text-ink">
-              {t('fov.reverseResult', {
-                value: fmt(rv, 2, lang),
-                unit: reverseUnit,
-                count: fmt(reverseCount, 1, lang),
-                fields: fmt(n, 0, lang),
-                objective,
-              })}
-            </p>
           )}
         </div>
-      </div>
+        {Number.isFinite(per10Ref) ? (
+          <p className="tabular rounded-md bg-accent-soft px-3 py-2 text-sm font-medium text-accent-ink">
+            {t('fov.refResult', {
+              value: fmt(per10Ref, 1, lang),
+              diameter: fmt(refDiameter, 3, lang),
+              area: fmt(refArea * 10, 2, lang),
+            })}
+          </p>
+        ) : (
+          <p className="text-xs text-ink-faint">{t('fov.convEmpty')}</p>
+        )}
+      </MoreSection>
+
+      <MoreSection label={t('fov.reverseToggle')}>
+        <p className="text-xs leading-relaxed text-ink-faint">{t('fov.reverseHint')}</p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Input
+            type="number"
+            inputMode="decimal"
+            step="0.1"
+            min={0}
+            className="tabular"
+            label={t('fov.valuePer')}
+            value={reverseValue}
+            onChange={(e) => setReverseValue(e.target.value)}
+          />
+          <div className="space-y-1.5">
+            <label htmlFor="fov-rev-unit" className="block text-sm font-medium text-ink">
+              {t('fov.unitArea')}
+            </label>
+            <select
+              id="fov-rev-unit"
+              value={reverseUnit}
+              onChange={(e) => setReverseUnit(Number(e.target.value))}
+              className="h-10 w-full rounded-md border border-line bg-elevated px-3 text-sm text-ink transition-colors hover:border-line-strong"
+            >
+              {[1, 2, 5, 10].map((u) => (
+                <option key={u} value={u}>
+                  {u} mm²
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        {Number.isFinite(reverseCount) && (
+          <p className="tabular rounded-md bg-accent-soft px-3 py-2 text-sm font-medium text-accent-ink">
+            {t('fov.reverseResult', {
+              value: fmt(rv, 2, lang),
+              unit: reverseUnit,
+              count: fmt(reverseCount, 1, lang),
+              fields: fmt(n, 0, lang),
+              objective,
+            })}
+          </p>
+        )}
+      </MoreSection>
     </div>
   )
 }
