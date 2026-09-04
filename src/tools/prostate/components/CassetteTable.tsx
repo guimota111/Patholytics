@@ -1,4 +1,4 @@
-import { Fragment, useRef, type KeyboardEvent } from 'react'
+import { Fragment, useRef, useState, type KeyboardEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AlertTriangle, Eraser } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
@@ -6,41 +6,35 @@ import { cn } from '@/lib/cn'
 import type { Analysis, CellResult } from '../analysis'
 import { cellColor, type Theme } from '../heat'
 import { gleasonText } from '../format'
-import type { CaseGlobals, CellData, GridConfig, Pattern } from '../types'
-import { SectionHeader, compactInputClass } from './fields'
+import { groupColor } from '../mapping'
+import type { CaseGlobals, CellData, MappingConfig, Pattern } from '../types'
+import { Toggle, compactInputClass } from './fields'
 
 interface CassetteTableProps {
-  grid: GridConfig
+  mapping: MappingConfig
   globals: CaseGlobals
   analysis: Analysis
   theme: Theme
-  editLabels: boolean
   selected: string | null
   onSelect: (id: string | null) => void
   setCell: (id: string, patch: Partial<CellData>) => void
-  setLabel: (id: string, label: string) => void
   onClear: () => void
 }
 
-export function CassetteTable({
-  grid,
-  globals,
-  analysis,
-  theme,
-  editLabels,
-  selected,
-  onSelect,
-  setCell,
-  setLabel,
-  onClear,
-}: CassetteTableProps) {
+/**
+ * Uma linha por cassete, agrupadas pelo mapeamento. Por padrão só o que o
+ * patologista precisa digitar: tumor, G4, G5 e duas caixas (margem, EEP).
+ * O detalhe (mm e Gleason na margem, EEP focal/estabelecida, cribriforme e
+ * IDC por cassete) aparece quando "mais colunas" está ligado.
+ */
+export function CassetteTable({ mapping, globals, analysis, theme, selected, onSelect, setCell, onClear }: CassetteTableProps) {
   const { t } = useTranslation()
   const tableRef = useRef<HTMLTableElement>(null)
-  const perCrib = globals.cribMode === 'perCassette'
-  const perIdc = globals.idcMode === 'perCassette'
+  const [more, setMore] = useState(false)
+  const perCrib = more && globals.cribMode === 'perCassette'
+  const perIdc = more && globals.idcMode === 'perCassette'
   const ofCassette = globals.g45Mode === 'ofCassette'
 
-  // Enter pula para o próximo campo numérico; a ordem é a do DOM (linha a linha).
   const onKey = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== 'Enter') return
     e.preventDefault()
@@ -51,39 +45,44 @@ export function CassetteTable({
     next?.select()
   }
 
-  const groups: { key: string; title: string; rows: CellResult[] }[] = []
-  const apex = analysis.cells.filter((c) => c.cell.kind === 'apex')
-  if (apex.length) groups.push({ key: 'apex', title: t('prostate.region.apex'), rows: apex })
-  for (let s = 1; s <= grid.slices; s++) {
-    groups.push({ key: `s${s}`, title: t('prostate.region.slice', { n: s }), rows: analysis.cells.filter((c) => c.cell.slice === s) })
-  }
-  const base = analysis.cells.filter((c) => c.cell.kind === 'base')
-  if (base.length) groups.push({ key: 'base', title: t('prostate.region.base'), rows: base })
+  const groups: { key: string; title: string; color: string; rows: CellResult[] }[] = mapping.groups.map((g, i) => ({
+    key: g.id,
+    title: g.name || t('prostate.mapping.namePlaceholder'),
+    color: groupColor(i),
+    rows: analysis.cells.filter((c) => c.cell.group?.id === g.id),
+  }))
+  const unmapped = analysis.cells.filter((c) => !c.cell.group)
+  if (unmapped.length) groups.push({ key: '__unmapped', title: t('prostate.unmappedGroup'), color: 'var(--color-ink-faint)', rows: unmapped })
 
-  const colSpan = 6 + (perCrib ? 1 : 0) + (perIdc ? 1 : 0) + 3
+  const colSpan = 6 + (more ? 2 : 0) + (perCrib ? 1 : 0) + (perIdc ? 1 : 0)
 
   return (
-    <div className="rounded-lg border border-line bg-elevated shadow-card">
-      <SectionHeader title={t('prostate.table.title')} hint={t(ofCassette ? 'prostate.table.hintOfCassette' : 'prostate.table.hintOfTumor')}>
-        <Button type="button" size="sm" variant="ghost" onClick={onClear}>
-          <Eraser className="size-4" aria-hidden />
-          {t('prostate.table.clear')}
-        </Button>
-      </SectionHeader>
+    <div className="space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="text-sm text-ink-muted">{t(ofCassette ? 'prostate.table.hintOfCassette' : 'prostate.table.hintOfTumor')}</p>
+        <div className="flex items-center gap-3">
+          <Toggle checked={more} onChange={setMore} label={t('prostate.table.moreColumns')} />
+          <Button type="button" size="sm" variant="ghost" onClick={onClear}>
+            <Eraser className="size-4" aria-hidden />
+            {t('prostate.table.clear')}
+          </Button>
+        </div>
+      </div>
 
-      <div className="overflow-x-auto">
-        <table ref={tableRef} className="w-full min-w-[760px] text-sm">
-          <thead className="text-xs tracking-wider text-ink-faint uppercase">
+      <div className="overflow-x-auto rounded-md border border-line">
+        <table ref={tableRef} className="w-full min-w-[640px] text-sm">
+          <thead className="bg-surface text-xs tracking-wider text-ink-faint uppercase">
             <tr className="border-b border-line">
               <th className="px-3 py-2 text-left font-medium">{t('prostate.table.cassette')}</th>
-              <th className="px-2 py-2 text-left font-medium">{t('prostate.table.position')}</th>
               <th className="px-2 py-2 text-left font-medium">{t('prostate.table.tumor')}</th>
               <th className="px-2 py-2 text-left font-medium">{t('prostate.table.g4')}</th>
               <th className="px-2 py-2 text-left font-medium">{t('prostate.table.g5')}</th>
               {perCrib && <th className="px-2 py-2 text-left font-medium">{t('prostate.table.crib')}</th>}
               {perIdc && <th className="px-2 py-2 text-left font-medium">{t('prostate.table.idc')}</th>}
               <th className="px-2 py-2 text-left font-medium">{t('prostate.table.margin')}</th>
+              {more && <th className="px-2 py-2 text-left font-medium">{t('prostate.table.marginDetail')}</th>}
               <th className="px-2 py-2 text-left font-medium">{t('prostate.table.epe')}</th>
+              {more && <th className="px-2 py-2 text-left font-medium">{t('prostate.table.epeType')}</th>}
               <th className="px-3 py-2 text-right font-medium">Gleason</th>
             </tr>
           </thead>
@@ -91,9 +90,10 @@ export function CassetteTable({
             {groups.map((g) => (
               <Fragment key={g.key}>
                 <tr className="bg-surface/70">
-                  <td colSpan={colSpan} className="px-3 py-1.5 text-xs font-semibold tracking-wide text-ink-muted uppercase">
+                  <td colSpan={colSpan} className="px-3 py-1.5 text-xs font-semibold text-ink-muted">
+                    <span className="mr-2 inline-block size-2.5 rounded-sm align-middle" style={{ background: g.color }} aria-hidden />
                     {g.title}
-                    <span className="tabular ml-2 font-normal normal-case">
+                    <span className="tabular ml-2 font-normal">
                       {g.rows.filter((r) => r.tumor > 0).length}/{g.rows.length}
                     </span>
                   </td>
@@ -102,6 +102,7 @@ export function CassetteTable({
                   const d = r.data
                   const id = r.cell.id
                   const isSel = selected === id
+                  const nonProstate = r.cell.tissue !== 'prostate'
                   return (
                     <tr
                       key={id}
@@ -115,24 +116,10 @@ export function CassetteTable({
                             style={{ background: cellColor(r.dominant, r.tumor, theme) }}
                             aria-hidden
                           />
-                          {editLabels ? (
-                            <input
-                              value={grid.labels[id] ?? r.cell.label}
-                              onChange={(e) => setLabel(id, e.target.value)}
-                              onClick={(e) => e.stopPropagation()}
-                              className={cn(compactInputClass, 'w-16')}
-                              aria-label={t('prostate.table.cassette')}
-                            />
-                          ) : (
-                            <span className="tabular font-medium text-ink">{r.cell.label}</span>
-                          )}
+                          <span className="tabular font-medium text-ink">{r.cell.label}</span>
+                          {nonProstate && <span className="text-xs text-ink-faint">{t(`prostate.tissue.${r.cell.tissue}`)}</span>}
                           {!r.valid && <AlertTriangle className="size-3.5 text-danger" aria-label={t('prostate.warnings.invalidCell', { label: r.cell.label })} />}
                         </div>
-                      </td>
-                      <td className="px-2 py-1.5 text-xs text-ink-muted">
-                        {r.cell.kind === 'slice'
-                          ? `${r.cell.sector!.id} · ${t(`prostate.side.${r.cell.side}`)}`
-                          : `${t(`prostate.side.${r.cell.side}`)} ${r.cell.index! + 1}`}
                       </td>
                       <td className="w-20 px-2 py-1.5">
                         <Num value={d.tumor} onChange={(v) => setCell(id, { tumor: v })} onKeyDown={onKey} />
@@ -149,28 +136,23 @@ export function CassetteTable({
                         </td>
                       )}
                       {perIdc && (
-                        <td className="px-2 py-1.5">
-                          <input
-                            type="checkbox"
-                            checked={d.idc}
-                            onChange={(e) => setCell(id, { idc: e.target.checked })}
-                            onClick={(e) => e.stopPropagation()}
-                            className="size-4 accent-[var(--color-accent)]"
-                            aria-label={t('prostate.table.idc')}
-                          />
+                        <td className="px-2 py-1.5" onClick={(e) => e.stopPropagation()}>
+                          <input type="checkbox" checked={d.idc} onChange={(e) => setCell(id, { idc: e.target.checked })} className="size-5 accent-[var(--color-accent)]" aria-label={t('prostate.table.idc')} />
                         </td>
                       )}
-                      <td className="px-2 py-1.5">
-                        <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
-                          <input
-                            type="checkbox"
-                            checked={d.margin}
-                            onChange={(e) => setCell(id, { margin: e.target.checked })}
-                            className="size-4 accent-[var(--color-accent)]"
-                            aria-label={t('prostate.table.margin')}
-                          />
+                      <td className="px-2 py-1.5" onClick={(e) => e.stopPropagation()}>
+                        <input
+                          type="checkbox"
+                          checked={d.margin}
+                          onChange={(e) => setCell(id, { margin: e.target.checked })}
+                          className="size-5 accent-[var(--color-danger)]"
+                          aria-label={t('prostate.table.margin')}
+                        />
+                      </td>
+                      {more && (
+                        <td className="px-2 py-1.5" onClick={(e) => e.stopPropagation()}>
                           {d.margin && (
-                            <>
+                            <div className="flex items-center gap-1.5">
                               <input
                                 type="number"
                                 inputMode="decimal"
@@ -193,22 +175,36 @@ export function CassetteTable({
                                 <option value="4">G4</option>
                                 <option value="5">G5</option>
                               </select>
-                            </>
+                            </div>
                           )}
-                        </div>
-                      </td>
+                        </td>
+                      )}
                       <td className="px-2 py-1.5" onClick={(e) => e.stopPropagation()}>
-                        <select
-                          value={d.epe}
-                          onChange={(e) => setCell(id, { epe: e.target.value as CellData['epe'] })}
-                          className={cn('h-8 rounded-md border bg-surface px-1.5 text-sm', d.epe === 'none' ? 'border-line text-ink-faint' : 'border-accent/40 text-ink')}
-                          aria-label={t('prostate.table.epe')}
-                        >
-                          <option value="none">{t('prostate.epe.none')}</option>
-                          <option value="focal">{t('prostate.epe.focal')}</option>
-                          <option value="established">{t('prostate.epe.established')}</option>
-                        </select>
+                        {!nonProstate && (
+                          <input
+                            type="checkbox"
+                            checked={d.epe !== 'none'}
+                            onChange={(e) => setCell(id, { epe: e.target.checked ? 'focal' : 'none' })}
+                            className="size-5 accent-[var(--color-accent)]"
+                            aria-label={t('prostate.table.epe')}
+                          />
+                        )}
                       </td>
+                      {more && (
+                        <td className="px-2 py-1.5" onClick={(e) => e.stopPropagation()}>
+                          {d.epe !== 'none' && !nonProstate && (
+                            <select
+                              value={d.epe}
+                              onChange={(e) => setCell(id, { epe: e.target.value as CellData['epe'] })}
+                              className="h-8 rounded-md border border-line bg-surface px-1.5 text-sm text-ink"
+                              aria-label={t('prostate.table.epeType')}
+                            >
+                              <option value="focal">{t('prostate.epe.focal')}</option>
+                              <option value="established">{t('prostate.epe.established')}</option>
+                            </select>
+                          )}
+                        </td>
+                      )}
                       <td className="tabular px-3 py-1.5 text-right text-ink-muted">
                         {r.gleason ? (
                           <>

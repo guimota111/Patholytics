@@ -1,11 +1,12 @@
 /* ==========================================================================
    ProstateModel.tsx — modelo 3D procedural da próstata com mapa de calor.
 
-   Um elipsoide levemente cônico (base mais larga que o ápice) é recortado
-   em células que coincidem com a grade de cassetes: cones de ápice e base
-   em faixas parassagitais, fatias transversais em setores angulares. Cada
-   célula é um grupo de faces com o seu próprio material, colorido pelo
-   padrão de Gleason predominante e pelo % de tumor.
+   A glândula é uma "noz": mais larga na base do que no ápice, achatada no
+   sentido ântero-posterior, com o sulco mediano posterior. Cada face é
+   atribuída ao cassete que a cobre, segundo o mapeamento do usuário (lado,
+   região, nível e ordem dos cassetes do ápice para a base); as bordas entre
+   cassetes vizinhos viram linhas. Vesículas seminais e ductos deferentes
+   aparecem atrás da base quando existem grupos desse tecido.
 
    Eixos: +y = anterior, −x = lado direito do paciente, +z = base.
    Carregado sob demanda (three.js só entra nesta página).
@@ -17,17 +18,48 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
-import type { Analysis } from '../analysis'
+import type { Analysis, CellResult } from '../analysis'
 import { cellColor, EPE_HEX, MARGIN_HEX, strokeColor, type Theme } from '../heat'
+import { buildCells, specificity } from '../mapping'
 import { cellName, fmtN, gleasonText } from '../format'
-import { cellId, sectorsOf } from '../grid'
-import type { GridConfig } from '../types'
+import type { CassetteGroup, MappingConfig, Side } from '../types'
 
 const X = 2.0 // meia-largura (D–E)
-const Y = 1.5 // meia-altura (anterior–posterior)
+const Y = 1.45 // meia-altura (anterior–posterior)
 const Z = 2.2 // meio-comprimento (ápice–base)
-const CONE = 0.6
+const UNMAPPED = '__unmapped'
 const taper = (z: number) => 1 + 0.16 * (z / Z)
+
+/** Ponto da esfera unitária → superfície da glândula. */
+function toSurface(v: THREE.Vector3): THREE.Vector3 {
+  const z = v.z * Z
+  const f = taper(z)
+  const x = v.x * X * f
+  let y: number
+  if (v.y < 0) {
+    // Face posterior mais plana, com o sulco mediano.
+    const groove = 0.12 * Math.exp(-((v.x / 0.28) ** 2)) * (1 - v.z * v.z)
+    y = v.y * Y * 0.78 * f + groove
+  } else {
+    y = v.y * Y * f
+  }
+  return new THREE.Vector3(x, y, z)
+}
+
+const levelRange = (level: CassetteGroup['level']): [number, number] => {
+  if (level === 'apex') return [-Z, -Z / 3]
+  if (level === 'mid') return [-Z / 3, Z / 3]
+  if (level === 'base') return [Z / 3, Z]
+  return [-Z, Z]
+}
+
+interface GroupSlots {
+  group: CassetteGroup
+  cellIds: string[]
+  z0: number
+  z1: number
+  score: number
+}
 
 interface ModelBuild {
   geometry: THREE.BufferGeometry
@@ -36,45 +68,55 @@ interface ModelBuild {
   centroids: Map<string, THREE.Vector3>
 }
 
-function toSurface(v: THREE.Vector3): THREE.Vector3 {
-  const z = v.z * Z
-  const f = taper(z)
-  return new THREE.Vector3(v.x * X * f, v.y * Y * f, z)
-}
-
-function buildModel(grid: GridConfig): ModelBuild {
-  const apexLen = grid.apexCassettes > 0 ? CONE : 0
-  const baseLen = grid.baseCassettes > 0 ? CONE : 0
-  const zA = -Z + apexLen
-  const zB = Z - baseLen
-  const sliceLen = (zB - zA) / grid.slices
-  const sectors = sectorsOf(grid.sectors)
+function buildGland(mapping: MappingConfig): ModelBuild {
+  const { cells } = buildCells(mapping)
+  const slots: GroupSlots[] = mapping.groups
+    .filter((g) => g.tissue === 'prostate')
+    .map((g) => {
+      const [z0, z1] = levelRange(g.level)
+      return {
+        group: g,
+        cellIds: cells.filter((c) => c.group?.id === g.id).sort((a, b) => a.indexInGroup - b.indexInGroup).map((c) => c.id),
+        z0,
+        z1,
+        score: specificity(g),
+      }
+    })
+    .filter((s) => s.cellIds.length > 0)
 
   const classify = (c: THREE.Vector3): string => {
-    if (grid.apexCassettes > 0 && c.z < zA) {
-      const xn = c.x / (X * taper(c.z))
-      const i = Math.max(0, Math.min(grid.apexCassettes - 1, Math.floor(((xn + 1) / 2) * grid.apexCassettes)))
-      return cellId.apex(i)
+    let best: GroupSlots | null = null
+    for (const s of slots) {
+      const g = s.group
+      if (g.side === 'D' && c.x > 0) continue
+      if (g.side === 'E' && c.x < 0) continue
+      if (g.region === 'anterior' && c.y < 0) continue
+      if (g.region === 'posterior' && c.y > 0) continue
+      if (c.z < s.z0 || c.z > s.z1) continue
+      if (!best || s.score > best.score) best = s
     }
-    if (grid.baseCassettes > 0 && c.z > zB) {
-      const xn = c.x / (X * taper(c.z))
-      const i = Math.max(0, Math.min(grid.baseCassettes - 1, Math.floor(((xn + 1) / 2) * grid.baseCassettes)))
-      return cellId.base(i)
-    }
-    const s = Math.max(1, Math.min(grid.slices, Math.floor((c.z - zA) / sliceLen) + 1))
-    let theta = (Math.atan2(-c.x, c.y) * 180) / Math.PI
-    if (theta >= 180) theta = -180
-    const sector = sectors.find((d) => theta >= d.start && theta < d.end) ?? sectors[sectors.length - 1]
-    return cellId.slice(s, sector.id)
+    if (!best) return UNMAPPED
+    const n = best.cellIds.length
+    const k = Math.max(0, Math.min(n - 1, Math.floor(((c.z - best.z0) / (best.z1 - best.z0)) * n)))
+    return best.cellIds[k]
   }
 
-  const sphere = new THREE.SphereGeometry(1, 144, 96).toNonIndexed()
+  const sphere = new THREE.SphereGeometry(1, 160, 110).toNonIndexed()
   const pos = sphere.getAttribute('position') as THREE.BufferAttribute
   const buckets = new Map<string, number[]>()
   const sums = new Map<string, { v: THREE.Vector3; n: number }>()
+  const edgeOwners = new Map<string, Set<string>>()
   const a = new THREE.Vector3()
   const b = new THREE.Vector3()
   const c = new THREE.Vector3()
+  const key = (p: THREE.Vector3) => `${p.x.toFixed(4)},${p.y.toFixed(4)},${p.z.toFixed(4)}`
+  const edgeKey = (p: THREE.Vector3, q: THREE.Vector3) => {
+    const kp = key(p)
+    const kq = key(q)
+    return kp < kq ? `${kp}|${kq}` : `${kq}|${kp}`
+  }
+  const edgePoints = new Map<string, [THREE.Vector3, THREE.Vector3]>()
+
   for (let i = 0; i < pos.count; i += 3) {
     const pa = toSurface(a.fromBufferAttribute(pos, i))
     const pb = toSurface(b.fromBufferAttribute(pos, i + 1))
@@ -88,6 +130,19 @@ function buildModel(grid: GridConfig): ModelBuild {
     s.v.add(centroid)
     s.n++
     sums.set(id, s)
+    for (const [p, q] of [
+      [pa, pb],
+      [pb, pc],
+      [pc, pa],
+    ] as [THREE.Vector3, THREE.Vector3][]) {
+      const ek = edgeKey(p, q)
+      let owners = edgeOwners.get(ek)
+      if (!owners) {
+        edgeOwners.set(ek, (owners = new Set()))
+        edgePoints.set(ek, [p.clone(), q.clone()])
+      }
+      owners.add(id)
+    }
   }
   sphere.dispose()
 
@@ -106,58 +161,15 @@ function buildModel(grid: GridConfig): ModelBuild {
   const centroids = new Map<string, THREE.Vector3>()
   for (const [id, s] of sums) centroids.set(id, s.v.multiplyScalar(1 / s.n).multiplyScalar(1.03))
 
-  // Linhas de corte: anéis entre fatias, meridianos entre setores, faixas dos cones.
+  // Linhas onde dois cassetes diferentes se encontram.
   const seg: number[] = []
-  const push = (p: THREE.Vector3, q: THREE.Vector3) => seg.push(p.x, p.y, p.z, q.x, q.y, q.z)
-  const ringAt = (z: number) => {
-    const zn = z / Z
-    const r = Math.sqrt(Math.max(0, 1 - zn * zn)) * 1.006
-    const pts: THREE.Vector3[] = []
-    for (let k = 0; k <= 96; k++) {
-      const th = (k / 96) * Math.PI * 2
-      pts.push(toSurface(new THREE.Vector3(-Math.sin(th) * r, Math.cos(th) * r, zn)))
-    }
-    for (let k = 0; k < 96; k++) push(pts[k], pts[k + 1])
+  for (const [ek, owners] of edgeOwners) {
+    if (owners.size < 2) continue
+    const [p, q] = edgePoints.get(ek)!
+    const ps = p.clone().multiplyScalar(1.006)
+    const qs = q.clone().multiplyScalar(1.006)
+    seg.push(ps.x, ps.y, ps.z, qs.x, qs.y, qs.z)
   }
-  for (let k = 0; k <= grid.slices; k++) {
-    const z = zA + k * sliceLen
-    if (z > -Z + 1e-6 && z < Z - 1e-6) ringAt(z)
-  }
-  const boundaries = [...new Set(sectors.map((s) => s.start))]
-  for (const deg of boundaries) {
-    const th = (deg * Math.PI) / 180
-    let prev: THREE.Vector3 | null = null
-    for (let k = 0; k <= 40; k++) {
-      const z = zA + ((zB - zA) * k) / 40
-      const zn = z / Z
-      const r = Math.sqrt(Math.max(0, 1 - zn * zn)) * 1.006
-      const p = toSurface(new THREE.Vector3(-Math.sin(th) * r, Math.cos(th) * r, zn))
-      if (prev) push(prev, p)
-      prev = p
-    }
-  }
-  const coneBands = (count: number, z0: number, z1: number) => {
-    for (let i = 1; i < count; i++) {
-      const xn = -1 + (2 * i) / count
-      for (const sign of [1, -1]) {
-        let prev: THREE.Vector3 | null = null
-        for (let k = 0; k <= 32; k++) {
-          const z = z0 + ((z1 - z0) * k) / 32
-          const zn = z / Z
-          const yy = 1 - xn * xn - zn * zn
-          if (yy < 0) {
-            prev = null
-            continue
-          }
-          const p = toSurface(new THREE.Vector3(xn, sign * Math.sqrt(yy), zn)).multiplyScalar(1.006)
-          if (prev) push(prev, p)
-          prev = p
-        }
-      }
-    }
-  }
-  if (grid.apexCassettes > 1) coneBands(grid.apexCassettes, -Z, zA)
-  if (grid.baseCassettes > 1) coneBands(grid.baseCassettes, zB, Z)
   const lines = new THREE.BufferGeometry()
   lines.setAttribute('position', new THREE.Float32BufferAttribute(seg, 3))
 
@@ -181,33 +193,55 @@ function textSprite(text: string, color: string): THREE.Sprite {
   return sprite
 }
 
+/** Anexos posteriores à base: vesículas seminais e ductos deferentes, por lado. */
+function attachmentMesh(tissue: 'seminalVesicle' | 'vasDeferens', side: 'D' | 'E'): THREE.Mesh {
+  const sx = side === 'D' ? -1 : 1
+  const isSv = tissue === 'seminalVesicle'
+  const geometry = isSv ? new THREE.CapsuleGeometry(0.3, 1.3, 6, 16) : new THREE.CylinderGeometry(0.08, 0.08, 1.7, 12)
+  const mesh = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ roughness: 0.7, metalness: 0 }))
+  const dir = isSv ? new THREE.Vector3(sx * 0.5, -0.35, 1) : new THREE.Vector3(sx * 0.12, -0.25, 1)
+  dir.normalize()
+  const origin = isSv ? new THREE.Vector3(sx * 0.6, -0.75, Z - 0.35) : new THREE.Vector3(sx * 0.28, -0.6, Z - 0.2)
+  mesh.position.copy(origin).addScaledVector(dir, isSv ? 0.85 : 0.9)
+  mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir)
+  return mesh
+}
+
+/** Cor de um grupo não prostático: célula com mais tumor dita o padrão. */
+function groupHeat(cells: CellResult[]): { dominant: CellResult['dominant']; tumor: number } {
+  if (!cells.length) return { dominant: null, tumor: 0 }
+  const top = cells.reduce((m, c) => (c.tumor > m.tumor ? c : m), cells[0])
+  return { dominant: top.dominant, tumor: cells.reduce((s, c) => s + c.tumor, 0) / cells.length }
+}
+
 interface ProstateModelProps {
-  grid: GridConfig
+  mapping: MappingConfig
   analysis: Analysis
   theme: Theme
   selected: string | null
   onSelect: (id: string | null) => void
 }
 
-export default function ProstateModel({ grid, analysis, theme, selected, onSelect }: ProstateModelProps) {
+interface SceneRefs {
+  materials: Map<string, THREE.MeshStandardMaterial>
+  centroids: Map<string, THREE.Vector3>
+  markers: THREE.Group
+  controls: OrbitControls
+  attachments: { mesh: THREE.Mesh; groupId: string; side: Side }[]
+}
+
+export default function ProstateModel({ mapping, analysis, theme, selected, onSelect }: ProstateModelProps) {
   const { t, i18n } = useTranslation()
   const containerRef = useRef<HTMLDivElement>(null)
-  const sceneRef = useRef<{
-    materials: Map<string, THREE.MeshStandardMaterial>
-    centroids: Map<string, THREE.Vector3>
-    markers: THREE.Group
-    controls: OrbitControls
-    mesh: THREE.Mesh
-    cellIds: string[]
-  } | null>(null)
+  const sceneRef = useRef<SceneRefs | null>(null)
   const [failed, setFailed] = useState(false)
   const [hover, setHover] = useState<string | null>(null)
   const onSelectRef = useRef(onSelect)
   onSelectRef.current = onSelect
 
-  const gridKey = `${grid.slices}|${grid.sectors}|${grid.apexCassettes}|${grid.baseCassettes}`
+  // A cena depende só do mapeamento (não dos achados).
+  const mappingKey = JSON.stringify(mapping)
 
-  // Cena: reconstruída quando a grade, o tema ou o idioma mudam.
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
@@ -226,45 +260,60 @@ export default function ProstateModel({ grid, analysis, theme, selected, onSelec
 
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100)
-    // Vista inicial: face posterior (zona periférica, onde o tumor costuma estar),
-    // lado direito do paciente e base mais próximos do observador.
-    camera.position.set(-4.4, -3.2, 5.6)
+    // Vista inicial: face posterior (zona periférica), lado direito e base à frente.
+    camera.position.set(-4.6, -3.4, 6.2)
     const controls = new OrbitControls(camera, renderer.domElement)
     controls.enableDamping = true
     controls.enablePan = false
     controls.minDistance = 4
-    controls.maxDistance = 16
+    controls.maxDistance = 18
+    controls.target.set(0, -0.2, 0.6)
     controls.saveState()
 
     scene.add(new THREE.HemisphereLight(0xffffff, theme === 'dark' ? 0x2a3444 : 0x8a94a6, 1.1))
-    const key = new THREE.DirectionalLight(0xffffff, 1.4)
-    key.position.set(3, 5, 4)
-    scene.add(key)
-    const fill = new THREE.DirectionalLight(0xffffff, 0.5)
-    fill.position.set(-4, -2, -3)
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.4)
+    keyLight.position.set(3, 5, 4)
+    scene.add(keyLight)
+    const fill = new THREE.DirectionalLight(0xffffff, 0.6)
+    fill.position.set(-4, -3, -3)
     scene.add(fill)
 
-    const build = buildModel(grid)
+    const build = buildGland(mapping)
     const materials = new Map<string, THREE.MeshStandardMaterial>()
     const matList = build.cellIds.map((id) => {
       const m = new THREE.MeshStandardMaterial({ color: cellColor(null, 0, theme), roughness: 0.7, metalness: 0 })
       materials.set(id, m)
       return m
     })
-    const mesh = new THREE.Mesh(build.geometry, matList)
-    scene.add(mesh)
+    const gland = new THREE.Mesh(build.geometry, matList)
+    scene.add(gland)
     const lineMat = new THREE.LineBasicMaterial({ color: strokeColor(theme), transparent: true, opacity: 0.9 })
     scene.add(new THREE.LineSegments(build.lines, lineMat))
     const markers = new THREE.Group()
     scene.add(markers)
+
+    // Anexos: um por (tecido, lado) presente no mapeamento; lado B cria os dois.
+    const attachments: SceneRefs['attachments'] = []
+    const pickables: THREE.Object3D[] = [gland]
+    for (const g of mapping.groups) {
+      if (g.tissue !== 'seminalVesicle' && g.tissue !== 'vasDeferens') continue
+      const sides: ('D' | 'E')[] = g.side === 'B' ? ['D', 'E'] : [g.side]
+      for (const side of sides) {
+        const mesh = attachmentMesh(g.tissue, side)
+        mesh.userData = { groupId: g.id }
+        scene.add(mesh)
+        pickables.push(mesh)
+        attachments.push({ mesh, groupId: g.id, side })
+      }
+    }
 
     const ink = theme === 'dark' ? '#e6eaf0' : '#151a22'
     const labels: [string, THREE.Vector3][] = [
       [t('prostate.map.anterior'), new THREE.Vector3(0, Y + 0.55, 0)],
       [t('prostate.side.D'), new THREE.Vector3(-(X + 0.7), 0, 0)],
       [t('prostate.side.E'), new THREE.Vector3(X + 0.7, 0, 0)],
-      [t('prostate.region.apex'), new THREE.Vector3(0, 0, -Z - 0.6)],
-      [t('prostate.region.base'), new THREE.Vector3(0, 0, Z + 0.6)],
+      [t('prostate.level.apex'), new THREE.Vector3(0, 0, -Z - 0.6)],
+      [t('prostate.level.base'), new THREE.Vector3(0, 0.3, Z + 0.6)],
     ]
     for (const [text, p] of labels) {
       const s = textSprite(text, ink)
@@ -272,15 +321,12 @@ export default function ProstateModel({ grid, analysis, theme, selected, onSelec
       scene.add(s)
     }
 
-    sceneRef.current = { materials, centroids: build.centroids, markers, controls, mesh, cellIds: build.cellIds }
+    sceneRef.current = { materials, centroids: build.centroids, markers, controls, attachments }
 
     const resize = () => {
       const w = container.clientWidth
       const h = container.clientHeight
       if (!w || !h) return
-      // updateStyle=true: o canvas precisa ficar em `w`×`h` px de CSS; sem isso,
-      // em telas com escala (devicePixelRatio > 1) ele estoura o contêiner e a
-      // peça aparece deslocada, mostrando só um canto.
       renderer.setSize(w, h)
       camera.aspect = w / h
       camera.updateProjectionMatrix()
@@ -289,18 +335,24 @@ export default function ProstateModel({ grid, analysis, theme, selected, onSelec
     const ro = new ResizeObserver(resize)
     ro.observe(container)
 
-    // Clique (sem arrasto) seleciona a célula sob o cursor; hover mostra o nome.
     const ray = new THREE.Raycaster()
     const ndc = new THREE.Vector2()
     const pick = (ev: PointerEvent): string | null => {
       const rect = renderer.domElement.getBoundingClientRect()
       ndc.set(((ev.clientX - rect.left) / rect.width) * 2 - 1, -((ev.clientY - rect.top) / rect.height) * 2 + 1)
       ray.setFromCamera(ndc, camera)
-      const hit = ray.intersectObject(mesh, false)[0]
-      if (!hit || hit.faceIndex === undefined || hit.faceIndex === null) return null
+      const hit = ray.intersectObjects(pickables, false)[0]
+      if (!hit) return null
+      if (hit.object !== gland) {
+        const groupId = (hit.object.userData as { groupId?: string }).groupId
+        const first = groupId ? buildCells(mapping).cells.find((c) => c.group?.id === groupId) : undefined
+        return first?.id ?? null
+      }
+      if (hit.faceIndex === undefined || hit.faceIndex === null) return null
       const vertex = hit.faceIndex * 3
-      const group = build.geometry.groups.find((g) => vertex >= g.start && vertex < g.start + g.count)
-      return group ? build.cellIds[group.materialIndex ?? 0] : null
+      const group = build.geometry.groups.find((gr) => vertex >= gr.start && vertex < gr.start + gr.count)
+      const id = group ? build.cellIds[group.materialIndex ?? 0] : null
+      return id === UNMAPPED ? null : id
     }
     let down: [number, number] | null = null
     const onDown = (ev: PointerEvent) => {
@@ -311,12 +363,9 @@ export default function ProstateModel({ grid, analysis, theme, selected, onSelec
       const moved = Math.hypot(ev.clientX - down[0], ev.clientY - down[1])
       down = null
       if (moved > 5) return
-      const id = pick(ev)
-      onSelectRef.current(id)
+      onSelectRef.current(pick(ev))
     }
-    const onMove = (ev: PointerEvent) => {
-      setHover(pick(ev))
-    }
+    const onMove = (ev: PointerEvent) => setHover(pick(ev))
     const onLeave = () => setHover(null)
     renderer.domElement.addEventListener('pointerdown', onDown)
     renderer.domElement.addEventListener('pointerup', onUp)
@@ -343,6 +392,10 @@ export default function ProstateModel({ grid, analysis, theme, selected, onSelec
       build.lines.dispose()
       lineMat.dispose()
       matList.forEach((m) => m.dispose())
+      attachments.forEach(({ mesh }) => {
+        mesh.geometry.dispose()
+        ;(mesh.material as THREE.Material).dispose()
+      })
       scene.traverse((o) => {
         if (o instanceof THREE.Sprite) {
           o.material.map?.dispose()
@@ -354,9 +407,9 @@ export default function ProstateModel({ grid, analysis, theme, selected, onSelec
       sceneRef.current = null
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gridKey, theme, i18n.language])
+  }, [mappingKey, theme, i18n.language])
 
-  // Cores, seleção e marcadores: atualizados a cada mudança nos dados.
+  // Cores, seleção e marcadores: a cada mudança nos achados.
   useEffect(() => {
     const s = sceneRef.current
     if (!s) return
@@ -365,6 +418,15 @@ export default function ProstateModel({ grid, analysis, theme, selected, onSelec
       const r = byId.get(id)
       mat.color.set(r ? cellColor(r.dominant, r.tumor, theme) : cellColor(null, 0, theme))
       const isSel = id === selected
+      mat.emissive.set(isSel ? '#7c5cff' : '#000000')
+      mat.emissiveIntensity = isSel ? 0.45 : 0
+    }
+    for (const att of s.attachments) {
+      const cells = analysis.cells.filter((c) => c.cell.group?.id === att.groupId)
+      const heat = groupHeat(cells)
+      const mat = att.mesh.material as THREE.MeshStandardMaterial
+      mat.color.set(cellColor(heat.dominant, heat.tumor, theme))
+      const isSel = cells.some((c) => c.cell.id === selected)
       mat.emissive.set(isSel ? '#7c5cff' : '#000000')
       mat.emissiveIntensity = isSel ? 0.45 : 0
     }
@@ -378,22 +440,19 @@ export default function ProstateModel({ grid, analysis, theme, selected, onSelec
         s.markers.add(m)
       }
       if (r.data.epe !== 'none') {
-        const m = new THREE.Mesh(
-          new THREE.TorusGeometry(0.17, 0.03, 8, 24),
-          new THREE.MeshBasicMaterial({ color: EPE_HEX }),
-        )
+        const m = new THREE.Mesh(new THREE.TorusGeometry(0.17, 0.03, 8, 24), new THREE.MeshBasicMaterial({ color: EPE_HEX }))
         m.position.copy(p)
         m.lookAt(p.clone().multiplyScalar(2))
         s.markers.add(m)
       }
     }
-  }, [analysis, selected, theme, gridKey])
+  }, [analysis, selected, theme, mappingKey])
 
   const hovered = hover ? analysis.cells.find((c) => c.cell.id === hover) : null
 
   return (
     <div className="relative">
-      <div ref={containerRef} className="h-[380px] w-full overflow-hidden rounded-md border border-line bg-surface" />
+      <div ref={containerRef} className="h-[420px] w-full overflow-hidden rounded-md border border-line bg-surface" />
       {failed && (
         <p className="absolute inset-0 flex items-center justify-center p-6 text-center text-sm text-ink-muted">
           {t('prostate.map.webgl')}
@@ -402,7 +461,7 @@ export default function ProstateModel({ grid, analysis, theme, selected, onSelec
       <div className="pointer-events-none absolute top-2 left-2 rounded-md border border-line bg-elevated/90 px-2.5 py-1.5 text-xs text-ink shadow-subtle backdrop-blur-sm">
         {hovered ? (
           <>
-            <span className="font-medium">#{hovered.cell.label}</span> · {cellName(hovered.cell, t)}
+            <span className="font-medium">{cellName(hovered.cell, t)}</span>
             <span className="tabular ml-2 text-ink-muted">
               {fmtN(hovered.tumor, 0, i18n.language)}%{hovered.gleason ? ` · ${gleasonText(hovered.gleason)}` : ''}
             </span>
@@ -411,13 +470,7 @@ export default function ProstateModel({ grid, analysis, theme, selected, onSelec
           <span className="text-ink-faint">{t('prostate.map.hint3d')}</span>
         )}
       </div>
-      <Button
-        type="button"
-        size="sm"
-        variant="ghost"
-        className="absolute top-2 right-2"
-        onClick={() => sceneRef.current?.controls.reset()}
-      >
+      <Button type="button" size="sm" variant="ghost" className="absolute top-2 right-2" onClick={() => sceneRef.current?.controls.reset()}>
         <RotateCcw className="size-4" aria-hidden />
         {t('prostate.map.resetView')}
       </Button>

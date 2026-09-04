@@ -14,7 +14,7 @@ import {
   isConfigValid,
   type MicroscopeConfig,
 } from '../optics'
-import { MoreSection, ResultBox } from './didactic'
+import { MoreSection, ResultBox } from '@/components/ui/didactic'
 
 interface ConverterCardProps {
   config: MicroscopeConfig

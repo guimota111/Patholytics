@@ -1,53 +1,54 @@
 /* ==========================================================================
    types.ts — modelo de dados do mapeador de prostatectomia radical.
 
-   A peça é descrita como uma grade: N fatias transversais (do ápice para a
-   base), cada uma dividida em setores angulares, mais cones de ápice e de
-   base cortados parassagitalmente (direita → esquerda). Cada célula dessa
-   grade corresponde a um cassete e recebe os achados microscópicos.
+   A peça é descrita como o patologista clivou: N cassetes numerados,
+   agrupados em "grupos" definidos pelo usuário (ex.: "Lobo direito
+   anterior, cassetes 1-8"). Cada grupo diz de que lado, região e nível da
+   glândula ele vem e que tecido contém; os cassetes prostáticos de um
+   grupo são fatias consecutivas do ápice para a base. É essa descrição que
+   alimenta a análise, o mapa 2D e o modelo 3D.
    ========================================================================== */
 
 export type Side = 'D' | 'E' | 'B'
-export type SectorCount = 2 | 4 | 6 | 8
-export type SectorRegion = 'anterior' | 'anterolateral' | 'lateral' | 'posterolateral' | 'posterior' | 'hemi'
+export type Region = 'anterior' | 'posterior' | 'whole'
+export type Level = 'apex' | 'mid' | 'base' | 'whole'
+export type Tissue = 'prostate' | 'seminalVesicle' | 'vasDeferens' | 'lymphNode' | 'other'
 
-export interface SectorDef {
+export const SIDES: Side[] = ['D', 'E', 'B']
+export const REGIONS: Region[] = ['anterior', 'posterior', 'whole']
+export const LEVELS: Level[] = ['apex', 'mid', 'base', 'whole']
+export const TISSUES: Tissue[] = ['prostate', 'seminalVesicle', 'vasDeferens', 'lymphNode', 'other']
+
+export interface CassetteGroup {
   id: string
+  name: string
+  /** Faixa de cassetes: "1-8", "9, 11", "1-4, 7". */
+  range: string
   side: Side
-  region: SectorRegion
-  /** Ângulos em graus no plano transversal: 0° = linha média anterior,
-      positivo para o lado direito do paciente, 180° = linha média posterior. */
-  start: number
-  end: number
+  region: Region
+  level: Level
+  tissue: Tissue
 }
 
-export type CellKind = 'slice' | 'apex' | 'base'
+export interface MappingConfig {
+  /** Total de cassetes da peça (numerados 1..total). */
+  total: number
+  groups: CassetteGroup[]
+}
 
 export interface Cell {
+  /** `c<n>` */
   id: string
-  kind: CellKind
-  /** Fatia 1 = adjacente ao ápice (apenas kind === 'slice'). */
-  slice?: number
-  sector?: SectorDef
-  /** Índice do cassete dentro do cone, da direita para a esquerda (apex/base). */
-  index?: number
-  side: Side
-  /** Rótulo impresso no cassete (número ou texto). */
+  number: number
   label: string
-}
-
-export type Numbering = 'bySlice' | 'bySector'
-export type SliceOrder = 'apexToBase' | 'baseToApex'
-
-export interface GridConfig {
-  slices: number
-  sectors: SectorCount
-  apexCassettes: number
-  baseCassettes: number
-  numbering: Numbering
-  sliceOrder: SliceOrder
-  /** Rótulos personalizados, por id de célula. Vazio = numeração automática. */
-  labels: Record<string, string>
+  group: CassetteGroup | null
+  /** Posição dentro do grupo (0 = mais apical) e tamanho do grupo. */
+  indexInGroup: number
+  groupSize: number
+  side: Side
+  region: Region
+  level: Level
+  tissue: Tissue
 }
 
 export type EpeStatus = 'none' | 'focal' | 'established'
@@ -105,18 +106,19 @@ export interface CaseGlobals {
 }
 
 export interface CaseState {
-  grid: GridConfig
+  mapping: MappingConfig
   cells: Record<string, CellData>
   globals: CaseGlobals
 }
 
-export interface GridTemplate {
+export interface MappingTemplate {
   name: string
-  grid: GridConfig
+  mapping: MappingConfig
 }
 
-export const MAX_SLICES = 20
-export const MAX_CONE_CASSETTES = 8
+export const MAX_CASSETTES = 200
 
 /** Limiar ISUP para "padrão menor/terciário" e para ignorar padrão de menor grau. */
 export const MINOR_PATTERN_THRESHOLD = 5
+
+export const cellIdOf = (n: number) => `c${n}`

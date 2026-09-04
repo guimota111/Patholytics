@@ -1,17 +1,21 @@
-import { clampCone, clampSlices, DEFAULT_GRID } from './grid'
+import { clampTotal, DEFAULT_MAPPING, makeGroup } from './mapping'
 import {
   EMPTY_CELL,
+  LEVELS,
+  REGIONS,
+  SIDES,
+  TISSUES,
   type CaseGlobals,
   type CaseState,
+  type CassetteGroup,
   type CellData,
-  type GridConfig,
-  type GridTemplate,
-  type SectorCount,
+  type MappingConfig,
+  type MappingTemplate,
 } from './types'
 
-/** Caso em andamento e modelos de grade ficam no navegador, por usuário. */
-const CASE_PREFIX = 'patholytics.prostate.case.v1'
-const TEMPLATE_PREFIX = 'patholytics.prostate.templates.v1'
+/** Caso em andamento e modelos de mapeamento ficam no navegador, por usuário. */
+const CASE_PREFIX = 'patholytics.prostate.case.v2'
+const TEMPLATE_PREFIX = 'patholytics.prostate.templates.v2'
 
 const caseKey = (uid: string | null | undefined) => `${CASE_PREFIX}:${uid ?? 'anon'}`
 const templateKey = (uid: string | null | undefined) => `${TEMPLATE_PREFIX}:${uid ?? 'anon'}`
@@ -32,28 +36,34 @@ export const DEFAULT_GLOBALS: CaseGlobals = {
   lymphovascular: 'notAssessed',
 }
 
-export const DEFAULT_CASE: CaseState = { grid: DEFAULT_GRID, cells: {}, globals: DEFAULT_GLOBALS }
+export const DEFAULT_CASE: CaseState = { mapping: DEFAULT_MAPPING, cells: {}, globals: DEFAULT_GLOBALS }
 
 const num = (v: unknown): number | null => (typeof v === 'number' && Number.isFinite(v) ? v : null)
 const oneOf = <T extends string>(v: unknown, options: readonly T[], fallback: T): T =>
   options.includes(v as T) ? (v as T) : fallback
 
-export function sanitizeGrid(raw: unknown): GridConfig {
-  const p = (raw ?? {}) as Partial<GridConfig>
-  const labels: Record<string, string> = {}
-  if (p.labels && typeof p.labels === 'object') {
-    for (const [k, v] of Object.entries(p.labels)) if (typeof v === 'string') labels[k] = v
-  }
+function sanitizeGroup(raw: unknown): CassetteGroup | null {
+  const p = (raw ?? {}) as Partial<CassetteGroup>
+  if (typeof p.name !== 'string' && typeof p.range !== 'string') return null
+  return makeGroup({
+    id: typeof p.id === 'string' && p.id ? p.id : undefined,
+    name: typeof p.name === 'string' ? p.name : '',
+    range: typeof p.range === 'string' ? p.range : '',
+    side: oneOf(p.side, SIDES, 'B'),
+    region: oneOf(p.region, REGIONS, 'whole'),
+    level: oneOf(p.level, LEVELS, 'whole'),
+    tissue: oneOf(p.tissue, TISSUES, 'prostate'),
+  })
+}
+
+export function sanitizeMapping(raw: unknown): MappingConfig {
+  const p = (raw ?? {}) as Partial<MappingConfig>
+  const groups = Array.isArray(p.groups)
+    ? p.groups.map(sanitizeGroup).filter((g): g is CassetteGroup => g !== null)
+    : []
   return {
-    slices: clampSlices(num(p.slices) ?? DEFAULT_GRID.slices),
-    sectors: ([2, 4, 6, 8] as SectorCount[]).includes(p.sectors as SectorCount)
-      ? (p.sectors as SectorCount)
-      : DEFAULT_GRID.sectors,
-    apexCassettes: clampCone(num(p.apexCassettes) ?? DEFAULT_GRID.apexCassettes),
-    baseCassettes: clampCone(num(p.baseCassettes) ?? DEFAULT_GRID.baseCassettes),
-    numbering: oneOf(p.numbering, ['bySlice', 'bySector'] as const, 'bySlice'),
-    sliceOrder: oneOf(p.sliceOrder, ['apexToBase', 'baseToApex'] as const, 'apexToBase'),
-    labels,
+    total: clampTotal(num(p.total) ?? DEFAULT_MAPPING.total),
+    groups: groups.length || Array.isArray(p.groups) ? groups : DEFAULT_MAPPING.groups,
   }
 }
 
@@ -100,9 +110,11 @@ export function sanitizeCase(raw: unknown): CaseState {
   const p = (raw ?? {}) as Partial<CaseState>
   const cells: Record<string, CellData> = {}
   if (p.cells && typeof p.cells === 'object') {
-    for (const [id, data] of Object.entries(p.cells)) cells[id] = { ...EMPTY_CELL, ...sanitizeCell(data) }
+    for (const [id, data] of Object.entries(p.cells)) {
+      if (/^c\d+$/.test(id)) cells[id] = { ...EMPTY_CELL, ...sanitizeCell(data) }
+    }
   }
-  return { grid: sanitizeGrid(p.grid), cells, globals: sanitizeGlobals(p.globals) }
+  return { mapping: sanitizeMapping(p.mapping), cells, globals: sanitizeGlobals(p.globals) }
 }
 
 export function loadCase(uid: string | null | undefined): CaseState {
@@ -122,21 +134,21 @@ export function saveCase(uid: string | null | undefined, state: CaseState): void
   }
 }
 
-export function loadTemplates(uid: string | null | undefined): GridTemplate[] {
+export function loadTemplates(uid: string | null | undefined): MappingTemplate[] {
   try {
     const raw = localStorage.getItem(templateKey(uid))
     if (!raw) return []
     const list = JSON.parse(raw) as unknown
     if (!Array.isArray(list)) return []
     return list
-      .filter((t): t is GridTemplate => typeof t === 'object' && t !== null && typeof (t as GridTemplate).name === 'string')
-      .map((t) => ({ name: t.name, grid: sanitizeGrid(t.grid) }))
+      .filter((t): t is MappingTemplate => typeof t === 'object' && t !== null && typeof (t as MappingTemplate).name === 'string')
+      .map((t) => ({ name: t.name, mapping: sanitizeMapping(t.mapping) }))
   } catch {
     return []
   }
 }
 
-export function saveTemplates(uid: string | null | undefined, templates: GridTemplate[]): void {
+export function saveTemplates(uid: string | null | undefined, templates: MappingTemplate[]): void {
   try {
     localStorage.setItem(templateKey(uid), JSON.stringify(templates))
   } catch {

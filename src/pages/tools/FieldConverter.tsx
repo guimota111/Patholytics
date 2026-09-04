@@ -3,7 +3,7 @@ import { Info } from 'lucide-react'
 import { ConverterCard } from '@/tools/fov/components/ConverterCard'
 import { MicroscopeCard } from '@/tools/fov/components/MicroscopeCard'
 import { RequirementsCard } from '@/tools/fov/components/RequirementsCard'
-import { StepCard } from '@/tools/fov/components/didactic'
+import { StepCard } from '@/components/ui/didactic'
 import { useMicroscope } from '@/tools/fov/useMicroscope'
 
 export default function FieldConverterPage() {

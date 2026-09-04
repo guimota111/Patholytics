@@ -5,7 +5,7 @@
 
 import type { TFunction } from 'i18next'
 import type { Analysis, RegionResult, SiteRef } from './analysis'
-import { cellName, compactLabels, fmtN, gleasonText, joinList } from './format'
+import { compactLabels, fmtN, gleasonText, joinList } from './format'
 import type { CaseState } from './types'
 
 export function buildSummary(state: CaseState, a: Analysis, t: TFunction, locale: string): string {
@@ -13,26 +13,20 @@ export function buildSummary(state: CaseState, a: Analysis, t: TFunction, locale
   const L: string[] = []
   const k = (key: string, params?: Record<string, unknown>) => t(`prostate.summary.${key}`, params ?? {})
   const and = t('prostate.summary.and')
-  const site = (s: SiteRef) =>
-    s.side === 'B' ? t(`prostate.site.${s.site}`) : `${t(`prostate.site.${s.site}`)} ${t(`prostate.side.${s.side}`)}`
+  const site = (s: SiteRef) => {
+    const name = s.site === 'other' && s.groupName ? s.groupName : t(`prostate.site.${s.site}`)
+    return s.side === 'B' ? name : `${name} ${t(`prostate.side.${s.side}`)}`
+  }
 
-  if (!a.involvedCells && !a.margins.foci.length && !a.epe.cells.length) return ''
+  if (!a.involvedCells && !a.margins.foci.length && !a.epe.cells.length && !a.svCells.length) return ''
 
-  const { grid, globals } = state
+  const { mapping, globals } = state
   L.push(k('header'))
-  L.push(
-    k('grid', {
-      cells: a.totalCells,
-      slices: grid.slices,
-      sectors: grid.sectors,
-      apex: grid.apexCassettes,
-      base: grid.baseCassettes,
-    }),
-  )
+  L.push(k('grid', { cells: mapping.total, groups: mapping.groups.length, prostate: a.prostateCells }))
   L.push(k(globals.g45Mode === 'ofTumor' ? 'modeOfTumor' : 'modeOfCassette'))
 
   L.push('', k('volumeTitle'))
-  L.push(k('involved', { n: a.involvedCells, total: a.totalCells }))
+  L.push(k('involved', { n: a.involvedCells, total: a.prostateCells }))
   L.push(k('volume', { pct: n(a.volumePct) }))
   if (a.tumorGrams !== null) L.push(k('grams', { g: n(a.tumorGrams, 2), weight: n(globals.weightGrams, 1) }))
 
@@ -69,25 +63,10 @@ export function buildSummary(state: CaseState, a: Analysis, t: TFunction, locale
       gleason: gleasonText(r.gleason),
       gg: r.gleason?.gradeGroup ?? '—',
     })
-  const regionName = (key: string) => {
-    if (key === 'apex') return t('prostate.region.apex')
-    if (key === 'base') return t('prostate.region.base')
-    if (key.startsWith('slice:')) return t('prostate.region.slice', { n: key.slice(6) })
-    if (key.startsWith('sector:')) return t('prostate.sector.label', { id: key.slice(7) })
-    return key
-  }
-  const involvedSlices = a.bySlice.filter((r) => r.cellsInvolved)
-  const involvedSectors = a.bySector.filter((r) => r.cellsInvolved)
-  if (involvedSlices.length) {
-    L.push(k('bySlice'))
-    involvedSlices.forEach((r) => L.push(regionLine(r, regionName(r.key))))
-  }
-  if (involvedSectors.length) {
-    L.push(k('bySector'))
-    involvedSectors.forEach((r) => L.push(regionLine(r, regionName(r.key))))
-  }
+  const involvedGroups = a.byGroup.filter((r) => r.cellsInvolved)
+  involvedGroups.forEach((r) => L.push(regionLine(r, r.name || t('prostate.unmappedGroup'))))
   if (a.laterality) L.push(k('laterality', { value: t(`prostate.laterality.${a.laterality}`) }))
-  const involvedCells = a.cells.filter((c) => c.tumor > 0)
+  const involvedCells = a.cells.filter((c) => c.tumor > 0 && c.cell.tissue === 'prostate')
   if (involvedCells.length) L.push(k('cellsList', { cells: compactLabels(involvedCells.map((c) => c.cell.label)) }))
 
   L.push('', k('marginsTitle'))
@@ -97,7 +76,6 @@ export function buildSummary(state: CaseState, a: Analysis, t: TFunction, locale
       L.push(
         k('marginFocus', {
           site: site(f),
-          cell: cellName(f.cell, t),
           label: f.cell.label,
           mm: f.mm !== null ? `${n(f.mm)} mm` : '—',
           pattern: f.pattern ?? '—',
@@ -133,23 +111,22 @@ export function buildSummary(state: CaseState, a: Analysis, t: TFunction, locale
   }
 
   L.push('', k('otherTitle'))
-  L.push(k('seminalVesicles', { value: t(`prostate.sv.${globals.seminalVesicles}`) }))
+  if (a.svCells.length) {
+    L.push(k('seminalVesiclesCells', { cells: compactLabels(a.svCells.map((c) => c.label)) }))
+  } else {
+    L.push(k('seminalVesicles', { value: t(`prostate.sv.${globals.seminalVesicles}`) }))
+  }
   L.push(k('bladderNeck', { value: t(`prostate.bn.${globals.bladderNeck}`) }))
   L.push(k('perineural', { value: t(`prostate.presence.${globals.perineural}`) }))
   L.push(k('lymphovascular', { value: t(`prostate.presence.${globals.lymphovascular}`) }))
   if (globals.adjacentInvasion) L.push(k('adjacentInvasion'))
+  if (a.lnCells.length) L.push(k('lymphNodeCells', { cells: compactLabels(a.lnCells.map((c) => c.label)) }))
   if ((globals.lnTotal ?? 0) > 0 || (globals.lnPositive ?? 0) > 0) {
     L.push(k('lymphNodes', { positive: globals.lnPositive ?? 0, total: globals.lnTotal ?? 0 }))
   }
 
   L.push('', k('stagingTitle'))
-  L.push(
-    k('staging', {
-      pT: a.staging.pT ?? '—',
-      pN: a.staging.pN,
-      r: a.staging.r ?? '—',
-    }),
-  )
+  L.push(k('staging', { pT: a.staging.pT ?? '—', pN: a.staging.pN, r: a.staging.r ?? '—' }))
 
   return L.join('\n')
 }

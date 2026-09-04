@@ -14,7 +14,7 @@ import {
   type MicroscopeConfig,
 } from '../optics'
 import { REQUIREMENTS, type Requirement } from '../requirements'
-import { ResultBox } from './didactic'
+import { ResultBox } from '@/components/ui/didactic'
 
 interface RequirementsCardProps {
   config: MicroscopeConfig

@@ -1,15 +1,22 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { DEFAULT_CASE, loadCase, loadTemplates, saveCase, saveTemplates } from './storage'
-import { EMPTY_CELL, type CaseGlobals, type CaseState, type CellData, type GridConfig, type GridTemplate } from './types'
+import {
+  EMPTY_CELL,
+  type CaseGlobals,
+  type CaseState,
+  type CellData,
+  type MappingConfig,
+  type MappingTemplate,
+} from './types'
 
-/** Caso de prostatectomia em andamento + modelos de grade, no navegador, por usuário. */
+/** Caso de prostatectomia em andamento + modelos de mapeamento, no navegador, por usuário. */
 export function useProstateCase() {
   const { user } = useAuth()
   const uid = user?.uid ?? null
 
   const [state, setState] = useState<CaseState>(DEFAULT_CASE)
-  const [templates, setTemplates] = useState<GridTemplate[]>([])
+  const [templates, setTemplates] = useState<MappingTemplate[]>([])
   const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
@@ -26,9 +33,15 @@ export function useProstateCase() {
     if (hydrated) saveTemplates(uid, templates)
   }, [hydrated, uid, templates])
 
-  const setGrid = useCallback((patch: Partial<GridConfig> | ((grid: GridConfig) => GridConfig)) => {
-    setState((s) => ({ ...s, grid: typeof patch === 'function' ? patch(s.grid) : { ...s.grid, ...patch } }))
-  }, [])
+  const setMapping = useCallback(
+    (patch: Partial<MappingConfig> | ((mapping: MappingConfig) => MappingConfig)) => {
+      setState((s) => ({
+        ...s,
+        mapping: typeof patch === 'function' ? patch(s.mapping) : { ...s.mapping, ...patch },
+      }))
+    },
+    [],
+  )
 
   const setCell = useCallback((id: string, patch: Partial<CellData>) => {
     setState((s) => ({ ...s, cells: { ...s.cells, [id]: { ...EMPTY_CELL, ...s.cells[id], ...patch } } }))
@@ -38,7 +51,7 @@ export function useProstateCase() {
     setState((s) => ({ ...s, globals: { ...s.globals, ...patch } }))
   }, [])
 
-  /** Limpa os achados, mantendo a grade e as opções globais de modo. */
+  /** Limpa os achados, mantendo o mapeamento e as opções de modo. */
   const clearFindings = useCallback(() => {
     setState((s) => ({
       ...s,
@@ -52,13 +65,13 @@ export function useProstateCase() {
     }))
   }, [])
 
-  const saveTemplate = useCallback((name: string, grid: GridConfig) => {
-    setTemplates((list) => [...list.filter((t) => t.name !== name), { name, grid }])
+  const saveTemplate = useCallback((name: string, mapping: MappingConfig) => {
+    setTemplates((list) => [...list.filter((t) => t.name !== name), { name, mapping }])
   }, [])
 
   const deleteTemplate = useCallback((name: string) => {
     setTemplates((list) => list.filter((t) => t.name !== name))
   }, [])
 
-  return { state, hydrated, setGrid, setCell, setGlobals, clearFindings, templates, saveTemplate, deleteTemplate }
+  return { state, hydrated, setMapping, setCell, setGlobals, clearFindings, templates, saveTemplate, deleteTemplate }
 }

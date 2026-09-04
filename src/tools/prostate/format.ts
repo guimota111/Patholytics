@@ -1,5 +1,5 @@
 import type { TFunction } from 'i18next'
-import type { Cell, Side } from './types'
+import type { Cell } from './types'
 import type { GleasonResult } from './gleason'
 
 export function fmtN(n: number | null | undefined, digits = 1, locale = 'pt-BR'): string {
@@ -9,14 +9,11 @@ export function fmtN(n: number | null | undefined, digits = 1, locale = 'pt-BR')
 
 export const gleasonText = (g: GleasonResult | null) => (g ? `${g.primary}+${g.secondary}=${g.score}` : '—')
 
-/** Nome curto de uma célula: "Fatia 3 · AD", "Ápice D 1". */
+/** "Cassete 13 · Lobo direito posterior" */
 export function cellName(cell: Cell, t: TFunction): string {
-  if (cell.kind === 'slice') return `${t('prostate.region.slice', { n: cell.slice })} · ${cell.sector!.id}`
-  const region = t(`prostate.region.${cell.kind}`)
-  return `${region} ${t(`prostate.side.${cell.side}`)} ${cell.index! + 1}`
+  const base = t('prostate.cassetteN', { n: cell.label })
+  return cell.group ? `${base} · ${cell.group.name}` : base
 }
-
-export const sideText = (side: Side, t: TFunction) => t(`prostate.side.${side}`)
 
 /** "1-3, 7, 9-10" a partir de rótulos numéricos; rótulos não numéricos entram literais. */
 export function compactLabels(labels: string[]): string {

@@ -14,7 +14,7 @@ import {
   isConfigValid,
   type MicroscopeConfig,
 } from '../optics'
-import { BigChip, MoreSection, ResultBox } from './didactic'
+import { BigChip, MoreSection, ResultBox } from '@/components/ui/didactic'
 
 interface MicroscopeCardProps {
   config: MicroscopeConfig

@@ -1,10 +1,10 @@
 /* ==========================================================================
    analysis.ts — agrega os achados por cassete em volume, gradação global e
-   regional, margens, extensão extraprostática, lateralidade e sugestão de
+   por grupo, margens, extensão extraprostática, lateralidade e sugestão de
    estadiamento. Função pura: recebe o estado, devolve números.
    ========================================================================== */
 
-import { buildCells } from './grid'
+import { buildCells, type MappingWarnings } from './mapping'
 import { dominantPattern, gradeGleason, type GleasonResult, type PatternShares } from './gleason'
 import {
   EMPTY_CELL,
@@ -32,13 +32,13 @@ export interface CellResult {
 
 export interface RegionResult {
   key: string
+  name: string
   cellsTotal: number
   cellsInvolved: number
-  /** Soma dos % de tumor das células (base das médias). */
   tumorSum: number
   /** Média de % tumor nas células da região. */
   pctOfRegion: number
-  /** Contribuição da região para o volume do órgão. */
+  /** Contribuição da região para o volume do órgão (só próstata). */
   pctOfGland: number
   shares: PatternShares | null
   gleason: GleasonResult | null
@@ -48,14 +48,16 @@ export type MarginSite =
   | 'apical'
   | 'basal'
   | 'anterior'
-  | 'anterolateral'
-  | 'lateral'
   | 'posterolateral'
-  | 'posterior'
+  | 'seminalVesicle'
+  | 'vasDeferens'
+  | 'other'
 
 export interface SiteRef {
   site: MarginSite
   side: Side
+  /** Nome do grupo, para o texto do laudo. */
+  groupName: string
 }
 
 export interface MarginFocus extends SiteRef {
@@ -71,7 +73,8 @@ export interface Warning {
 
 export interface Analysis {
   cells: CellResult[]
-  totalCells: number
+  mappingWarnings: MappingWarnings
+  prostateCells: number
   involvedCells: number
   volumePct: number
   tumorGrams: number | null
@@ -81,8 +84,7 @@ export interface Analysis {
   cribriformOfTumor: number | null
   idc: Presence
   idcCells: Cell[]
-  bySlice: RegionResult[]
-  bySector: RegionResult[]
+  byGroup: RegionResult[]
   bySide: RegionResult[]
   laterality: 'right' | 'left' | 'bilateral' | null
   margins: {
@@ -96,6 +98,10 @@ export interface Analysis {
     status: EpeStatus
     cells: { cell: Cell; status: EpeStatus; site: SiteRef }[]
   }
+  /** Tumor em cassetes de vesícula seminal, por lado. */
+  svCells: Cell[]
+  /** Tumor em cassetes de linfonodo. */
+  lnCells: Cell[]
   staging: {
     pT: 'pT2' | 'pT3a' | 'pT3b' | 'pT4' | null
     pN: 'pN0' | 'pN1' | 'pNX'
@@ -107,11 +113,15 @@ export interface Analysis {
 const clamp = (v: number | null, max = 100) => Math.max(0, Math.min(max, v ?? 0))
 
 export function siteOf(cell: Cell): SiteRef {
-  if (cell.kind === 'apex') return { site: 'apical', side: cell.side }
-  if (cell.kind === 'base') return { site: 'basal', side: cell.side }
-  const region = cell.sector!.region
-  const site: MarginSite = region === 'hemi' ? 'lateral' : region
-  return { site, side: cell.side }
+  const groupName = cell.group?.name ?? ''
+  let site: MarginSite = 'other'
+  if (cell.tissue === 'seminalVesicle') site = 'seminalVesicle'
+  else if (cell.tissue === 'vasDeferens') site = 'vasDeferens'
+  else if (cell.level === 'apex') site = 'apical'
+  else if (cell.level === 'base') site = 'basal'
+  else if (cell.region === 'anterior') site = 'anterior'
+  else if (cell.region === 'posterior') site = 'posterolateral'
+  return { site, side: cell.side, groupName }
 }
 
 function readCell(cell: Cell, data: CellData, g45Mode: CaseState['globals']['g45Mode']): CellResult {
@@ -147,7 +157,7 @@ function readCell(cell: Cell, data: CellData, g45Mode: CaseState['globals']['g45
   }
 }
 
-function aggregate(key: string, cells: CellResult[], glandCells: number): RegionResult {
+function aggregate(key: string, name: string, cells: CellResult[], glandCells: number): RegionResult {
   let tumorSum = 0
   let w4 = 0
   let w5 = 0
@@ -163,6 +173,7 @@ function aggregate(key: string, cells: CellResult[], glandCells: number): Region
     tumorSum > 0 ? { p3: 100 - w4 / tumorSum - w5 / tumorSum, p4: w4 / tumorSum, p5: w5 / tumorSum } : null
   return {
     key,
+    name,
     cellsTotal: cells.length,
     cellsInvolved: involved,
     tumorSum,
@@ -175,9 +186,10 @@ function aggregate(key: string, cells: CellResult[], glandCells: number): Region
 
 export function analyze(state: CaseState): Analysis {
   const { globals } = state
-  const cellDefs = buildCells(state.grid)
+  const { cells: cellDefs, warnings: mappingWarnings } = buildCells(state.mapping)
   const cells = cellDefs.map((cell) => readCell(cell, state.cells[cell.id] ?? EMPTY_CELL, globals.g45Mode))
-  const total = cells.length
+  const prostate = cells.filter((c) => c.cell.tissue === 'prostate')
+  const glandCells = prostate.length
   const warnings: Warning[] = []
 
   for (const c of cells) {
@@ -187,7 +199,7 @@ export function analyze(state: CaseState): Analysis {
     }
   }
 
-  const overall = aggregate('all', cells, total)
+  const overall = aggregate('all', '', prostate, glandCells)
   const volumePct = overall.pctOfGland
   const tumorGrams =
     globals.weightGrams && globals.weightGrams > 0 ? (globals.weightGrams * volumePct) / 100 : null
@@ -199,7 +211,7 @@ export function analyze(state: CaseState): Analysis {
   } else {
     let num = 0
     let den = 0
-    for (const c of cells) {
+    for (const c of prostate) {
       if (!c.shares || c.tumor <= 0 || c.data.crib === null) continue
       const w = c.shares.p4 * c.tumor
       num += clamp(c.data.crib) * w
@@ -221,25 +233,17 @@ export function analyze(state: CaseState): Analysis {
           ? 'absent'
           : 'notAssessed'
 
-  // Regiões.
-  const bySlice: RegionResult[] = []
-  const apex = cells.filter((c) => c.cell.kind === 'apex')
-  if (apex.length) bySlice.push(aggregate('apex', apex, total))
-  for (let s = 1; s <= state.grid.slices; s++) {
-    bySlice.push(aggregate(`slice:${s}`, cells.filter((c) => c.cell.slice === s), total))
-  }
-  const base = cells.filter((c) => c.cell.kind === 'base')
-  if (base.length) bySlice.push(aggregate('base', base, total))
-
-  const sectorIds = [...new Set(cells.filter((c) => c.cell.sector).map((c) => c.cell.sector!.id))]
-  const bySector = sectorIds.map((id) =>
-    aggregate(`sector:${id}`, cells.filter((c) => c.cell.sector?.id === id), total),
+  // Regiões: por grupo (na ordem do mapeamento) e por lado (só próstata).
+  const byGroup: RegionResult[] = state.mapping.groups.map((g) =>
+    aggregate(g.id, g.name, cells.filter((c) => c.cell.group?.id === g.id), glandCells),
   )
+  const unmapped = cells.filter((c) => !c.cell.group)
+  if (unmapped.length) byGroup.push(aggregate('unmapped', '', unmapped, glandCells))
   const bySide = (['D', 'E'] as Side[]).map((side) =>
-    aggregate(`side:${side}`, cells.filter((c) => c.cell.side === side), total),
+    aggregate(`side:${side}`, side, prostate.filter((c) => c.cell.side === side), glandCells),
   )
 
-  const involvedSides = new Set(cells.filter((c) => c.tumor > 0).map((c) => c.cell.side))
+  const involvedSides = new Set(prostate.filter((c) => c.tumor > 0).map((c) => c.cell.side))
   let laterality: Analysis['laterality'] = null
   if (involvedSides.size) {
     if (involvedSides.has('B') || (involvedSides.has('D') && involvedSides.has('E'))) laterality = 'bilateral'
@@ -266,9 +270,9 @@ export function analyze(state: CaseState): Analysis {
     if (cr.tumor <= 0) warnings.push({ key: 'marginWithoutTumor', params: { label: f.cell.label } })
   }
 
-  // Extensão extraprostática.
+  // Extensão extraprostática (só faz sentido em cassetes de próstata).
   const epeCells = cells
-    .filter((c) => c.data.epe !== 'none')
+    .filter((c) => c.data.epe !== 'none' && c.cell.tissue === 'prostate')
     .map((c) => ({ cell: c.cell, status: c.data.epe, site: siteOf(c.cell) }))
   const epeStatus: EpeStatus = epeCells.some((e) => e.status === 'established')
     ? 'established'
@@ -280,8 +284,12 @@ export function analyze(state: CaseState): Analysis {
     if (cr.tumor <= 0) warnings.push({ key: 'epeWithoutTumor', params: { label: e.cell.label } })
   }
 
+  // Vesículas e linfonodos vindos do mapeamento.
+  const svCells = cells.filter((c) => c.cell.tissue === 'seminalVesicle' && c.tumor > 0).map((c) => c.cell)
+  const lnCells = cells.filter((c) => c.cell.tissue === 'lymphNode' && c.tumor > 0).map((c) => c.cell)
+
   // Estadiamento sugerido (AJCC 8ª: pT2 sem subdivisão).
-  const svInvolved = ['right', 'left', 'bilateral'].includes(globals.seminalVesicles)
+  const svInvolved = svCells.length > 0 || ['right', 'left', 'bilateral'].includes(globals.seminalVesicles)
   let pT: Analysis['staging']['pT'] = null
   if (overall.cellsInvolved || svInvolved || globals.adjacentInvasion) {
     if (globals.adjacentInvasion) pT = 'pT4'
@@ -291,13 +299,14 @@ export function analyze(state: CaseState): Analysis {
   }
   const lnPos = globals.lnPositive ?? 0
   const lnTot = globals.lnTotal ?? 0
-  const pN: Analysis['staging']['pN'] = lnPos > 0 ? 'pN1' : lnTot > 0 ? 'pN0' : 'pNX'
+  const pN: Analysis['staging']['pN'] = lnPos > 0 || lnCells.length ? 'pN1' : lnTot > 0 ? 'pN0' : 'pNX'
   if (lnPos > lnTot && lnTot > 0) warnings.push({ key: 'lnCount' })
   const r: Analysis['staging']['r'] = foci.length ? 'R1' : overall.cellsInvolved ? 'R0' : null
 
   return {
     cells,
-    totalCells: total,
+    mappingWarnings,
+    prostateCells: glandCells,
     involvedCells: overall.cellsInvolved,
     volumePct,
     tumorGrams,
@@ -307,12 +316,13 @@ export function analyze(state: CaseState): Analysis {
     cribriformOfTumor,
     idc,
     idcCells,
-    bySlice,
-    bySector,
+    byGroup,
     bySide,
     laterality,
     margins,
     epe: { status: epeStatus, cells: epeCells },
+    svCells,
+    lnCells,
     staging: { pT, pN, r },
     warnings,
   }
