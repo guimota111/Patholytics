@@ -46,10 +46,13 @@ function toSurface(v: THREE.Vector3): THREE.Vector3 {
   return new THREE.Vector3(x, y, z)
 }
 
+/** Os cones de ápice e base são só as pontinhas: ~9 % do comprimento cada. */
+const CONE = 0.18 * Z
+
 /** Faixa de z do grupo e se os cassetes correm do ápice para a base. */
 const spanRange = (span: CassetteGroup['span']): { z0: number; z1: number; reversed: boolean } => {
-  if (span === 'apexOnly') return { z0: -Z, z1: -Z / 3, reversed: false }
-  if (span === 'baseOnly') return { z0: Z / 3, z1: Z, reversed: false }
+  if (span === 'apexOnly') return { z0: -Z, z1: -Z + CONE, reversed: false }
+  if (span === 'baseOnly') return { z0: Z - CONE, z1: Z, reversed: false }
   return { z0: -Z, z1: Z, reversed: span === 'baseToApex' }
 }
 
@@ -99,26 +102,34 @@ function buildGland(mapping: MappingConfig): ModelBuild {
     return best.cellIds[k]
   }
 
-  const sphere = new THREE.SphereGeometry(1, 128, 88).toNonIndexed()
-  const pos = sphere.getAttribute('position') as THREE.BufferAttribute
+  // Malha própria (latitude × longitude) com um anel em cada corte entre
+  // cassetes e meridianos exatos em 0°/90°/180°/270°: nenhuma face cruza uma
+  // divisória, então a cor termina rente à linha, sem escadinha.
+  const latSet = new Set<number>()
+  const LAT_STEPS = 72
+  for (let k = 0; k <= LAT_STEPS; k++) latSet.add(Number((-1 + (2 * k) / LAT_STEPS).toFixed(6)))
+  for (const s of slots) {
+    const n = s.cellIds.length
+    for (let k = 0; k <= n; k++) {
+      const z = s.z0 + ((s.z1 - s.z0) * k) / n
+      latSet.add(Number(Math.max(-1, Math.min(1, z / Z)).toFixed(6)))
+    }
+  }
+  const lats = [...latSet].sort((p, q) => p - q)
+  const LON_STEPS = 128
+  const unit = (sz: number, j: number) => {
+    const r = Math.sqrt(Math.max(0, 1 - sz * sz))
+    const th = (j / LON_STEPS) * Math.PI * 2
+    return new THREE.Vector3(-Math.sin(th) * r, Math.cos(th) * r, sz)
+  }
+
   const buckets = new Map<string, number[]>()
   const sums = new Map<string, { v: THREE.Vector3; n: number }>()
-  const edgeOwners = new Map<string, Set<string>>()
-  const a = new THREE.Vector3()
-  const b = new THREE.Vector3()
-  const c = new THREE.Vector3()
-  const key = (p: THREE.Vector3) => `${p.x.toFixed(4)},${p.y.toFixed(4)},${p.z.toFixed(4)}`
-  const edgeKey = (p: THREE.Vector3, q: THREE.Vector3) => {
-    const kp = key(p)
-    const kq = key(q)
-    return kp < kq ? `${kp}|${kq}` : `${kq}|${kp}`
-  }
-  const edgePoints = new Map<string, [THREE.Vector3, THREE.Vector3]>()
-
-  for (let i = 0; i < pos.count; i += 3) {
-    const pa = toSurface(a.fromBufferAttribute(pos, i))
-    const pb = toSurface(b.fromBufferAttribute(pos, i + 1))
-    const pc = toSurface(c.fromBufferAttribute(pos, i + 2))
+  const addTriangle = (ua: THREE.Vector3, ub: THREE.Vector3, uc: THREE.Vector3) => {
+    const pa = toSurface(ua)
+    const pb = toSurface(ub)
+    const pc = toSurface(uc)
+    if (pa.distanceToSquared(pb) < 1e-10 || pb.distanceToSquared(pc) < 1e-10 || pc.distanceToSquared(pa) < 1e-10) return
     const centroid = new THREE.Vector3().addVectors(pa, pb).add(pc).multiplyScalar(1 / 3)
     const id = classify(centroid)
     let list = buckets.get(id)
@@ -128,21 +139,19 @@ function buildGland(mapping: MappingConfig): ModelBuild {
     s.v.add(centroid)
     s.n++
     sums.set(id, s)
-    for (const [p, q] of [
-      [pa, pb],
-      [pb, pc],
-      [pc, pa],
-    ] as [THREE.Vector3, THREE.Vector3][]) {
-      const ek = edgeKey(p, q)
-      let owners = edgeOwners.get(ek)
-      if (!owners) {
-        edgeOwners.set(ek, (owners = new Set()))
-        edgePoints.set(ek, [p.clone(), q.clone()])
-      }
-      owners.add(id)
+  }
+  for (let i = 0; i < lats.length - 1; i++) {
+    for (let j = 0; j < LON_STEPS; j++) {
+      const p00 = unit(lats[i], j)
+      const p01 = unit(lats[i], j + 1)
+      const p10 = unit(lats[i + 1], j)
+      const p11 = unit(lats[i + 1], j + 1)
+      // Sentido anti-horário visto de fora (normais para fora): longitude
+      // primeiro, depois latitude.
+      addTriangle(p00, p01, p11)
+      addTriangle(p00, p11, p10)
     }
   }
-  sphere.dispose()
 
   // Concatena os grupos num único buffer. Sem spread: uma célula grande tem
   // centenas de milhares de números e `push(...list)` estoura a pilha.
@@ -159,22 +168,104 @@ function buildGland(mapping: MappingConfig): ModelBuild {
     offset += list.length
   }
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-  geometry.computeVertexNormals()
+  // Normais analíticas do elipsoide (gradiente de x²/a² + y²/b² + z²/c²):
+  // sombreamento liso, sem as faixas que as normais por face deixariam.
+  const normals = new Float32Array(total)
+  const nv = new THREE.Vector3()
+  for (let i = 0; i < total; i += 3) {
+    const z = positions[i + 2]
+    const f = taper(z)
+    const ax = X * f
+    const ay = positions[i + 1] < 0 ? Y * 0.78 * f : Y * f
+    nv.set(positions[i] / (ax * ax), positions[i + 1] / (ay * ay), z / (Z * Z)).normalize()
+    normals[i] = nv.x
+    normals[i + 1] = nv.y
+    normals[i + 2] = nv.z
+  }
+  geometry.setAttribute('normal', new THREE.BufferAttribute(normals, 3))
 
   const centroids = new Map<string, THREE.Vector3>()
   for (const [id, s] of sums) centroids.set(id, s.v.multiplyScalar(1 / s.n).multiplyScalar(1.03))
 
-  // Linhas onde dois cassetes diferentes se encontram.
+  return { geometry, cellIds, lines: buildLines(slots), centroids }
+}
+
+/**
+ * Divisórias como curvas calculadas na superfície (e não como arestas dos
+ * triângulos, que ondulam): anéis nos cortes entre cassetes de cada grupo,
+ * limitados ao setor do grupo, mais o meridiano D/E e o equador
+ * anterior/posterior quando algum grupo os usa.
+ */
+function buildLines(slots: GroupSlots[]): THREE.BufferGeometry {
   const seg: number[] = []
-  for (const [ek, owners] of edgeOwners) {
-    if (owners.size < 2) continue
-    const [p, q] = edgePoints.get(ek)!
-    seg.push(p.x * 1.006, p.y * 1.006, p.z * 1.006, q.x * 1.006, q.y * 1.006, q.z * 1.006)
+  const LIFT = 1.006
+  const push = (p: THREE.Vector3, q: THREE.Vector3) =>
+    seg.push(p.x * LIFT, p.y * LIFT, p.z * LIFT, q.x * LIFT, q.y * LIFT, q.z * LIFT)
+  const polyline = (points: (THREE.Vector3 | null)[]) => {
+    for (let i = 1; i < points.length; i++) {
+      const p = points[i - 1]
+      const q = points[i]
+      if (p && q) push(p, q)
+    }
   }
+
+  // Anel em z, restrito ao setor (lado × região) do grupo.
+  const ring = (z: number, g: CassetteGroup) => {
+    const sz = Math.max(-1, Math.min(1, z / Z))
+    const r = Math.sqrt(Math.max(0, 1 - sz * sz))
+    if (r < 1e-3) return
+    const pts: (THREE.Vector3 | null)[] = []
+    const STEPS = 144
+    for (let k = 0; k <= STEPS; k++) {
+      const th = (k / STEPS) * Math.PI * 2
+      const sx = -Math.sin(th) * r
+      const sy = Math.cos(th) * r
+      const inside =
+        (g.side === 'D' ? sx <= 1e-6 : g.side === 'E' ? sx >= -1e-6 : true) &&
+        (g.region === 'anterior' ? sy >= -1e-6 : g.region === 'posterior' ? sy <= 1e-6 : true)
+      pts.push(inside ? toSurface(new THREE.Vector3(sx, sy, sz)) : null)
+    }
+    polyline(pts)
+  }
+
+  const zCuts = new Set<string>()
+  for (const s of slots) {
+    const n = s.cellIds.length
+    for (let k = 1; k < n; k++) ring(s.z0 + ((s.z1 - s.z0) * k) / n, s.group)
+    // Limites de cones (ápice/base) também são cortes visíveis.
+    for (const z of [s.z0, s.z1]) {
+      if (Math.abs(Math.abs(z) - Z) < 1e-6) continue
+      const key = z.toFixed(4)
+      if (zCuts.has(key)) continue
+      zCuts.add(key)
+      ring(z, { ...s.group, side: 'B', region: 'whole' })
+    }
+  }
+
+  const STEPS_Z = 80
+  const alongZ = (fn: (sz: number, r: number) => THREE.Vector3) => {
+    const pts: THREE.Vector3[] = []
+    for (let k = 0; k <= STEPS_Z; k++) {
+      const sz = -1 + (2 * k) / STEPS_Z
+      const r = Math.sqrt(Math.max(0, 1 - sz * sz))
+      pts.push(fn(sz, r))
+    }
+    polyline(pts)
+  }
+  if (slots.some((s) => s.group.side !== 'B')) {
+    // Meridiano D/E: linha média anterior e posterior.
+    alongZ((sz, r) => toSurface(new THREE.Vector3(0, r, sz)))
+    alongZ((sz, r) => toSurface(new THREE.Vector3(0, -r, sz)))
+  }
+  if (slots.some((s) => s.group.region !== 'whole')) {
+    // Equador anterior/posterior: linhas laterais direita e esquerda.
+    alongZ((sz, r) => toSurface(new THREE.Vector3(-r, 0, sz)))
+    alongZ((sz, r) => toSurface(new THREE.Vector3(r, 0, sz)))
+  }
+
   const lines = new THREE.BufferGeometry()
   lines.setAttribute('position', new THREE.BufferAttribute(Float32Array.from(seg), 3))
-
-  return { geometry, cellIds, lines, centroids }
+  return lines
 }
 
 function textSprite(text: string, color: string): THREE.Sprite | null {
