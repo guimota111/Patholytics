@@ -5,7 +5,7 @@
    ========================================================================== */
 
 import { buildCells, type MappingWarnings } from './mapping'
-import { dominantPattern, gradeGleason, type GleasonResult, type PatternShares } from './gleason'
+import { dominantPattern, gradeGleason, worstPattern, type GleasonResult, type PatternShares } from './gleason'
 import {
   EMPTY_CELL,
   type CaseState,
@@ -26,6 +26,8 @@ export interface CellResult {
   shares: PatternShares | null
   gleason: GleasonResult | null
   dominant: Pattern | null
+  /** Pior padrão presente — define a cor do cassete. */
+  worst: Pattern | null
   /** G4 + G5 coerentes com o modo escolhido. */
   valid: boolean
 }
@@ -153,6 +155,7 @@ function readCell(cell: Cell, data: CellData, g45Mode: CaseState['globals']['g45
     shares,
     gleason: shares ? gradeGleason(shares) : null,
     dominant: shares ? dominantPattern(shares) : null,
+    worst: shares ? worstPattern(shares) : null,
     valid,
   }
 }

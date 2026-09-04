@@ -92,6 +92,15 @@ export function gradeGleason(
   }
 }
 
+/** Pior padrão presente (acima do ruído): manda na cor do cassete. */
+export function worstPattern(shares: PatternShares): Pattern | null {
+  const s = normalizeShares(shares)
+  if (s.p3 + s.p4 + s.p5 <= 0) return null
+  if (s.p5 > 0.5) return 5
+  if (s.p4 > 0.5) return 4
+  return 3
+}
+
 /** Padrão predominante (para o mapa de calor). */
 export function dominantPattern(shares: PatternShares): Pattern | null {
   const s = normalizeShares(shares)

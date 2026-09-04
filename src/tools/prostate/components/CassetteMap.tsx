@@ -74,7 +74,7 @@ export function CassetteMap({ mapping, analysis, theme, selected, onSelect }: Ca
                       r.tumor > 0 ? 'text-neutral-900' : 'text-ink-muted',
                     )}
                     style={{
-                      background: cellColor(r.dominant, r.tumor, theme),
+                      background: cellColor(r.worst, r.tumor, theme),
                       boxShadow: r.data.margin ? `inset 0 0 0 3px ${MARGIN_HEX}` : undefined,
                     }}
                   >

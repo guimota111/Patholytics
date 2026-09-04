@@ -529,10 +529,10 @@
     },
     "map": {
       "title2d": "Mapa dos cassetes",
-      "hint2d": "Uma tira por grupo, um quadrado por cassete (do ápice para a base). Clique num cassete para destacá-lo na tabela e no 3D.",
+      "hint2d": "Uma tira por grupo, um quadrado por cassete (do ápice para a base). Cor = pior padrão presente (3 verde, 4 amarelo, 5 vermelho); intensidade = % de tumor. Clique num cassete para destacá-lo na tabela e no 3D.",
       "apexToBase": "ápice → base",
       "title3d": "Modelo 3D",
-      "hint3dCard": "Arraste para girar, role para aproximar. Cor = padrão predominante; intensidade = % de tumor; vesículas e ductos aparecem atrás da base quando mapeados.",
+      "hint3dCard": "Arraste para girar, role para aproximar. Cor = pior padrão presente (3 verde, 4 amarelo, 5 vermelho); intensidade = % de tumor; vesículas e ductos aparecem atrás da base quando mapeados.",
       "legendPattern": "Padrão {{p}}",
       "legendMargin": "margem comprometida",
       "legendEpe": "EEP",
@@ -594,6 +594,22 @@
       "baseToApex": "Da base para o ápice",
       "apexOnly": "Só o ápice (cone)",
       "baseOnly": "Só a base (cone)"
+    },
+    "export": {
+      "button": "Exportar imagem (A4)",
+      "exporting": "Gerando imagem…",
+      "gradeGroup": "Grupo de grau",
+      "cribYes": "cribriforme: sim ({{pct}}% do G4)",
+      "cribNo": "cribriforme: não",
+      "cribUnknown": "cribriforme: não informado",
+      "tableTitle": "Achados por cassete",
+      "anteriorView": "Vista anterior",
+      "posteriorView": "Vista posterior",
+      "colorHint": "cor = pior padrão presente; intensidade = % de tumor",
+      "footer": "Gerado pelo Patholytics — ferramenta de apoio; a conferência e o laudo são responsabilidade do patologista.",
+      "colTumor": "Tumor %",
+      "epeFocal": "focal",
+      "epeEstablished": "estab."
     }
   },
   "languages": {

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useMemo, useState } from 'react'
+import { lazy, Suspense, useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Info } from 'lucide-react'
 import { MoreSection, StepCard } from '@/components/ui/didactic'
@@ -9,7 +9,9 @@ import { CassetteMap } from '@/tools/prostate/components/CassetteMap'
 import { CassetteTable } from '@/tools/prostate/components/CassetteTable'
 import { GlobalsFields } from '@/tools/prostate/components/GlobalsFields'
 import { MappingCard } from '@/tools/prostate/components/MappingCard'
+import type { ProstateModelHandle } from '@/tools/prostate/components/ProstateModel'
 import { ResultsCard } from '@/tools/prostate/components/ResultsCard'
+import { renderCaseImage } from '@/tools/prostate/exportImage'
 import { buildSummary } from '@/tools/prostate/summary'
 import { useProstateCase } from '@/tools/prostate/useProstateCase'
 
@@ -22,11 +24,41 @@ export default function ProstateMapperPage() {
   const { state, hydrated, setMapping, setCell, setGlobals, clearFindings, templates, saveTemplate, deleteTemplate } =
     useProstateCase()
   const [selected, setSelected] = useState<string | null>(null)
+  const [exporting, setExporting] = useState(false)
+  const modelRef = useRef<ProstateModelHandle>(null)
 
   const analysis = useMemo(() => analyze(state), [state])
   const summary = useMemo(() => buildSummary(state, analysis, t, i18n.language), [state, analysis, t, i18n.language])
   const svMapped = state.mapping.groups.some((g) => g.tissue === 'seminalVesicle')
   const lnMapped = state.mapping.groups.some((g) => g.tissue === 'lymphNode')
+
+  const exportImage = useCallback(async () => {
+    setExporting(true)
+    try {
+      const views = {
+        anterior: modelRef.current?.snapshot('anterior', 1100, 800) ?? null,
+        posterior: modelRef.current?.snapshot('posterior', 1100, 800) ?? null,
+      }
+      const blob = await renderCaseImage({
+        state,
+        analysis,
+        views,
+        t,
+        locale: i18n.language,
+        title: t('tools.gleason.name'),
+      })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `patholytics-prostata-${new Date().toISOString().slice(0, 10)}.png`
+      a.click()
+      setTimeout(() => URL.revokeObjectURL(url), 5000)
+    } catch (error) {
+      console.error('export failed', error)
+    } finally {
+      setExporting(false)
+    }
+  }, [state, analysis, t, i18n.language])
 
   return (
     <div className="shell py-10">
@@ -65,7 +97,7 @@ export default function ProstateMapperPage() {
 
           <div className="grid items-start gap-6 2xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
             <StepCard number={3} title={t('prostate.step3Title')} hint={t('prostate.step3Hint')}>
-              <ResultsCard analysis={analysis} summary={summary} />
+              <ResultsCard analysis={analysis} summary={summary} onExport={() => void exportImage()} exporting={exporting} />
             </StepCard>
 
             <div className="space-y-6">
@@ -82,7 +114,14 @@ export default function ProstateMapperPage() {
                       </div>
                     }
                   >
-                    <ProstateModel mapping={state.mapping} analysis={analysis} theme={theme} selected={selected} onSelect={setSelected} />
+                    <ProstateModel
+                      ref={modelRef}
+                      mapping={state.mapping}
+                      analysis={analysis}
+                      theme={theme}
+                      selected={selected}
+                      onSelect={setSelected}
+                    />
                   </Suspense>
                 </div>
               </section>

@@ -113,7 +113,7 @@ export function CassetteTable({ mapping, globals, analysis, theme, selected, onS
                         <div className="flex items-center gap-2">
                           <span
                             className="inline-block size-3 shrink-0 rounded-sm border border-line"
-                            style={{ background: cellColor(r.dominant, r.tumor, theme) }}
+                            style={{ background: cellColor(r.worst, r.tumor, theme) }}
                             aria-hidden
                           />
                           <span className="tabular font-medium text-ink">{r.cell.label}</span>

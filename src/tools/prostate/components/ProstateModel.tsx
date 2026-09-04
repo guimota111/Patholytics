@@ -8,11 +8,13 @@
    viram linhas. Vesículas seminais e ductos deferentes aparecem atrás da
    base quando existem grupos desse tecido.
 
-   Eixos: +y = anterior, −x = lado direito do paciente, +z = base.
+   Eixos: +y = anterior, +x = lado direito do paciente, +z = base (quadro
+   anatômico destro: visto de frente, a direita do paciente fica à esquerda
+   de quem olha; visto por trás, à direita).
    Carregado sob demanda (three.js só entra nesta página).
    ========================================================================== */
 
-import { useEffect, useRef, useState } from 'react'
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
@@ -88,8 +90,8 @@ function buildGland(mapping: MappingConfig): ModelBuild {
     let best: GroupSlots | null = null
     for (const s of slots) {
       const g = s.group
-      if (g.side === 'D' && c.x > 0) continue
-      if (g.side === 'E' && c.x < 0) continue
+      if (g.side === 'D' && c.x < 0) continue
+      if (g.side === 'E' && c.x > 0) continue
       if (g.region === 'anterior' && c.y < 0) continue
       if (g.region === 'posterior' && c.y > 0) continue
       if (c.z < s.z0 || c.z > s.z1) continue
@@ -120,7 +122,7 @@ function buildGland(mapping: MappingConfig): ModelBuild {
   const unit = (sz: number, j: number) => {
     const r = Math.sqrt(Math.max(0, 1 - sz * sz))
     const th = (j / LON_STEPS) * Math.PI * 2
-    return new THREE.Vector3(-Math.sin(th) * r, Math.cos(th) * r, sz)
+    return new THREE.Vector3(Math.sin(th) * r, Math.cos(th) * r, sz)
   }
 
   const buckets = new Map<string, number[]>()
@@ -146,10 +148,10 @@ function buildGland(mapping: MappingConfig): ModelBuild {
       const p01 = unit(lats[i], j + 1)
       const p10 = unit(lats[i + 1], j)
       const p11 = unit(lats[i + 1], j + 1)
-      // Sentido anti-horário visto de fora (normais para fora): longitude
-      // primeiro, depois latitude.
-      addTriangle(p00, p01, p11)
-      addTriangle(p00, p11, p10)
+      // Sentido anti-horário visto de fora (faces frontais para fora): com
+      // +x = direita do paciente, a ordem é latitude primeiro, depois longitude.
+      addTriangle(p00, p10, p11)
+      addTriangle(p00, p11, p01)
     }
   }
 
@@ -218,10 +220,10 @@ function buildLines(slots: GroupSlots[]): THREE.BufferGeometry {
     const STEPS = 144
     for (let k = 0; k <= STEPS; k++) {
       const th = (k / STEPS) * Math.PI * 2
-      const sx = -Math.sin(th) * r
+      const sx = Math.sin(th) * r
       const sy = Math.cos(th) * r
       const inside =
-        (g.side === 'D' ? sx <= 1e-6 : g.side === 'E' ? sx >= -1e-6 : true) &&
+        (g.side === 'D' ? sx >= -1e-6 : g.side === 'E' ? sx <= 1e-6 : true) &&
         (g.region === 'anterior' ? sy >= -1e-6 : g.region === 'posterior' ? sy <= 1e-6 : true)
       pts.push(inside ? toSurface(new THREE.Vector3(sx, sy, sz)) : null)
     }
@@ -288,7 +290,7 @@ function textSprite(text: string, color: string): THREE.Sprite | null {
 
 /** Anexos posteriores à base: vesículas seminais e ductos deferentes, por lado. */
 function attachmentMesh(tissue: 'seminalVesicle' | 'vasDeferens', side: 'D' | 'E'): THREE.Mesh {
-  const sx = side === 'D' ? -1 : 1
+  const sx = side === 'D' ? 1 : -1
   const isSv = tissue === 'seminalVesicle'
   const geometry = isSv ? new THREE.CapsuleGeometry(0.3, 1.3, 6, 16) : new THREE.CylinderGeometry(0.08, 0.08, 1.7, 12)
   const mesh = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ roughness: 0.7, metalness: 0 }))
@@ -301,10 +303,10 @@ function attachmentMesh(tissue: 'seminalVesicle' | 'vasDeferens', side: 'D' | 'E
 }
 
 /** Cor de um grupo não prostático: célula com mais tumor dita o padrão. */
-function groupHeat(cells: CellResult[]): { dominant: CellResult['dominant']; tumor: number } {
-  if (!cells.length) return { dominant: null, tumor: 0 }
-  const top = cells.reduce((m, c) => (c.tumor > m.tumor ? c : m), cells[0])
-  return { dominant: top.dominant, tumor: cells.reduce((s, c) => s + c.tumor, 0) / cells.length }
+function groupHeat(cells: CellResult[]): { worst: CellResult['worst']; tumor: number } {
+  if (!cells.length) return { worst: null, tumor: 0 }
+  const worst = cells.reduce<CellResult['worst']>((m, c) => (c.worst && (!m || c.worst > m) ? c.worst : m), null)
+  return { worst, tumor: cells.reduce((s, c) => s + c.tumor, 0) / cells.length }
 }
 
 /** Só o que muda a geometria: nomes de grupo, por exemplo, não entram. */
@@ -335,9 +337,24 @@ interface SceneRefs {
   markers: THREE.Group
   controls: OrbitControls
   attachments: { mesh: THREE.Mesh; groupId: string; side: Side }[]
+  renderer: THREE.WebGLRenderer
+  scene: THREE.Scene
+  camera: THREE.PerspectiveCamera
+  container: HTMLDivElement
+  anteriorLabel: THREE.Sprite | null
 }
 
-export default function ProstateModel({ mapping, analysis, theme, selected, onSelect }: ProstateModelProps) {
+export type SnapshotView = 'anterior' | 'posterior'
+
+export interface ProstateModelHandle {
+  /** Renderiza a peça de uma vista fixa e devolve um PNG (data URL). */
+  snapshot: (view: SnapshotView, width: number, height: number) => string | null
+}
+
+const ProstateModel = forwardRef<ProstateModelHandle, ProstateModelProps>(function ProstateModel(
+  { mapping, analysis, theme, selected, onSelect },
+  ref,
+) {
   const { t, i18n } = useTranslation()
   const containerRef = useRef<HTMLDivElement>(null)
   const sceneRef = useRef<SceneRefs | null>(null)
@@ -370,7 +387,7 @@ export default function ProstateModel({ mapping, analysis, theme, selected, onSe
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100)
     // Vista inicial: face posterior (zona periférica), lado direito e base à frente.
-    camera.position.set(-4.6, -3.4, 6.2)
+    camera.position.set(4.6, -3.4, 6.2)
     const controls = new OrbitControls(camera, renderer.domElement)
     controls.enableDamping = true
     controls.enablePan = false
@@ -418,19 +435,21 @@ export default function ProstateModel({ mapping, analysis, theme, selected, onSe
     const ink = theme === 'dark' ? '#e6eaf0' : '#151a22'
     const labels: [string, THREE.Vector3][] = [
       [t('prostate.map.anterior'), new THREE.Vector3(0, Y + 0.55, 0)],
-      [t('prostate.side.D'), new THREE.Vector3(-(X + 0.7), 0, 0)],
-      [t('prostate.side.E'), new THREE.Vector3(X + 0.7, 0, 0)],
+      [t('prostate.side.D'), new THREE.Vector3(X + 0.7, 0, 0)],
+      [t('prostate.side.E'), new THREE.Vector3(-(X + 0.7), 0, 0)],
       [t('prostate.map.apex'), new THREE.Vector3(0, 0, -Z - 0.6)],
       [t('prostate.map.base'), new THREE.Vector3(0, 0.3, Z + 0.6)],
     ]
+    let anteriorLabel: THREE.Sprite | null = null
     for (const [text, p] of labels) {
       const s = textSprite(text, ink)
       if (!s) continue
       s.position.copy(p)
       scene.add(s)
+      if (text === t('prostate.map.anterior')) anteriorLabel = s
     }
 
-    sceneRef.current = { materials, centroids: build.centroids, markers, controls, attachments }
+    sceneRef.current = { materials, centroids: build.centroids, markers, controls, attachments, renderer, scene, camera, container, anteriorLabel }
 
     const resize = () => {
       const w = container.clientWidth
@@ -528,7 +547,7 @@ export default function ProstateModel({ mapping, analysis, theme, selected, onSe
     const byId = new Map(analysis.cells.map((c) => [c.cell.id, c]))
     for (const [id, mat] of s.materials) {
       const r = byId.get(id)
-      mat.color.set(r ? cellColor(r.dominant, r.tumor, theme) : cellColor(null, 0, theme))
+      mat.color.set(r ? cellColor(r.worst, r.tumor, theme) : cellColor(null, 0, theme))
       const isSel = id === selected
       mat.emissive.set(isSel ? '#7c5cff' : '#000000')
       mat.emissiveIntensity = isSel ? 0.45 : 0
@@ -537,7 +556,7 @@ export default function ProstateModel({ mapping, analysis, theme, selected, onSe
       const cells = analysis.cells.filter((c) => c.cell.group?.id === att.groupId)
       const heat = groupHeat(cells)
       const mat = att.mesh.material as THREE.MeshStandardMaterial
-      mat.color.set(cellColor(heat.dominant, heat.tumor, theme))
+      mat.color.set(cellColor(heat.worst, heat.tumor, theme))
       const isSel = cells.some((c) => c.cell.id === selected)
       mat.emissive.set(isSel ? '#7c5cff' : '#000000')
       mat.emissiveIntensity = isSel ? 0.45 : 0
@@ -559,6 +578,31 @@ export default function ProstateModel({ mapping, analysis, theme, selected, onSe
       }
     }
   }, [analysis, selected, theme, mappingKey])
+
+  useImperativeHandle(ref, () => ({
+    snapshot: (view, width, height) => {
+      const s = sceneRef.current
+      if (!s) return null
+      const { renderer, scene, container } = s
+      const cam = new THREE.PerspectiveCamera(30, width / height, 0.1, 100)
+      // Base para cima; de frente (anterior) a direita do paciente fica à esquerda
+      // de quem olha, por trás (posterior) fica à direita — como na bancada.
+      cam.up.set(0, 0, 1)
+      cam.position.set(0, view === 'anterior' ? 11 : -11, 0.4)
+      cam.lookAt(0, 0, 0.3)
+      const prevW = container.clientWidth
+      const prevH = container.clientHeight
+      // O rótulo "Anterior" só faz sentido quando essa face está de frente.
+      if (s.anteriorLabel) s.anteriorLabel.visible = view === 'anterior'
+      renderer.setSize(width, height, false)
+      renderer.render(scene, cam)
+      const url = renderer.domElement.toDataURL('image/png')
+      if (s.anteriorLabel) s.anteriorLabel.visible = true
+      renderer.setSize(prevW, prevH)
+      renderer.render(scene, s.camera)
+      return url
+    },
+  }))
 
   const hovered = hover ? analysis.cells.find((c) => c.cell.id === hover) : null
 
@@ -588,4 +632,6 @@ export default function ProstateModel({ mapping, analysis, theme, selected, onSe
       </Button>
     </div>
   )
-}
+})
+
+export default ProstateModel

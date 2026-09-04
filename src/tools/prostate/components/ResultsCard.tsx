@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AlertTriangle, Check, Copy } from 'lucide-react'
+import { AlertTriangle, Check, Copy, ImageDown } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import type { Analysis } from '../analysis'
 import { fmtN, gleasonText } from '../format'
@@ -8,9 +8,11 @@ import { fmtN, gleasonText } from '../format'
 interface ResultsCardProps {
   analysis: Analysis
   summary: string
+  onExport?: () => void
+  exporting?: boolean
 }
 
-export function ResultsCard({ analysis: a, summary }: ResultsCardProps) {
+export function ResultsCard({ analysis: a, summary, onExport, exporting = false }: ResultsCardProps) {
   const { t, i18n } = useTranslation()
   const n = (v: number | null | undefined, d = 1) => fmtN(v, d, i18n.language)
   const [copied, setCopied] = useState(false)
@@ -85,12 +87,20 @@ export function ResultsCard({ analysis: a, summary }: ResultsCardProps) {
       )}
 
       <div>
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-sm font-semibold tracking-tight text-ink">{t('prostate.results.summaryTitle')}</h3>
-          <Button type="button" size="sm" onClick={() => void copy()} disabled={!summary}>
-            {copied ? <Check className="size-4" aria-hidden /> : <Copy className="size-4" aria-hidden />}
-            {copied ? t('prostate.results.copied') : t('prostate.results.copy')}
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            {onExport && (
+              <Button type="button" size="sm" variant="secondary" onClick={onExport} loading={exporting} disabled={!summary}>
+                <ImageDown className="size-4" aria-hidden />
+                {t(exporting ? 'prostate.export.exporting' : 'prostate.export.button')}
+              </Button>
+            )}
+            <Button type="button" size="sm" onClick={() => void copy()} disabled={!summary}>
+              {copied ? <Check className="size-4" aria-hidden /> : <Copy className="size-4" aria-hidden />}
+              {copied ? t('prostate.results.copied') : t('prostate.results.copy')}
+            </Button>
+          </div>
         </div>
         <textarea
           readOnly
