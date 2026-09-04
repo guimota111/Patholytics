@@ -50,3 +50,6 @@ export const CODES = {
 export type CodeKey = keyof typeof CODES
 
 export const SOURCE = 'Cartilha de Instruções CBHPM – Patologia 2019 (SBP/ABRALAPAC), 4ª versão, correção de 20/02/2020'
+
+/** Forma curta usada na tela: "4.06.01.22-6" vira "22-6". */
+export const shortCode = (key: CodeKey): string => CODES[key].code.slice(-4)
