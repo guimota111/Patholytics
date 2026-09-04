@@ -21,6 +21,7 @@ const StagerCalculatorPage = lazy(() => import('@/pages/tools/StagerCalculator')
 const TmaMapperPage = lazy(() => import('@/pages/tools/TmaMapper'))
 const FieldConverterPage = lazy(() => import('@/pages/tools/FieldConverter'))
 const ProstateMapperPage = lazy(() => import('@/pages/tools/ProstateMapper'))
+const BreastMapperPage = lazy(() => import('@/pages/tools/BreastMapper'))
 const CaseOrganizerPage = lazy(() => import('@/pages/tools/CaseOrganizer'))
 const ReportArchivePage = lazy(() => import('@/pages/tools/ReportArchive'))
 const BillingPage = lazy(() => import('@/pages/tools/Billing'))
@@ -81,6 +82,8 @@ export default function App() {
             <Route path="/tools/tma" element={<TmaMapperPage />} />
             <Route path="/tools/fields" element={<FieldConverterPage />} />
             <Route path="/tools/prostate" element={<ProstateMapperPage />} />
+            <Route path="/tools/breast" element={<BreastMapperPage />} />
+            <Route path="/tools/breast/:module" element={<BreastMapperPage />} />
             <Route path="/tools/organizer" element={<CaseOrganizerPage />} />
             <Route path="/tools/archive" element={<ReportArchivePage />} />
             <Route path="/tools/billing" element={<BillingPage />} />

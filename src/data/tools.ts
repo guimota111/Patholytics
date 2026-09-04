@@ -7,6 +7,7 @@ import {
   Grid3x3,
   ListTree,
   Receipt,
+  Ribbon,
   Ruler,
   Microscope,
   ScanEye,
@@ -55,6 +56,14 @@ export const TOOLS: Tool[] = [
     category: 'calculators',
     status: 'available',
     path: '/tools/prostate',
+  },
+  {
+    id: 'breast',
+    i18nKey: 'breast',
+    icon: Ribbon,
+    category: 'calculators',
+    status: 'available',
+    path: '/tools/breast',
   },
   {
     id: 'stager',

@@ -8,7 +8,7 @@ import { cellColor, type Theme } from '../heat'
 import { gleasonText } from '../format'
 import { groupColor } from '../mapping'
 import type { CaseGlobals, CellData, MappingConfig, Pattern } from '../types'
-import { Toggle, compactInputClass } from './fields'
+import { Toggle, compactInputClass } from '@/components/ui/fields'
 
 interface CassetteTableProps {
   mapping: MappingConfig

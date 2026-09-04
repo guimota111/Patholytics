@@ -11,9 +11,9 @@ import { fmtN, gleasonText } from './format'
 import { cellColor, EPE_HEX, MARGIN_HEX, PATTERN_HEX } from './heat'
 import { groupColor } from './mapping'
 import type { CaseState } from './types'
+import { A4, ACCENT, ACCENT_SOFT, FAINT, FONT, INK, LINE, MONO, MUTED, drawLogoMark, ellipsize, loadImage, roundRect } from '@/lib/canvasReport'
 
-/** A4 a ~200 dpi. */
-export const A4 = { width: 1654, height: 2339 }
+export { A4 } from '@/lib/canvasReport'
 
 export interface ExportInput {
   state: CaseState
@@ -22,74 +22,6 @@ export interface ExportInput {
   t: TFunction
   locale: string
   title: string
-}
-
-const FONT = 'Inter, "Segoe UI", system-ui, sans-serif'
-const MONO = '"JetBrains Mono", Consolas, monospace'
-const INK = '#151a22'
-const MUTED = '#5a6474'
-const FAINT = '#8a93a3'
-const LINE = '#d9dde4'
-const ACCENT = '#4a2fd1'
-const ACCENT_SOFT = '#ece8ff'
-
-function loadImage(src: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const img = new Image()
-    img.onload = () => resolve(img)
-    img.onerror = () => reject(new Error('image failed'))
-    img.src = src
-  })
-}
-
-function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
-  ctx.beginPath()
-  ctx.moveTo(x + r, y)
-  ctx.arcTo(x + w, y, x + w, y + h, r)
-  ctx.arcTo(x + w, y + h, x, y + h, r)
-  ctx.arcTo(x, y + h, x, y, r)
-  ctx.arcTo(x, y, x + w, y, r)
-  ctx.closePath()
-}
-
-/** A marca do Patholytics (anel de íris com o campo central), como no site. */
-function drawLogoMark(ctx: CanvasRenderingContext2D, cx: number, cy: number, r: number) {
-  ctx.save()
-  ctx.strokeStyle = ACCENT
-  ctx.fillStyle = ACCENT
-  ctx.lineCap = 'round'
-  ctx.globalAlpha = 0.4
-  ctx.lineWidth = r * 0.14
-  ctx.beginPath()
-  ctx.arc(cx, cy, r * 0.62, 0, Math.PI * 2)
-  ctx.stroke()
-  ctx.globalAlpha = 1
-  ctx.beginPath()
-  ctx.arc(cx, cy, r * 0.3, 0, Math.PI * 2)
-  ctx.stroke()
-  ctx.beginPath()
-  ctx.arc(cx, cy, r * 0.1, 0, Math.PI * 2)
-  ctx.fill()
-  ctx.globalAlpha = 0.6
-  for (const [dx, dy] of [
-    [0, -1],
-    [0, 1],
-    [-1, 0],
-    [1, 0],
-  ]) {
-    ctx.beginPath()
-    ctx.moveTo(cx + dx * r * 0.72, cy + dy * r * 0.72)
-    ctx.lineTo(cx + dx * r, cy + dy * r)
-    ctx.stroke()
-  }
-  ctx.restore()
-}
-
-function ellipsize(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string {
-  if (ctx.measureText(text).width <= maxWidth) return text
-  let s = text
-  while (s.length > 1 && ctx.measureText(s + '…').width > maxWidth) s = s.slice(0, -1)
-  return s + '…'
 }
 
 export async function renderCaseImage(input: ExportInput): Promise<Blob> {

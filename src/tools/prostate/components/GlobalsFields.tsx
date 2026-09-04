@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import type { CaseGlobals } from '../types'
-import { NumField, SelectField, Toggle } from './fields'
+import { NumField, SelectField, Toggle } from '@/components/ui/fields'
 
 interface GlobalsFieldsProps {
   globals: CaseGlobals

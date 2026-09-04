@@ -1,6 +1,12 @@
 import { useId, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes } from 'react'
 import { cn } from '@/lib/cn'
 
+/* ==========================================================================
+   Campos de formulário compartilhados pelas ferramentas de bancada (próstata,
+   mama…): numérico que guarda `null` quando vazio, seleção com rótulo,
+   interruptor e cabeçalho de seção.
+   ========================================================================== */
+
 export const selectClass =
   'h-9 w-full rounded-md border border-line bg-surface px-2 text-sm text-ink transition-colors hover:border-line-strong'
 
@@ -13,10 +19,12 @@ interface NumFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'val
   label?: string
   hint?: ReactNode
   decimals?: boolean
+  /** Sufixo curto à direita do campo (ex.: "mm"). */
+  unit?: string
 }
 
 /** Campo numérico que guarda `null` quando vazio. */
-export function NumField({ value, onChange, label, hint, decimals = false, className, ...props }: NumFieldProps) {
+export function NumField({ value, onChange, label, hint, decimals = false, unit, className, ...props }: NumFieldProps) {
   const id = useId()
   const input = (
     <input
@@ -29,17 +37,30 @@ export function NumField({ value, onChange, label, hint, decimals = false, class
         const v = e.target.value
         onChange(v === '' ? null : Number(v))
       }}
-      className={cn(label ? 'tabular h-9 w-full rounded-md border border-line bg-surface px-3 text-sm text-ink hover:border-line-strong' : compactInputClass, className)}
+      onFocus={(e) => e.currentTarget.select()}
+      className={cn(
+        label ? 'tabular h-9 w-full rounded-md border border-line bg-surface px-3 text-sm text-ink hover:border-line-strong' : compactInputClass,
+        unit && 'pr-10',
+        className,
+      )}
       {...props}
     />
   )
-  if (!label) return input
+  const withUnit = unit ? (
+    <div className="relative">
+      {input}
+      <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-xs text-ink-faint">{unit}</span>
+    </div>
+  ) : (
+    input
+  )
+  if (!label) return withUnit
   return (
     <div className="space-y-1.5">
       <label htmlFor={id} className="block text-sm font-medium text-ink">
         {label}
       </label>
-      {input}
+      {withUnit}
       {hint && <p className="text-xs text-ink-faint">{hint}</p>}
     </div>
   )
@@ -67,6 +88,32 @@ export function SelectField({ value, onChange, label, options, hint, className, 
           </option>
         ))}
       </select>
+      {hint && <p className="text-xs text-ink-faint">{hint}</p>}
+    </div>
+  )
+}
+
+interface TextFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'> {
+  value: string
+  onChange: (value: string) => void
+  label: string
+  hint?: ReactNode
+}
+
+export function TextField({ value, onChange, label, hint, className, ...props }: TextFieldProps) {
+  const id = useId()
+  return (
+    <div className="space-y-1.5">
+      <label htmlFor={id} className="block text-sm font-medium text-ink">
+        {label}
+      </label>
+      <input
+        id={id}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={cn('h-9 w-full rounded-md border border-line bg-surface px-3 text-sm text-ink placeholder:text-ink-faint hover:border-line-strong', className)}
+        {...props}
+      />
       {hint && <p className="text-xs text-ink-faint">{hint}</p>}
     </div>
   )

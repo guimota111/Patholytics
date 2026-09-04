@@ -23,7 +23,7 @@ import {
   type MappingTemplate,
 } from '../types'
 import { compactLabels } from '../format'
-import { compactInputClass } from './fields'
+import { compactInputClass } from '@/components/ui/fields'
 
 interface MappingCardProps {
   mapping: MappingConfig
