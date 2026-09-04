@@ -23,6 +23,7 @@ const FieldConverterPage = lazy(() => import('@/pages/tools/FieldConverter'))
 const ProstateMapperPage = lazy(() => import('@/pages/tools/ProstateMapper'))
 const CaseOrganizerPage = lazy(() => import('@/pages/tools/CaseOrganizer'))
 const ReportArchivePage = lazy(() => import('@/pages/tools/ReportArchive'))
+const BillingPage = lazy(() => import('@/pages/tools/Billing'))
 
 export default function App() {
   const { t } = useTranslation()
@@ -82,6 +83,7 @@ export default function App() {
             <Route path="/tools/prostate" element={<ProstateMapperPage />} />
             <Route path="/tools/organizer" element={<CaseOrganizerPage />} />
             <Route path="/tools/archive" element={<ReportArchivePage />} />
+            <Route path="/tools/billing" element={<BillingPage />} />
           </Route>
 
           <Route path="*" element={<NotFoundPage />} />

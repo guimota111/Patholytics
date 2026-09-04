@@ -226,6 +226,10 @@
     "reportArchive": {
       "name": "Report archive",
       "description": "Your report templates and notes in folders, with search, tags, favourites and one-click copy — synced to your account."
+    },
+    "billing": {
+      "name": "Billing guide (CBHPM)",
+      "description": "Interactive walk-through of the Brazilian CBHPM pathology handbook: say what arrived and get the codes and quantities to bill."
     }
   },
   "stager": {
@@ -833,5 +837,22 @@
       "deleteCascade": "Every subcategory, report and note inside it will be removed too.",
       "error": "Something went wrong while saving. Try again."
     }
+  },
+  "billing": {
+    "subtitle": "Answer what arrived at the lab and keep clicking: at the end you get the CBHPM codes to bill, each with its quantity and the handbook rule that justifies it.",
+    "trail": "Answers so far",
+    "back": "Back",
+    "restart": "Start over",
+    "continue": "Continue",
+    "examples": "Handbook examples (fill in the numbers)",
+    "useExample": "Use",
+    "resultTitle": "Codes to bill",
+    "copy": "Copy codes",
+    "copied": "Copied",
+    "newCase": "New case",
+    "warnings": "Attention",
+    "rule": "Handbook rule",
+    "notes": "Notes",
+    "disclaimer": "The handbook defines the coding, not prices: porte and UCO come from the SBP reference tables, and payer contracts may add rules of their own. Source:"
   }
 }

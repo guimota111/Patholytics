@@ -6,6 +6,7 @@ import {
   Fingerprint,
   Grid3x3,
   ListTree,
+  Receipt,
   Ruler,
   Microscope,
   ScanEye,
@@ -105,6 +106,14 @@ export const TOOLS: Tool[] = [
     category: 'calculators',
     status: 'available',
     path: '/tools/fields',
+  },
+  {
+    id: 'billing',
+    i18nKey: 'billing',
+    icon: Receipt,
+    category: 'workflow',
+    status: 'available',
+    path: '/tools/billing',
   },
   {
     id: 'report-archive',

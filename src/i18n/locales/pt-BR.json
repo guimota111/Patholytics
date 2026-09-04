@@ -226,6 +226,10 @@
     "reportArchive": {
       "name": "Arquivo de laudos",
       "description": "Suas máscaras de laudo e notas em pastas, com busca, tags, favoritos e copiar com um clique — sincronizado na sua conta."
+    },
+    "billing": {
+      "name": "Ajuste de cobrança (CBHPM)",
+      "description": "Fluxo interativo da Cartilha CBHPM de patologia: diga o que chegou e receba os códigos e quantidades a faturar."
     }
   },
   "stager": {
@@ -833,5 +837,22 @@
       "deleteCascade": "Todas as subcategorias, laudos e notas dentro dela também serão removidos.",
       "error": "Ocorreu um erro ao salvar. Tente novamente."
     }
+  },
+  "billing": {
+    "subtitle": "Responda o que chegou ao laboratório e vá clicando: ao final aparecem os códigos CBHPM a faturar, com a quantidade de cada um e a regra da cartilha que justifica.",
+    "trail": "Respostas até aqui",
+    "back": "Voltar",
+    "restart": "Recomeçar",
+    "continue": "Continuar",
+    "examples": "Exemplos da cartilha (preenchem os números)",
+    "useExample": "Usar",
+    "resultTitle": "Códigos a faturar",
+    "copy": "Copiar códigos",
+    "copied": "Copiado",
+    "newCase": "Nova cobrança",
+    "warnings": "Atenção",
+    "rule": "Regra da cartilha",
+    "notes": "Observações",
+    "disclaimer": "A cartilha indica a codificação, não fixa valores em reais: porte e UCO vêm do referencial vigente no site da SBP, e contratos com operadoras podem ter regras próprias. Fonte:"
   }
 }
