@@ -1,11 +1,12 @@
 import { useCallback, useRef, useState } from 'react'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { LayoutGrid, LogOut, Menu, User as UserIcon } from 'lucide-react'
 import { Logo } from '@/components/ui/Logo'
 import { AppSidebar } from '@/components/AppSidebar'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { ThemeSwitcher } from '@/components/ThemeSwitcher'
+import { ToolErrorBoundary } from '@/components/ToolErrorBoundary'
 import { useAuth } from '@/hooks/useAuth'
 import { useDismiss } from '@/hooks/useClickOutside'
 
@@ -26,6 +27,7 @@ function readCollapsed(): boolean {
 
 export function AppLayout() {
   const { t } = useTranslation()
+  const { pathname } = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
   const closeMenu = useCallback(() => setMenuOpen(false), [])
   // Read synchronously so a collapsed rail does not flash open on load.
@@ -73,7 +75,9 @@ export function AppLayout() {
         </header>
 
         <main className="flex-1">
-          <Outlet />
+          <ToolErrorBoundary resetKey={pathname}>
+            <Outlet />
+          </ToolErrorBoundary>
         </main>
       </div>
     </div>

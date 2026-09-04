@@ -14,9 +14,9 @@ import {
   type MappingWarnings,
 } from '../mapping'
 import {
-  LEVELS,
   REGIONS,
   SIDES,
+  SPANS,
   TISSUES,
   type CassetteGroup,
   type MappingConfig,
@@ -162,7 +162,7 @@ export function MappingCard({ mapping, setMapping, templates, onSaveTemplate, on
               <th className="px-2 py-2 text-left font-medium">{t('prostate.mapping.range')}</th>
               <th className="px-2 py-2 text-left font-medium">{t('prostate.mapping.side')}</th>
               <th className="px-2 py-2 text-left font-medium">{t('prostate.mapping.region')}</th>
-              <th className="px-2 py-2 text-left font-medium">{t('prostate.mapping.level')}</th>
+              <th className="px-2 py-2 text-left font-medium">{t('prostate.mapping.span')}</th>
               <th className="px-2 py-2 text-left font-medium">{t('prostate.mapping.tissue')}</th>
               <th className="w-10 py-2" />
             </tr>
@@ -216,14 +216,14 @@ export function MappingCard({ mapping, setMapping, templates, onSaveTemplate, on
                   </td>
                   <td className="px-2 py-1.5">
                     <select
-                      value={g.level}
-                      onChange={(e) => updateGroup(g.id, { level: e.target.value as CassetteGroup['level'] })}
+                      value={g.span}
+                      onChange={(e) => updateGroup(g.id, { span: e.target.value as CassetteGroup['span'] })}
                       className={selectSm}
                       disabled={!isProstate}
                     >
-                      {LEVELS.map((l) => (
+                      {SPANS.map((l) => (
                         <option key={l} value={l}>
-                          {t(`prostate.level.${l}`)}
+                          {t(`prostate.span.${l}`)}
                         </option>
                       ))}
                     </select>

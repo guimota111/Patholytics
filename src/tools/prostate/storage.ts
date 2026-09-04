@@ -1,9 +1,9 @@
 import { clampTotal, DEFAULT_MAPPING, makeGroup } from './mapping'
 import {
   EMPTY_CELL,
-  LEVELS,
   REGIONS,
   SIDES,
+  SPANS,
   TISSUES,
   type CaseGlobals,
   type CaseState,
@@ -38,6 +38,13 @@ export const DEFAULT_GLOBALS: CaseGlobals = {
 
 export const DEFAULT_CASE: CaseState = { mapping: DEFAULT_MAPPING, cells: {}, globals: DEFAULT_GLOBALS }
 
+/** Mapeamentos antigos tinham `level` (apex/mid/base/whole) em vez de `span`. */
+function legacyLevelToSpan(level: unknown): CassetteGroup['span'] {
+  if (level === 'apex') return 'apexOnly'
+  if (level === 'base') return 'baseOnly'
+  return 'apexToBase'
+}
+
 const num = (v: unknown): number | null => (typeof v === 'number' && Number.isFinite(v) ? v : null)
 const oneOf = <T extends string>(v: unknown, options: readonly T[], fallback: T): T =>
   options.includes(v as T) ? (v as T) : fallback
@@ -51,7 +58,7 @@ function sanitizeGroup(raw: unknown): CassetteGroup | null {
     range: typeof p.range === 'string' ? p.range : '',
     side: oneOf(p.side, SIDES, 'B'),
     region: oneOf(p.region, REGIONS, 'whole'),
-    level: oneOf(p.level, LEVELS, 'whole'),
+    span: oneOf(p.span, SPANS, legacyLevelToSpan((p as { level?: unknown }).level)),
     tissue: oneOf(p.tissue, TISSUES, 'prostate'),
   })
 }

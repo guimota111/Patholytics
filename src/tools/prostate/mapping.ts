@@ -8,7 +8,7 @@ import {
   cellIdOf,
   type CassetteGroup,
   type Cell,
-  type Level,
+  type Span,
   type MappingConfig,
   type MappingTemplate,
   type Region,
@@ -49,8 +49,9 @@ export function parseRange(raw: string, total: number): { numbers: number[]; inv
 }
 
 /** Quanto mais restrito o grupo, mais ele "vence" ao pintar o modelo 3D. */
-export function specificity(g: Pick<CassetteGroup, 'side' | 'region' | 'level'>): number {
-  return (g.level !== 'whole' ? 4 : 0) + (g.region !== 'whole' ? 2 : 0) + (g.side !== 'B' ? 1 : 0)
+export function specificity(g: Pick<CassetteGroup, 'side' | 'region' | 'span'>): number {
+  const cone = g.span === 'apexOnly' || g.span === 'baseOnly'
+  return (cone ? 4 : 0) + (g.region !== 'whole' ? 2 : 0) + (g.side !== 'B' ? 1 : 0)
 }
 
 export function buildCells(mapping: MappingConfig): { cells: Cell[]; warnings: MappingWarnings } {
@@ -85,7 +86,7 @@ export function buildCells(mapping: MappingConfig): { cells: Cell[]; warnings: M
         groupSize: 1,
         side: 'B',
         region: 'whole',
-        level: 'whole',
+        span: 'apexToBase',
         tissue: 'prostate',
       })
       continue
@@ -99,7 +100,7 @@ export function buildCells(mapping: MappingConfig): { cells: Cell[]; warnings: M
       groupSize: o.size,
       side: o.group.side,
       region: o.group.region,
-      level: o.group.level,
+      span: o.group.span,
       tissue: o.group.tissue,
     })
   }
@@ -122,7 +123,7 @@ export function makeGroup(
     range: partial.range,
     side: partial.side ?? 'B',
     region: partial.region ?? 'whole',
-    level: partial.level ?? 'whole',
+    span: partial.span ?? 'apexToBase',
     tissue: partial.tissue ?? 'prostate',
   }
 }
@@ -148,25 +149,25 @@ export const GROUP_COLORS = ['#2563eb', '#16a34a', '#d97706', '#9333ea', '#0891b
 
 export const groupColor = (index: number) => GROUP_COLORS[index % GROUP_COLORS.length]
 
-const g = (name: string, range: string, side: Side, region: Region, level: Level, tissue: Tissue = 'prostate', id?: string): CassetteGroup => ({
+const g = (name: string, range: string, side: Side, region: Region, span: Span, tissue: Tissue = 'prostate', id?: string): CassetteGroup => ({
   id: id ?? `t-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${range.replace(/[^0-9]+/g, '_')}`,
   name,
   range,
   side,
   region,
-  level,
+  span,
   tissue,
 })
 
 export const DEFAULT_MAPPING: MappingConfig = {
   total: 20,
   groups: [
-    g('Lobo direito anterior', '1-4', 'D', 'anterior', 'whole'),
-    g('Lobo direito posterior', '5-8', 'D', 'posterior', 'whole'),
-    g('Lobo esquerdo anterior', '9-12', 'E', 'anterior', 'whole'),
-    g('Lobo esquerdo posterior', '13-16', 'E', 'posterior', 'whole'),
-    g('Ápice', '17-18', 'B', 'whole', 'apex'),
-    g('Base', '19-20', 'B', 'whole', 'base'),
+    g('Lobo direito anterior', '1-4', 'D', 'anterior', 'apexToBase'),
+    g('Lobo direito posterior', '5-8', 'D', 'posterior', 'apexToBase'),
+    g('Lobo esquerdo anterior', '9-12', 'E', 'anterior', 'apexToBase'),
+    g('Lobo esquerdo posterior', '13-16', 'E', 'posterior', 'apexToBase'),
+    g('Ápice', '17-18', 'B', 'whole', 'apexOnly'),
+    g('Base', '19-20', 'B', 'whole', 'baseOnly'),
   ],
 }
 
@@ -177,12 +178,12 @@ export const BUILTIN_TEMPLATES: MappingTemplate[] = [
     mapping: {
       total: 34,
       groups: [
-        g('Porção anterior — lobo direito', '1-8', 'D', 'anterior', 'whole'),
-        g('Porção posterior — lobo direito', '9-16', 'D', 'posterior', 'whole'),
-        g('Porção anterior — lobo esquerdo', '17-24', 'E', 'anterior', 'whole'),
-        g('Porção posterior — lobo esquerdo', '25-32', 'E', 'posterior', 'whole'),
-        g('Ápice', '33', 'B', 'whole', 'apex'),
-        g('Base', '34', 'B', 'whole', 'base'),
+        g('Porção anterior — lobo direito', '1-8', 'D', 'anterior', 'apexToBase'),
+        g('Porção posterior — lobo direito', '9-16', 'D', 'posterior', 'apexToBase'),
+        g('Porção anterior — lobo esquerdo', '17-24', 'E', 'anterior', 'apexToBase'),
+        g('Porção posterior — lobo esquerdo', '25-32', 'E', 'posterior', 'apexToBase'),
+        g('Ápice', '33', 'B', 'whole', 'apexOnly'),
+        g('Base', '34', 'B', 'whole', 'baseOnly'),
       ],
     },
   },
@@ -191,16 +192,16 @@ export const BUILTIN_TEMPLATES: MappingTemplate[] = [
     mapping: {
       total: 26,
       groups: [
-        g('Lobo direito anterior', '1-4', 'D', 'anterior', 'whole'),
-        g('Lobo direito posterior', '5-8', 'D', 'posterior', 'whole'),
-        g('Lobo esquerdo anterior', '9-12', 'E', 'anterior', 'whole'),
-        g('Lobo esquerdo posterior', '13-16', 'E', 'posterior', 'whole'),
-        g('Ápice', '17-18', 'B', 'whole', 'apex'),
-        g('Base', '19-20', 'B', 'whole', 'base'),
-        g('Vesícula seminal direita', '21-22', 'D', 'whole', 'whole', 'seminalVesicle'),
-        g('Vesícula seminal esquerda', '23-24', 'E', 'whole', 'whole', 'seminalVesicle'),
-        g('Ducto deferente direito', '25', 'D', 'whole', 'whole', 'vasDeferens'),
-        g('Ducto deferente esquerdo', '26', 'E', 'whole', 'whole', 'vasDeferens'),
+        g('Lobo direito anterior', '1-4', 'D', 'anterior', 'apexToBase'),
+        g('Lobo direito posterior', '5-8', 'D', 'posterior', 'apexToBase'),
+        g('Lobo esquerdo anterior', '9-12', 'E', 'anterior', 'apexToBase'),
+        g('Lobo esquerdo posterior', '13-16', 'E', 'posterior', 'apexToBase'),
+        g('Ápice', '17-18', 'B', 'whole', 'apexOnly'),
+        g('Base', '19-20', 'B', 'whole', 'baseOnly'),
+        g('Vesícula seminal direita', '21-22', 'D', 'whole', 'apexToBase', 'seminalVesicle'),
+        g('Vesícula seminal esquerda', '23-24', 'E', 'whole', 'apexToBase', 'seminalVesicle'),
+        g('Ducto deferente direito', '25', 'D', 'whole', 'apexToBase', 'vasDeferens'),
+        g('Ducto deferente esquerdo', '26', 'E', 'whole', 'apexToBase', 'vasDeferens'),
       ],
     },
   },

@@ -4,9 +4,9 @@
    A glândula é uma "noz": mais larga na base do que no ápice, achatada no
    sentido ântero-posterior, com o sulco mediano posterior. Cada face é
    atribuída ao cassete que a cobre, segundo o mapeamento do usuário (lado,
-   região, nível e ordem dos cassetes do ápice para a base); as bordas entre
-   cassetes vizinhos viram linhas. Vesículas seminais e ductos deferentes
-   aparecem atrás da base quando existem grupos desse tecido.
+   região, sentido e ordem dos cassetes); as bordas entre cassetes vizinhos
+   viram linhas. Vesículas seminais e ductos deferentes aparecem atrás da
+   base quando existem grupos desse tecido.
 
    Eixos: +y = anterior, −x = lado direito do paciente, +z = base.
    Carregado sob demanda (three.js só entra nesta página).
@@ -46,11 +46,11 @@ function toSurface(v: THREE.Vector3): THREE.Vector3 {
   return new THREE.Vector3(x, y, z)
 }
 
-const levelRange = (level: CassetteGroup['level']): [number, number] => {
-  if (level === 'apex') return [-Z, -Z / 3]
-  if (level === 'mid') return [-Z / 3, Z / 3]
-  if (level === 'base') return [Z / 3, Z]
-  return [-Z, Z]
+/** Faixa de z do grupo e se os cassetes correm do ápice para a base. */
+const spanRange = (span: CassetteGroup['span']): { z0: number; z1: number; reversed: boolean } => {
+  if (span === 'apexOnly') return { z0: -Z, z1: -Z / 3, reversed: false }
+  if (span === 'baseOnly') return { z0: Z / 3, z1: Z, reversed: false }
+  return { z0: -Z, z1: Z, reversed: span === 'baseToApex' }
 }
 
 interface GroupSlots {
@@ -58,6 +58,7 @@ interface GroupSlots {
   cellIds: string[]
   z0: number
   z1: number
+  reversed: boolean
   score: number
 }
 
@@ -72,16 +73,12 @@ function buildGland(mapping: MappingConfig): ModelBuild {
   const { cells } = buildCells(mapping)
   const slots: GroupSlots[] = mapping.groups
     .filter((g) => g.tissue === 'prostate')
-    .map((g) => {
-      const [z0, z1] = levelRange(g.level)
-      return {
-        group: g,
-        cellIds: cells.filter((c) => c.group?.id === g.id).sort((a, b) => a.indexInGroup - b.indexInGroup).map((c) => c.id),
-        z0,
-        z1,
-        score: specificity(g),
-      }
-    })
+    .map((g) => ({
+      group: g,
+      cellIds: cells.filter((c) => c.group?.id === g.id).sort((a, b) => a.indexInGroup - b.indexInGroup).map((c) => c.id),
+      ...spanRange(g.span),
+      score: specificity(g),
+    }))
     .filter((s) => s.cellIds.length > 0)
 
   const classify = (c: THREE.Vector3): string => {
@@ -97,11 +94,12 @@ function buildGland(mapping: MappingConfig): ModelBuild {
     }
     if (!best) return UNMAPPED
     const n = best.cellIds.length
-    const k = Math.max(0, Math.min(n - 1, Math.floor(((c.z - best.z0) / (best.z1 - best.z0)) * n)))
+    let k = Math.max(0, Math.min(n - 1, Math.floor(((c.z - best.z0) / (best.z1 - best.z0)) * n)))
+    if (best.reversed) k = n - 1 - k
     return best.cellIds[k]
   }
 
-  const sphere = new THREE.SphereGeometry(1, 160, 110).toNonIndexed()
+  const sphere = new THREE.SphereGeometry(1, 128, 88).toNonIndexed()
   const pos = sphere.getAttribute('position') as THREE.BufferAttribute
   const buckets = new Map<string, number[]>()
   const sums = new Map<string, { v: THREE.Vector3; n: number }>()
@@ -146,16 +144,21 @@ function buildGland(mapping: MappingConfig): ModelBuild {
   }
   sphere.dispose()
 
+  // Concatena os grupos num único buffer. Sem spread: uma célula grande tem
+  // centenas de milhares de números e `push(...list)` estoura a pilha.
   const cellIds: string[] = []
-  const positions: number[] = []
+  let total = 0
+  for (const list of buckets.values()) total += list.length
+  const positions = new Float32Array(total)
   const geometry = new THREE.BufferGeometry()
+  let offset = 0
   for (const [id, list] of buckets) {
-    const start = positions.length / 3
-    positions.push(...list)
-    geometry.addGroup(start, list.length / 3, cellIds.length)
+    positions.set(list, offset)
+    geometry.addGroup(offset / 3, list.length / 3, cellIds.length)
     cellIds.push(id)
+    offset += list.length
   }
-  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
   geometry.computeVertexNormals()
 
   const centroids = new Map<string, THREE.Vector3>()
@@ -166,21 +169,20 @@ function buildGland(mapping: MappingConfig): ModelBuild {
   for (const [ek, owners] of edgeOwners) {
     if (owners.size < 2) continue
     const [p, q] = edgePoints.get(ek)!
-    const ps = p.clone().multiplyScalar(1.006)
-    const qs = q.clone().multiplyScalar(1.006)
-    seg.push(ps.x, ps.y, ps.z, qs.x, qs.y, qs.z)
+    seg.push(p.x * 1.006, p.y * 1.006, p.z * 1.006, q.x * 1.006, q.y * 1.006, q.z * 1.006)
   }
   const lines = new THREE.BufferGeometry()
-  lines.setAttribute('position', new THREE.Float32BufferAttribute(seg, 3))
+  lines.setAttribute('position', new THREE.BufferAttribute(Float32Array.from(seg), 3))
 
   return { geometry, cellIds, lines, centroids }
 }
 
-function textSprite(text: string, color: string): THREE.Sprite {
+function textSprite(text: string, color: string): THREE.Sprite | null {
   const canvas = document.createElement('canvas')
   canvas.width = 256
   canvas.height = 64
-  const ctx = canvas.getContext('2d')!
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return null
   ctx.font = '600 34px Inter, system-ui, sans-serif'
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
@@ -214,6 +216,20 @@ function groupHeat(cells: CellResult[]): { dominant: CellResult['dominant']; tum
   return { dominant: top.dominant, tumor: cells.reduce((s, c) => s + c.tumor, 0) / cells.length }
 }
 
+/** Só o que muda a geometria: nomes de grupo, por exemplo, não entram. */
+const structuralKey = (m: MappingConfig) =>
+  JSON.stringify([m.total, m.groups.map((g) => [g.id, g.range, g.side, g.region, g.span, g.tissue])])
+
+/** Valor atrasado: digitar uma faixa não reconstrói o modelo a cada tecla. */
+function useDebounced<T>(value: T, ms: number): T {
+  const [debounced, setDebounced] = useState(value)
+  useEffect(() => {
+    const id = setTimeout(() => setDebounced(value), ms)
+    return () => clearTimeout(id)
+  }, [value, ms])
+  return debounced
+}
+
 interface ProstateModelProps {
   mapping: MappingConfig
   analysis: Analysis
@@ -238,13 +254,15 @@ export default function ProstateModel({ mapping, analysis, theme, selected, onSe
   const [hover, setHover] = useState<string | null>(null)
   const onSelectRef = useRef(onSelect)
   onSelectRef.current = onSelect
+  const mappingRef = useRef(mapping)
+  mappingRef.current = mapping
 
-  // A cena depende só do mapeamento (não dos achados).
-  const mappingKey = JSON.stringify(mapping)
+  const mappingKey = useDebounced(structuralKey(mapping), 300)
 
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
+    const built = mappingRef.current
     let renderer: THREE.WebGLRenderer
     try {
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
@@ -278,7 +296,7 @@ export default function ProstateModel({ mapping, analysis, theme, selected, onSe
     fill.position.set(-4, -3, -3)
     scene.add(fill)
 
-    const build = buildGland(mapping)
+    const build = buildGland(built)
     const materials = new Map<string, THREE.MeshStandardMaterial>()
     const matList = build.cellIds.map((id) => {
       const m = new THREE.MeshStandardMaterial({ color: cellColor(null, 0, theme), roughness: 0.7, metalness: 0 })
@@ -292,10 +310,9 @@ export default function ProstateModel({ mapping, analysis, theme, selected, onSe
     const markers = new THREE.Group()
     scene.add(markers)
 
-    // Anexos: um por (tecido, lado) presente no mapeamento; lado B cria os dois.
     const attachments: SceneRefs['attachments'] = []
     const pickables: THREE.Object3D[] = [gland]
-    for (const g of mapping.groups) {
+    for (const g of built.groups) {
       if (g.tissue !== 'seminalVesicle' && g.tissue !== 'vasDeferens') continue
       const sides: ('D' | 'E')[] = g.side === 'B' ? ['D', 'E'] : [g.side]
       for (const side of sides) {
@@ -312,11 +329,12 @@ export default function ProstateModel({ mapping, analysis, theme, selected, onSe
       [t('prostate.map.anterior'), new THREE.Vector3(0, Y + 0.55, 0)],
       [t('prostate.side.D'), new THREE.Vector3(-(X + 0.7), 0, 0)],
       [t('prostate.side.E'), new THREE.Vector3(X + 0.7, 0, 0)],
-      [t('prostate.level.apex'), new THREE.Vector3(0, 0, -Z - 0.6)],
-      [t('prostate.level.base'), new THREE.Vector3(0, 0.3, Z + 0.6)],
+      [t('prostate.map.apex'), new THREE.Vector3(0, 0, -Z - 0.6)],
+      [t('prostate.map.base'), new THREE.Vector3(0, 0.3, Z + 0.6)],
     ]
     for (const [text, p] of labels) {
       const s = textSprite(text, ink)
+      if (!s) continue
       s.position.copy(p)
       scene.add(s)
     }
@@ -337,6 +355,8 @@ export default function ProstateModel({ mapping, analysis, theme, selected, onSe
 
     const ray = new THREE.Raycaster()
     const ndc = new THREE.Vector2()
+    const firstCellOf = new Map<string, string>()
+    for (const cell of buildCells(built).cells) if (cell.group && !firstCellOf.has(cell.group.id)) firstCellOf.set(cell.group.id, cell.id)
     const pick = (ev: PointerEvent): string | null => {
       const rect = renderer.domElement.getBoundingClientRect()
       ndc.set(((ev.clientX - rect.left) / rect.width) * 2 - 1, -((ev.clientY - rect.top) / rect.height) * 2 + 1)
@@ -345,8 +365,7 @@ export default function ProstateModel({ mapping, analysis, theme, selected, onSe
       if (!hit) return null
       if (hit.object !== gland) {
         const groupId = (hit.object.userData as { groupId?: string }).groupId
-        const first = groupId ? buildCells(mapping).cells.find((c) => c.group?.id === groupId) : undefined
-        return first?.id ?? null
+        return (groupId && firstCellOf.get(groupId)) ?? null
       }
       if (hit.faceIndex === undefined || hit.faceIndex === null) return null
       const vertex = hit.faceIndex * 3
@@ -402,6 +421,8 @@ export default function ProstateModel({ mapping, analysis, theme, selected, onSe
           o.material.dispose()
         }
       })
+      // Libera o contexto WebGL de imediato: reconstruções seguidas não acumulam contextos.
+      renderer.forceContextLoss()
       renderer.dispose()
       renderer.domElement.remove()
       sceneRef.current = null

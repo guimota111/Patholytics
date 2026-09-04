@@ -11,12 +11,17 @@
 
 export type Side = 'D' | 'E' | 'B'
 export type Region = 'anterior' | 'posterior' | 'whole'
-export type Level = 'apex' | 'mid' | 'base' | 'whole'
+/**
+ * Sentido dos cassetes do grupo ao longo da glândula: um lobo inteiro corre
+ * do ápice para a base (ou o contrário, conforme a numeração); um cone de
+ * ápice ou de base fica só naquela ponta.
+ */
+export type Span = 'apexToBase' | 'baseToApex' | 'apexOnly' | 'baseOnly'
 export type Tissue = 'prostate' | 'seminalVesicle' | 'vasDeferens' | 'lymphNode' | 'other'
 
 export const SIDES: Side[] = ['D', 'E', 'B']
 export const REGIONS: Region[] = ['anterior', 'posterior', 'whole']
-export const LEVELS: Level[] = ['apex', 'mid', 'base', 'whole']
+export const SPANS: Span[] = ['apexToBase', 'baseToApex', 'apexOnly', 'baseOnly']
 export const TISSUES: Tissue[] = ['prostate', 'seminalVesicle', 'vasDeferens', 'lymphNode', 'other']
 
 export interface CassetteGroup {
@@ -26,7 +31,7 @@ export interface CassetteGroup {
   range: string
   side: Side
   region: Region
-  level: Level
+  span: Span
   tissue: Tissue
 }
 
@@ -47,7 +52,7 @@ export interface Cell {
   groupSize: number
   side: Side
   region: Region
-  level: Level
+  span: Span
   tissue: Tissue
 }
 

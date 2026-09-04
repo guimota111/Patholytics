@@ -27,15 +27,16 @@ export function CassetteMap({ mapping, analysis, theme, selected, onSelect }: Ca
     if (list) list.push(c)
     else byGroup.set(key, [c])
   }
-  const rows: { key: string; name: string; color: string; meta: string; cells: typeof analysis.cells }[] = mapping.groups.map(
+  const rows: { key: string; name: string; color: string; meta: string; span: string | null; cells: typeof analysis.cells }[] = mapping.groups.map(
     (g, i) => ({
       key: g.id,
+      span: g.tissue === 'prostate' && (g.span === 'apexToBase' || g.span === 'baseToApex') ? g.span : null,
       name: g.name || t('prostate.mapping.namePlaceholder'),
       color: groupColor(i),
       meta: [
         g.side !== 'B' ? t(`prostate.side.${g.side}`) : '',
         g.tissue === 'prostate' && g.region !== 'whole' ? t(`prostate.region.${g.region}`) : '',
-        g.tissue === 'prostate' && g.level !== 'whole' ? t(`prostate.level.${g.level}`) : '',
+        g.tissue === 'prostate' ? t(`prostate.span.${g.span}`) : '',
         g.tissue !== 'prostate' ? t(`prostate.tissue.${g.tissue}`) : '',
       ]
         .filter(Boolean)
@@ -44,7 +45,7 @@ export function CassetteMap({ mapping, analysis, theme, selected, onSelect }: Ca
     }),
   )
   const unmapped = byGroup.get('__unmapped')
-  if (unmapped?.length) rows.push({ key: '__unmapped', name: t('prostate.unmappedGroup'), color: 'var(--color-ink-faint)', meta: '', cells: unmapped })
+  if (unmapped?.length) rows.push({ key: '__unmapped', name: t('prostate.unmappedGroup'), color: 'var(--color-ink-faint)', meta: '', span: null, cells: unmapped })
 
   return (
     <div>
@@ -88,7 +89,9 @@ export function CassetteMap({ mapping, analysis, theme, selected, onSelect }: Ca
                   </button>
                 )
               })}
-              {row.cells.length > 1 && <span className="ml-1 text-[0.65rem] text-ink-faint">{t('prostate.map.apexToBase')}</span>}
+              {row.cells.length > 1 && row.span !== null && (
+                <span className="ml-1 text-[0.65rem] text-ink-faint">{t(row.span === 'baseToApex' ? 'prostate.map.baseToApex' : 'prostate.map.apexToBase')}</span>
+              )}
             </div>
           </div>
         ))}

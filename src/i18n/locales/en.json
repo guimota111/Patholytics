@@ -13,7 +13,10 @@
     "email": "Email",
     "password": "Password",
     "name": "Full name",
-    "optional": "optional"
+    "optional": "optional",
+    "errorTitle": "Something went wrong in this tool",
+    "errorBody": "The page hit an unexpected error. Your saved data is not lost. Reload the page; if it happens again, tell us what you were doing.",
+    "reload": "Reload the page"
   },
   "nav": {
     "product": "Product",
@@ -366,7 +369,7 @@
     "subtitle": "Describe how the specimen was split into cassettes, type what you saw in each, and get volume, weighted Gleason (ISUP), margins, extraprostatic extension and a suggested stage — with the specimen drawn in 3D.",
     "disclaimer": "Decision-support tool. Grading follows the ISUP 2014/2019 rules for prostatectomy (a lower-grade minor pattern ≤ 5% is ignored; a higher-grade pattern ≤ 5% is reported as tertiary). Volume is the mean tumour % per prostatic cassette and assumes cassettes of similar size. Staging is a suggestion: check the current AJCC/CAP criteria before signing out.",
     "step1Title": "How was the specimen divided?",
-    "step1Hint": "Say how many cassettes there are and group them the way you grossed: each group has a name, a cassette range and where it comes from (side, anterior/posterior, apex/mid/base, tissue). Prostatic cassettes in a group run from apex to base. Save it as a template to reuse.",
+    "step1Hint": "Say how many cassettes there are and group them the way you grossed: each group has a name, a cassette range and where it comes from (side, anterior/posterior, tissue). The direction says where the group starts — a whole lobe runs apex to base (or the reverse), a cone sits only at the apex or only at the base. Save it as a template to reuse.",
     "step2Title": "What did you see in each cassette?",
     "step2Hint": "For each cassette: tumour %, pattern 4 and 5 %, and tick positive margin or extraprostatic extension. Enter jumps to the next field.",
     "step3Title": "Result",
@@ -387,12 +390,6 @@
       "anterior": "Anterior",
       "posterior": "Posterior",
       "whole": "Full thickness"
-    },
-    "level": {
-      "apex": "Apex",
-      "mid": "Mid third",
-      "base": "Base",
-      "whole": "Apex to base"
     },
     "tissue": {
       "prostate": "Prostate",
@@ -448,7 +445,6 @@
       "range": "Cassettes",
       "side": "Side",
       "region": "Region",
-      "level": "Level",
       "tissue": "Tissue",
       "deleteGroup": "Delete group",
       "addGroup": "Add group",
@@ -459,7 +455,8 @@
       "deleteTemplate": "Delete template {{name}}",
       "warnUnmapped": "Cassettes without a group: {{cells}} — counted as prostate, without a location.",
       "warnConflicts": "Cassettes listed in more than one group: {{cells}} — the first one wins.",
-      "warnInvalid": "Invalid range in group \"{{name}}\": {{range}}"
+      "warnInvalid": "Invalid range in group \"{{name}}\": {{range}}",
+      "span": "Direction"
     },
     "globals": {
       "toggle": "Other case findings (weight, seminal vesicles, bladder neck, lymph nodes, invasions) and how you recorded the percentages",
@@ -542,7 +539,10 @@
       "anterior": "Anterior",
       "webgl": "This browser could not start WebGL; the 2D map is still available.",
       "hint3d": "Hover over the specimen",
-      "resetView": "Recentre"
+      "resetView": "Recentre",
+      "apex": "Apex",
+      "base": "Base",
+      "baseToApex": "base → apex"
     },
     "summary": {
       "and": "and",
@@ -588,6 +588,12 @@
       "lymphNodes": ". Lymph nodes: {{positive}} positive of {{total}} examined",
       "stagingTitle": "STAGING (suggestion — verify criteria)",
       "staging": ". {{pT}} {{pN}} · {{r}}"
+    },
+    "span": {
+      "apexToBase": "Apex to base",
+      "baseToApex": "Base to apex",
+      "apexOnly": "Apex only (cone)",
+      "baseOnly": "Base only (cone)"
     }
   },
   "languages": {

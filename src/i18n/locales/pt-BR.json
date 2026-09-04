@@ -13,7 +13,10 @@
     "email": "E-mail",
     "password": "Senha",
     "name": "Nome completo",
-    "optional": "opcional"
+    "optional": "opcional",
+    "errorTitle": "Algo deu errado nesta ferramenta",
+    "errorBody": "A página encontrou um erro inesperado. Seus dados salvos não foram perdidos. Recarregue a página; se o problema voltar, nos avise dizendo o que estava fazendo.",
+    "reload": "Recarregar a página"
   },
   "nav": {
     "product": "Produto",
@@ -366,7 +369,7 @@
     "subtitle": "Descreva como a peça foi dividida em cassetes, digite o que viu em cada um e receba volume, Gleason ponderado (ISUP), margens, extensão extraprostática e estadiamento sugerido — com a peça desenhada em 3D.",
     "disclaimer": "Ferramenta de apoio. A gradação segue as regras ISUP 2014/2019 para prostatectomia (padrão menor de grau mais baixo ≤ 5 % ignorado; padrão de grau mais alto como terciário quando ≤ 5 %). O volume é a média do % de tumor por cassete prostático, assumindo cassetes de tamanho semelhante. O estadiamento é uma sugestão: confira os critérios AJCC/CAP vigentes antes de assinar.",
     "step1Title": "Como a peça foi dividida?",
-    "step1Hint": "Diga quantos cassetes há e agrupe-os como você clivou: cada grupo tem um nome, a faixa de cassetes e de onde vem (lado, anterior/posterior, ápice/meio/base, tecido). Os cassetes de um grupo prostático vão do ápice para a base. Salve como modelo para reutilizar.",
+    "step1Hint": "Diga quantos cassetes há e agrupe-os como você clivou: cada grupo tem um nome, a faixa de cassetes e de onde vem (lado, anterior/posterior, tecido). O sentido diz por onde o grupo começa — um lobo inteiro vai do ápice para a base (ou o contrário), um cone fica só no ápice ou só na base. Salve como modelo para reutilizar.",
     "step2Title": "O que você viu em cada cassete?",
     "step2Hint": "Para cada cassete: % de tumor, % de padrão 4 e 5, e marque se há margem comprometida ou extensão extraprostática. Enter pula para o próximo campo.",
     "step3Title": "Resultado",
@@ -387,12 +390,6 @@
       "anterior": "Anterior",
       "posterior": "Posterior",
       "whole": "Toda a espessura"
-    },
-    "level": {
-      "apex": "Ápice",
-      "mid": "Terço médio",
-      "base": "Base",
-      "whole": "Ápice à base"
     },
     "tissue": {
       "prostate": "Próstata",
@@ -448,7 +445,6 @@
       "range": "Cassetes",
       "side": "Lado",
       "region": "Região",
-      "level": "Nível",
       "tissue": "Tecido",
       "deleteGroup": "Excluir grupo",
       "addGroup": "Adicionar grupo",
@@ -459,7 +455,8 @@
       "deleteTemplate": "Excluir modelo {{name}}",
       "warnUnmapped": "Cassetes sem grupo: {{cells}} — entram na análise como próstata, sem localização.",
       "warnConflicts": "Cassetes citados em mais de um grupo: {{cells}} — fica o primeiro.",
-      "warnInvalid": "Faixa inválida no grupo \"{{name}}\": {{range}}"
+      "warnInvalid": "Faixa inválida no grupo \"{{name}}\": {{range}}",
+      "span": "Sentido"
     },
     "globals": {
       "toggle": "Outros achados do caso (peso, vesículas, colo, linfonodos, invasões) e como você anotou os percentuais",
@@ -542,7 +539,10 @@
       "anterior": "Anterior",
       "webgl": "Este navegador não conseguiu iniciar o WebGL; o mapa 2D continua disponível.",
       "hint3d": "Passe o mouse sobre a peça",
-      "resetView": "Recentrar"
+      "resetView": "Recentrar",
+      "apex": "Ápice",
+      "base": "Base",
+      "baseToApex": "base → ápice"
     },
     "summary": {
       "and": "e",
@@ -588,6 +588,12 @@
       "lymphNodes": ". Linfonodos: {{positive}} positivo(s) de {{total}} examinado(s)",
       "stagingTitle": "ESTADIAMENTO (sugestão — conferir critérios)",
       "staging": ". {{pT}} {{pN}} · {{r}}"
+    },
+    "span": {
+      "apexToBase": "Do ápice para a base",
+      "baseToApex": "Da base para o ápice",
+      "apexOnly": "Só o ápice (cone)",
+      "baseOnly": "Só a base (cone)"
     }
   },
   "languages": {

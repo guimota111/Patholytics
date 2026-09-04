@@ -117,8 +117,8 @@ export function siteOf(cell: Cell): SiteRef {
   let site: MarginSite = 'other'
   if (cell.tissue === 'seminalVesicle') site = 'seminalVesicle'
   else if (cell.tissue === 'vasDeferens') site = 'vasDeferens'
-  else if (cell.level === 'apex') site = 'apical'
-  else if (cell.level === 'base') site = 'basal'
+  else if (cell.span === 'apexOnly') site = 'apical'
+  else if (cell.span === 'baseOnly') site = 'basal'
   else if (cell.region === 'anterior') site = 'anterior'
   else if (cell.region === 'posterior') site = 'posterolateral'
   return { site, side: cell.side, groupName }
