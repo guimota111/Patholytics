@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components -- error boundaries precisam ser classes */
 import { Component, type ErrorInfo, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AlertTriangle, RotateCcw } from 'lucide-react'
@@ -18,7 +19,6 @@ interface State {
  * inteira: aqui ele vira uma mensagem com botão de recarregar, e fica no
  * console para diagnóstico. Os dados persistidos não são tocados.
  */
-// eslint-disable-next-line react-refresh/only-export-components -- error boundaries precisam ser classes
 export class ToolErrorBoundary extends Component<Props, State> {
   state: State = { error: null }
 
