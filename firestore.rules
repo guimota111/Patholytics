@@ -24,38 +24,10 @@ service cloud.firestore {
       allow delete: if false;
     }
 
-    // Organizador de casos. Listas e casos sao dados de trabalho do proprio
-    // usuario: sem campo reservado, sem leitura cruzada, sem listagem por
-    // fora do dono. As regras ficam largas de proposito — todo o conteudo e
-    // livre e so o dono escreve.
-    match /users/{uid}/caseLists/{listId} {
-      allow read, write: if isOwner(uid);
-
-      match /cases/{caseId} {
-        allow read, write: if isOwner(uid);
-      }
-    }
-
     // Arquivo de laudos: arvore de categorias, laudos e notas do proprio
-    // usuario. Mesmo criterio do organizador — conteudo livre, so o dono le e
-    // escreve, nenhum campo reservado.
+    // usuario. Dados de trabalho: conteudo livre, sem campo reservado, sem
+    // leitura cruzada e sem listagem por fora do dono.
     match /users/{uid}/archive/{nodeId} {
-      allow read, write: if isOwner(uid);
-    }
-
-    // Manual de macroscopia: sistemas e roteiros do proprio usuario, com as
-    // fotos dentro do documento. Mesmo criterio do arquivo de laudos.
-    match /users/{uid}/macroscopy/{nodeId} {
-      allow read, write: if isOwner(uid);
-    }
-
-    // Controle de producao: a sessao em curso e um documento por dia de
-    // historico. Dados de trabalho do proprio usuario, so o dono le e escreve.
-    match /users/{uid}/production/{docId} {
-      allow read, write: if isOwner(uid);
-    }
-
-    match /users/{uid}/productionHistory/{date} {
       allow read, write: if isOwner(uid);
     }
 

@@ -51,7 +51,6 @@
       "campos": "Microscope fields",
       "cobranca": "CBHPM billing",
       "arquivo": "Report archive",
-      "casos": "Case organizer",
       "tma": "TMA mapper",
       "conta": "Create account"
     },
@@ -85,11 +84,6 @@
         "eyebrow": "Bench",
         "title": "Your report templates one search away",
         "body": "Folders, tags, favourites and one-click copy. Search by title, text or tag and take the finished template straight to your editor."
-      },
-      "organizer": {
-        "eyebrow": "Bench",
-        "title": "Open cases, each at the stage it is in",
-        "body": "Your lists, your stages, deadline countdown and a pending flag. Click a case to push it to the next stage."
       },
       "tma": {
         "eyebrow": "Bench",
@@ -131,10 +125,6 @@
       "archive": {
         "treeLabel": "Archive — search and select",
         "noMatch": "Nothing matches that term."
-      },
-      "organizer": {
-        "boardLabel": "Case list — click to advance the stage",
-        "hint": "In this demo the stages move in your browser only; in your account every change is logged with a timestamp."
       },
       "tma": {
         "columnLabel": "Column ready for the spreadsheet"
@@ -297,10 +287,6 @@
       "name": "Field converter",
       "description": "Field size of your own microscope, counts to and from mm², and how many fields each protocol requires."
     },
-    "organizer": {
-      "name": "Case organizer",
-      "description": "Track cases through stages you define yourself: your own lists, your own stages, a timestamped update log and a deadline countdown."
-    },
     "reportArchive": {
       "name": "Report archive",
       "description": "Your report templates and notes in folders, with search, tags, favourites and one-click copy — synced to your account."
@@ -311,11 +297,7 @@
     },
     "macroscopy": {
       "name": "Macroscopy manual",
-      "description": "A step-by-step grossing guide for every specimen on the bench, with your own text and photos — organised by system, editable and synced to your account."
-    },
-    "production": {
-      "name": "Sign-out tracker",
-      "description": "Session timer, cases and slides logged as you go, daily history, records and statistics — from the phone at the bench to the desktop."
+      "description": "A step-by-step grossing guide for every specimen on the bench, with text and photos, organised by system."
     },
     "frozen": {
       "name": "Frozen section",
@@ -1242,151 +1224,6 @@
     "body": "Copy .env.example to .env and fill in the Firebase web app credentials, then restart the dev server. Authentication and profiles stay disabled until then.",
     "envFile": ".env"
   },
-  "organizer": {
-    "subtitle": "Your cases, in the stages you decide. Nothing here is fixed: the stages, their names and the code each case carries are all yours to set.",
-    "privacy": "Cases are stored in your account and sync across your devices. Keep patient identification to the minimum your work needs — a code or initials are usually enough.",
-    "footer": "Every list belongs to your account alone. No one else reads it, and nothing is shared between users.",
-    "limit": "The free plan holds {{limit}} active cases. Archived cases do not count.",
-    "empty": {
-      "title": "No list yet",
-      "description": "A list holds your cases and the stages they move through. Start from a template and edit the stages whenever you like.",
-      "action": "Create the first list"
-    },
-    "lists": {
-      "switch": "Switch list",
-      "new": "New list",
-      "settings": "Settings"
-    },
-    "newList": {
-      "title": "New list",
-      "create": "Create list",
-      "namePlaceholder": "e.g. Daily sign-out",
-      "template": "Starting stages"
-    },
-    "templates": {
-      "surgicalPathology": "Surgical pathology",
-      "simple": "Simple workflow",
-      "research": "Research project",
-      "blank": "Start blank"
-    },
-    "stageNames": {
-      "notSeen": "Not seen",
-      "seenNotReported": "Seen, not reported",
-      "reported": "Reported",
-      "partiallyEmbedded": "Partially embedded",
-      "others": "Others",
-      "todo": "To do",
-      "inProgress": "In progress",
-      "waiting": "Waiting",
-      "done": "Done",
-      "selected": "Selected",
-      "blocks": "Blocks",
-      "staining": "Staining",
-      "analysis": "Analysis",
-      "written": "Written up"
-    },
-    "filters": {
-      "all": "All",
-      "pending": "Blocked"
-    },
-    "sort": {
-      "manual": "Manual order",
-      "deadline": "By deadline",
-      "created": "Newest first",
-      "alphabetical": "A to Z",
-      "stage": "By stage"
-    },
-    "toolbar": {
-      "search": "Search cases",
-      "sort": "Sort",
-      "select": "Select",
-      "deleteSelected": "Delete ({{count}})",
-      "clearReviewed": "Clear checks"
-    },
-    "list": {
-      "empty": "No open cases in this list.",
-      "noMatch": "No case matches this filter."
-    },
-    "row": {
-      "drag": "Drag to reorder",
-      "select": "Select case",
-      "reviewed": "Mark as checked",
-      "reviewedAt": "Checked {{when}}",
-      "copy": "Click to copy",
-      "copied": "Copied",
-      "moveUp": "Move up",
-      "moveDown": "Move down"
-    },
-    "case": {
-      "new": "New case",
-      "save": "Save case",
-      "title": "Title",
-      "titlePlaceholder": "How you recognise this case",
-      "identifier": "Code",
-      "stage": "Stage",
-      "deadline": "Deadline",
-      "deadlinePlaceholder": "3d, 4h, 25/12 14:00",
-      "deadlineHint": "A duration (3d, 2d4h, 45m) or a date.",
-      "deadlineInvalid": "Not a duration or a date.",
-      "tags": "Tags",
-      "tagsPlaceholder": "Comma separated",
-      "firstLog": "First update",
-      "firstLogPlaceholder": "One line about the case",
-      "log": "Updates",
-      "logCount_one": "{{count}} entry",
-      "logCount_other": "{{count}} entries",
-      "logPlaceholder": "New entry…",
-      "addLog": "Add",
-      "notes": "Notes",
-      "notesPlaceholder": "Description, comments, anything worth keeping…",
-      "pending": "Blocked because",
-      "pendingShort": "Blocked",
-      "pendingPlaceholder": "What is holding this case up",
-      "markPending": "Mark as blocked",
-      "resolvePending": "Resolve",
-      "archive": "Archive",
-      "move": "Move to list",
-      "delete": "Delete"
-    },
-    "settings": {
-      "title": "List settings",
-      "name": "List name",
-      "identifierLabel": "Code label",
-      "identifierHint": "What each case is numbered by in your system. Left empty, it reads \"Code\".",
-      "reviewCheck": "Show the check mark on each row",
-      "reviewCheckHint": "A tick with a timestamp, for going through the list once a day.",
-      "stages": "Stages",
-      "addStage": "Add stage",
-      "stageLimit": "Limit of {{max}} stages reached",
-      "removeStage": "Remove stage",
-      "stageColor": "Stage colour",
-      "stageEmoji": "Stage emoji",
-      "applyTemplate": "Apply a template…",
-      "reassignTitle": "Cases without a stage",
-      "reassignHint": "These stages are gone but still hold cases. Choose where each group lands — no case is ever deleted here.",
-      "delete": "Delete list",
-      "deleteConfirm": "Delete list and its cases"
-    },
-    "move": {
-      "title": "Move to another list",
-      "description": "Moving \"{{title}}\" keeps its log, notes and tags.",
-      "list": "Destination list",
-      "stage": "Stage on arrival",
-      "confirm": "Move case"
-    },
-    "archive": {
-      "title": "Archived",
-      "empty": "Nothing archived yet.",
-      "restore": "Reopen"
-    },
-    "delete": {
-      "title": "Confirm deletion",
-      "one": "Delete \"{{title}}\"? This cannot be undone.",
-      "many_one": "Delete {{count}} case? This cannot be undone.",
-      "many_other": "Delete {{count}} cases? This cannot be undone.",
-      "confirm": "Delete"
-    }
-  },
   "archive": {
     "subtitle": "Your report templates and notes in a tree of categories, searchable by title, text or tag, with favourites and a copy button. Stored in your account and synced across your devices.",
     "privacy": "The archive is private: only your account reads and writes it. Use Export to keep a JSON copy — and Import to bring it back or migrate from another archive.",
@@ -1536,196 +1373,29 @@
     "systemCount": "{{n}} specimens"
   },
   "macroscopy": {
-    "subtitle": "Every specimen's grossing routine, step by step, the way you do it at the bench. Write it once, with photos; read it from the phone with the specimen in hand.",
-    "navLabel": "Manual index",
-    "indexLabel": "{{systems}} systems · {{protocols}} specimens",
-    "addProtocol": "New specimen",
-    "addSystem": "New system",
-    "edit": "Edit",
-    "doneEditing": "Done",
-    "export": "Export",
-    "import": "Import",
-    "importResult": "{{n}} items imported as new copies.",
-    "importError": "Invalid file: use a JSON exported by this tool or by Butcher Duck.",
-    "loadError": "The manual could not be loaded. Check the connection and reload the page.",
-    "privacy": "The manual is private: only your account reads and writes it. Photos are downscaled in the browser before upload. Use Export to keep a JSON copy.",
-    "overviewTitle": "Where to start",
-    "overviewBody": "Pick a system on the left or below. {{written}} routines already have steps written.",
-    "protocolCount_one": "{{count}} specimen",
-    "protocolCount_other": "{{count}} specimens",
+    "subtitle": "Every specimen's grossing routine, step by step, organised by system. Pick the system, then the specimen on the bench.",
+    "systems": "systems",
+    "protocolCount_one": "{{count}} routine",
+    "protocolCount_other": "{{count}} routines",
+    "noProtocols": "In preparation",
+    "stepCount_one": "{{count}} step",
+    "stepCount_other": "{{count}} steps",
+    "breadcrumbLabel": "Manual path",
+    "manual": "Manual",
+    "emptySystemTitle": "Routines in preparation",
+    "emptySystemBody": "The specimens under {{name}} do not have a written routine yet.",
     "emptyTitle": "Routine not written yet",
-    "emptyBody": "\"{{name}}\" has no steps. Click Edit to write the routine, with photos if you like.",
+    "emptyBody": "\"{{name}}\" has no steps yet.",
     "stepOf": "Step {{current}} of {{total}}",
     "goToStep": "Go to step {{n}}",
     "stepImageAlt": "Photo for step {{n}}",
     "previous": "Previous",
     "next": "Next step",
-    "stepN": "Step {{n}}",
-    "stepText": "Text of step {{n}}",
-    "moveUp": "Move up",
-    "moveDown": "Move down",
-    "removeStep": "Remove step",
-    "addStep": "Add step",
-    "textPlaceholder": "## Measurements\n- **Weight:** record without attachments\n- **Axes:** length × width × thickness",
-    "syntaxHint": "## for a heading, - for a list item, **text** for bold.",
-    "addImage": "Add photo",
-    "removeImage": "Remove photo",
-    "caption": "Caption",
-    "captionPlaceholder": "Photo caption (optional)",
-    "imageTooBig": "The photo did not fit even after downscaling. Try a smaller or simpler image.",
-    "rename": "Rename",
-    "remove": "Delete",
-    "nameLabel": "Name",
-    "namePlaceholder": "e.g. Right colectomy",
-    "iconLabel": "Icon",
-    "dialog": {
-      "system": "New system",
-      "protocol": "New specimen",
-      "rename": "Rename",
-      "delete": "Delete"
-    },
-    "deleteSystemBody": "Delete the system \"{{name}}\" and every specimen inside it? This cannot be undone.",
-    "deleteProtocolBody": "Delete the routine for \"{{name}}\"? This cannot be undone.",
-    "icons": {
-      "activity": "Activity",
-      "stethoscope": "Stethoscope",
-      "droplet": "Droplet",
-      "flower2": "Flower",
-      "microscope": "Microscope",
-      "clipboardList": "Clipboard",
-      "ribbon": "Ribbon",
-      "heartPulse": "Heart",
-      "bone": "Bone"
-    },
-    "close": "Close"
-  },
-  "production": {
-    "subtitle": "Start the session, log each case with its slide count and watch the average take shape. The day goes to history when you end it; records and statistics come from there.",
-    "privacy": "Data lives only in your account, synced across your devices. A case is the time between the previous log and this one, minus pauses.",
-    "loadError": "The session could not be loaded. Check the connection and reload the page.",
-    "tabs": {
-      "label": "Sections",
-      "today": "Today",
-      "history": "History",
-      "records": "Records",
-      "stats": "Statistics"
-    },
-    "today": {
-      "idleHint": "No session in progress.",
-      "start": "Start working",
-      "worked": "Worked",
-      "currentCase": "Current case",
-      "paused": "Paused",
-      "pausedFor": "Paused for",
-      "ended": "Session ended.",
-      "endedSummary": "{{cases}} cases and {{slides}} slides went to today's history.",
-      "newSession": "Start a new session",
-      "slidesLabel": "Slides in this case",
-      "slidesPlaceholder": "0",
-      "register": "Log case",
-      "registerThird": "Third party",
-      "frozenHint": "Frozen section arrived? Mark its start to time it separately.",
-      "frozenStart": "Start frozen section",
-      "frozenRunning": "Frozen section running",
-      "frozenRegister": "Log as frozen",
-      "frozenCancel": "Cancel",
-      "pause": "Pause",
-      "resume": "Resume",
-      "end": "End session",
-      "cases": "Cases",
-      "slides": "Slides",
-      "avgCase": "Avg / case",
-      "avgSlide": "Avg / slide",
-      "casesTitle": "Cases this session",
-      "noCases": "No cases logged yet.",
-      "caseN": "Case {{n}}",
-      "slidesCount_one": "{{count}} slide",
-      "slidesCount_other": "{{count}} slides",
-      "thirdBadge": "3rd",
-      "frozenBadge": "Frozen",
-      "deleteCase": "Delete case"
-    },
-    "speed": {
-      "title": "Speed this session",
-      "vsBest": "vs best day",
-      "vsGeneral": "vs overall average",
-      "vsMonthly": "vs this month",
-      "perCase": "case",
-      "ref": "ref:",
-      "faster": "↑ {{pct}}% faster",
-      "slower": "↓ {{pct}}% slower",
-      "equal": "Same as reference",
-      "slow": "Slow",
-      "fast": "Fast",
-      "noHistory": "Speedometers appear after the first ended session."
-    },
-    "pie": {
-      "title": "Session time",
-      "work": "Worked",
-      "pauses": "Pauses"
-    },
-    "history": {
-      "empty": "No history yet. End your first session to start one.",
-      "totals": {
-        "days": "Days",
-        "cases": "Cases",
-        "slides": "Slides",
-        "avg": "Avg / case"
-      },
-      "yearMeta": "{{days}} days · {{cases}} cases · {{slides}} slides",
-      "monthMeta": "{{days}} days · {{cases}} cases · {{slides}} slides · {{avg}}/case",
-      "dayMeta": "{{cases}} cases · {{slides}} slides · {{time}} · {{sessions}} session(s)",
-      "sessionN": "Session {{n}}",
-      "sessionMeta": "{{cases}} cases",
-      "deleteDay": "Delete day",
-      "deleteSession": "Delete session",
-      "deleteCase": "Delete case",
-      "confirm": "Confirm"
-    },
-    "records": {
-      "empty": "No history yet. End your first session to see records.",
-      "dayTitle": "Day records",
-      "weekTitle": "Week records",
-      "monthTitle": "Month records",
-      "mostCasesDay": "Most cases in a day",
-      "mostSlidesDay": "Most slides in a day",
-      "bestAvg": "Best avg / case",
-      "totalDays": "Days worked",
-      "mostCasesWeek": "Most cases in a week",
-      "mostSlidesWeek": "Most slides in a week",
-      "mostCasesMonth": "Most cases in a month",
-      "mostSlidesMonth": "Most slides in a month",
-      "daysCount_one": "{{count}} day",
-      "daysCount_other": "{{count}} days"
-    },
-    "stats": {
-      "empty": "No history yet. Statistics appear after the first ended session.",
-      "period": {
-        "week": "This week",
-        "month": "This month",
-        "year": "This year",
-        "all": "All time"
-      },
-      "segment": {
-        "all": "All cases",
-        "own": "My cases",
-        "third": "Third party",
-        "frozen": "Frozen sections"
-      },
-      "summary": {
-        "cases": "Cases",
-        "slides": "Slides",
-        "days": "Days",
-        "avgCase": "Avg / case",
-        "avgSlide": "Avg / slide",
-        "total": "Total time"
-      },
-      "chartTitle": "Cases per period",
-      "legend": {
-        "own": "Mine",
-        "third": "Third party"
-      }
-    }
+    "keyboardHint": "The arrow keys move between steps.",
+    "missingTitle": "This manual page does not exist",
+    "missingBody": "The system or specimen you looked for is not in the manual.",
+    "backToManual": "Back to the manual",
+    "footer": "The manual's content is being prepared and is the same for every account."
   },
   "frozen": {
     "subtitle": "Fill in the specimen while it is on the bench and copy the finished report. Masks write the gross description; Mohs draws the quadrants; the timer counts cold ischemia.",

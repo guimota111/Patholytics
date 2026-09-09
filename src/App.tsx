@@ -22,11 +22,11 @@ const TmaMapperPage = lazy(() => import('@/pages/tools/TmaMapper'))
 const FieldConverterPage = lazy(() => import('@/pages/tools/FieldConverter'))
 const ProstateMapperPage = lazy(() => import('@/pages/tools/ProstateMapper'))
 const BreastMapperPage = lazy(() => import('@/pages/tools/BreastMapper'))
-const CaseOrganizerPage = lazy(() => import('@/pages/tools/CaseOrganizer'))
 const ReportArchivePage = lazy(() => import('@/pages/tools/ReportArchive'))
 const BillingPage = lazy(() => import('@/pages/tools/Billing'))
 const MacroscopyManualPage = lazy(() => import('@/pages/tools/MacroscopyManual'))
-const ProductionPage = lazy(() => import('@/pages/tools/Production'))
+const MacroscopySystemPage = lazy(() => import('@/pages/tools/MacroscopySystem'))
+const MacroscopyProtocolPage = lazy(() => import('@/pages/tools/MacroscopyProtocol'))
 const FrozenPage = lazy(() => import('@/pages/tools/Frozen'))
 
 export default function App() {
@@ -87,11 +87,11 @@ export default function App() {
             <Route path="/tools/prostate" element={<ProstateMapperPage />} />
             <Route path="/tools/breast" element={<BreastMapperPage />} />
             <Route path="/tools/breast/:module" element={<BreastMapperPage />} />
-            <Route path="/tools/organizer" element={<CaseOrganizerPage />} />
             <Route path="/tools/archive" element={<ReportArchivePage />} />
             <Route path="/tools/billing" element={<BillingPage />} />
             <Route path="/tools/macroscopia" element={<MacroscopyManualPage />} />
-            <Route path="/tools/producao" element={<ProductionPage />} />
+            <Route path="/tools/macroscopia/:systemId" element={<MacroscopySystemPage />} />
+            <Route path="/tools/macroscopia/:systemId/:protocolId" element={<MacroscopyProtocolPage />} />
             <Route path="/tools/congelacao" element={<FrozenPage />} />
           </Route>
 

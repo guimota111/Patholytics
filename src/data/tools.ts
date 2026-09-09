@@ -3,7 +3,6 @@ import {
   BookOpen,
   Calculator,
   CircleDot,
-  ClipboardList,
   Fingerprint,
   Grid3x3,
   ListTree,
@@ -14,7 +13,6 @@ import {
   ScanEye,
   Snowflake,
   TestTubes,
-  Timer,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -136,14 +134,6 @@ export const TOOLS: Tool[] = [
     path: '/tools/archive',
   },
   {
-    id: 'organizer',
-    i18nKey: 'organizer',
-    icon: ClipboardList,
-    category: 'workflow',
-    status: 'available',
-    path: '/tools/organizer',
-  },
-  {
     id: 'tma',
     i18nKey: 'tma',
     icon: Grid3x3,
@@ -158,14 +148,6 @@ export const TOOLS: Tool[] = [
     category: 'workflow',
     status: 'available',
     path: '/tools/macroscopia',
-  },
-  {
-    id: 'production',
-    i18nKey: 'production',
-    icon: Timer,
-    category: 'workflow',
-    status: 'available',
-    path: '/tools/producao',
   },
   {
     id: 'frozen',

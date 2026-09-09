@@ -11,17 +11,32 @@ interface TmaGridProps {
 export function TmaGrid({ state, onSelect }: TmaGridProps) {
   const { t } = useTranslation()
   const currentRef = useRef<HTMLButtonElement>(null)
+  const scrollerRef = useRef<HTMLDivElement>(null)
   // Desestruturado porque a regra exhaustive-deps trata qualquer `.current`
   // como ref mutavel e recusa `state.current` como dependencia.
   const { current } = state
 
-  // Mapas grandes rolam: manter o core atual sempre a vista.
+  // Mapas grandes rolam: manter o core atual sempre a vista quando ele muda.
+  // No primeiro render so o proprio mapa rola, nunca a janela — na home, a
+  // demonstracao montava e puxava a pagina inteira ate o snap do TMA.
+  const previous = useRef(current)
   useEffect(() => {
-    currentRef.current?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+    const cell = currentRef.current
+    const scroller = scrollerRef.current
+    if (!cell || !scroller) return
+    if (previous.current !== current) {
+      previous.current = current
+      cell.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+      return
+    }
+    const cellBox = cell.getBoundingClientRect()
+    const scrollerBox = scroller.getBoundingClientRect()
+    if (cellBox.left < scrollerBox.left) scroller.scrollLeft += cellBox.left - scrollerBox.left
+    else if (cellBox.right > scrollerBox.right) scroller.scrollLeft += cellBox.right - scrollerBox.right
   }, [current])
 
   return (
-    <div className="overflow-x-auto">
+    <div ref={scrollerRef} className="overflow-x-auto">
       <div
         role="grid"
         aria-label={t('tma.mapLabel')}

@@ -17,7 +17,6 @@ const StagerDemo = lazy(() => import('./landing/demos/StagerDemo'))
 const FieldsDemo = lazy(() => import('./landing/demos/FieldsDemo'))
 const BillingDemo = lazy(() => import('./landing/demos/BillingDemo'))
 const ArchiveDemo = lazy(() => import('./landing/demos/ArchiveDemo'))
-const OrganizerDemo = lazy(() => import('./landing/demos/OrganizerDemo'))
 const TmaDemo = lazy(() => import('./landing/demos/TmaDemo'))
 
 /** Uma tela por ferramenta pronta, na ordem em que elas contam a história. */
@@ -28,7 +27,6 @@ const SNAPS = [
   { id: 'campos', key: 'fields', to: '/tools/fields', Demo: FieldsDemo },
   { id: 'cobranca', key: 'billing', to: '/tools/billing', Demo: BillingDemo },
   { id: 'arquivo', key: 'archive', to: '/tools/archive', Demo: ArchiveDemo },
-  { id: 'casos', key: 'organizer', to: '/tools/organizer', Demo: OrganizerDemo },
   { id: 'tma', key: 'tma', to: '/tools/tma', Demo: TmaDemo },
 ] as const
 

@@ -4,21 +4,35 @@ import { ArrowLeft, ArrowRight, Hammer, Layers } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/cn'
 import { RichText } from '../richtext'
-import type { GuideNode } from '../types'
+import type { MacroProtocol } from '../types'
 
 /**
  * O roteiro como ele é usado na bancada: um passo por vez, foto em cima,
  * texto embaixo, e o dedo no botão de avançar.
  */
-export function StepViewer({ protocol, systemName }: { protocol: GuideNode; systemName: string }) {
+export function StepViewer({ protocol, systemName }: { protocol: MacroProtocol; systemName: string }) {
   const { t } = useTranslation()
   const [current, setCurrent] = useState(0)
-  const steps = protocol.steps.filter((step) => step.text.trim() || step.image)
+  const { steps } = protocol
+  const total = steps.length
 
   // Trocar de peça recomeça do primeiro passo.
   useEffect(() => setCurrent(0), [protocol.id])
 
-  if (steps.length === 0) {
+  // As setas do teclado avançam e voltam, sem mirar no botão com a luva.
+  useEffect(() => {
+    if (total === 0) return
+    const onKey = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null
+      if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return
+      if (event.key === 'ArrowRight') setCurrent((index) => Math.min(index + 1, total - 1))
+      if (event.key === 'ArrowLeft') setCurrent((index) => Math.max(index - 1, 0))
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [total])
+
+  if (total === 0) {
     return (
       <div className="rounded-lg border border-dashed border-line bg-surface px-6 py-14 text-center">
         <span className="mx-auto flex size-12 items-center justify-center rounded-full border border-line bg-elevated text-ink-faint">
@@ -32,7 +46,7 @@ export function StepViewer({ protocol, systemName }: { protocol: GuideNode; syst
     )
   }
 
-  const index = Math.min(current, steps.length - 1)
+  const index = Math.min(current, total - 1)
   const step = steps[index]
 
   return (
@@ -55,7 +69,7 @@ export function StepViewer({ protocol, systemName }: { protocol: GuideNode; syst
       <div className="px-5 py-5 sm:px-7 sm:py-6">
         <p className="flex items-center justify-center gap-2 text-[0.6875rem] font-semibold tracking-wider text-ink-faint uppercase">
           <Layers className="size-3.5" aria-hidden />
-          {t('macroscopy.stepOf', { current: index + 1, total: steps.length })}
+          {t('macroscopy.stepOf', { current: index + 1, total })}
         </p>
 
         <p className="mt-1 text-center text-xs text-ink-faint">
@@ -65,9 +79,9 @@ export function StepViewer({ protocol, systemName }: { protocol: GuideNode; syst
         <RichText source={step.text} className="mx-auto mt-5 max-w-2xl" />
 
         <div className="mt-6 flex justify-center gap-2">
-          {steps.map((item, i) => (
+          {steps.map((_, i) => (
             <button
-              key={item.id}
+              key={i}
               type="button"
               onClick={() => setCurrent(i)}
               aria-label={t('macroscopy.goToStep', { n: i + 1 })}
@@ -96,7 +110,7 @@ export function StepViewer({ protocol, systemName }: { protocol: GuideNode; syst
           type="button"
           variant="ghost"
           className="flex-1 rounded-none border-l border-line py-6"
-          disabled={index >= steps.length - 1}
+          disabled={index >= total - 1}
           onClick={() => setCurrent(index + 1)}
         >
           {t('macroscopy.next')}
