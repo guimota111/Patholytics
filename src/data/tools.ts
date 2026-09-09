@@ -12,6 +12,7 @@ import {
   Ruler,
   Microscope,
   ScanEye,
+  Snowflake,
   TestTubes,
   Timer,
   type LucideIcon,
@@ -165,6 +166,14 @@ export const TOOLS: Tool[] = [
     category: 'workflow',
     status: 'available',
     path: '/tools/producao',
+  },
+  {
+    id: 'frozen',
+    i18nKey: 'frozen',
+    icon: Snowflake,
+    category: 'workflow',
+    status: 'available',
+    path: '/tools/congelacao',
   },
 ]
 

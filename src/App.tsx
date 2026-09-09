@@ -27,6 +27,7 @@ const ReportArchivePage = lazy(() => import('@/pages/tools/ReportArchive'))
 const BillingPage = lazy(() => import('@/pages/tools/Billing'))
 const MacroscopyManualPage = lazy(() => import('@/pages/tools/MacroscopyManual'))
 const ProductionPage = lazy(() => import('@/pages/tools/Production'))
+const FrozenPage = lazy(() => import('@/pages/tools/Frozen'))
 
 export default function App() {
   const { t } = useTranslation()
@@ -91,6 +92,7 @@ export default function App() {
             <Route path="/tools/billing" element={<BillingPage />} />
             <Route path="/tools/macroscopia" element={<MacroscopyManualPage />} />
             <Route path="/tools/producao" element={<ProductionPage />} />
+            <Route path="/tools/congelacao" element={<FrozenPage />} />
           </Route>
 
           <Route path="*" element={<NotFoundPage />} />

@@ -316,6 +316,10 @@
     "production": {
       "name": "Controle de produção",
       "description": "Cronômetro de sessão, casos e lâminas registrados na hora, histórico por dia, records e estatísticas — do celular na bancada ao desktop."
+    },
+    "frozen": {
+      "name": "Congelação",
+      "description": "O laudo transoperatório montado na hora: peças, cassetes e máscaras de macroscopia, cirurgia de Mohs com os quadrantes no relógio, cronômetro de isquemia fria e saída em texto, papel ou e-mail."
     }
   },
   "stager": {
@@ -1592,7 +1596,8 @@
       "ribbon": "Laço",
       "heartPulse": "Coração",
       "bone": "Osso"
-    }
+    },
+    "close": "Fechar"
   },
   "production": {
     "subtitle": "Inicie a sessão, registre cada caso com o número de lâminas e veja a média se formar. O dia vai para o histórico ao encerrar; records e estatísticas saem dele.",
@@ -1720,6 +1725,157 @@
         "own": "Meus",
         "third": "Terceiros"
       }
+    }
+  },
+  "frozen": {
+    "subtitle": "Preencha a peça enquanto ela está na bancada e copie o laudo pronto. As máscaras escrevem a macroscopia; a Mohs desenha os quadrantes; o cronômetro conta a isquemia fria.",
+    "privacy": "O documento em curso fica só neste navegador, na sua conta — sobrevive a um refresh, não vai para o servidor. Os modelos salvos ficam na sua conta e sincronizam entre dispositivos. O laudo é gerado em português.",
+    "tabs": {
+      "label": "Seções",
+      "cong": "Nova congelação",
+      "mohs": "Cirurgia de Mohs",
+      "modelos": "Modelos salvos"
+    },
+    "cron": {
+      "label": "Isquemia fria",
+      "start": "Iniciar congelação",
+      "formol": "Colocado no formol",
+      "reset": "Zerar cronômetro",
+      "resetConfirm": "Zerar",
+      "startedAt": "início {{time}}",
+      "formolAt": "formol {{time}}"
+    },
+    "cong": {
+      "title": "Exame transoperatório — congelação",
+      "hospital": "Hospital",
+      "hospitalPick": "Selecione…",
+      "paciente": "Nome do paciente",
+      "pacientePlaceholder": "Nome completo",
+      "cirurgiao": "Cirurgião",
+      "patologista": "Patologista responsável",
+      "cronHint": "Conta o tempo até a colocação no formol.",
+      "isquemiaManual": "Tempo digitado à mão (opcional)",
+      "isquemiaManualHint": "Se ninguém apertou o cronômetro, escreva aqui.",
+      "isquemiaNota": "O laudo vai usar o tempo digitado — apague o campo para voltar ao cronômetro.",
+      "informes": "Informes clínicos (opcional)",
+      "addPeca": "Adicionar peça",
+      "clearConfirm": "Limpar todo o documento? O cronômetro também é zerado."
+    },
+    "peca": {
+      "nome": "Nome da peça",
+      "nomePlaceholder": "Nome da peça / material",
+      "macro": "Macroscopia",
+      "masks": "Máscaras",
+      "frase": "Frase de recebimento",
+      "macroPlaceholderFrase": "Complete a frase: um fragmento de tecido…",
+      "macroPlaceholder": "Descreva a macroscopia da peça…",
+      "blocos": "Blocos (B)",
+      "blocosHint": "Calculado a partir do último cassete mapeado.",
+      "fragmentos": "Fragmentos (F)",
+      "inclusao": "Inclusão",
+      "tudo": "Tudo incluído",
+      "parcial": "Parcialmente incluído",
+      "cassetes": "Mapeamento dos cassetes",
+      "casseteInicio": "Cassete inicial",
+      "casseteFim": "fim",
+      "casseteDesc": "Descrição do cassete…",
+      "addCassete": "Adicionar cassete",
+      "removeCassete": "Remover cassete",
+      "resultado": "Resultado da congelação",
+      "resultadoPlaceholder": "Ex: Metástase de carcinoma em um linfonodo (1/1).",
+      "remove": "Remover peça",
+      "removeConfirm": "Remover",
+      "moveUp": "Mover para cima",
+      "moveDown": "Mover para baixo"
+    },
+    "mask": {
+      "title": "Máscaras",
+      "pick": "Selecione o tipo de peça para preencher a macroscopia automaticamente.",
+      "form": "Máscara — {{name}}",
+      "target": "Aplicar na peça",
+      "apply": "Preencher peça",
+      "back": "Voltar"
+    },
+    "export": {
+      "title": "Exportar documento",
+      "copy": "Copiar texto",
+      "copied": "Copiado",
+      "txt": "Baixar .txt",
+      "paper": "Papel / PDF / imagem",
+      "email": "Enviar por e-mail",
+      "saveModelo": "Salvar modelo",
+      "saved": "Salvo",
+      "saveError": "Não salvou",
+      "clear": "Limpar",
+      "clearConfirm": "Limpar",
+      "preview": "Pré-visualização"
+    },
+    "paper": {
+      "title": "Laudo em papel",
+      "print": "Imprimir / salvar PDF",
+      "image": "Salvar imagem",
+      "diagrams": "Incluir desenho dos quadrantes",
+      "failed": "Não deu para gerar. Permita pop-ups para imprimir, ou use Copiar texto."
+    },
+    "email": {
+      "title": "Enviar por e-mail",
+      "to": "Para (opcional)",
+      "subject": "Assunto",
+      "body": "Corpo do e-mail",
+      "open": "Abrir no app de e-mail",
+      "copySubject": "Copiar assunto",
+      "copyBody": "Copiar corpo",
+      "hint": "O laudo vai no corpo do e-mail, em texto. Se o app cortar o texto (alguns limitam o tamanho do link), use Copiar corpo e cole na mensagem."
+    },
+    "mohs": {
+      "title": "Cirurgia de Mohs",
+      "patologistas": "Patologista(s)",
+      "tipoTumor": "Tipo de tumor (para o resultado)",
+      "informe": "Informe clínico (opcional)",
+      "principalPlaceholder": "Nome da peça principal (ex: Pele do nariz)",
+      "cronHint": "Conta o tempo desta etapa até a colocação no formol.",
+      "comDebulking": "Peça com debulking",
+      "debNome": "Nome do debulking",
+      "debC": "Debulking — comprimento (cm)",
+      "debL": "Debulking — largura (cm)",
+      "debCassete": "Cassete(s) do debulking",
+      "med": {
+        "c": "Comprimento (cm)",
+        "l": "Largura (cm)",
+        "a": "Altura/espessura (cm)"
+      },
+      "divisoes": "Divisões da peça (quadrantes ou piques do cirurgião)",
+      "semDivisao": "Sem divisão",
+      "partes": "{{count}} partes",
+      "eixoCirculo": "Eixo dos cortes — 1º corte às",
+      "eixoMeiaLua": "Eixo da peça — borda inicial às",
+      "girarAnti": "Girar meia hora no sentido anti-horário",
+      "girarHorario": "Girar meia hora no sentido horário",
+      "cassete": "Cassete",
+      "casseteHint": "Repita o mesmo número em outras partes para mandá-las juntas no mesmo cassete, ou escreva 5,6 / 5-7 para espalhar esta parte por vários.",
+      "rotulo": "Rótulo",
+      "cor": "Cor da tinta",
+      "tumorMargem": "Tumor na margem",
+      "hint": "Clique num setor do desenho para marcar tumor na margem. Gire o eixo pelo relógio quando os cortes forem diagonais.",
+      "ampliacoes": "Ampliações de margem",
+      "ampliacoesHint": "Marque tumor em alguma margem da peça principal para habilitar ampliações, ou adicione manualmente.",
+      "ampPlaceholder": "Nome da ampliação",
+      "addAmpliacao": "Adicionar ampliação",
+      "removeAmp": "Remover ampliação",
+      "fragmentoN": "Fragmento {{n}}",
+      "peca": "Peça",
+      "fragNomePlaceholder": "Nome do fragmento (ex: Lado direito) — vai para o cassete/resultado",
+      "removeFrag": "Remover fragmento",
+      "addFrag": "Adicionar fragmento nesta ampliação",
+      "clearConfirm": "Limpar todo o documento? Os cronômetros das etapas também serão zerados."
+    },
+    "modelos": {
+      "empty": "Nenhum modelo salvo ainda. Preencha uma congelação e clique em Salvar modelo.",
+      "loadError": "Não foi possível carregar os modelos salvos. Verifique a conexão e recarregue a página.",
+      "use": "Usar como modelo",
+      "copy": "Copiar texto",
+      "delete": "Excluir modelo",
+      "deleteConfirm": "Excluir"
     }
   }
 }

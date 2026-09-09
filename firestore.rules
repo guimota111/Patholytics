@@ -59,6 +59,12 @@ service cloud.firestore {
       allow read, write: if isOwner(uid);
     }
 
+    // Congelacao: os modelos salvos do proprio usuario (um documento com a
+    // lista). O laudo em curso nao passa pelo servidor.
+    match /users/{uid}/frozen/{docId} {
+      allow read, write: if isOwner(uid);
+    }
+
     function isOwner(uid) {
       return request.auth != null && request.auth.uid == uid;
     }

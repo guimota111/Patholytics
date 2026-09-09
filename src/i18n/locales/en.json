@@ -316,6 +316,10 @@
     "production": {
       "name": "Sign-out tracker",
       "description": "Session timer, cases and slides logged as you go, daily history, records and statistics — from the phone at the bench to the desktop."
+    },
+    "frozen": {
+      "name": "Frozen section",
+      "description": "The intraoperative report built on the spot: specimens, cassettes and grossing masks, Mohs surgery with clock-face quadrants, cold-ischemia timer and output as text, paper or e-mail."
     }
   },
   "stager": {
@@ -1592,7 +1596,8 @@
       "ribbon": "Ribbon",
       "heartPulse": "Heart",
       "bone": "Bone"
-    }
+    },
+    "close": "Close"
   },
   "production": {
     "subtitle": "Start the session, log each case with its slide count and watch the average take shape. The day goes to history when you end it; records and statistics come from there.",
@@ -1720,6 +1725,157 @@
         "own": "Mine",
         "third": "Third party"
       }
+    }
+  },
+  "frozen": {
+    "subtitle": "Fill in the specimen while it is on the bench and copy the finished report. Masks write the gross description; Mohs draws the quadrants; the timer counts cold ischemia.",
+    "privacy": "The document in progress stays in this browser only, under your account — it survives a refresh but never leaves the device. Saved templates live in your account and sync across devices. The report itself is generated in Portuguese.",
+    "tabs": {
+      "label": "Sections",
+      "cong": "New frozen section",
+      "mohs": "Mohs surgery",
+      "modelos": "Saved templates"
+    },
+    "cron": {
+      "label": "Cold ischemia",
+      "start": "Start frozen section",
+      "formol": "Placed in formalin",
+      "reset": "Reset timer",
+      "resetConfirm": "Reset",
+      "startedAt": "started {{time}}",
+      "formolAt": "formalin {{time}}"
+    },
+    "cong": {
+      "title": "Intraoperative exam — frozen section",
+      "hospital": "Hospital",
+      "hospitalPick": "Select…",
+      "paciente": "Patient name",
+      "pacientePlaceholder": "Full name",
+      "cirurgiao": "Surgeon",
+      "patologista": "Responsible pathologist",
+      "cronHint": "Counts until the specimen goes into formalin.",
+      "isquemiaManual": "Typed time (optional)",
+      "isquemiaManualHint": "If nobody pressed the timer, write it here.",
+      "isquemiaNota": "The report will use the typed time — clear the field to go back to the timer.",
+      "informes": "Clinical information (optional)",
+      "addPeca": "Add specimen",
+      "clearConfirm": "Clear the whole document? The timer is reset too."
+    },
+    "peca": {
+      "nome": "Specimen name",
+      "nomePlaceholder": "Specimen / material name",
+      "macro": "Gross description",
+      "masks": "Masks",
+      "frase": "Receipt sentence",
+      "macroPlaceholderFrase": "Complete the sentence: a fragment of tissue…",
+      "macroPlaceholder": "Describe the specimen…",
+      "blocos": "Blocks (B)",
+      "blocosHint": "Computed from the last mapped cassette.",
+      "fragmentos": "Fragments (F)",
+      "inclusao": "Submission",
+      "tudo": "Entirely submitted",
+      "parcial": "Partially submitted",
+      "cassetes": "Cassette mapping",
+      "casseteInicio": "First cassette",
+      "casseteFim": "end",
+      "casseteDesc": "Cassette description…",
+      "addCassete": "Add cassette",
+      "removeCassete": "Remove cassette",
+      "resultado": "Frozen section result",
+      "resultadoPlaceholder": "e.g. Metastatic carcinoma in one lymph node (1/1).",
+      "remove": "Remove specimen",
+      "removeConfirm": "Remove",
+      "moveUp": "Move up",
+      "moveDown": "Move down"
+    },
+    "mask": {
+      "title": "Masks",
+      "pick": "Pick the specimen type to fill in the gross description automatically.",
+      "form": "Mask — {{name}}",
+      "target": "Apply to specimen",
+      "apply": "Fill specimen",
+      "back": "Back"
+    },
+    "export": {
+      "title": "Export document",
+      "copy": "Copy text",
+      "copied": "Copied",
+      "txt": "Download .txt",
+      "paper": "Paper / PDF / image",
+      "email": "Send by e-mail",
+      "saveModelo": "Save template",
+      "saved": "Saved",
+      "saveError": "Not saved",
+      "clear": "Clear",
+      "clearConfirm": "Clear",
+      "preview": "Preview"
+    },
+    "paper": {
+      "title": "Paper report",
+      "print": "Print / save PDF",
+      "image": "Save image",
+      "diagrams": "Include quadrant drawings",
+      "failed": "Could not generate. Allow pop-ups to print, or use Copy text."
+    },
+    "email": {
+      "title": "Send by e-mail",
+      "to": "To (optional)",
+      "subject": "Subject",
+      "body": "E-mail body",
+      "open": "Open in e-mail app",
+      "copySubject": "Copy subject",
+      "copyBody": "Copy body",
+      "hint": "The report goes in the e-mail body as text. If your app cuts it off (some limit the link size), use Copy body and paste it in."
+    },
+    "mohs": {
+      "title": "Mohs surgery",
+      "patologistas": "Pathologist(s)",
+      "tipoTumor": "Tumour type (for the result)",
+      "informe": "Clinical information (optional)",
+      "principalPlaceholder": "Main specimen name (e.g. Nose skin)",
+      "cronHint": "Counts this stage until the specimen goes into formalin.",
+      "comDebulking": "Specimen with debulking",
+      "debNome": "Debulking name",
+      "debC": "Debulking — length (cm)",
+      "debL": "Debulking — width (cm)",
+      "debCassete": "Debulking cassette(s)",
+      "med": {
+        "c": "Length (cm)",
+        "l": "Width (cm)",
+        "a": "Height/thickness (cm)"
+      },
+      "divisoes": "Specimen divisions (quadrants or surgeon's nicks)",
+      "semDivisao": "No division",
+      "partes": "{{count}} parts",
+      "eixoCirculo": "Cut axis — 1st cut at",
+      "eixoMeiaLua": "Specimen axis — starting edge at",
+      "girarAnti": "Rotate half an hour counter-clockwise",
+      "girarHorario": "Rotate half an hour clockwise",
+      "cassete": "Cassette",
+      "casseteHint": "Repeat the same number on other parts to send them together in one cassette, or write 5,6 / 5-7 to spread this part over several.",
+      "rotulo": "Label",
+      "cor": "Ink colour",
+      "tumorMargem": "Tumour at margin",
+      "hint": "Click a sector of the drawing to mark tumour at the margin. Rotate the axis on the clock when the cuts are diagonal.",
+      "ampliacoes": "Margin re-excisions",
+      "ampliacoesHint": "Mark tumour at a margin of the main specimen to enable re-excisions, or add one manually.",
+      "ampPlaceholder": "Re-excision name",
+      "addAmpliacao": "Add re-excision",
+      "removeAmp": "Remove re-excision",
+      "fragmentoN": "Fragment {{n}}",
+      "peca": "Specimen",
+      "fragNomePlaceholder": "Fragment name (e.g. Right side) — goes to the cassette/result",
+      "removeFrag": "Remove fragment",
+      "addFrag": "Add fragment to this re-excision",
+      "clearConfirm": "Clear the whole document? The stage timers are reset too."
+    },
+    "modelos": {
+      "empty": "No templates yet. Fill in a frozen section and click Save template.",
+      "loadError": "Saved templates could not be loaded. Check the connection and reload the page.",
+      "use": "Use as template",
+      "copy": "Copy text",
+      "delete": "Delete template",
+      "deleteConfirm": "Delete"
     }
   }
 }
