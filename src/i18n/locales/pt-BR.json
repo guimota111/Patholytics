@@ -19,7 +19,6 @@
     "reload": "Recarregar a página"
   },
   "nav": {
-    "product": "Produto",
     "tools": "Ferramentas",
     "login": "Entrar",
     "signup": "Criar conta",
@@ -37,41 +36,113 @@
     "hero": {
       "eyebrow": "Para quem assina laudo todo dia",
       "title": "O instrumental do patologista, afiado",
-      "subtitle": "Scores, estadiamento e apoio ao diferencial em um só lugar — sem planilha, sem achismo.",
       "ctaPrimary": "Criar conta grátis",
       "ctaSecondary": "Entrar",
-      "note": "Grátis durante o beta. Sem cartão."
+      "scrollCue": "Role para usar cada ferramenta aqui mesmo"
     },
-    "proposition": {
-      "title": "Feito em torno do laudo, não da demonstração",
-      "subtitle": "Cada ferramenta existe porque elimina um passo que você já faz na mão.",
-      "items": {
-        "scores": {
-          "title": "Scores que se sustentam",
-          "body": "Calculadoras de graduação e índice que mostram os dados por trás do número, de modo que o resultado seja reprodutível na revisão."
-        },
-        "staging": {
-          "title": "Estadiamento sem caçar PDF",
-          "body": "Atribuição de TNM interativa, com o critério ao lado da escolha em vez de em outro documento."
-        },
-        "reporting": {
-          "title": "Saída pronta para o laudo",
-          "body": "Resultado formatado para entrar direto no texto — redação e unidades consistentes, sem redigitar."
-        },
-        "imaging": {
-          "title": "Contagem assistida por imagem",
-          "body": "Estimativa de hotspot e celularidade a partir de uma fotomicrografia, com a contagem sempre aberta a correção."
-        }
+    "openTool": "Abrir ferramenta",
+    "disclaimer": "Ferramentas de uso profissional por patologistas qualificados. O resultado apoia — nunca substitui — o seu julgamento. As demonstrações desta página rodam só no seu navegador e não são salvas.",
+    "nav": {
+      "label": "Seções da página",
+      "inicio": "Início",
+      "prostata": "Próstata",
+      "mama": "Mama",
+      "estadiamento": "Estadiamento",
+      "campos": "Campos do microscópio",
+      "cobranca": "Cobrança CBHPM",
+      "arquivo": "Arquivo de laudos",
+      "casos": "Organizador de casos",
+      "tma": "Mapeador de TMA",
+      "conta": "Criar conta"
+    },
+    "snaps": {
+      "prostate": {
+        "eyebrow": "Próstata",
+        "title": "A prostatectomia inteira em uma tabela e um modelo 3D",
+        "body": "Lance o % de tumor cassete a cassete: o Gleason ponderado, o volume, as margens e a EEP saem prontos, e a peça se pinta sozinha. Mexa na tabela e veja tudo mudar."
+      },
+      "breast": {
+        "eyebrow": "Mama",
+        "title": "Do leito tumoral ao RCB, sem sair da grade de cassetes",
+        "body": "A celularidade de cada cassete do maior corte alimenta o índice de Residual Cancer Burden, o ypT ypN e o texto do laudo. Clique num cassete e escolha a celularidade."
+      },
+      "stager": {
+        "eyebrow": "Estadiamento",
+        "title": "pTNM com o critério ao lado da escolha",
+        "body": "Mais de cinquenta sítios a partir dos protocolos CAP / AJCC 8ª edição. Escolha as respostas e a linha do laudo se monta enquanto você lê o critério."
+      },
+      "fields": {
+        "eyebrow": "Campos e contagens",
+        "title": "O seu campo de 40× vale quantos mm²?",
+        "body": "Do número gravado na ocular saem o diâmetro, a área e a conversão da sua contagem — inclusive os cortes da tabela mitótica de mama para o seu microscópio."
+      },
+      "billing": {
+        "eyebrow": "Bancada",
+        "title": "A peça que você laudou, na codificação certa",
+        "body": "Marque as estruturas que examinou e veja os códigos CBHPM com a quantidade e o porquê de cada linha — inclusive o teto de margens que costuma passar batido."
+      },
+      "archive": {
+        "eyebrow": "Bancada",
+        "title": "As suas máscaras de laudo a uma busca de distância",
+        "body": "Categorias, tags, favoritos e copiar com um clique. Busque por título, texto ou tag e leve a máscara pronta para o seu editor."
+      },
+      "organizer": {
+        "eyebrow": "Bancada",
+        "title": "Os casos abertos, na etapa em que cada um está",
+        "body": "Suas listas, suas etapas, contagem regressiva de prazo e marcador de pendência. Clique num caso para empurrá-lo à etapa seguinte."
+      },
+      "tma": {
+        "eyebrow": "Bancada",
+        "title": "Um tissue microarray core a core",
+        "body": "Percorra a lâmina na ordem de leitura e escreva o resultado de cada core; no fim, a coluna inteira sai pronta para colar na planilha."
       }
     },
-    "toolsSection": {
-      "title": "As ferramentas",
-      "subtitle": "Entregues uma por vez. Tudo abaixo está na fila.",
-      "footnote": "Ferramentas de uso profissional por patologistas qualificados. O resultado apoia — nunca substitui — o seu julgamento."
+    "demo": {
+      "emptyReport": "Preencha a demonstração para ver o texto montado.",
+      "prostate": {
+        "tableLabel": "Cassetes da peça — edite os números",
+        "groups": {
+          "rightAnterior": "Lobo direito anterior",
+          "rightPosterior": "Lobo direito posterior",
+          "leftAnterior": "Lobo esquerdo anterior",
+          "leftPosterior": "Lobo esquerdo posterior"
+        }
+      },
+      "breast": {
+        "gridLabel": "Cassetes do leito — clique para preencher",
+        "gridHint": "Clique num cassete e escolha a celularidade nos chips — a média do leito, o índice e o texto se refazem na hora.",
+        "otherSlices": "Outras fatias",
+        "summaryLabel": "Resumo do RCB para o laudo"
+      },
+      "stager": {
+        "pickLabel": "Sítio"
+      },
+      "fields": {
+        "scopeLabel": "O seu microscópio e a sua contagem",
+        "breastLabel": "Score mitótico de mama (CAP / NHSBSP)",
+        "scoreIs": "Com essa contagem, o score mitótico é {{score}}.",
+        "scoreNeedsTen": "O score de mama é definido para 10 campos consecutivos — ajuste os campos contados para 10."
+      },
+      "billing": {
+        "pieceLabel": "Peça na bancada",
+        "hint": "Desmarque o que não fez e marque o que falta: a conta se refaz a cada clique.",
+        "noStructures": "Esta peça não tem estruturas adicionais cobráveis."
+      },
+      "archive": {
+        "treeLabel": "Arquivo — busque e selecione",
+        "noMatch": "Nada encontrado com esse termo."
+      },
+      "organizer": {
+        "boardLabel": "Lista de casos — clique para avançar a etapa",
+        "hint": "Nesta demonstração as etapas andam só no seu navegador; na sua conta cada mudança fica registrada com data."
+      },
+      "tma": {
+        "columnLabel": "Coluna pronta para a planilha"
+      }
     },
     "cta": {
-      "title": "Crie a conta agora e use cada ferramenta conforme ela chega",
-      "subtitle": "Criar conta leva um minuto e mantém idioma e preferências sincronizados entre dispositivos.",
+      "title": "Crie a conta e leve os seus casos junto",
+      "subtitle": "Aqui em cima nada é salvo. Com conta, os casos, as máscaras e as preferências ficam sincronizados entre os seus dispositivos.",
       "button": "Criar conta grátis"
     },
     "footer": {

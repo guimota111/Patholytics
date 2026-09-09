@@ -528,6 +528,8 @@ interface BreastModelProps {
   selectedCassette?: string | null
   onSelectCassette?: (id: string | null) => void
   className?: string
+  /** Altura da tela do modelo. A página inicial pede uma menor que a da ferramenta. */
+  heightClass?: string
 }
 
 interface SceneRefs {
@@ -540,7 +542,7 @@ interface SceneRefs {
 }
 
 const BreastModel = forwardRef<BreastModelHandle, BreastModelProps>(function BreastModel(
-  { map, theme, mode, cells, selectedLesion, onSelectLesion, selectedCassette, onSelectCassette, className },
+  { map, theme, mode, cells, selectedLesion, onSelectLesion, selectedCassette, onSelectCassette, className, heightClass = 'h-[460px]' },
   ref,
 ) {
   const { t, i18n } = useTranslation()
@@ -771,7 +773,7 @@ const BreastModel = forwardRef<BreastModelHandle, BreastModelProps>(function Bre
 
   return (
     <div className={cn('relative', className)}>
-      <div ref={containerRef} className="h-[460px] w-full overflow-hidden rounded-md border border-line bg-surface" />
+      <div ref={containerRef} className={cn(heightClass, 'w-full overflow-hidden rounded-md border border-line bg-surface')} />
       {failed && (
         <p className="absolute inset-0 flex items-center justify-center p-6 text-center text-sm text-ink-muted">{t('breast.map.webgl')}</p>
       )}

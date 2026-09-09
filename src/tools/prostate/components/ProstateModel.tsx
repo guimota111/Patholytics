@@ -20,6 +20,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
+import { cn } from '@/lib/cn'
 import type { Analysis, CellResult } from '../analysis'
 import { cellColor, EPE_HEX, MARGIN_HEX, strokeColor, type Theme } from '../heat'
 import { buildCells, specificity } from '../mapping'
@@ -329,6 +330,8 @@ interface ProstateModelProps {
   theme: Theme
   selected: string | null
   onSelect: (id: string | null) => void
+  /** Altura da tela do modelo. A página inicial pede uma menor que a da ferramenta. */
+  heightClass?: string
 }
 
 interface SceneRefs {
@@ -352,7 +355,7 @@ export interface ProstateModelHandle {
 }
 
 const ProstateModel = forwardRef<ProstateModelHandle, ProstateModelProps>(function ProstateModel(
-  { mapping, analysis, theme, selected, onSelect },
+  { mapping, analysis, theme, selected, onSelect, heightClass = 'h-[420px]' },
   ref,
 ) {
   const { t, i18n } = useTranslation()
@@ -608,7 +611,7 @@ const ProstateModel = forwardRef<ProstateModelHandle, ProstateModelProps>(functi
 
   return (
     <div className="relative">
-      <div ref={containerRef} className="h-[420px] w-full overflow-hidden rounded-md border border-line bg-surface" />
+      <div ref={containerRef} className={cn(heightClass, 'w-full overflow-hidden rounded-md border border-line bg-surface')} />
       {failed && (
         <p className="absolute inset-0 flex items-center justify-center p-6 text-center text-sm text-ink-muted">
           {t('prostate.map.webgl')}

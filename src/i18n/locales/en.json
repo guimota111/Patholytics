@@ -19,7 +19,6 @@
     "reload": "Reload the page"
   },
   "nav": {
-    "product": "Product",
     "tools": "Tools",
     "login": "Log in",
     "signup": "Create account",
@@ -37,41 +36,113 @@
     "hero": {
       "eyebrow": "For practising pathologists",
       "title": "The pathologist's toolkit, sharpened",
-      "subtitle": "Scoring, staging and differential support in one place — no spreadsheets, no guesswork.",
       "ctaPrimary": "Create free account",
       "ctaSecondary": "Log in",
-      "note": "Free while in beta. No card required."
+      "scrollCue": "Scroll to use each tool right here"
     },
-    "proposition": {
-      "title": "Built around the sign-out, not around the demo",
-      "subtitle": "Every tool exists because it removes a step you already do by hand.",
-      "items": {
-        "scores": {
-          "title": "Scores you can defend",
-          "body": "Grading and index calculators that show the inputs behind the number, so the result is reproducible on review."
-        },
-        "staging": {
-          "title": "Staging without the PDF hunt",
-          "body": "Interactive TNM assignment that keeps the criteria next to the choice instead of in a separate document."
-        },
-        "reporting": {
-          "title": "Report-ready output",
-          "body": "Results formatted to drop straight into a report — consistent wording, consistent units, no retyping."
-        },
-        "imaging": {
-          "title": "Image-assisted counting",
-          "body": "Hotspot and cellularity estimation from a photomicrograph, with the count always open to correction."
-        }
+    "openTool": "Open tool",
+    "disclaimer": "Tools are for professional use by qualified pathologists. Output supports — it never replaces — your judgement. The demos on this page run in your browser only and are never saved.",
+    "nav": {
+      "label": "Page sections",
+      "inicio": "Start",
+      "prostata": "Prostate",
+      "mama": "Breast",
+      "estadiamento": "Staging",
+      "campos": "Microscope fields",
+      "cobranca": "CBHPM billing",
+      "arquivo": "Report archive",
+      "casos": "Case organizer",
+      "tma": "TMA mapper",
+      "conta": "Create account"
+    },
+    "snaps": {
+      "prostate": {
+        "eyebrow": "Prostate",
+        "title": "The whole radical prostatectomy in one table and one 3D model",
+        "body": "Enter tumour percentage cassette by cassette: weighted Gleason, volume, margins and EPE come out finished, and the specimen colours itself. Change the table and watch it all move."
+      },
+      "breast": {
+        "eyebrow": "Breast",
+        "title": "From tumour bed to RCB without leaving the cassette grid",
+        "body": "Cellularity in each cassette of the largest cross-section feeds the Residual Cancer Burden index, the ypT ypN and the report text. Click a cassette and pick its cellularity."
+      },
+      "stager": {
+        "eyebrow": "Staging",
+        "title": "pTNM with the criterion next to the choice",
+        "body": "More than fifty sites from the CAP / AJCC 8th edition protocols. Pick the answers and the report line assembles itself while you read the criterion."
+      },
+      "fields": {
+        "eyebrow": "Fields and counts",
+        "title": "How many mm² is your 40× field?",
+        "body": "The number engraved on your eyepiece gives the diameter, the area and the conversion of your count — including the breast mitotic cut-offs for your own microscope."
+      },
+      "billing": {
+        "eyebrow": "Bench",
+        "title": "The specimen you signed out, coded correctly",
+        "body": "Tick the structures you examined and see the CBHPM codes with quantities and the reason for every line — including the margin cap that usually slips through."
+      },
+      "archive": {
+        "eyebrow": "Bench",
+        "title": "Your report templates one search away",
+        "body": "Folders, tags, favourites and one-click copy. Search by title, text or tag and take the finished template straight to your editor."
+      },
+      "organizer": {
+        "eyebrow": "Bench",
+        "title": "Open cases, each at the stage it is in",
+        "body": "Your lists, your stages, deadline countdown and a pending flag. Click a case to push it to the next stage."
+      },
+      "tma": {
+        "eyebrow": "Bench",
+        "title": "A tissue microarray, core by core",
+        "body": "Walk the slide in reading order and write each core's result; at the end the whole column comes out ready to paste into a spreadsheet."
       }
     },
-    "toolsSection": {
-      "title": "The tools",
-      "subtitle": "Shipping one at a time. Everything below is in the queue.",
-      "footnote": "Tools are for professional use by qualified pathologists. Output supports — it never replaces — your judgement."
+    "demo": {
+      "emptyReport": "Fill in the demo to see the assembled text.",
+      "prostate": {
+        "tableLabel": "Specimen cassettes — edit the numbers",
+        "groups": {
+          "rightAnterior": "Right lobe, anterior",
+          "rightPosterior": "Right lobe, posterior",
+          "leftAnterior": "Left lobe, anterior",
+          "leftPosterior": "Left lobe, posterior"
+        }
+      },
+      "breast": {
+        "gridLabel": "Tumour bed cassettes — click to fill",
+        "gridHint": "Click a cassette and pick its cellularity on the chips — the bed mean, the index and the text redo themselves at once.",
+        "otherSlices": "Other slices",
+        "summaryLabel": "RCB summary for the report"
+      },
+      "stager": {
+        "pickLabel": "Site"
+      },
+      "fields": {
+        "scopeLabel": "Your microscope and your count",
+        "breastLabel": "Breast mitotic score (CAP / NHSBSP)",
+        "scoreIs": "With this count, the mitotic score is {{score}}.",
+        "scoreNeedsTen": "The breast score is defined over 10 consecutive fields — set the fields counted to 10."
+      },
+      "billing": {
+        "pieceLabel": "Specimen on the bench",
+        "hint": "Untick what you did not do and tick what is missing: the bill is rebuilt on every click.",
+        "noStructures": "This specimen has no additional billable structures."
+      },
+      "archive": {
+        "treeLabel": "Archive — search and select",
+        "noMatch": "Nothing matches that term."
+      },
+      "organizer": {
+        "boardLabel": "Case list — click to advance the stage",
+        "hint": "In this demo the stages move in your browser only; in your account every change is logged with a timestamp."
+      },
+      "tma": {
+        "columnLabel": "Column ready for the spreadsheet"
+      }
     },
     "cta": {
-      "title": "Set up an account now, use the tools as they land",
-      "subtitle": "Creating an account takes a minute and keeps your language and preferences in sync across devices.",
+      "title": "Create an account and take your cases with you",
+      "subtitle": "Nothing above is saved. With an account, cases, templates and preferences stay in sync across your devices.",
       "button": "Create free account"
     },
     "footer": {

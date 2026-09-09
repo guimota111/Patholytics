@@ -21,13 +21,7 @@ export function MarketingLayout() {
 
           <nav className="flex items-center gap-1.5">
             <a
-              href="#product"
-              className="hidden rounded-md px-3 py-1.5 text-sm text-ink-muted transition-colors hover:text-ink sm:inline-flex"
-            >
-              {t('nav.product')}
-            </a>
-            <a
-              href="#tools"
+              href="#prostata"
               className="hidden rounded-md px-3 py-1.5 text-sm text-ink-muted transition-colors hover:text-ink sm:inline-flex"
             >
               {t('nav.tools')}
@@ -44,7 +38,7 @@ export function MarketingLayout() {
               <>
                 <Link
                   to="/login"
-                  className="rounded-md px-3 py-1.5 text-sm text-ink-muted transition-colors hover:text-ink"
+                  className="hidden rounded-md px-3 py-1.5 text-sm text-ink-muted transition-colors hover:text-ink sm:inline-flex"
                 >
                   {t('nav.login')}
                 </Link>
@@ -89,8 +83,10 @@ function SiteFooter() {
     },
   ]
 
+  // Ponto de encaixe próprio: sem ele o rodapé fica fora do alcance da
+  // rolagem por encaixe da página inicial.
   return (
-    <footer className="border-t border-line bg-ground">
+    <footer className="snap-start border-t border-line bg-ground">
       <div className="shell py-12">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-3">

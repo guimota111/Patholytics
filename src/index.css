@@ -150,4 +150,25 @@
   .mask-fade-b {
     mask-image: linear-gradient(to bottom, black 0%, black 45%, transparent 100%);
   }
+
+  /* Página inicial: cada seção é uma tela. O encaixe só vira obrigatório
+     quando a janela cabe uma seção inteira — em telas curtas ou estreitas
+     ele viraria armadilha de rolagem, então fica por proximidade. */
+  html.snap-page {
+    scroll-snap-type: y proximity;
+    scroll-behavior: smooth;
+  }
+
+  @media (min-width: 1440px) and (min-height: 900px) {
+    html.snap-page {
+      scroll-snap-type: y mandatory;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.snap-page {
+      scroll-snap-type: none;
+      scroll-behavior: auto;
+    }
+  }
 }
