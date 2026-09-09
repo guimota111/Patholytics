@@ -308,6 +308,14 @@
     "billing": {
       "name": "Billing check (CBHPM)",
       "description": "Check whether a specimen was billed correctly: tick the structures you examined and compare with what the front desk booked."
+    },
+    "macroscopy": {
+      "name": "Macroscopy manual",
+      "description": "A step-by-step grossing guide for every specimen on the bench, with your own text and photos — organised by system, editable and synced to your account."
+    },
+    "production": {
+      "name": "Sign-out tracker",
+      "description": "Session timer, cases and slides logged as you go, daily history, records and statistics — from the phone at the bench to the desktop."
     }
   },
   "stager": {
@@ -1522,5 +1530,196 @@
     "otherMaterial": "Pick another material",
     "disclaimer": "The handbook sets the coding, not prices: fees come from the schedule in force, and payer contracts may add their own rules. Source:",
     "systemCount": "{{n}} specimens"
+  },
+  "macroscopy": {
+    "subtitle": "Every specimen's grossing routine, step by step, the way you do it at the bench. Write it once, with photos; read it from the phone with the specimen in hand.",
+    "navLabel": "Manual index",
+    "indexLabel": "{{systems}} systems · {{protocols}} specimens",
+    "addProtocol": "New specimen",
+    "addSystem": "New system",
+    "edit": "Edit",
+    "doneEditing": "Done",
+    "export": "Export",
+    "import": "Import",
+    "importResult": "{{n}} items imported as new copies.",
+    "importError": "Invalid file: use a JSON exported by this tool or by Butcher Duck.",
+    "loadError": "The manual could not be loaded. Check the connection and reload the page.",
+    "privacy": "The manual is private: only your account reads and writes it. Photos are downscaled in the browser before upload. Use Export to keep a JSON copy.",
+    "overviewTitle": "Where to start",
+    "overviewBody": "Pick a system on the left or below. {{written}} routines already have steps written.",
+    "protocolCount_one": "{{count}} specimen",
+    "protocolCount_other": "{{count}} specimens",
+    "emptyTitle": "Routine not written yet",
+    "emptyBody": "\"{{name}}\" has no steps. Click Edit to write the routine, with photos if you like.",
+    "stepOf": "Step {{current}} of {{total}}",
+    "goToStep": "Go to step {{n}}",
+    "stepImageAlt": "Photo for step {{n}}",
+    "previous": "Previous",
+    "next": "Next step",
+    "stepN": "Step {{n}}",
+    "stepText": "Text of step {{n}}",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "removeStep": "Remove step",
+    "addStep": "Add step",
+    "textPlaceholder": "## Measurements\n- **Weight:** record without attachments\n- **Axes:** length × width × thickness",
+    "syntaxHint": "## for a heading, - for a list item, **text** for bold.",
+    "addImage": "Add photo",
+    "removeImage": "Remove photo",
+    "caption": "Caption",
+    "captionPlaceholder": "Photo caption (optional)",
+    "imageTooBig": "The photo did not fit even after downscaling. Try a smaller or simpler image.",
+    "rename": "Rename",
+    "remove": "Delete",
+    "nameLabel": "Name",
+    "namePlaceholder": "e.g. Right colectomy",
+    "iconLabel": "Icon",
+    "dialog": {
+      "system": "New system",
+      "protocol": "New specimen",
+      "rename": "Rename",
+      "delete": "Delete"
+    },
+    "deleteSystemBody": "Delete the system \"{{name}}\" and every specimen inside it? This cannot be undone.",
+    "deleteProtocolBody": "Delete the routine for \"{{name}}\"? This cannot be undone.",
+    "icons": {
+      "activity": "Activity",
+      "stethoscope": "Stethoscope",
+      "droplet": "Droplet",
+      "flower2": "Flower",
+      "microscope": "Microscope",
+      "clipboardList": "Clipboard",
+      "ribbon": "Ribbon",
+      "heartPulse": "Heart",
+      "bone": "Bone"
+    }
+  },
+  "production": {
+    "subtitle": "Start the session, log each case with its slide count and watch the average take shape. The day goes to history when you end it; records and statistics come from there.",
+    "privacy": "Data lives only in your account, synced across your devices. A case is the time between the previous log and this one, minus pauses.",
+    "loadError": "The session could not be loaded. Check the connection and reload the page.",
+    "tabs": {
+      "label": "Sections",
+      "today": "Today",
+      "history": "History",
+      "records": "Records",
+      "stats": "Statistics"
+    },
+    "today": {
+      "idleHint": "No session in progress.",
+      "start": "Start working",
+      "worked": "Worked",
+      "currentCase": "Current case",
+      "paused": "Paused",
+      "pausedFor": "Paused for",
+      "ended": "Session ended.",
+      "endedSummary": "{{cases}} cases and {{slides}} slides went to today's history.",
+      "newSession": "Start a new session",
+      "slidesLabel": "Slides in this case",
+      "slidesPlaceholder": "0",
+      "register": "Log case",
+      "registerThird": "Third party",
+      "frozenHint": "Frozen section arrived? Mark its start to time it separately.",
+      "frozenStart": "Start frozen section",
+      "frozenRunning": "Frozen section running",
+      "frozenRegister": "Log as frozen",
+      "frozenCancel": "Cancel",
+      "pause": "Pause",
+      "resume": "Resume",
+      "end": "End session",
+      "cases": "Cases",
+      "slides": "Slides",
+      "avgCase": "Avg / case",
+      "avgSlide": "Avg / slide",
+      "casesTitle": "Cases this session",
+      "noCases": "No cases logged yet.",
+      "caseN": "Case {{n}}",
+      "slidesCount_one": "{{count}} slide",
+      "slidesCount_other": "{{count}} slides",
+      "thirdBadge": "3rd",
+      "frozenBadge": "Frozen",
+      "deleteCase": "Delete case"
+    },
+    "speed": {
+      "title": "Speed this session",
+      "vsBest": "vs best day",
+      "vsGeneral": "vs overall average",
+      "vsMonthly": "vs this month",
+      "perCase": "case",
+      "ref": "ref:",
+      "faster": "↑ {{pct}}% faster",
+      "slower": "↓ {{pct}}% slower",
+      "equal": "Same as reference",
+      "slow": "Slow",
+      "fast": "Fast",
+      "noHistory": "Speedometers appear after the first ended session."
+    },
+    "pie": {
+      "title": "Session time",
+      "work": "Worked",
+      "pauses": "Pauses"
+    },
+    "history": {
+      "empty": "No history yet. End your first session to start one.",
+      "totals": {
+        "days": "Days",
+        "cases": "Cases",
+        "slides": "Slides",
+        "avg": "Avg / case"
+      },
+      "yearMeta": "{{days}} days · {{cases}} cases · {{slides}} slides",
+      "monthMeta": "{{days}} days · {{cases}} cases · {{slides}} slides · {{avg}}/case",
+      "dayMeta": "{{cases}} cases · {{slides}} slides · {{time}} · {{sessions}} session(s)",
+      "sessionN": "Session {{n}}",
+      "sessionMeta": "{{cases}} cases",
+      "deleteDay": "Delete day",
+      "deleteSession": "Delete session",
+      "deleteCase": "Delete case",
+      "confirm": "Confirm"
+    },
+    "records": {
+      "empty": "No history yet. End your first session to see records.",
+      "dayTitle": "Day records",
+      "weekTitle": "Week records",
+      "monthTitle": "Month records",
+      "mostCasesDay": "Most cases in a day",
+      "mostSlidesDay": "Most slides in a day",
+      "bestAvg": "Best avg / case",
+      "totalDays": "Days worked",
+      "mostCasesWeek": "Most cases in a week",
+      "mostSlidesWeek": "Most slides in a week",
+      "mostCasesMonth": "Most cases in a month",
+      "mostSlidesMonth": "Most slides in a month",
+      "daysCount_one": "{{count}} day",
+      "daysCount_other": "{{count}} days"
+    },
+    "stats": {
+      "empty": "No history yet. Statistics appear after the first ended session.",
+      "period": {
+        "week": "This week",
+        "month": "This month",
+        "year": "This year",
+        "all": "All time"
+      },
+      "segment": {
+        "all": "All cases",
+        "own": "My cases",
+        "third": "Third party",
+        "frozen": "Frozen sections"
+      },
+      "summary": {
+        "cases": "Cases",
+        "slides": "Slides",
+        "days": "Days",
+        "avgCase": "Avg / case",
+        "avgSlide": "Avg / slide",
+        "total": "Total time"
+      },
+      "chartTitle": "Cases per period",
+      "legend": {
+        "own": "Mine",
+        "third": "Third party"
+      }
+    }
   }
 }

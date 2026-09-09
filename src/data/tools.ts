@@ -1,5 +1,6 @@
 import {
   Archive,
+  BookOpen,
   Calculator,
   CircleDot,
   ClipboardList,
@@ -12,6 +13,7 @@ import {
   Microscope,
   ScanEye,
   TestTubes,
+  Timer,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -147,6 +149,22 @@ export const TOOLS: Tool[] = [
     category: 'workflow',
     status: 'available',
     path: '/tools/tma',
+  },
+  {
+    id: 'macroscopy',
+    i18nKey: 'macroscopy',
+    icon: BookOpen,
+    category: 'workflow',
+    status: 'available',
+    path: '/tools/macroscopia',
+  },
+  {
+    id: 'production',
+    i18nKey: 'production',
+    icon: Timer,
+    category: 'workflow',
+    status: 'available',
+    path: '/tools/producao',
   },
 ]
 

@@ -25,6 +25,8 @@ const BreastMapperPage = lazy(() => import('@/pages/tools/BreastMapper'))
 const CaseOrganizerPage = lazy(() => import('@/pages/tools/CaseOrganizer'))
 const ReportArchivePage = lazy(() => import('@/pages/tools/ReportArchive'))
 const BillingPage = lazy(() => import('@/pages/tools/Billing'))
+const MacroscopyManualPage = lazy(() => import('@/pages/tools/MacroscopyManual'))
+const ProductionPage = lazy(() => import('@/pages/tools/Production'))
 
 export default function App() {
   const { t } = useTranslation()
@@ -87,6 +89,8 @@ export default function App() {
             <Route path="/tools/organizer" element={<CaseOrganizerPage />} />
             <Route path="/tools/archive" element={<ReportArchivePage />} />
             <Route path="/tools/billing" element={<BillingPage />} />
+            <Route path="/tools/macroscopia" element={<MacroscopyManualPage />} />
+            <Route path="/tools/producao" element={<ProductionPage />} />
           </Route>
 
           <Route path="*" element={<NotFoundPage />} />

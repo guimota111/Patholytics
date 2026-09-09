@@ -308,6 +308,14 @@
     "billing": {
       "name": "Ajuste de cobrança (CBHPM)",
       "description": "Confira se a peça foi faturada certo: marque as estruturas que você examinou e compare com o que a recepção lançou."
+    },
+    "macroscopy": {
+      "name": "Manual de macroscopia",
+      "description": "Roteiro passo a passo de cada peça na bancada, com o seu texto e a sua foto — organizado por sistema, editável e sincronizado na sua conta."
+    },
+    "production": {
+      "name": "Controle de produção",
+      "description": "Cronômetro de sessão, casos e lâminas registrados na hora, histórico por dia, records e estatísticas — do celular na bancada ao desktop."
     }
   },
   "stager": {
@@ -1522,5 +1530,196 @@
     "otherMaterial": "Escolher outro material",
     "disclaimer": "A cartilha indica a codificação, não fixa valores em reais: porte e UCO vêm do referencial vigente no site da SBP, e contratos com operadoras podem ter regras próprias. Fonte:",
     "systemCount": "{{n}} peças"
+  },
+  "macroscopy": {
+    "subtitle": "O roteiro de cada peça, passo a passo, do jeito que você faz na bancada. Escreva uma vez, com foto; consulte do celular com a peça na mão.",
+    "navLabel": "Índice do manual",
+    "indexLabel": "{{systems}} sistemas · {{protocols}} peças",
+    "addProtocol": "Nova peça",
+    "addSystem": "Novo sistema",
+    "edit": "Editar",
+    "doneEditing": "Concluir",
+    "export": "Exportar",
+    "import": "Importar",
+    "importResult": "{{n}} itens importados como cópias novas.",
+    "importError": "Arquivo inválido: use um JSON exportado por esta ferramenta ou pelo Butcher Duck.",
+    "loadError": "Não foi possível carregar o manual. Verifique a conexão e recarregue a página.",
+    "privacy": "O manual é privado: só a sua conta lê e escreve nele. As fotos são reduzidas no navegador antes de subir. Use Exportar para guardar uma cópia em JSON.",
+    "overviewTitle": "Por onde começar",
+    "overviewBody": "Escolha um sistema à esquerda ou abaixo. {{written}} roteiros já têm passos escritos.",
+    "protocolCount_one": "{{count}} peça",
+    "protocolCount_other": "{{count}} peças",
+    "emptyTitle": "Roteiro ainda não escrito",
+    "emptyBody": "\"{{name}}\" não tem passos. Clique em Editar para escrever o roteiro, com foto se quiser.",
+    "stepOf": "Passo {{current}} de {{total}}",
+    "goToStep": "Ir ao passo {{n}}",
+    "stepImageAlt": "Foto do passo {{n}}",
+    "previous": "Anterior",
+    "next": "Próximo passo",
+    "stepN": "Passo {{n}}",
+    "stepText": "Texto do passo {{n}}",
+    "moveUp": "Mover para cima",
+    "moveDown": "Mover para baixo",
+    "removeStep": "Remover passo",
+    "addStep": "Adicionar passo",
+    "textPlaceholder": "## Medidas\n- **Peso:** registrar sem os anexos\n- **Eixos:** comprimento × largura × espessura",
+    "syntaxHint": "## para título, - para item de lista, **texto** para negrito.",
+    "addImage": "Adicionar foto",
+    "removeImage": "Remover foto",
+    "caption": "Legenda",
+    "captionPlaceholder": "Legenda da foto (opcional)",
+    "imageTooBig": "A foto não coube mesmo reduzida. Tente uma imagem menor ou com menos detalhe.",
+    "rename": "Renomear",
+    "remove": "Apagar",
+    "nameLabel": "Nome",
+    "namePlaceholder": "Ex.: Colectomia direita",
+    "iconLabel": "Ícone",
+    "dialog": {
+      "system": "Novo sistema",
+      "protocol": "Nova peça",
+      "rename": "Renomear",
+      "delete": "Apagar"
+    },
+    "deleteSystemBody": "Apagar o sistema \"{{name}}\" e todas as peças dentro dele? Não dá para desfazer.",
+    "deleteProtocolBody": "Apagar o roteiro de \"{{name}}\"? Não dá para desfazer.",
+    "icons": {
+      "activity": "Atividade",
+      "stethoscope": "Estetoscópio",
+      "droplet": "Gota",
+      "flower2": "Flor",
+      "microscope": "Microscópio",
+      "clipboardList": "Prancheta",
+      "ribbon": "Laço",
+      "heartPulse": "Coração",
+      "bone": "Osso"
+    }
+  },
+  "production": {
+    "subtitle": "Inicie a sessão, registre cada caso com o número de lâminas e veja a média se formar. O dia vai para o histórico ao encerrar; records e estatísticas saem dele.",
+    "privacy": "Os dados ficam só na sua conta, sincronizados entre os seus dispositivos. Um caso é o tempo entre o registro anterior e este, descontadas as pausas.",
+    "loadError": "Não foi possível carregar a sessão. Verifique a conexão e recarregue a página.",
+    "tabs": {
+      "label": "Seções",
+      "today": "Hoje",
+      "history": "Histórico",
+      "records": "Records",
+      "stats": "Estatísticas"
+    },
+    "today": {
+      "idleHint": "Nenhuma sessão em andamento.",
+      "start": "Iniciar trabalho",
+      "worked": "Trabalhado",
+      "currentCase": "Caso atual",
+      "paused": "Em pausa",
+      "pausedFor": "Pausado há",
+      "ended": "Sessão encerrada.",
+      "endedSummary": "{{cases}} casos e {{slides}} lâminas foram para o histórico de hoje.",
+      "newSession": "Iniciar nova sessão",
+      "slidesLabel": "Lâminas deste caso",
+      "slidesPlaceholder": "0",
+      "register": "Registrar caso",
+      "registerThird": "Terceiro",
+      "frozenHint": "Chegou uma congelação? Marque o início para contar o tempo dela em separado.",
+      "frozenStart": "Iniciar congelação",
+      "frozenRunning": "Congelação em curso",
+      "frozenRegister": "Registrar como congelado",
+      "frozenCancel": "Cancelar",
+      "pause": "Pausar",
+      "resume": "Retomar",
+      "end": "Encerrar sessão",
+      "cases": "Casos",
+      "slides": "Lâminas",
+      "avgCase": "Média / caso",
+      "avgSlide": "Média / lâmina",
+      "casesTitle": "Casos da sessão",
+      "noCases": "Nenhum caso registrado ainda.",
+      "caseN": "Caso {{n}}",
+      "slidesCount_one": "{{count}} lâmina",
+      "slidesCount_other": "{{count}} lâminas",
+      "thirdBadge": "3º",
+      "frozenBadge": "Congelação",
+      "deleteCase": "Apagar caso"
+    },
+    "speed": {
+      "title": "Velocidade desta sessão",
+      "vsBest": "vs melhor dia",
+      "vsGeneral": "vs média geral",
+      "vsMonthly": "vs média do mês",
+      "perCase": "caso",
+      "ref": "ref:",
+      "faster": "↑ {{pct}}% mais rápido",
+      "slower": "↓ {{pct}}% mais lento",
+      "equal": "Igual à referência",
+      "slow": "Lento",
+      "fast": "Rápido",
+      "noHistory": "Os velocímetros aparecem depois da primeira sessão encerrada."
+    },
+    "pie": {
+      "title": "Tempo da sessão",
+      "work": "Trabalhado",
+      "pauses": "Pausas"
+    },
+    "history": {
+      "empty": "Nenhum histórico ainda. Encerre a primeira sessão para começar.",
+      "totals": {
+        "days": "Dias",
+        "cases": "Casos",
+        "slides": "Lâminas",
+        "avg": "Média / caso"
+      },
+      "yearMeta": "{{days}} dias · {{cases}} casos · {{slides}} lâminas",
+      "monthMeta": "{{days}} dias · {{cases}} casos · {{slides}} lâminas · {{avg}}/caso",
+      "dayMeta": "{{cases}} casos · {{slides}} lâminas · {{time}} · {{sessions}} sessão(ões)",
+      "sessionN": "Sessão {{n}}",
+      "sessionMeta": "{{cases}} casos",
+      "deleteDay": "Apagar o dia",
+      "deleteSession": "Apagar a sessão",
+      "deleteCase": "Apagar o caso",
+      "confirm": "Confirmar"
+    },
+    "records": {
+      "empty": "Nenhum histórico ainda. Encerre a primeira sessão para ver os records.",
+      "dayTitle": "Records de dia",
+      "weekTitle": "Records de semana",
+      "monthTitle": "Records de mês",
+      "mostCasesDay": "Mais casos num dia",
+      "mostSlidesDay": "Mais lâminas num dia",
+      "bestAvg": "Melhor média / caso",
+      "totalDays": "Dias trabalhados",
+      "mostCasesWeek": "Mais casos numa semana",
+      "mostSlidesWeek": "Mais lâminas numa semana",
+      "mostCasesMonth": "Mais casos num mês",
+      "mostSlidesMonth": "Mais lâminas num mês",
+      "daysCount_one": "{{count}} dia",
+      "daysCount_other": "{{count}} dias"
+    },
+    "stats": {
+      "empty": "Nenhum histórico ainda. As estatísticas aparecem depois da primeira sessão encerrada.",
+      "period": {
+        "week": "Esta semana",
+        "month": "Este mês",
+        "year": "Este ano",
+        "all": "Geral"
+      },
+      "segment": {
+        "all": "Todos os casos",
+        "own": "Meus casos",
+        "third": "Terceiros",
+        "frozen": "Congelações"
+      },
+      "summary": {
+        "cases": "Casos",
+        "slides": "Lâminas",
+        "days": "Dias",
+        "avgCase": "Média / caso",
+        "avgSlide": "Média / lâmina",
+        "total": "Tempo total"
+      },
+      "chartTitle": "Casos por período",
+      "legend": {
+        "own": "Meus",
+        "third": "Terceiros"
+      }
+    }
   }
 }

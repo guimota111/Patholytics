@@ -43,6 +43,22 @@ service cloud.firestore {
       allow read, write: if isOwner(uid);
     }
 
+    // Manual de macroscopia: sistemas e roteiros do proprio usuario, com as
+    // fotos dentro do documento. Mesmo criterio do arquivo de laudos.
+    match /users/{uid}/macroscopy/{nodeId} {
+      allow read, write: if isOwner(uid);
+    }
+
+    // Controle de producao: a sessao em curso e um documento por dia de
+    // historico. Dados de trabalho do proprio usuario, so o dono le e escreve.
+    match /users/{uid}/production/{docId} {
+      allow read, write: if isOwner(uid);
+    }
+
+    match /users/{uid}/productionHistory/{date} {
+      allow read, write: if isOwner(uid);
+    }
+
     function isOwner(uid) {
       return request.auth != null && request.auth.uid == uid;
     }
