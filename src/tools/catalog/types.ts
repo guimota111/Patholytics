@@ -19,6 +19,8 @@ export interface Facet {
 export interface CatalogPhoto {
   /** URL da foto (import de `@/assets/catalog/...`). */
   src: string
+  /** Miniatura para o cartão da busca; sem ela, o cartão usa `src`. */
+  thumb?: string
   caption?: string
   /** Quem enviou a foto — aparece junto dela. */
   credit?: string

@@ -22,3 +22,8 @@ ui-debug.log
 
 # One-off migration output (personal report data)
 arquivolaudos-export-*.json
+
+# Cache de fotos do gerador dos catálogos (scripts/catalog)
+scripts/catalog/final/
+scripts/catalog/dl/
+scripts/catalog/sheets/

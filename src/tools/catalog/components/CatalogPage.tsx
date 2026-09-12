@@ -159,7 +159,7 @@ function EntryCard({ catalog, entry }: { catalog: Catalog; entry: CatalogEntry }
     >
       <div className="aspect-[4/3] bg-surface">
         {cover ? (
-          <img src={cover.src} alt={entry.name} className="size-full object-cover" loading="lazy" />
+          <img src={cover.thumb ?? cover.src} alt={entry.name} className="size-full object-cover" loading="lazy" />
         ) : (
           <div className="flex size-full items-center justify-center text-xs text-ink-faint">{t('catalog.noPhoto')}</div>
         )}
