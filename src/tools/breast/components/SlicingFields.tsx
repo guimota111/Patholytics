@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/Button'
 import { BigChip } from '@/components/ui/didactic'
 import { compactInputClass } from '@/components/ui/fields'
 import { cn } from '@/lib/cn'
-import { labelSpan, nextPrefix, planCassettes } from '../cassettes'
+import { labelSpan, nextCassetteLabel, planCassettes } from '../cassettes'
 import { fmtLen } from '../format'
 import { clampSlices, sliceThickness } from '../geometry'
 import { newId } from '../storage'
@@ -33,8 +33,8 @@ export function SlicingFields({ map, setMap, compact = false }: SlicingFieldsPro
 
   const addPreset = (kind: 'margins' | 'nipple' | 'skin' | 'breast' | 'nodes') =>
     setExtras((list) => {
-      const prefix = nextPrefixFor(map, list)
-      let n = 1
+      const { prefix, n: from } = nextCassetteLabel(map, list)
+      let n = from
       const mk = (description: string): ExtraCassette => ({ id: newId('x'), label: `${prefix}${n++}`, description })
       const rows: ExtraCassette[] = []
       if (kind === 'margins') MARGINS.forEach((m) => rows.push(mk(t('breast.slicing.presetMarginItem', { margin: t(`breast.margin.${m}`) }))))
@@ -96,7 +96,7 @@ export function SlicingFields({ map, setMap, compact = false }: SlicingFieldsPro
               <span className="font-semibold">{labelSpan(p.grid)}</span>
               <span className="text-ink-muted">
                 {' — '}
-                {t('breast.slicing.keyGrid', { label: p.lesion.label, slice: p.central, rows: p.lesion.cassettes.rows, cols: p.lesion.cassettes.cols })}
+                {t('breast.slicing.keyGrid', { label: p.lesion.label, slice: p.mapped, rows: p.lesion.cassettes.rows, cols: p.lesion.cassettes.cols })}
               </span>
               {p.others.length > 0 && (
                 <span className="text-ink-muted">
@@ -163,7 +163,12 @@ export function SlicingFields({ map, setMap, compact = false }: SlicingFieldsPro
             type="button"
             size="sm"
             variant="secondary"
-            onClick={() => setExtras((list) => [...list, { id: newId('x'), label: `${nextPrefixFor(map, list)}1`, description: '' }])}
+            onClick={() =>
+              setExtras((list) => {
+                const { prefix, n } = nextCassetteLabel(map, list)
+                return [...list, { id: newId('x'), label: `${prefix}${n}`, description: '' }]
+              })
+            }
           >
             <Plus className="size-4" aria-hidden />
             {t('breast.slicing.addExtra')}
@@ -172,16 +177,4 @@ export function SlicingFields({ map, setMap, compact = false }: SlicingFieldsPro
       )}
     </div>
   )
-}
-
-/** Letra livre considerando as lesões e os extras já rotulados. */
-function nextPrefixFor(map: MacroState, extras: ExtraCassette[]): string {
-  const used = new Set([...map.lesions.map((l) => l.cassettes.prefix.toUpperCase()), ...extras.map((x) => x.label.replace(/[^A-Za-z]/g, '').toUpperCase())])
-  const base = nextPrefix(map)
-  if (!used.has(base)) return base
-  for (let i = 0; i < 26; i++) {
-    const c = String.fromCharCode(65 + i)
-    if (!used.has(c)) return c
-  }
-  return 'Z'
 }

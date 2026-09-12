@@ -24,77 +24,10 @@ import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/cn'
 import { planCassettes, type CassetteDef } from '../cassettes'
 import { fmtLen } from '../format'
-import { closestMargin, cutPlanes, dim, marginDistances, sizeOn, sliceCenter, sliceThickness } from '../geometry'
+import { closestMargin, cutPlanes, dim, makeShape, march, marginDistances, sizeOn, sliceCenter, sliceThickness, type Shape } from '../geometry'
 import { caColor, strokeColor, type Theme } from '../heat'
 import { BED_HEX, INK_HEX, MASS_HEX, NIPPLE_HEX, SKIN_HEX } from '../inks'
-import { AXIS_COORD, MARGIN_AXIS, MARGIN_SIGN, MARGINS, type Axis, type Lesion, type MacroState, type Margin, type MicroCell, type SpecimenState } from '../types'
-
-/* ---- Superfície implícita da peça ----------------------------------------- */
-
-interface Shape {
-  f: (x: number, y: number, z: number) => number
-  grad: (x: number, y: number, z: number) => [number, number, number]
-  a: number
-  b: number
-  cFront: number
-  cBack: number
-  rMax: number
-}
-
-const powAbs = (v: number, p: number) => Math.pow(Math.abs(v), p)
-const sgn = (v: number) => (v < 0 ? -1 : 1)
-
-function makeShape(sp: SpecimenState): Shape {
-  const a = dim(sp.dims, 'ml') / 2
-  const b = dim(sp.dims, 'si') / 2
-  const ap = dim(sp.dims, 'ap')
-  if (sp.type === 'mastectomy') {
-    const cFront = ap * 0.72
-    const cBack = ap * 0.28
-    const pxy = 2.3
-    const pf = 2.0
-    const pb = 7
-    return {
-      a,
-      b,
-      cFront,
-      cBack,
-      rMax: 2.5 * Math.max(a, b, cFront),
-      f: (x, y, z) => powAbs(x / a, pxy) + powAbs(y / b, pxy) + (z >= 0 ? powAbs(z / cFront, pf) : powAbs(z / cBack, pb)) - 1,
-      grad: (x, y, z) => [
-        (pxy * sgn(x) * powAbs(x / a, pxy - 1)) / a,
-        (pxy * sgn(y) * powAbs(y / b, pxy - 1)) / b,
-        z >= 0 ? (pf * powAbs(z / cFront, pf - 1)) / cFront : (-pb * powAbs(z / cBack, pb - 1)) / cBack,
-      ],
-    }
-  }
-  const c = ap / 2
-  const p = 3.2
-  return {
-    a,
-    b,
-    cFront: c,
-    cBack: c,
-    rMax: 2.5 * Math.max(a, b, c),
-    f: (x, y, z) => powAbs(x / a, p) + powAbs(y / b, p) + powAbs(z / c, p) - 1,
-    grad: (x, y, z) => [(p * sgn(x) * powAbs(x / a, p - 1)) / a, (p * sgn(y) * powAbs(y / b, p - 1)) / b, (p * sgn(z) * powAbs(z / c, p - 1)) / c],
-  }
-}
-
-/** Raio r em que f(o + r·d) = 0 (bisseção; f cresce ao longo do raio). */
-function march(shape: Shape, o: [number, number, number], d: [number, number, number], maxR: number): number | null {
-  const at = (r: number) => shape.f(o[0] + d[0] * r, o[1] + d[1] * r, o[2] + d[2] * r)
-  if (at(0) >= 0) return null
-  let lo = 0
-  let hi = maxR
-  if (at(hi) < 0) return null
-  for (let i = 0; i < 34; i++) {
-    const mid = (lo + hi) / 2
-    if (at(mid) < 0) lo = mid
-    else hi = mid
-  }
-  return (lo + hi) / 2
-}
+import { AXIS_COORD, MARGIN_AXIS, MARGIN_SIGN, MARGINS, type Axis, type Lesion, type MacroState, type Margin, type MicroCell } from '../types'
 
 /* ---- Utilidades ------------------------------------------------------------ */
 
@@ -272,7 +205,15 @@ function buildScene(map: MacroState, theme: Theme, mode: 'macro' | 'micro', t: (
   const clips: THREE.Mesh[] = []
   for (const l of map.lesions) {
     const g = new THREE.SphereGeometry(1, 56, 36)
-    displace(g, l)
+    // O centro no referencial do mundo: a peça é simétrica no eixo x, então
+    // espelhar a mama direita não muda a superfície, só de que lado a lesão cai.
+    const centerW: [number, number, number] = [flip * l.center.x, l.center.y, l.center.z]
+    const halves: [number, number, number] = [
+      Math.max(0.5, sizeOn(l, 'ml') / 2),
+      Math.max(0.5, sizeOn(l, 'si') / 2),
+      Math.max(0.5, sizeOn(l, 'ap') / 2),
+    ]
+    displace(g, l, shape, centerW, halves)
     const isBed = l.kind === 'tumorBed'
     const m = new THREE.MeshStandardMaterial({
       color: isBed ? BED_HEX : MASS_HEX,
@@ -283,7 +224,8 @@ function buildScene(map: MacroState, theme: Theme, mode: 'macro' | 'micro', t: (
       depthWrite: mode === 'macro' && !isBed,
     })
     const mesh = new THREE.Mesh(g, m)
-    mesh.scale.set(Math.max(0.5, sizeOn(l, 'ml') / 2) * S, Math.max(0.5, sizeOn(l, 'si') / 2) * S, Math.max(0.5, sizeOn(l, 'ap') / 2) * S)
+    // A geometria já sai em milímetros: aqui só a escala do mundo.
+    mesh.scale.set(S, S, S)
     mesh.position.copy(toWorld(l.center.x, l.center.y, l.center.z))
     mesh.renderOrder = mode === 'micro' ? 5 : 1
     mesh.userData = { lesionId: l.id }
@@ -453,8 +395,12 @@ function buildScene(map: MacroState, theme: Theme, mode: 'macro' | 'micro', t: (
   return { shell, shellMaterials, nipple, lesions, clips, lines, tiles, distances, labels, disposables, scale: S, flip }
 }
 
-/** Desloca radialmente os vértices da esfera unitária conforme a forma da lesão. */
-function displace(g: THREE.SphereGeometry, l: Lesion) {
+/**
+ * Desloca radialmente os vértices da esfera unitária conforme a forma da lesão,
+ * leva-os para milímetros e corta o que passaria da superfície da peça: uma
+ * espícula pode encostar na margem, nunca sair para fora do tecido.
+ */
+function displace(g: THREE.SphereGeometry, l: Lesion, shape: Shape, center: [number, number, number], halves: [number, number, number]) {
   const pos = g.attributes.position as THREE.BufferAttribute
   const rnd = mulberry(hashSeed(l.id))
   const spikes: { d: THREE.Vector3; h: number; w: number }[] = []
@@ -467,6 +413,7 @@ function displace(g: THREE.SphereGeometry, l: Lesion) {
       spikes.push({ d: new THREE.Vector3(rr * Math.cos(th), u, rr * Math.sin(th)), h: 0.35 + rnd() * 0.45, w: 0.09 + rnd() * 0.09 })
     }
   }
+  const insideSpecimen = shape.f(center[0], center[1], center[2]) < 0
   const v = new THREE.Vector3()
   for (let i = 0; i < pos.count; i++) {
     v.set(pos.getX(i), pos.getY(i), pos.getZ(i)).normalize()
@@ -482,7 +429,20 @@ function displace(g: THREE.SphereGeometry, l: Lesion) {
     } else {
       r += 0.015 * Math.sin(6 * v.x) * Math.cos(5 * v.z)
     }
-    pos.setXYZ(i, v.x * r, v.y * r, v.z * r)
+    let ox = v.x * r * halves[0]
+    let oy = v.y * r * halves[1]
+    let oz = v.z * r * halves[2]
+    if (insideSpecimen && shape.f(center[0] + ox, center[1] + oy, center[2] + oz) > 0) {
+      const len = Math.hypot(ox, oy, oz)
+      const surface = len > 1e-6 ? march(shape, center, [ox / len, oy / len, oz / len], shape.rMax) : null
+      if (surface !== null && surface < len) {
+        const k = (surface * 0.995) / len
+        ox *= k
+        oy *= k
+        oz *= k
+      }
+    }
+    pos.setXYZ(i, ox, oy, oz)
   }
   pos.needsUpdate = true
   g.computeVertexNormals()

@@ -4,20 +4,11 @@ import { Button } from '@/components/ui/Button'
 import { BigChip } from '@/components/ui/didactic'
 import { NumField, SelectField, Toggle, compactInputClass } from '@/components/ui/fields'
 import { cn } from '@/lib/cn'
-import { labelSpan, nextPrefix, planLesionCassettes } from '../cassettes'
-import { fmtLen, fmtN } from '../format'
-import {
-  centerFromDistance,
-  clampCenter,
-  clockPosition,
-  derivedQuadrant,
-  lesionGap,
-  marginDistances,
-  sliceRange,
-  suggestCenter,
-} from '../geometry'
+import { inheritedPrefix, planLesionCassettes } from '../cassettes'
+import { fmtLen } from '../format'
+import { clockPosition, containCenter, derivedQuadrant, lesionGap, marginDistances, sliceRange, suggestCenter } from '../geometry'
 import { INK_HEX, lesionColor } from '../inks'
-import { makeLesion } from '../storage'
+import { makeLesion, NO_MEASURED } from '../storage'
 import {
   AXIS_MARGINS,
   LESION_COLORS,
@@ -26,10 +17,12 @@ import {
   LESION_SHAPES,
   MAX_LESIONS,
   type Axis,
+  type CassettePlan,
   type Lesion,
   type MacroState,
   type Point3,
 } from '../types'
+import { CassettePlanner } from './CassettePlanner'
 import { PositionPad } from './PositionPad'
 
 interface LesionEditorProps {
@@ -53,7 +46,8 @@ export function LesionEditor({ map, setMap, selected, onSelect, compact = false 
       ...m,
       lesions: m.lesions.map((l) => (l.id === id ? (typeof patch === 'function' ? patch(l) : { ...l, ...patch }) : l)),
     }))
-  const move = (id: string, center: Point3) => update(id, (l) => ({ ...l, center: clampCenter({ ...l, center }, dims) }))
+  const move = (id: string, center: Point3) => update(id, (l) => ({ ...l, center: containCenter({ ...l, center }, specimen) }))
+  const setPlan = (id: string, patch: Partial<CassettePlan>) => update(id, (l) => ({ ...l, cassettes: { ...l.cassettes, ...patch } }))
   const remove = (id: string) => {
     setMap((m) => ({ ...m, lesions: m.lesions.filter((l) => l.id !== id) }))
     if (selected === id) onSelect(null)
@@ -61,12 +55,15 @@ export function LesionEditor({ map, setMap, selected, onSelect, compact = false 
   const add = () =>
     setMap((m) => {
       if (m.lesions.length >= MAX_LESIONS) return m
-      const lesion = makeLesion({
+      // A lesão nova continua na letra da peça; o número segue de onde a
+      // anterior parou, e cabe dentro da peça desde o primeiro desenho.
+      const draft = makeLesion({
         label: String(m.lesions.length + 1),
         center: suggestCenter(m),
         size: { ml: 12, si: 10, ap: 8 },
-        cassettes: { prefix: nextPrefix(m), start: 1, rows: 1, cols: 2, perOtherSlice: 1 },
+        cassettes: { prefix: inheritedPrefix(m), start: null, slice: null, rows: 1, cols: 2, perOtherSlice: 1 },
       })
+      const lesion = { ...draft, center: containCenter(draft, m.specimen) }
       onSelect(lesion.id)
       return { ...m, lesions: [...m.lesions, lesion] }
     })
@@ -98,7 +95,7 @@ export function LesionEditor({ map, setMap, selected, onSelect, compact = false 
                 />
               </label>
               <span className="tabular text-xs text-ink-faint">
-                {t('breast.lesion.slicesShort', { slices: sliceRange(plan), central: plan.central })}
+                {t('breast.lesion.slicesShort', { slices: sliceRange(plan), central: plan.mapped })}
               </span>
               <span className="text-xs text-ink-faint">
                 · {t('breast.lesion.closestShort', { margin: t(`breast.margin.${closest.margin}`), mm: fmtLen(closest.mm, units, i18n.language) })}
@@ -152,14 +149,44 @@ export function LesionEditor({ map, setMap, selected, onSelect, compact = false 
                         min={0}
                         decimals
                         unit="mm"
-                        onChange={(v) => update(l.id, (cur) => ({ ...cur, size: { ...cur.size, [axis]: v }, center: clampCenter(cur, dims) }))}
+                        onChange={(v) =>
+                          update(l.id, (cur) => {
+                            const grown = { ...cur, size: { ...cur.size, [axis]: v } }
+                            return { ...grown, center: containCenter(grown, specimen) }
+                          })
+                        }
                       />
                     ))}
                   </div>
                 </div>
 
                 <div>
-                  <p className="mb-1.5 text-xs font-medium text-ink-muted">{t('breast.lesion.distances')}</p>
+                  <div className="mb-1.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <p className="text-xs font-medium text-ink-muted">{t('breast.lesion.distances')}</p>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        update(l.id, (cur) => ({
+                          ...cur,
+                          measured: Object.fromEntries(
+                            marginDistances(cur, dims).map((d) => [d.margin, Math.round(d.modelMm * 10) / 10]),
+                          ) as Lesion['measured'],
+                        }))
+                      }
+                      className="text-xs text-accent hover:underline"
+                    >
+                      {t('breast.lesion.fillFromModel')}
+                    </button>
+                    {distances.some((d) => d.fromRuler) && (
+                      <button
+                        type="button"
+                        onClick={() => update(l.id, { measured: { ...NO_MEASURED } })}
+                        className="text-xs text-ink-faint hover:text-ink hover:underline"
+                      >
+                        {t('breast.lesion.clearMeasured')}
+                      </button>
+                    )}
+                  </div>
                   <div className="grid gap-3 sm:grid-cols-3">
                     {(['si', 'ml', 'ap'] as Axis[]).map((axis) => {
                       const [neg, pos] = AXIS_MARGINS[axis]
@@ -178,11 +205,18 @@ export function LesionEditor({ map, setMap, selected, onSelect, compact = false 
                                   min={0}
                                   value={Math.round(d.mm * 10) / 10}
                                   onChange={(e) => {
-                                    const v = e.target.value === '' ? 0 : Number(e.target.value)
-                                    update(l.id, (cur) => ({ ...cur, center: clampCenter({ ...cur, center: centerFromDistance(cur, dims, margin, v) }, dims) }))
+                                    // O que ele digita fica; apagar o campo devolve o valor do modelo.
+                                    const v = e.target.value === '' ? null : Math.max(0, Number(e.target.value) || 0)
+                                    update(l.id, (cur) => ({ ...cur, measured: { ...cur.measured, [margin]: v } }))
                                   }}
                                   onFocus={(e) => e.currentTarget.select()}
-                                  className={cn(compactInputClass, 'w-20', d.reached && 'border-danger text-danger')}
+                                  title={d.fromRuler ? t('breast.lesion.measuredHint', { mm: Math.round(d.modelMm * 10) / 10 }) : t('breast.lesion.modelHint')}
+                                  className={cn(
+                                    compactInputClass,
+                                    'w-20',
+                                    d.fromRuler ? 'border-accent/70 font-semibold text-ink' : 'text-ink-muted',
+                                    d.reached && 'border-danger text-danger',
+                                  )}
                                   aria-label={`${t('breast.lesion.distanceTo')} ${t(`breast.margin.${margin}`)}`}
                                 />
                                 <span className="text-xs text-ink-faint">mm</span>
@@ -193,7 +227,8 @@ export function LesionEditor({ map, setMap, selected, onSelect, compact = false 
                       )
                     })}
                   </div>
-                  <p className="mt-1.5 text-xs text-ink-faint">
+                  <p className="mt-1.5 text-xs leading-relaxed text-ink-faint">{t('breast.lesion.distancesHint')}</p>
+                  <p className="mt-1 text-xs text-ink-faint">
                     {closest.reached
                       ? t('breast.lesion.reaches', { margin: t(`breast.margin.${closest.margin}`) })
                       : t('breast.lesion.closest', { margin: t(`breast.margin.${closest.margin}`), mm: fmtLen(closest.mm, units, i18n.language) })}
@@ -232,76 +267,8 @@ export function LesionEditor({ map, setMap, selected, onSelect, compact = false 
                   </div>
                 )}
 
-                <div className="rounded-md border border-line bg-elevated px-3 py-3">
-                  <p className="text-xs font-medium text-ink-muted">{t('breast.lesion.cassettes')}</p>
-                  <div className="mt-2 flex flex-wrap items-end gap-3">
-                    <label className="space-y-1 text-xs text-ink-muted">
-                      {t('breast.lesion.prefix')}
-                      <input
-                        value={l.cassettes.prefix}
-                        onChange={(e) => update(l.id, { cassettes: { ...l.cassettes, prefix: e.target.value.toUpperCase().slice(0, 3) } })}
-                        className={cn(compactInputClass, 'w-14 text-center')}
-                      />
-                    </label>
-                    <label className="space-y-1 text-xs text-ink-muted">
-                      {t('breast.lesion.start')}
-                      <input
-                        type="number"
-                        min={1}
-                        value={l.cassettes.start}
-                        onChange={(e) => update(l.id, { cassettes: { ...l.cassettes, start: Math.max(1, Number(e.target.value) || 1) } })}
-                        className={cn(compactInputClass, 'w-16')}
-                      />
-                    </label>
-                    <label className="space-y-1 text-xs text-ink-muted">
-                      {t('breast.lesion.rows')}
-                      <input
-                        type="number"
-                        min={1}
-                        max={8}
-                        value={l.cassettes.rows}
-                        onChange={(e) => update(l.id, { cassettes: { ...l.cassettes, rows: Math.max(1, Math.min(8, Number(e.target.value) || 1)) } })}
-                        className={cn(compactInputClass, 'w-16')}
-                      />
-                    </label>
-                    <label className="space-y-1 text-xs text-ink-muted">
-                      {t('breast.lesion.cols')}
-                      <input
-                        type="number"
-                        min={1}
-                        max={8}
-                        value={l.cassettes.cols}
-                        onChange={(e) => update(l.id, { cassettes: { ...l.cassettes, cols: Math.max(1, Math.min(8, Number(e.target.value) || 1)) } })}
-                        className={cn(compactInputClass, 'w-16')}
-                      />
-                    </label>
-                    <label className="space-y-1 text-xs text-ink-muted">
-                      {t('breast.lesion.perOtherSlice')}
-                      <input
-                        type="number"
-                        min={0}
-                        max={8}
-                        value={l.cassettes.perOtherSlice}
-                        onChange={(e) => update(l.id, { cassettes: { ...l.cassettes, perOtherSlice: Math.max(0, Math.min(8, Number(e.target.value) || 0)) } })}
-                        className={cn(compactInputClass, 'w-16')}
-                      />
-                    </label>
-                  </div>
-                  <p className="tabular mt-2 text-xs text-ink-muted">
-                    {t('breast.lesion.gridPreview', {
-                      span: labelSpan(plan.grid),
-                      slice: plan.central,
-                      rows: l.cassettes.rows,
-                      cols: l.cassettes.cols,
-                      size: `${fmtN(plan.gridSizeU, 0, i18n.language)} × ${fmtN(plan.gridSizeV, 0, i18n.language)} mm`,
-                      rowFrom: t(`breast.margin.${plan.rowDirection[0]}`),
-                      rowTo: t(`breast.margin.${plan.rowDirection[1]}`),
-                      colFrom: t(`breast.margin.${plan.colDirection[0]}`),
-                      colTo: t(`breast.margin.${plan.colDirection[1]}`),
-                    })}
-                    {plan.others.length > 0 && ` · ${t('breast.lesion.othersPreview', { span: labelSpan(plan.others), n: plan.others.length })}`}
-                  </p>
-                </div>
+                <CassettePlanner lesion={l} map={map} plan={plan} index={index} onChange={(patch) => setPlan(l.id, patch)} />
+
               </div>
 
               <div className="flex flex-wrap gap-4 xl:flex-col" onClick={(e) => e.stopPropagation()}>

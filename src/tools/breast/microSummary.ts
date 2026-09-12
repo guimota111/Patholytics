@@ -36,7 +36,7 @@ export function buildMicroSummary(state: MicroState, a: MicroAnalysis, t: TFunct
   L.push('', k('cellsTitle'))
   for (const l of a.lesions) {
     const p = l.plan
-    L.push(k('lesionLine', { label: p.lesion.label, span: labelSpan(p.grid), slice: p.central, others: p.others.length ? k('lesionOthers', { span: labelSpan(p.others) }) : '' }))
+    L.push(k('lesionLine', { label: p.lesion.label, span: labelSpan(p.grid), slice: p.mapped, others: p.others.length ? k('lesionOthers', { span: labelSpan(p.others) }) : '' }))
     const parts = l.cells
       .filter((c) => c.assessed)
       .map((c) => `${c.def.label}: ${n(c.cell.ca, 0)}%${(c.cell.ca ?? 0) > 0 ? ` (${k('cisShort', { pct: n(c.cell.cis ?? 0, 0) })})` : ''}${c.cell.lvi ? ` ${k('lviMark')}` : ''}${c.cell.margin ? ` ${k('marginMark', { margin: marginName(c.cell.margin, t) })}` : ''}`)

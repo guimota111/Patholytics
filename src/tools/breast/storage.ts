@@ -5,7 +5,7 @@
    ========================================================================== */
 
 import { clampGrid } from './cassettes'
-import { clampSlices, coherentFrom } from './geometry'
+import { clampSlices, coherentFrom, containLesions } from './geometry'
 import { DEFAULT_INKS } from './inks'
 import {
   DEEP_PLANES,
@@ -69,7 +69,16 @@ export const DEFAULT_SPECIMEN: SpecimenState = {
   notes: '',
 }
 
-export const DEFAULT_PLAN: CassettePlan = { prefix: 'A', start: 1, rows: 2, cols: 3, perOtherSlice: 1 }
+export const DEFAULT_PLAN: CassettePlan = { prefix: 'A', start: null, slice: null, rows: 2, cols: 3, perOtherSlice: 1 }
+
+export const NO_MEASURED: Record<Margin, number | null> = {
+  superior: null,
+  inferior: null,
+  medial: null,
+  lateral: null,
+  anterior: null,
+  posterior: null,
+}
 
 export function makeLesion(partial: Partial<Lesion> = {}): Lesion {
   return {
@@ -79,6 +88,7 @@ export function makeLesion(partial: Partial<Lesion> = {}): Lesion {
     shape: partial.shape ?? 'spiculated',
     size: partial.size ?? { ml: 20, si: 18, ap: 15 },
     center: partial.center ?? { x: 0, y: 0, z: 0 },
+    measured: partial.measured ?? { ...NO_MEASURED },
     clip: partial.clip ?? false,
     color: partial.color ?? 'white',
     consistency: partial.consistency ?? 'hard',
@@ -204,13 +214,29 @@ function sanitizeSlicing(raw: unknown): Slicing {
 
 function sanitizePlan(raw: unknown): CassettePlan {
   const p = (raw ?? {}) as Partial<CassettePlan>
+  const start = num(p.start)
+  const slice = num(p.slice)
   return {
     prefix: str(p.prefix, 'A').slice(0, 3) || 'A',
-    start: Math.max(1, Math.floor(numOr(p.start, 1)) || 1),
+    // Casos antigos guardavam start: 1 em todas as lesões. Como 1 é também o
+    // que a numeração automática daria na primeira, tratar 1 como automático
+    // recupera esses casos sem perder nada.
+    start: start === null || start <= 1 ? null : Math.floor(start),
+    slice: slice === null ? null : Math.max(1, Math.floor(slice)),
     rows: clampGrid(numOr(p.rows, DEFAULT_PLAN.rows)),
     cols: clampGrid(numOr(p.cols, DEFAULT_PLAN.cols)),
     perOtherSlice: Math.max(0, Math.min(8, Math.floor(numOr(p.perOtherSlice, DEFAULT_PLAN.perOtherSlice)) || 0)),
   }
+}
+
+function sanitizeMeasured(raw: unknown): Record<Margin, number | null> {
+  const p = (raw ?? {}) as Partial<Record<Margin, number | null>>
+  const out = { ...NO_MEASURED }
+  for (const m of MARGINS) {
+    const v = num(p[m])
+    out[m] = v === null ? null : Math.max(0, v)
+  }
+  return out
 }
 
 function sanitizeLesion(raw: unknown, index: number): Lesion | null {
@@ -223,6 +249,7 @@ function sanitizeLesion(raw: unknown, index: number): Lesion | null {
     shape: oneOf(p.shape, LESION_SHAPES, 'spiculated'),
     size: sanitizeDims(p.size, { ml: 20, si: 18, ap: 15 }),
     center: sanitizePoint(p.center),
+    measured: sanitizeMeasured(p.measured),
     clip: bool(p.clip),
     color: oneOf(p.color, LESION_COLORS, ''),
     consistency: oneOf(p.consistency, LESION_CONSISTENCIES, ''),
@@ -250,14 +277,15 @@ export function sanitizeMacro(raw: unknown): MacroState {
         .map(sanitizeExtra)
         .filter((x): x is ExtraCassette => x !== null)
     : []
-  return {
+  // Nenhuma lesão pode ficar fora da peça, nem vinda de um caso antigo.
+  return containLesions({
     specimen: sanitizeSpecimen(p.specimen),
     inks: sanitizeInks(p.inks),
     slicing: sanitizeSlicing(p.slicing),
     lesions,
     extraCassettes: extras,
     units: oneOf(p.units, ['cm', 'mm'] as const, 'cm'),
-  }
+  })
 }
 
 function sanitizeCell(raw: unknown): MicroCell {

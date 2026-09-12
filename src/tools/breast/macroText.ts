@@ -89,6 +89,7 @@ export function buildMacroText(m: MacroState, t: TFunction, locale: string): str
       and,
     )
     const slices = lesionSlices(l, slicing, sp.dims)
+    const plan = plans[i]
     const descr =
       (l.color ? k('colorPart', { color: t(`breast.lesionColor.${l.color}`) }) : '') +
       (l.consistency ? k('consistencyPart', { consistency: t(`breast.lesionConsistency.${l.consistency}`) }) : '')
@@ -101,7 +102,7 @@ export function buildMacroText(m: MacroState, t: TFunction, locale: string): str
         size: fmtDims(l.size, units, locale),
         location: locationText(l, m, t, locale),
         slices: sliceRange(slices),
-        central: slices.central,
+        central: plan.mapped,
       }),
     )
     L.push(k('distances', { list: distText }))
@@ -138,7 +139,7 @@ export function buildMacroText(m: MacroState, t: TFunction, locale: string): str
       k('keyGrid', {
         span: labelSpan(p.grid),
         label: l.label,
-        slice: p.central,
+        slice: p.mapped,
         rows: l.cassettes.rows,
         cols: l.cassettes.cols,
         rowFrom: marginName(p.rowDirection[0], t),

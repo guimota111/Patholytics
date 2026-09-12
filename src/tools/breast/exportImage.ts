@@ -8,7 +8,7 @@
 import type { TFunction } from 'i18next'
 import { A4, FAINT, FONT, INK, LINE, MONO, MUTED, drawFooter, drawHeader, drawTiles, ellipsize, loadImage, roundRect, toBlob, wrapLines } from '@/lib/canvasReport'
 import type { MicroAnalysis } from './analysis'
-import { labelSpan } from './cassettes'
+import { labelSpan, planCassettes } from './cassettes'
 import { fmtDims, fmtLen, fmtN, fmtWeight } from './format'
 import { closestMargin, lesionSlices, marginDistances, sliceRange, slicesWithLesions } from './geometry'
 import { caColor, RCB_CLASS_HEX } from './heat'
@@ -61,7 +61,7 @@ async function drawViews(ctx: CanvasRenderingContext2D, views: [string, string |
 function drawSliceStrip(ctx: CanvasRenderingContext2D, map: MacroState, y: number, t: TFunction): number {
   const rows = slicesWithLesions(map)
   const index = new Map(map.lesions.map((l, i) => [l.id, i]))
-  const centrals = new Map(map.lesions.map((l) => [l.id, lesionSlices(l, map.slicing, map.specimen.dims).central]))
+  const mappedSlices = new Map(planCassettes(map).map((p) => [p.lesion.id, p.mapped]))
   const sq = Math.max(28, Math.min(54, Math.floor(W / rows.length) - 8))
   let x = M
   let yy = y
@@ -83,7 +83,7 @@ function drawSliceStrip(ctx: CanvasRenderingContext2D, map: MacroState, y: numbe
     ctx.textAlign = 'center'
     ctx.fillText(String(r.slice), x + sq / 2, yy + sq / 2 + sq * 0.14)
     ctx.textAlign = 'left'
-    if (r.lesionIds.some((id) => centrals.get(id) === r.slice)) {
+    if (r.lesionIds.some((id) => mappedSlices.get(id) === r.slice)) {
       ctx.fillStyle = INK
       ctx.beginPath()
       ctx.arc(x + sq - 6, yy + 6, 6, 0, Math.PI * 2)
@@ -297,7 +297,7 @@ export async function renderMicroImage(input: Common & { state: MicroState; anal
     ctx.fillStyle = INK
     ctx.font = `600 20px ${FONT}`
     ctx.fillText(
-      `${t('breast.map.lesionN', { n: p.lesion.label })} · ${labelSpan(p.grid)} (${t('breast.map.sliceN', { n: p.central })})${l.caMean !== null ? ` · ${t('breast.micro.meanShort', { ca: n(l.caMean, 0), cis: n(l.cisMean ?? 0, 0) })}` : ''}`,
+      `${t('breast.map.lesionN', { n: p.lesion.label })} · ${labelSpan(p.grid)} (${t('breast.map.sliceN', { n: p.mapped })})${l.caMean !== null ? ` · ${t('breast.micro.meanShort', { ca: n(l.caMean, 0), cis: n(l.cisMean ?? 0, 0) })}` : ''}`,
       M + 30,
       y + 19,
     )

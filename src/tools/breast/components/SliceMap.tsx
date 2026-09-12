@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/cn'
 import { planCassettes } from '../cassettes'
-import { lesionSlices, slicesWithLesions } from '../geometry'
+import { slicesWithLesions } from '../geometry'
 import { caColor, caTextColor, LVI_HEX, MARGIN_HEX, type Theme } from '../heat'
 import { lesionColor } from '../inks'
 import { AXIS_MARGINS, MARGIN_SIGN, type MacroState, type MicroCell } from '../types'
@@ -27,7 +27,7 @@ export function SliceMap({ map, theme, cells, selectedLesion, onSelectLesion, se
   const rows = slicesWithLesions(map)
   const plans = planCassettes(map)
   const index = new Map(map.lesions.map((l, i) => [l.id, i]))
-  const centrals = new Map(map.lesions.map((l) => [l.id, lesionSlices(l, map.slicing, map.specimen.dims).central]))
+  const mappedSlices = new Map(plans.map((p) => [p.lesion.id, p.mapped]))
   const [neg, pos] = AXIS_MARGINS[map.slicing.axis]
   const to = MARGIN_SIGN[map.slicing.from] === -1 ? pos : neg
 
@@ -56,7 +56,7 @@ export function SliceMap({ map, theme, cells, selectedLesion, onSelectLesion, se
                 style={idx >= 0 ? { background: lesionColor(idx) } : undefined}
               >
                 {r.slice}
-                {r.lesionIds.some((id) => centrals.get(id) === r.slice) && (
+                {r.lesionIds.some((id) => mappedSlices.get(id) === r.slice) && (
                   <span className="absolute -top-1 -right-1 size-3 rounded-full border-2 border-elevated bg-ink" aria-hidden />
                 )}
                 {r.lesionIds.length > 1 && (

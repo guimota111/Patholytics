@@ -29,7 +29,7 @@ const DEMO_MAP = {
       size: { ml: 28, si: 22, ap: 18 },
       center: { x: 8, y: 6, z: 2 },
       clip: true,
-      cassettes: { prefix: 'A', start: 1, rows: 2, cols: 3, perOtherSlice: 1 },
+      cassettes: { prefix: 'A', start: null, slice: null, rows: 2, cols: 3, perOtherSlice: 1 },
     }),
   ],
 }
@@ -102,7 +102,7 @@ export default function BreastDemo() {
         <div className="mt-3 flex flex-wrap items-start gap-5">
           <div>
             <p className="mb-1.5 text-[0.65rem] tracking-wider text-ink-faint uppercase">
-              {t('breast.map.sliceN', { n: lesion?.plan.central ?? 1 })} · {t('breast.map.legendCentral')}
+              {t('breast.map.sliceN', { n: lesion?.plan.mapped ?? 1 })} · {t('breast.map.legendCentral')}
             </p>
             <div
               className="inline-grid gap-1.5"

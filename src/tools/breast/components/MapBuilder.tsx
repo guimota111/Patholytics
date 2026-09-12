@@ -100,7 +100,7 @@ export function MapBuilder({ map, setMap, onReplace, onImportLocal, hasLocalMacr
           {plans.map((p) => (
             <span key={p.lesion.id}>
               {' · '}
-              {t('breast.map.lesionN', { n: p.lesion.label })}: {labelSpan(p.grid)} ({t('breast.map.sliceN', { n: p.central })})
+              {t('breast.map.lesionN', { n: p.lesion.label })}: {labelSpan(p.grid)} ({t('breast.map.sliceN', { n: p.mapped })})
               {p.others.length > 0 && ` + ${labelSpan(p.others)}`}
             </span>
           ))}

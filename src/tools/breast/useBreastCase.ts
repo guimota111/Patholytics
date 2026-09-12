@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
+import { containLesions } from './geometry'
 import {
   DEFAULT_MACRO,
   DEFAULT_MICRO,
@@ -56,9 +57,11 @@ export function useBreastCase() {
     if (hydrated) saveMicro(uid, micro)
   }, [hydrated, uid, micro])
 
-  const setMacro = useCallback((patch: Patch<MacroState>) => setMacroState((s) => apply(s, patch)), [])
+  // Toda escrita no mapa passa por containLesions: mudar o tamanho da peça
+  // nunca deixa uma lesão do lado de fora.
+  const setMacro = useCallback((patch: Patch<MacroState>) => setMacroState((s) => containLesions(apply(s, patch))), [])
   const setMicro = useCallback((patch: Patch<MicroState>) => setMicroState((s) => apply(s, patch)), [])
-  const setMicroMap = useCallback((patch: Patch<MacroState>) => setMicroState((s) => ({ ...s, map: apply(s.map, patch) })), [])
+  const setMicroMap = useCallback((patch: Patch<MacroState>) => setMicroState((s) => ({ ...s, map: containLesions(apply(s.map, patch)) })), [])
 
   const setCell = useCallback((id: string, patch: Partial<MicroCell>) => {
     setMicroState((s) => ({ ...s, cells: { ...s.cells, [id]: { ...EMPTY_MICRO_CELL, ...s.cells[id], ...patch } } }))

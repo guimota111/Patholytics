@@ -68,7 +68,7 @@ export function CassetteGrid({ analysis, cells, theme, selected, onSelect, setCe
                   <span className="inline-block size-3 rounded-full" style={{ background: lesionColor(idx) }} aria-hidden />
                   <span className="text-sm font-semibold text-ink">{t('breast.map.lesionN', { n: plan.lesion.label })}</span>
                   <span className="tabular text-xs text-ink-faint">
-                    {t('breast.micro.gridMeta', { slice: plan.central, rows: plan.lesion.cassettes.rows, cols: plan.lesion.cassettes.cols, u: fmtN(plan.gridSizeU, 0, i18n.language), v: fmtN(plan.gridSizeV, 0, i18n.language) })}
+                    {t('breast.micro.gridMeta', { slice: plan.mapped, rows: plan.lesion.cassettes.rows, cols: plan.lesion.cassettes.cols, u: fmtN(plan.gridSizeU, 0, i18n.language), v: fmtN(plan.gridSizeV, 0, i18n.language) })}
                   </span>
                   {analysis.length > 1 && (
                     <label className="ml-auto inline-flex items-center gap-1.5 text-xs text-ink-muted">

@@ -112,13 +112,16 @@ export const LESION_COLORS: LesionColor[] = ['', 'white', 'gray', 'yellow', 'bro
 export const LESION_CONSISTENCIES: LesionConsistency[] = ['', 'hard', 'firm', 'elastic', 'soft', 'gelatinous']
 
 export interface CassettePlan {
-  /** Letra dos cassetes desta lesão ("A"). */
+  /** Letra dos cassetes desta lesão ("A"). Lesões da mesma peça costumam repetir a letra. */
   prefix: string
-  start: number
-  /** Grade no maior corte: fileiras × colunas. */
+  /** Primeiro número da lesão; null = continua a numeração da lesão anterior. */
+  start: number | null
+  /** Fatia que o patologista mapeou; null = a do maior corte. */
+  slice: number | null
+  /** Grade na fatia mapeada: fileiras × colunas. */
   rows: number
   cols: number
-  /** Cassetes por fatia adicional que contém a lesão (0 = só o maior corte). */
+  /** Cassetes por fatia adicional que contém a lesão (0 = só a fatia mapeada). */
   perOtherSlice: number
 }
 
@@ -132,6 +135,13 @@ export interface Lesion {
   size: Dims3
   /** Centro da lesão em mm a partir do centro da peça. */
   center: Point3
+  /**
+   * Distância medida na bancada até cada margem, em mm. O que o patologista
+   * digita fica; o que ele não digitou (null) sai do modelo. O modelo nunca
+   * reescreve um valor medido, nem a lesão se move quando ele muda — com
+   * espículas e limites imprecisos a régua manda mais que a geometria.
+   */
+  measured: Record<Margin, number | null>
   clip: boolean
   color: LesionColor
   consistency: LesionConsistency
