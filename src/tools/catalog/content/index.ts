@@ -27,3 +27,16 @@ import { bugs } from './bugs'
 import { foreign } from './foreign'
 
 export const CATALOGS: Record<CatalogId, Catalog> = { bugs, foreign }
+
+// Em desenvolvimento, uma faceta digitada errada num verbete avisa no console
+// em vez de sumir silenciosamente do filtro.
+if (import.meta.env.DEV) {
+  for (const catalog of Object.values(CATALOGS)) {
+    const known = new Set([...catalog.traits, ...catalog.sites, ...catalog.clinical].map((f) => f.id))
+    for (const entry of catalog.entries) {
+      for (const id of [...entry.traits, ...entry.sites, ...entry.clinical]) {
+        if (!known.has(id)) console.warn(`[catalog] ${catalog.id}/${entry.id}: faceta desconhecida "${id}"`)
+      }
+    }
+  }
+}
