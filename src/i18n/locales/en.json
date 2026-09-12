@@ -28,8 +28,8 @@
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "sidebar": "Sidebar",
-    "collapseMenu": "Collapse menu",
-    "expandMenu": "Expand menu",
+    "collapseMenu": "Hide menu",
+    "expandMenu": "Show menu",
     "backToSite": "Back to site"
   },
   "landing": {
@@ -127,7 +127,7 @@
         "noMatch": "Nothing matches that term."
       },
       "tma": {
-        "columnLabel": "Column ready for the spreadsheet"
+        "columnLabel": "Table ready for the spreadsheet"
       }
     },
     "cta": {
@@ -281,7 +281,7 @@
     },
     "tma": {
       "name": "TMA Mapper",
-      "description": "Walks a tissue microarray core by core and stacks every result for pasting into a spreadsheet column."
+      "description": "Walks a tissue microarray core by core, with the fields you define, and hands you the table ready for the spreadsheet, as an image or as a PDF."
     },
     "fieldConverter": {
       "name": "Field converter",
@@ -323,7 +323,7 @@
     "disclaimer": "Support tool for the reporting pathologist. Final staging and report review remain the professional’s responsibility — check against the current CAP / AJCC protocols. Calculator content is in Brazilian Portuguese."
   },
   "tma": {
-    "subtitle": "Read a tissue microarray core by core and copy every result stacked, ready to paste into a spreadsheet column.",
+    "subtitle": "Read a tissue microarray core by core, answering the fields you define yourself, and take the table to a spreadsheet, an image or a PDF.",
     "setupTitle": "Set up the TMA slide",
     "setupHint": "Enter how many cores the slide has, in rows and columns.",
     "rows": "Rows (vertical)",
@@ -335,7 +335,7 @@
     "dimensions": "{{rows}} rows × {{cols}} columns",
     "coreLabel": "Core {{coord}} — {{state}}",
     "legendEmpty": "Empty",
-    "legendFilled": "Filled",
+    "legendFilled": "Complete",
     "legendCurrent": "Current core",
     "progress": "{{filled}} of {{total}} cores filled",
     "currentCore": "Current core",
@@ -347,11 +347,61 @@
     "next": "Next core",
     "endOfMap": "End of the map — every core has been visited.",
     "filled": "filled",
-    "copy": "Copy results",
+    "copy": "Copy table",
     "copied": "Copied",
     "newMap": "New map",
     "newMapConfirm": "Confirm — discard",
-    "privacy": "The map is saved only in this browser, tied to your account — nothing is sent to the server. Copy the results before starting a new map, or they are lost."
+    "privacy": "The map is saved only in this browser, tied to your account — nothing is sent to the server. Copy the results before starting a new map, or they are lost.",
+    "defaultField": "Result",
+    "fieldsTitle": "What you record for each core",
+    "fieldsHint": "One or more fields per core: free text, or options that become one-click buttons.",
+    "fieldLabel": "Field {{n}} name",
+    "fieldLabelPlaceholder": "Field name (e.g. Intensity)",
+    "fieldKind": "Field type",
+    "kindText": "Free text",
+    "kindChoice": "Options",
+    "fieldOptions": "Options, comma-separated",
+    "fieldOptionsPlaceholder": "Comma-separated options: 0, 1+, 2+, 3+",
+    "noOptions": "This field has no options yet — edit the fields to add some.",
+    "addField": "Add field",
+    "removeField": "Remove field",
+    "maxFields": "Up to {{n}} fields per core.",
+    "presets": "Suggestions:",
+    "preset": {
+      "intensity": "Intensity",
+      "percent": "% of cells",
+      "posneg": "Positive / Negative",
+      "missing": "Core assessable?",
+      "note": "Note"
+    },
+    "presetOptions": {
+      "posneg": "Positive, Negative",
+      "missing": "Yes, Missing, Inadequate"
+    },
+    "editFields": "Fields",
+    "editFieldsTitle": "Edit core fields",
+    "editFieldsWarning": "Removing a field deletes its answers in every core.",
+    "saveFields": "Save fields",
+    "legendPartial": "Partial",
+    "export": "Export",
+    "exportTitle": "Export results",
+    "exportHint": "One row per core, one column per field, in the reading order of the map.",
+    "coordinateColumn": "Core",
+    "optHeader": "Header row with the field names",
+    "optCoordinate": "Column with the core coordinate (A1, A2…)",
+    "optHint": "Apply to the clipboard and the CSV. Without both, only the answer column comes out, one per line.",
+    "exportClipboard": "Copy to clipboard",
+    "exportClipboardHint": "Pastes straight into the spreadsheet, already split into columns.",
+    "exportCsv": "Download spreadsheet (CSV)",
+    "exportCsvHint": "Opens in Excel, Google Sheets or LibreOffice.",
+    "exportImage": "Download image (PNG)",
+    "exportImageHint": "The map and the table in one picture.",
+    "exportPdf": "PDF / print",
+    "exportPdfHint": "Opens the browser print dialog — choose “Save as PDF”.",
+    "exportFailed": "The export could not be generated. Check whether the browser blocked pop-ups or downloads and try again.",
+    "exportPreview": "Paper preview",
+    "paperTitle": "TMA map",
+    "paperFooter": "Generated in Patholytics. The map lives only in the browser of whoever read it; this paper is the only copy outside it."
   },
   "fov": {
     "subtitle": "Three steps: tell us your microscope, convert your count between fields and mm² (either way), and see how many fields to count for each tumour.",
@@ -1308,14 +1358,7 @@
     }
   },
   "billing": {
-    "subtitlePathologist": "Name the specimen you reported and tick what you examined. The correct bill appears beside it — and you compare it with what the front desk already charged.",
-    "subtitleReception": "Name the material that arrived and how many flasks. Out comes the code to book it in.",
-    "roleQuestion": "Who is using it now?",
-    "rolePathologist": "I am the pathologist",
-    "rolePathologistHint": "I have just reported a specimen and want to check whether it was billed correctly, ticking every structure I examined.",
-    "roleReception": "I am at the front desk",
-    "roleReceptionHint": "I am booking the material in and need the code for the authorisation form.",
-    "changeRole": "change",
+    "subtitle": "Name the specimen you reported and tick what you examined. The correct bill appears beside it — and you compare it with what the front desk already charged.",
     "step1Title": "The specimen you reported",
     "step1Hint": "Type the name or browse by system. What is usually examined comes ticked already.",
     "step2Hint": "Tick the margins, extra pieces and lymph node groups you examined. Every tick is one charge.",
@@ -1364,11 +1407,6 @@
     "checkOk": "Matches what is billed.",
     "checkMissing": "{{n}} charges missing on the form.",
     "checkExtra": "{{n}} charges too many on the form.",
-    "receptionStep1": "What arrived at the lab?",
-    "receptionStep1Hint": "Type what is written on the request or on the flask label.",
-    "receptionResult": "Code to book it in",
-    "receptionDefaultNote": "This is the entry code. Margins, extra pieces and lymph nodes are up to the pathologist after grossing: the final bill comes from the report.",
-    "otherMaterial": "Pick another material",
     "disclaimer": "The handbook sets the coding, not prices: fees come from the schedule in force, and payer contracts may add their own rules. Source:",
     "systemCount": "{{n}} specimens"
   },

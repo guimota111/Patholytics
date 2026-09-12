@@ -1,60 +1,97 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
 import { clearState, loadState, saveState } from './storage'
-import { buildOrder, clampDimension, keyOf, type TmaState } from './types'
+import {
+  answeredCount,
+  buildOrder,
+  clampDimension,
+  keyOf,
+  sanitizeFields,
+  type CoreAnswers,
+  type TmaField,
+  type TmaState,
+} from './types'
 
 /**
  * Estado do mapa de TMA.
  *
- * Diferenca deliberada em relacao ao script de origem: la o texto do core so
- * era gravado ao navegar (Proximo / Anterior / clique no mapa), entao fechar a
- * aba no meio de um core perdia o que estava digitado. Aqui cada tecla ja grava
- * — o texto copiado no fim e identico, e nada se perde.
+ * Diferença deliberada em relação ao script de origem: lá o texto do core só
+ * era gravado ao navegar (Próximo / Anterior / clique no mapa), então fechar a
+ * aba no meio de um core perdia o que estava digitado. Aqui cada tecla já grava
+ * — o texto copiado no fim é idêntico, e nada se perde.
  */
 export function useTmaMapper() {
+  const { t } = useTranslation()
   const { user } = useAuth()
   const uid = user?.uid ?? null
+  const defaultLabel = t('tma.defaultField')
 
   const [state, setState] = useState<TmaState | null>(null)
   const [hydrated, setHydrated] = useState(false)
 
-  // Recarrega ao trocar de usuario — o mapa e por conta.
+  // Recarrega ao trocar de usuário — o mapa é por conta.
   useEffect(() => {
-    setState(loadState(uid))
+    setState(loadState(uid, defaultLabel))
     setHydrated(true)
-  }, [uid])
+  }, [uid, defaultLabel])
 
   useEffect(() => {
     if (!hydrated || !state) return
     saveState(uid, state)
   }, [hydrated, uid, state])
 
-  const order = useMemo(
-    () => (state ? buildOrder(state.rows, state.cols) : []),
-    [state],
-  )
+  const order = useMemo(() => (state ? buildOrder(state.rows, state.cols) : []), [state])
 
-  const start = useCallback((rows: number, cols: number) => {
-    setState({
-      rows: clampDimension(rows),
-      cols: clampDimension(cols),
-      results: {},
-      current: 0,
-    })
-  }, [])
+  const start = useCallback(
+    (rows: number, cols: number, fields: TmaField[]) => {
+      setState({
+        rows: clampDimension(rows),
+        cols: clampDimension(cols),
+        fields: sanitizeFields(fields, defaultLabel),
+        results: {},
+        current: 0,
+      })
+    },
+    [defaultLabel],
+  )
 
   const reset = useCallback(() => {
     clearState(uid)
     setState(null)
   }, [uid])
 
-  const setResult = useCallback((value: string) => {
+  /** Troca os campos de um mapa em andamento; respostas de campos removidos são descartadas. */
+  const setFields = useCallback(
+    (fields: TmaField[]) => {
+      setState((current) => {
+        if (!current) return current
+        const next = sanitizeFields(fields, defaultLabel)
+        const keep = new Set(next.map((field) => field.id))
+        const results: Record<string, CoreAnswers> = {}
+        for (const [key, answers] of Object.entries(current.results)) {
+          const kept: CoreAnswers = {}
+          for (const [fieldId, value] of Object.entries(answers)) {
+            if (keep.has(fieldId) && value.trim()) kept[fieldId] = value
+          }
+          if (Object.keys(kept).length > 0) results[key] = kept
+        }
+        return { ...current, fields: next, results }
+      })
+    },
+    [defaultLabel],
+  )
+
+  const setAnswer = useCallback((fieldId: string, value: string) => {
     setState((current) => {
       if (!current) return current
       const [r, c] = buildOrder(current.rows, current.cols)[current.current]
       const key = keyOf(r, c)
+      const answers: CoreAnswers = { ...(current.results[key] ?? {}) }
+      if (value.trim()) answers[fieldId] = value
+      else delete answers[fieldId]
       const results = { ...current.results }
-      if (value.trim()) results[key] = value
+      if (Object.keys(answers).length > 0) results[key] = answers
       else delete results[key]
       return { ...current, results }
     })
@@ -85,26 +122,17 @@ export function useTmaMapper() {
     })
   }, [])
 
+  /** Cores com pelo menos um campo respondido. */
   const filledCount = useMemo(() => {
     if (!state) return 0
-    return Object.values(state.results).filter((value) => value.trim()).length
+    return Object.values(state.results).filter((answers) => answeredCount(answers, state.fields) > 0).length
   }, [state])
-
-  /**
-   * Resultados empilhados, um por linha, na ordem do mapa. Cores vazios viram
-   * linha em branco para que cada linha continue casando com sua posicao ao
-   * colar numa coluna de planilha.
-   */
-  const resultsText = useMemo(
-    () => order.map(([r, c]) => (state?.results[keyOf(r, c)] ?? '').trim()).join('\n'),
-    [order, state],
-  )
 
   const total = state ? state.rows * state.cols : 0
   const atLast = state ? state.current >= total - 1 : false
   const currentCore = state ? order[state.current] : null
-  const currentValue =
-    state && currentCore ? (state.results[keyOf(currentCore[0], currentCore[1])] ?? '') : ''
+  const currentAnswers: CoreAnswers =
+    state && currentCore ? (state.results[keyOf(currentCore[0], currentCore[1])] ?? {}) : {}
 
   return {
     hydrated,
@@ -113,12 +141,12 @@ export function useTmaMapper() {
     total,
     atLast,
     currentCore,
-    currentValue,
+    currentAnswers,
     filledCount,
-    resultsText,
     start,
     reset,
-    setResult,
+    setFields,
+    setAnswer,
     goTo,
     next,
     previous,

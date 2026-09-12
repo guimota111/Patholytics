@@ -1,6 +1,7 @@
 import { useEffect, useRef, type RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
-import { colLabel, coordOf, keyOf, rowLabel, type TmaState } from '../types'
+import { FILL_CLASS } from '../fill'
+import { colLabel, coordOf, fillOf, keyOf, rowLabel, type CoreFill, type TmaState } from '../types'
 import { cn } from '@/lib/cn'
 
 interface TmaGridProps {
@@ -13,12 +14,12 @@ export function TmaGrid({ state, onSelect }: TmaGridProps) {
   const currentRef = useRef<HTMLButtonElement>(null)
   const scrollerRef = useRef<HTMLDivElement>(null)
   // Desestruturado porque a regra exhaustive-deps trata qualquer `.current`
-  // como ref mutavel e recusa `state.current` como dependencia.
+  // como ref mutável e recusa `state.current` como dependência.
   const { current } = state
 
-  // Mapas grandes rolam: manter o core atual sempre a vista quando ele muda.
-  // No primeiro render so o proprio mapa rola, nunca a janela — na home, a
-  // demonstracao montava e puxava a pagina inteira ate o snap do TMA.
+  // Mapas grandes rolam: manter o core atual sempre à vista quando ele muda.
+  // No primeiro render só o próprio mapa rola, nunca a janela — na home, a
+  // demonstração montava e puxava a página inteira até o snap do TMA.
   const previous = useRef(current)
   useEffect(() => {
     const cell = currentRef.current
@@ -67,6 +68,12 @@ interface RowProps extends TmaGridProps {
   currentRef: RefObject<HTMLButtonElement | null>
 }
 
+const FILL_KEY: Record<CoreFill, string> = {
+  empty: 'tma.legendEmpty',
+  partial: 'tma.legendPartial',
+  complete: 'tma.legendFilled',
+}
+
 function Row({ row, state, onSelect, currentRef }: RowProps) {
   const { t } = useTranslation()
 
@@ -81,8 +88,14 @@ function Row({ row, state, onSelect, currentRef }: RowProps) {
 
       {Array.from({ length: state.cols }, (_, col) => {
         const index = row * state.cols + col
-        const filled = Boolean(state.results[keyOf(row, col)]?.trim())
+        const answers = state.results[keyOf(row, col)]
+        const fill = fillOf(answers, state.fields)
         const isCurrent = index === state.current
+        const coord = coordOf(row, col)
+        const summary = state.fields
+          .map((field) => (answers?.[field.id] ?? '').trim())
+          .filter(Boolean)
+          .join(' · ')
 
         return (
           <button
@@ -91,16 +104,11 @@ function Row({ row, state, onSelect, currentRef }: RowProps) {
             type="button"
             onClick={() => onSelect(index)}
             aria-current={isCurrent ? 'true' : undefined}
-            aria-label={t('tma.coreLabel', {
-              coord: coordOf(row, col),
-              state: filled ? t('tma.legendFilled') : t('tma.legendEmpty'),
-            })}
-            title={coordOf(row, col)}
+            aria-label={t('tma.coreLabel', { coord, state: t(FILL_KEY[fill]) })}
+            title={summary ? `${coord}: ${summary}` : coord}
             className={cn(
               'size-7 rounded-full border transition-colors',
-              filled
-                ? 'border-accent/50 bg-accent-soft hover:border-accent'
-                : 'border-line bg-surface hover:border-line-strong',
+              FILL_CLASS[fill],
               isCurrent && 'ring-2 ring-accent ring-offset-2 ring-offset-elevated',
             )}
           />

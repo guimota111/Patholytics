@@ -1,7 +1,7 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { LayoutGrid, LogOut, Menu, User as UserIcon } from 'lucide-react'
+import { LayoutGrid, LogOut, Menu, PanelLeftClose, PanelLeftOpen, User as UserIcon } from 'lucide-react'
 import { Logo } from '@/components/ui/Logo'
 import { AppSidebar } from '@/components/AppSidebar'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
@@ -9,13 +9,17 @@ import { ThemeSwitcher } from '@/components/ThemeSwitcher'
 import { ToolErrorBoundary } from '@/components/ToolErrorBoundary'
 import { useAuth } from '@/hooks/useAuth'
 import { useDismiss } from '@/hooks/useClickOutside'
+import { cn } from '@/lib/cn'
 
 /**
  * Signed-in shell: a persistent tool rail on the left, a dense top bar for
  * account controls. Navigation lives entirely in the rail, so the bar stays
- * empty of links and the content column runs the full remaining width.
+ * empty of links and the content column runs the full remaining width. The
+ * rail can be hidden outright, and the bar's first button brings it back.
  */
 const COLLAPSED_KEY = 'patholytics.sidebar.v1'
+/** Tailwind's `lg` breakpoint — where the drawer becomes the static rail. */
+const DESKTOP_QUERY = '(min-width: 64rem)'
 
 function readCollapsed(): boolean {
   try {
@@ -25,12 +29,24 @@ function readCollapsed(): boolean {
   }
 }
 
+function useDesktop(): boolean {
+  const [desktop, setDesktop] = useState(() => (typeof window === 'undefined' ? true : window.matchMedia(DESKTOP_QUERY).matches))
+  useEffect(() => {
+    const media = window.matchMedia(DESKTOP_QUERY)
+    const onChange = () => setDesktop(media.matches)
+    media.addEventListener('change', onChange)
+    return () => media.removeEventListener('change', onChange)
+  }, [])
+  return desktop
+}
+
 export function AppLayout() {
   const { t } = useTranslation()
   const { pathname } = useLocation()
+  const desktop = useDesktop()
   const [menuOpen, setMenuOpen] = useState(false)
   const closeMenu = useCallback(() => setMenuOpen(false), [])
-  // Read synchronously so a collapsed rail does not flash open on load.
+  // Read synchronously so a hidden rail does not flash open on load.
   const [collapsed, setCollapsed] = useState(readCollapsed)
   const toggleCollapsed = useCallback(() => {
     setCollapsed((value) => {
@@ -44,6 +60,13 @@ export function AppLayout() {
     })
   }, [])
 
+  // One button, two jobs: opens the drawer on small screens, toggles the rail on large ones.
+  const menuLabel = desktop ? t(collapsed ? 'nav.expandMenu' : 'nav.collapseMenu') : t('nav.openMenu')
+  const onMenuButton = () => {
+    if (desktop) toggleCollapsed()
+    else setMenuOpen(true)
+  }
+
   return (
     <div className="flex min-h-dvh bg-ground">
       <AppSidebar open={menuOpen} onClose={closeMenu} collapsed={collapsed} onToggleCollapsed={toggleCollapsed} />
@@ -51,22 +74,28 @@ export function AppLayout() {
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-30 border-b border-line bg-ground/85 backdrop-blur-sm">
           <div className="shell flex h-14 items-center justify-between gap-4">
-            <div className="flex items-center gap-2 lg:hidden">
+            <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => setMenuOpen(true)}
-                aria-label={t('nav.openMenu')}
-                aria-expanded={menuOpen}
+                onClick={onMenuButton}
+                aria-label={menuLabel}
+                title={desktop ? menuLabel : undefined}
+                aria-expanded={desktop ? !collapsed : menuOpen}
                 className="-ml-1.5 rounded-md p-1.5 text-ink-muted transition-colors hover:bg-elevated hover:text-ink"
               >
-                <Menu className="size-5" aria-hidden />
+                <Menu className="size-5 lg:hidden" aria-hidden />
+                {collapsed ? (
+                  <PanelLeftOpen className="hidden size-5 lg:block" aria-hidden />
+                ) : (
+                  <PanelLeftClose className="hidden size-5 lg:block" aria-hidden />
+                )}
               </button>
-              <Link to="/dashboard" aria-label={t('common.appName')}>
+              <Link to="/dashboard" aria-label={t('common.appName')} className={cn(!collapsed && 'lg:hidden')}>
                 <Logo />
               </Link>
             </div>
 
-            <div className="flex items-center gap-1 lg:ml-auto">
+            <div className="flex items-center gap-1">
               <ThemeSwitcher />
               <LanguageSwitcher />
               <AccountMenu />

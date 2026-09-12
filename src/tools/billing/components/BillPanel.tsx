@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AlertTriangle, Check, Copy, RotateCcw } from 'lucide-react'
+import { AlertTriangle, Check, Copy } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/cn'
 import type { Bill, Diff } from '../case'
@@ -13,7 +13,6 @@ export function BillPanel({
   billed,
   onBilled,
   onCopy,
-  onClear,
   empty,
 }: {
   bill: Bill
@@ -21,7 +20,6 @@ export function BillPanel({
   billed: Partial<Record<CodeKey, number>>
   onBilled: (code: CodeKey, qty: number) => void
   onCopy: () => Promise<boolean>
-  onClear: () => void
   empty: boolean
 }) {
   const { t } = useTranslation()
@@ -69,10 +67,6 @@ export function BillPanel({
           <Button type="button" size="sm" onClick={() => void copy()} disabled={empty}>
             {copied ? <Check className="size-4" aria-hidden /> : <Copy className="size-4" aria-hidden />}
             {copied ? t('billing.copied') : t('billing.copy')}
-          </Button>
-          <Button type="button" size="sm" variant="secondary" onClick={onClear} disabled={empty}>
-            <RotateCcw className="size-4" aria-hidden />
-            {t('billing.newCase')}
           </Button>
         </div>
       </section>

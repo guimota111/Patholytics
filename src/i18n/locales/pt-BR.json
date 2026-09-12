@@ -28,8 +28,8 @@
     "openMenu": "Abrir menu",
     "closeMenu": "Fechar menu",
     "sidebar": "Barra lateral",
-    "collapseMenu": "Recolher menu",
-    "expandMenu": "Expandir menu",
+    "collapseMenu": "Ocultar menu",
+    "expandMenu": "Mostrar menu",
     "backToSite": "Voltar ao site"
   },
   "landing": {
@@ -127,7 +127,7 @@
         "noMatch": "Nada encontrado com esse termo."
       },
       "tma": {
-        "columnLabel": "Coluna pronta para a planilha"
+        "columnLabel": "Tabela pronta para a planilha"
       }
     },
     "cta": {
@@ -281,7 +281,7 @@
     },
     "tma": {
       "name": "Mapeador de TMA",
-      "description": "Percorre um tissue microarray core a core e empilha todos os resultados para colar numa coluna de planilha."
+      "description": "Percorre um tissue microarray core a core, com os campos que você definir, e entrega a tabela pronta para a planilha, em imagem ou em PDF."
     },
     "fieldConverter": {
       "name": "Conversor de campos",
@@ -323,7 +323,7 @@
     "disclaimer": "Ferramenta de apoio ao patologista. O estadiamento final e a conferência do laudo são sempre responsabilidade do profissional — confira com a versão vigente dos protocolos CAP / AJCC."
   },
   "tma": {
-    "subtitle": "Leia um tissue microarray core a core e copie todos os resultados empilhados, prontos para colar numa coluna de planilha.",
+    "subtitle": "Leia um tissue microarray core a core, respondendo os campos que você mesmo define, e leve a tabela para a planilha, para uma imagem ou para um PDF.",
     "setupTitle": "Configure a lâmina de TMA",
     "setupHint": "Informe quantos cores a lâmina tem, em linhas e colunas.",
     "rows": "Linhas (vertical)",
@@ -335,7 +335,7 @@
     "dimensions": "{{rows}} linhas × {{cols}} colunas",
     "coreLabel": "Core {{coord}} — {{state}}",
     "legendEmpty": "Vazio",
-    "legendFilled": "Preenchido",
+    "legendFilled": "Completo",
     "legendCurrent": "Core atual",
     "progress": "{{filled}} de {{total}} cores preenchidos",
     "currentCore": "Core atual",
@@ -347,11 +347,61 @@
     "next": "Próximo core",
     "endOfMap": "Fim do mapa — todos os cores foram visitados.",
     "filled": "preenchidos",
-    "copy": "Copiar resultados",
+    "copy": "Copiar tabela",
     "copied": "Copiado",
     "newMap": "Novo mapa",
     "newMapConfirm": "Confirmar — descartar",
-    "privacy": "O mapa fica salvo apenas neste navegador, vinculado à sua conta — nada vai para o servidor. Copie os resultados antes de começar um mapa novo, ou eles se perdem."
+    "privacy": "O mapa fica salvo apenas neste navegador, vinculado à sua conta — nada vai para o servidor. Copie os resultados antes de começar um mapa novo, ou eles se perdem.",
+    "defaultField": "Resultado",
+    "fieldsTitle": "O que você anota em cada core",
+    "fieldsHint": "Um ou mais campos por core: texto livre, ou opções que viram botões de um clique.",
+    "fieldLabel": "Nome do campo {{n}}",
+    "fieldLabelPlaceholder": "Nome do campo (ex.: Intensidade)",
+    "fieldKind": "Tipo do campo",
+    "kindText": "Texto livre",
+    "kindChoice": "Opções",
+    "fieldOptions": "Opções, separadas por vírgula",
+    "fieldOptionsPlaceholder": "Opções separadas por vírgula: 0, 1+, 2+, 3+",
+    "noOptions": "Este campo ainda não tem opções — edite os campos para acrescentar.",
+    "addField": "Adicionar campo",
+    "removeField": "Remover campo",
+    "maxFields": "Até {{n}} campos por core.",
+    "presets": "Sugestões:",
+    "preset": {
+      "intensity": "Intensidade",
+      "percent": "% de células",
+      "posneg": "Positivo / Negativo",
+      "missing": "Core avaliável?",
+      "note": "Observação"
+    },
+    "presetOptions": {
+      "posneg": "Positivo, Negativo",
+      "missing": "Sim, Ausente, Inadequado"
+    },
+    "editFields": "Campos",
+    "editFieldsTitle": "Editar campos do core",
+    "editFieldsWarning": "Remover um campo apaga as respostas dele em todos os cores.",
+    "saveFields": "Salvar campos",
+    "legendPartial": "Parcial",
+    "export": "Exportar",
+    "exportTitle": "Exportar resultados",
+    "exportHint": "Uma linha por core, uma coluna por campo, na ordem de leitura do mapa.",
+    "coordinateColumn": "Core",
+    "optHeader": "Linha de cabeçalho com o nome dos campos",
+    "optCoordinate": "Coluna com a coordenada do core (A1, A2…)",
+    "optHint": "Valem para a área de transferência e para o CSV. Sem as duas, sai só a coluna de respostas, uma por linha.",
+    "exportClipboard": "Copiar para a área de transferência",
+    "exportClipboardHint": "Cola direto na planilha, já separado em colunas.",
+    "exportCsv": "Baixar planilha (CSV)",
+    "exportCsvHint": "Abre no Excel, no Google Planilhas ou no LibreOffice.",
+    "exportImage": "Baixar imagem (PNG)",
+    "exportImageHint": "O mapa e a tabela numa figura só.",
+    "exportPdf": "PDF / imprimir",
+    "exportPdfHint": "Abre a impressão do navegador — escolha “Salvar como PDF”.",
+    "exportFailed": "Não deu para gerar a exportação. Verifique se o navegador bloqueou pop-ups ou downloads e tente de novo.",
+    "exportPreview": "Prévia do papel",
+    "paperTitle": "Mapa de TMA",
+    "paperFooter": "Gerado no Patholytics. O mapa fica só no navegador de quem o leu; este papel é a única cópia fora dele."
   },
   "fov": {
     "subtitle": "Três passos: diga qual é o seu microscópio, converta a sua contagem entre campos e mm² (nos dois sentidos), e veja quantos campos contar em cada tumor.",
@@ -1308,14 +1358,7 @@
     }
   },
   "billing": {
-    "subtitlePathologist": "Diga a peça que você laudou e marque o que examinou. A conta certa aparece ao lado — e você compara com o que a recepção já faturou.",
-    "subtitleReception": "Diga o material que chegou e quantos frascos vieram. Sai o código para dar entrada na guia.",
-    "roleQuestion": "Quem está usando agora?",
-    "rolePathologist": "Sou patologista",
-    "rolePathologistHint": "Acabei de laudar uma peça e quero conferir se ela foi faturada certo, marcando cada estrutura que examinei.",
-    "roleReception": "Sou da recepção",
-    "roleReceptionHint": "Estou dando entrada no material e preciso do código para lançar na guia.",
-    "changeRole": "trocar",
+    "subtitle": "Diga a peça que você laudou e marque o que examinou. A conta certa aparece ao lado — e você compara com o que a recepção já faturou.",
     "step1Title": "A peça que você laudou",
     "step1Hint": "Digite o nome ou escolha pelo sistema. Já vem marcado o que costuma ser examinado naquela peça.",
     "step2Hint": "Marque as margens, as peças extras e os grupos de linfonodos que você examinou. Cada marca vira uma cobrança.",
@@ -1364,11 +1407,6 @@
     "checkOk": "Confere com o que está faturado.",
     "checkMissing": "Faltam {{n}} cobranças na guia.",
     "checkExtra": "{{n}} cobranças a mais na guia.",
-    "receptionStep1": "O que chegou ao laboratório?",
-    "receptionStep1Hint": "Digite o que está escrito no pedido ou na etiqueta do frasco.",
-    "receptionResult": "Código para dar entrada",
-    "receptionDefaultNote": "Este é o código de entrada. Margens, peças extras e linfonodos só o patologista sabe, depois da macroscopia: a conta final sai do laudo.",
-    "otherMaterial": "Escolher outro material",
     "disclaimer": "A cartilha indica a codificação, não fixa valores em reais: porte e UCO vêm do referencial vigente no site da SBP, e contratos com operadoras podem ter regras próprias. Fonte:",
     "systemCount": "{{n}} peças"
   },

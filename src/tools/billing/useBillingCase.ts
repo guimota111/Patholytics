@@ -7,49 +7,36 @@ import {
   computeBill,
   computeDiff,
   loadCase,
-  loadRole,
   loadTemplates,
   pieceFromSpecimen,
   saveCase,
-  saveRole,
   saveTemplates,
   type BillingCase,
   type CasePiece,
   type CaseStructure,
-  type Role,
   type Templates,
 } from './case'
 import type { CodeKey } from './codes'
 import type { Specimen } from './specimens'
 
-/** Caso de cobrança, perfil e modelos próprios ficam no navegador, por usuário. */
+/** Caso de cobrança e modelos próprios ficam no navegador, por usuário. */
 export function useBillingCase() {
   const { user } = useAuth()
   const uid = user?.uid ?? null
 
   const [state, setState] = useState<BillingCase>(EMPTY_CASE)
   const [templates, setTemplates] = useState<Templates>({})
-  const [role, setRoleState] = useState<Role | null>(null)
   const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
     setState(loadCase(uid))
     setTemplates(loadTemplates(uid))
-    setRoleState(loadRole(uid))
     setHydrated(true)
   }, [uid])
 
   useEffect(() => {
     if (hydrated) saveCase(uid, state)
   }, [hydrated, uid, state])
-
-  const setRole = useCallback(
-    (next: Role | null) => {
-      setRoleState(next)
-      saveRole(uid, next)
-    },
-    [uid],
-  )
 
   const addPiece = useCallback(
     (specimen: Specimen) => {
@@ -158,8 +145,6 @@ export function useBillingCase() {
     bill,
     diff,
     hydrated,
-    role,
-    setRole,
     templates,
     addPiece,
     updatePiece,

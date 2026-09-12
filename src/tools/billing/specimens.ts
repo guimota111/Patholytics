@@ -105,7 +105,6 @@ export interface Specimen {
   flasks?: number
   structures?: Structure[]
   /** O que a recepção precisa saber ao dar entrada. */
-  receptionNote?: string
   /** Complementos que costumam vir junto, sugeridos com um clique. */
   suggests?: { block: string; params?: Record<string, number | string | number[]>; label: string }[]
 }
@@ -131,7 +130,6 @@ export const SPECIMENS: Specimen[] = [
       ln('Linfonodos ilíacos direitos'),
       ln('Linfonodos ilíacos esquerdos'),
     ],
-    receptionNote: 'Entra como peça complexa; margens, vesículas e linfonodos o patologista acrescenta depois da macroscopia.',
   },
   {
     id: 'cistectomia',
@@ -185,9 +183,9 @@ export const SPECIMENS: Specimen[] = [
     terms: 'penis peniana glande amputacao',
     structures: [m('Margem uretral'), m('Margem dos corpos cavernosos'), m('Margem cutânea'), ln('Linfonodos inguinais direitos'), ln('Linfonodos inguinais esquerdos')],
   },
-  { id: 'rtuProstata', label: 'RTU de próstata', system: 'uro', base: 'biopsiaMultipla', terms: 'rtu resseccao transuretral prostata raspas hiperplasia', receptionNote: 'Frasco com múltiplos fragmentos: 19-6, um por frasco.' },
-  { id: 'rtuBexiga', label: 'RTU de bexiga', system: 'uro', base: 'biopsiaMultipla', terms: 'rtu bexiga vesical tumor raspas', receptionNote: 'Frasco com múltiplos fragmentos: 19-6, um por frasco.' },
-  { id: 'biopsiaProstata', label: 'Biópsia de próstata por sextantes', system: 'uro', base: 'biopsiaSimples', terms: 'prostata agulha sextante fragmentos topografia 12', flasks: 6, receptionNote: 'Cada topografia identificada é uma cobrança: conte os frascos.' },
+  { id: 'rtuProstata', label: 'RTU de próstata', system: 'uro', base: 'biopsiaMultipla', terms: 'rtu resseccao transuretral prostata raspas hiperplasia' },
+  { id: 'rtuBexiga', label: 'RTU de bexiga', system: 'uro', base: 'biopsiaMultipla', terms: 'rtu bexiga vesical tumor raspas' },
+  { id: 'biopsiaProstata', label: 'Biópsia de próstata por sextantes', system: 'uro', base: 'biopsiaSimples', terms: 'prostata agulha sextante fragmentos topografia 12', flasks: 6 },
   { id: 'biopsiaProstataLobos', label: 'Biópsia de próstata por lobos', system: 'uro', base: 'biopsiaMultipla', terms: 'prostata lobo direito esquerdo multiplos fragmentos', flasks: 2 },
   { id: 'biopsiaRenal', label: 'Biópsia renal (nefropatia)', system: 'uro', base: 'biopsiaSimples', terms: 'rim renal glomerulo nefropatia agulha', suggests: [{ block: 'molecular', params: { tecnica: 'imunofluorescencia', unidades: 6 }, label: 'Imunofluorescência (6 marcadores)' }, { block: 'me', params: { especimes: 1 }, label: 'Microscopia eletrônica' }] },
   { id: 'nodulectomiaProstata', label: 'Nodulectomia prostática', system: 'uro', base: 'pecaSimples', terms: 'prostata adenomectomia millin nodulo' },
@@ -210,7 +208,6 @@ export const SPECIMENS: Specimen[] = [
       ln('Linfonodos axilares nível II', false),
       ln('Linfonodos axilares nível III', false),
     ],
-    receptionNote: 'Peça complexa; pele, mamilo, margens e linfonodos entram depois, pelo laudo.',
   },
   {
     id: 'quadrantectomia',
@@ -221,8 +218,8 @@ export const SPECIMENS: Specimen[] = [
     structures: [m('Margem superior'), m('Margem inferior'), m('Margem medial'), m('Margem lateral'), m('Margem profunda'), m('Margem superficial', false), x('Pele', false), ln('Linfonodos axilares', false)],
   },
   { id: 'nodulectomiaMama', label: 'Nodulectomia de mama (benigna)', system: 'mama', base: 'pecaSimples', terms: 'mama fibroadenoma nodulo exerese benigno', structures: [m('Margem cirúrgica', false)] },
-  { id: 'mamoplastia', label: 'Mamoplastia redutora', system: 'mama', base: 'pecaSimples', terms: 'mama plastica reducao estetica gigantomastia', flasks: 2, receptionNote: 'Uma cobrança por lado, se vierem em frascos separados.' },
-  { id: 'biopsiaMama', label: 'Core biopsy de mama', system: 'mama', base: 'biopsiaMultipla', terms: 'mama agulha grossa core fragmentos mamotomia', receptionNote: 'Frasco com 3 ou mais fragmentos: 19-6.' },
+  { id: 'mamoplastia', label: 'Mamoplastia redutora', system: 'mama', base: 'pecaSimples', terms: 'mama plastica reducao estetica gigantomastia', flasks: 2 },
+  { id: 'biopsiaMama', label: 'Core biopsy de mama', system: 'mama', base: 'biopsiaMultipla', terms: 'mama agulha grossa core fragmentos mamotomia' },
 
   /* ---------------------------------------------------------- ginecológico */
   {
@@ -232,7 +229,6 @@ export const SPECIMENS: Specimen[] = [
     base: 'pecaSimples',
     terms: 'utero uterina leiomioma miomatose total abdominal vaginal',
     structures: [x('Colo uterino'), x('Ovário direito', false), x('Tuba direita', false), x('Ovário esquerdo', false), x('Tuba esquerda', false)],
-    receptionNote: 'Peça simples; o colo e os anexos são cobrados como peças adicionais no laudo.',
   },
   {
     id: 'histerectomiaEndometrio',
@@ -259,7 +255,7 @@ export const SPECIMENS: Specimen[] = [
     structures: [m('Margem ectocervical'), m('Margem endocervical')],
     suggests: [{ block: 'revisao', params: { itens: 0, seriados: 1 }, label: 'Estudo seriado protocolar do cone' }],
   },
-  { id: 'curetagem', label: 'Curetagem uterina / AMIU', system: 'gineco', base: 'biopsiaMultipla', terms: 'curetagem amiu aspirado endometrial restos abortamento', receptionNote: 'Frasco com múltiplos fragmentos: 19-6.' },
+  { id: 'curetagem', label: 'Curetagem uterina / AMIU', system: 'gineco', base: 'biopsiaMultipla', terms: 'curetagem amiu aspirado endometrial restos abortamento' },
   { id: 'biopsiaEndometrio', label: 'Biópsia de endométrio (pipelle)', system: 'gineco', base: 'biopsiaSimples', terms: 'endometrio pipelle biopsia ambulatorial' },
   { id: 'placenta', label: 'Placenta', system: 'gineco', base: 'pecaComplexa', terms: 'placenta cordao membranas gestacao corioamnionite', structures: [x('Cordão umbilical', false), x('Membranas', false)] },
   {
@@ -350,7 +346,7 @@ export const SPECIMENS: Specimen[] = [
   { id: 'polipo', label: 'Pólipo com pedículo', system: 'digestivo', base: 'pecaSimples', terms: 'polipo polipectomia adenoma pediculo colon', structures: [m('Margem do pedículo')] },
   { id: 'mucosectomia', label: 'Mucosectomia (EMR/ESD)', system: 'digestivo', base: 'pecaSimples', terms: 'mucosectomia emr esd endoscopica dissecao submucosa', structures: [m('Margem profunda'), m('Margens do menor eixo'), m('Margens do maior eixo')] },
   { id: 'biopsiaGastrica', label: 'Biópsia gástrica (antro e corpo)', system: 'digestivo', base: 'biopsiaSimples', terms: 'endoscopia estomago helicobacter gastrite antro corpo eda', flasks: 2, suggests: [{ block: 'coloracao', params: { coloracoes: 2 }, label: 'Giemsa no antro e no corpo' }] },
-  { id: 'biopsiaColon', label: 'Biópsias de colonoscopia', system: 'digestivo', base: 'biopsiaSimples', terms: 'colonoscopia intestino biopsias multiplas frascos polipo', flasks: 3, receptionNote: 'Uma cobrança por frasco/topografia identificada.' },
+  { id: 'biopsiaColon', label: 'Biópsias de colonoscopia', system: 'digestivo', base: 'biopsiaSimples', terms: 'colonoscopia intestino biopsias multiplas frascos polipo', flasks: 3 },
   { id: 'biopsiaHepatica', label: 'Biópsia hepática', system: 'digestivo', base: 'biopsiaSimples', terms: 'figado hepatica agulha hepatite cirrose esteatose', suggests: [{ block: 'coloracao', params: { coloracoes: 3 }, label: 'Tricrômico, picrosírius e retículo' }] },
 
   /* ----------------------------------------------------- pele e partes moles */
@@ -368,7 +364,7 @@ export const SPECIMENS: Specimen[] = [
   { id: 'laringectomia', label: 'Laringectomia', system: 'cabeca', base: 'pecaComplexa', terms: 'laringe laringea corda vocal supraglotica', structures: [m('Margem mucosa proximal'), m('Margem traqueal'), m('Margem de partes moles'), x('Tireoide'), x('Traqueia'), x('Osso hióide', false), ln('Linfonodos cervicais', false)] },
   { id: 'glossectomia', label: 'Glossectomia / ressecção de cavidade oral', system: 'cabeca', base: 'pecaComplexa', terms: 'lingua boca oral glossectomia mandibula assoalho', structures: [m('Margem anterior'), m('Margem posterior'), m('Margem profunda'), m('Margem lateral', false), x('Mandíbula', false), ln('Linfonodos cervicais', false)] },
   { id: 'parotidectomia', label: 'Parotidectomia / glândula salivar', system: 'cabeca', base: 'pecaComplexa', terms: 'parotida salivar submandibular pleomorfico glandula', structures: [m('Margem profunda'), x('Linfonodo intraparotídeo', false)] },
-  { id: 'tonsila', label: 'Tonsilectomia (amígdalas)', system: 'cabeca', base: 'pecaSimples', terms: 'amigdala tonsila adenoide garganta', flasks: 2, receptionNote: 'Uma cobrança por lado, se vierem em frascos separados.' },
+  { id: 'tonsila', label: 'Tonsilectomia (amígdalas)', system: 'cabeca', base: 'pecaSimples', terms: 'amigdala tonsila adenoide garganta', flasks: 2 },
   { id: 'corneto', label: 'Corneto nasal / pólipo nasal', system: 'cabeca', base: 'pecaSimples', terms: 'corneto nasal septo polipo turbinectomia sinusite' },
   { id: 'exenteracao', label: 'Exenteração ocular', system: 'cabeca', base: 'pecaComplexa', terms: 'olho ocular enucleacao exenteracao retinoblastoma melanoma', structures: [m('Margem do nervo óptico'), x('Pálpebra', false)] },
 
@@ -388,8 +384,8 @@ export const SPECIMENS: Specimen[] = [
   { id: 'amputacaoOnco', label: 'Amputação oncológica', system: 'osso', base: 'amputacaoOnco', terms: 'amputacao tumor sarcoma osteossarcoma membro oncologica', structures: [m('Margem cutânea'), m('Margem óssea'), m('Margem de partes moles'), x('Partes moles'), x('Osso'), x('Grandes vasos e nervos'), ln('Linfonodos inguinais', false)] },
 
   /* ------------------------------------------------------------ citologias */
-  { id: 'papanicolau', label: 'Papanicolau (citologia oncótica)', system: 'cito', base: 'citoCervico', terms: 'papanicolau preventivo colpocitologia oncotica cervicovaginal microflora', receptionNote: 'Um exame, normalmente uma lâmina: 13-7.' },
-  { id: 'meioLiquido', label: 'Citologia em meio líquido', system: 'cito', base: 'citoMeioLiquido', terms: 'meio liquido surepath thinprep citologia base liquida', receptionNote: 'Cobrado por frasco/região enviada em separado: 32-3.' },
+  { id: 'papanicolau', label: 'Papanicolau (citologia oncótica)', system: 'cito', base: 'citoCervico', terms: 'papanicolau preventivo colpocitologia oncotica cervicovaginal microflora' },
+  { id: 'meioLiquido', label: 'Citologia em meio líquido', system: 'cito', base: 'citoMeioLiquido', terms: 'meio liquido surepath thinprep citologia base liquida' },
   { id: 'hormonal', label: 'Citologia hormonal', system: 'cito', base: 'citoHormonal', terms: 'hormonal maturacao gravidez lactacao colpocitologia funcional' },
   { id: 'liquidoPleural', label: 'Líquido pleural, ascítico ou pericárdico', system: 'cito', base: 'citoLiquidos', terms: 'derrame pleural ascite peritoneal pericardico liquido cavitario' },
   { id: 'urina', label: 'Urina, lavado ou escovado', system: 'cito', base: 'citoLiquidos', terms: 'urina urinaria lavado broncoalveolar escovado bronquico licor raspado' },
@@ -397,8 +393,8 @@ export const SPECIMENS: Specimen[] = [
   /* --------------------------------------------------- outros e necropsia */
   { id: 'necropsiaAdulto', label: 'Necropsia de adulto ou criança', system: 'outros', base: 'necropsiaAdulto', terms: 'necropsia autopsia obito adulto crianca natimorto' },
   { id: 'necropsiaFetal', label: 'Necropsia de embrião ou feto', system: 'outros', base: 'necropsiaFeto', terms: 'necropsia autopsia feto embriao obito fetal 500' },
-  { id: 'pecaSimplesGenerica', label: 'Outra peça simples', system: 'outros', base: 'pecaSimples', terms: 'generica outra peca simples pequena benigna qualquer', structures: [m('Margem cirúrgica', false), x('Estrutura adicional', false)], receptionNote: 'Pequeno porte, excisional, não fragmentada.' },
-  { id: 'pecaComplexaGenerica', label: 'Outra peça complexa', system: 'outros', base: 'pecaComplexa', terms: 'generica outra peca complexa grande oncologica qualquer', structures: [m('Margem cirúrgica', false), x('Estrutura adicional', false), ln('Grupo de linfonodos', false)], receptionNote: 'Médio ou grande porte, oncológica ou de estadiamento.' },
+  { id: 'pecaSimplesGenerica', label: 'Outra peça simples', system: 'outros', base: 'pecaSimples', terms: 'generica outra peca simples pequena benigna qualquer', structures: [m('Margem cirúrgica', false), x('Estrutura adicional', false)] },
+  { id: 'pecaComplexaGenerica', label: 'Outra peça complexa', system: 'outros', base: 'pecaComplexa', terms: 'generica outra peca complexa grande oncologica qualquer', structures: [m('Margem cirúrgica', false), x('Estrutura adicional', false), ln('Grupo de linfonodos', false)] },
   { id: 'biopsiaGenerica', label: 'Outra biópsia', system: 'outros', base: 'biopsiaSimples', terms: 'generica outra biopsia fragmento frasco qualquer' },
 ]
 

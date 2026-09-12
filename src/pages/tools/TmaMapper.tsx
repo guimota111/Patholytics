@@ -1,17 +1,24 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Check, Copy, Info, RotateCcw } from 'lucide-react'
+import { Check, Copy, Download, Info, RotateCcw, SlidersHorizontal } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
+import { TmaExportModal } from '@/tools/tma/components/TmaExportModal'
+import { TmaFieldsModal } from '@/tools/tma/components/TmaFieldsModal'
 import { TmaFocus } from '@/tools/tma/components/TmaFocus'
 import { TmaGrid } from '@/tools/tma/components/TmaGrid'
 import { TmaSetup } from '@/tools/tma/components/TmaSetup'
+import { tsvText } from '@/tools/tma/export'
+import { FILL_CLASS } from '@/tools/tma/fill'
 import { useTmaMapper } from '@/tools/tma/useTmaMapper'
+import { cn } from '@/lib/cn'
 
 export default function TmaMapperPage() {
   const { t } = useTranslation()
   const [copied, setCopied] = useState(false)
   const [confirmingReset, setConfirmingReset] = useState(false)
+  const [exporting, setExporting] = useState(false)
+  const [editingFields, setEditingFields] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const {
@@ -20,12 +27,12 @@ export default function TmaMapperPage() {
     total,
     atLast,
     currentCore,
-    currentValue,
+    currentAnswers,
     filledCount,
-    resultsText,
     start,
     reset,
-    setResult,
+    setFields,
+    setAnswer,
     goTo,
     next,
     previous,
@@ -35,9 +42,13 @@ export default function TmaMapperPage() {
     if (timer.current) clearTimeout(timer.current)
   }, [])
 
+  // Atalho da barra: a tabela inteira, tabulada, com cabeçalho e coordenada.
   const handleCopy = async () => {
+    if (!state) return
     try {
-      await navigator.clipboard.writeText(resultsText)
+      await navigator.clipboard.writeText(
+        tsvText(state, { header: true, coordinate: true, coordinateLabel: t('tma.coordinateColumn') }),
+      )
     } catch {
       return
     }
@@ -54,6 +65,8 @@ export default function TmaMapperPage() {
     reset()
     setConfirmingReset(false)
   }
+
+  const multi = (state?.fields.length ?? 0) > 1
 
   return (
     <div className="shell py-10">
@@ -78,6 +91,14 @@ export default function TmaMapperPage() {
                 <Copy className="size-4" aria-hidden />
               )}
               {copied ? t('tma.copied') : t('tma.copy')}
+            </Button>
+            <Button type="button" size="sm" variant="secondary" onClick={() => setExporting(true)}>
+              <Download className="size-4" aria-hidden />
+              {t('tma.export')}
+            </Button>
+            <Button type="button" size="sm" variant="secondary" onClick={() => setEditingFields(true)}>
+              <SlidersHorizontal className="size-4" aria-hidden />
+              {t('tma.editFields')}
             </Button>
             <Button
               type="button"
@@ -111,24 +132,10 @@ export default function TmaMapperPage() {
               <TmaGrid state={state} onSelect={goTo} />
 
               <div className="mt-5 flex flex-wrap items-center gap-4 text-xs text-ink-faint">
-                <span className="flex items-center gap-1.5">
-                  <span className="size-3 rounded-full border border-line bg-surface" aria-hidden />
-                  {t('tma.legendEmpty')}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span
-                    className="size-3 rounded-full border border-accent/50 bg-accent-soft"
-                    aria-hidden
-                  />
-                  {t('tma.legendFilled')}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span
-                    className="size-3 rounded-full border border-line bg-surface ring-2 ring-accent"
-                    aria-hidden
-                  />
-                  {t('tma.legendCurrent')}
-                </span>
+                <Legend className={FILL_CLASS.empty} label={t('tma.legendEmpty')} />
+                {multi && <Legend className={FILL_CLASS.partial} label={t('tma.legendPartial')} />}
+                <Legend className={FILL_CLASS.complete} label={t('tma.legendFilled')} />
+                <Legend className={cn(FILL_CLASS.empty, 'ring-2 ring-accent')} label={t('tma.legendCurrent')} />
               </div>
 
               <div className="mt-5">
@@ -155,11 +162,13 @@ export default function TmaMapperPage() {
             core={currentCore}
             index={state.current}
             total={total}
-            value={currentValue}
+            fields={state.fields}
+            answers={currentAnswers}
             atLast={atLast}
-            onChange={setResult}
+            onAnswer={setAnswer}
             onPrevious={previous}
             onNext={next}
+            onEditFields={() => setEditingFields(true)}
           />
         </div>
       )}
@@ -168,6 +177,20 @@ export default function TmaMapperPage() {
         <Info className="mt-0.5 size-3.5 shrink-0" aria-hidden />
         {t('tma.privacy')}
       </p>
+
+      {state && exporting && <TmaExportModal state={state} onClose={() => setExporting(false)} />}
+      {state && editingFields && (
+        <TmaFieldsModal fields={state.fields} onSave={setFields} onClose={() => setEditingFields(false)} />
+      )}
     </div>
+  )
+}
+
+function Legend({ className, label }: { className: string; label: string }) {
+  return (
+    <span className="flex items-center gap-1.5">
+      <span className={cn('size-3 rounded-full border', className)} aria-hidden />
+      {label}
+    </span>
   )
 }

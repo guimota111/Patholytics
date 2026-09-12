@@ -187,9 +187,6 @@ export function billText(state: BillingCase, bill: Bill): string {
 
 const CASE_PREFIX = 'patholytics.billing.case.v1'
 const TEMPLATE_PREFIX = 'patholytics.billing.templates.v1'
-const ROLE_PREFIX = 'patholytics.billing.role.v1'
-
-export type Role = 'pathologist' | 'reception'
 
 const key = (prefix: string, uid: string | null | undefined) => `${prefix}:${uid ?? 'anon'}`
 
@@ -223,20 +220,3 @@ export const saveCase = (uid: string | null, state: BillingCase) => write(key(CA
 
 export const loadTemplates = (uid: string | null): Templates => read<Templates>(key(TEMPLATE_PREFIX, uid), {})
 export const saveTemplates = (uid: string | null, templates: Templates) => write(key(TEMPLATE_PREFIX, uid), templates)
-
-export function loadRole(uid: string | null): Role | null {
-  try {
-    const raw = localStorage.getItem(key(ROLE_PREFIX, uid))
-    return raw === 'pathologist' || raw === 'reception' ? raw : null
-  } catch {
-    return null
-  }
-}
-export function saveRole(uid: string | null, role: Role | null) {
-  try {
-    if (role) localStorage.setItem(key(ROLE_PREFIX, uid), role)
-    else localStorage.removeItem(key(ROLE_PREFIX, uid))
-  } catch {
-    /* sem localStorage: a escolha vale só nesta visita. */
-  }
-}
