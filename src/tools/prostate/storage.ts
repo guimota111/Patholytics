@@ -34,6 +34,9 @@ export const DEFAULT_GLOBALS: CaseGlobals = {
   lnTotal: null,
   perineural: 'notAssessed',
   lymphovascular: 'notAssessed',
+  hgpin: 'notAssessed',
+  noduleMmA: null,
+  noduleMmB: null,
 }
 
 export const DEFAULT_CASE: CaseState = { mapping: DEFAULT_MAPPING, cells: {}, globals: DEFAULT_GLOBALS }
@@ -110,6 +113,9 @@ function sanitizeGlobals(raw: unknown): CaseGlobals {
     lnTotal: num(p.lnTotal),
     perineural: oneOf(p.perineural, presence, DEFAULT_GLOBALS.perineural),
     lymphovascular: oneOf(p.lymphovascular, presence, DEFAULT_GLOBALS.lymphovascular),
+    hgpin: oneOf(p.hgpin, presence, DEFAULT_GLOBALS.hgpin),
+    noduleMmA: num(p.noduleMmA),
+    noduleMmB: num(p.noduleMmB),
   }
 }
 

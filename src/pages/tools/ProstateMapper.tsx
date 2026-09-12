@@ -10,9 +10,10 @@ import { CassetteTable } from '@/tools/prostate/components/CassetteTable'
 import { GlobalsFields } from '@/tools/prostate/components/GlobalsFields'
 import { MappingCard } from '@/tools/prostate/components/MappingCard'
 import type { ProstateModelHandle } from '@/tools/prostate/components/ProstateModel'
+import { ReportBuilder } from '@/tools/prostate/components/ReportBuilder'
 import { ResultsCard } from '@/tools/prostate/components/ResultsCard'
 import { renderCaseImage } from '@/tools/prostate/exportImage'
-import { buildSummary } from '@/tools/prostate/summary'
+import { buildParams } from '@/tools/prostate/report'
 import { useProstateCase } from '@/tools/prostate/useProstateCase'
 
 // three.js só é baixado quando esta página abre.
@@ -21,14 +22,14 @@ const ProstateModel = lazy(() => import('@/tools/prostate/components/ProstateMod
 export default function ProstateMapperPage() {
   const { t, i18n } = useTranslation()
   const { resolved: theme } = useTheme()
-  const { state, hydrated, setMapping, setCell, setGlobals, clearFindings, templates, saveTemplate, deleteTemplate } =
-    useProstateCase()
+  const c = useProstateCase()
+  const { state, hydrated, setMapping, setCell, setGlobals, clearFindings, templates, saveTemplate, deleteTemplate } = c
   const [selected, setSelected] = useState<string | null>(null)
   const [exporting, setExporting] = useState(false)
   const modelRef = useRef<ProstateModelHandle>(null)
 
   const analysis = useMemo(() => analyze(state), [state])
-  const summary = useMemo(() => buildSummary(state, analysis, t, i18n.language), [state, analysis, t, i18n.language])
+  const params = useMemo(() => buildParams(state, analysis, t, i18n.language), [state, analysis, t, i18n.language])
   const svMapped = state.mapping.groups.some((g) => g.tissue === 'seminalVesicle')
   const lnMapped = state.mapping.groups.some((g) => g.tissue === 'lymphNode')
 
@@ -97,7 +98,20 @@ export default function ProstateMapperPage() {
 
           <div className="grid items-start gap-6 2xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
             <StepCard number={3} title={t('prostate.step3Title')} hint={t('prostate.step3Hint')}>
-              <ResultsCard analysis={analysis} summary={summary} onExport={() => void exportImage()} exporting={exporting} />
+              <ResultsCard analysis={analysis} onExport={() => void exportImage()} exporting={exporting}>
+                <ReportBuilder
+                  params={params}
+                  reports={c.reports}
+                  globals={state.globals}
+                  setGlobals={setGlobals}
+                  onSelect={c.selectReport}
+                  onText={c.setReportText}
+                  onRename={c.renameReport}
+                  onAdd={c.addReport}
+                  onDelete={c.deleteReport}
+                  onResetDefault={c.resetDefaultReport}
+                />
+              </ResultsCard>
             </StepCard>
 
             <div className="space-y-6">

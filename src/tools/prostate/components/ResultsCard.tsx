@@ -1,42 +1,27 @@
-import { useEffect, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AlertTriangle, Check, Copy, ImageDown } from 'lucide-react'
+import { AlertTriangle, ImageDown } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import type { Analysis } from '../analysis'
 import { fmtN, gleasonText } from '../format'
 
 interface ResultsCardProps {
   analysis: Analysis
-  summary: string
   onExport?: () => void
   exporting?: boolean
+  /** O montador de laudo, abaixo dos números. */
+  children?: ReactNode
 }
 
-export function ResultsCard({ analysis: a, summary, onExport, exporting = false }: ResultsCardProps) {
+export function ResultsCard({ analysis: a, onExport, exporting = false, children }: ResultsCardProps) {
   const { t, i18n } = useTranslation()
   const n = (v: number | null | undefined, d = 1) => fmtN(v, d, i18n.language)
-  const [copied, setCopied] = useState(false)
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
-  useEffect(() => () => {
-    if (timer.current) clearTimeout(timer.current)
-  }, [])
-
-  const copy = async () => {
-    if (!summary) return
-    try {
-      await navigator.clipboard.writeText(summary)
-    } catch {
-      return
-    }
-    setCopied(true)
-    if (timer.current) clearTimeout(timer.current)
-    timer.current = setTimeout(() => setCopied(false), 1600)
-  }
 
   const g = a.gleason
   const warnings = a.warnings.map((w) => t(`prostate.warnings.${w.key}`, w.params ?? {}))
 
-  const tiles: { label: string; value: string; sub?: string }[] = [
+  const marginSites = [...new Set(a.margins.foci.map((f) => f.groupName || t(`prostate.site.${f.site}`)))]
+  const tiles: { label: string; value: string; sub?: string; small?: boolean }[] = [
     {
       label: t('prostate.results.volume'),
       value: `${n(a.volumePct)}%`,
@@ -51,10 +36,13 @@ export function ResultsCard({ analysis: a, summary, onExport, exporting = false 
     { label: t('prostate.results.g5'), value: a.shares ? `${n(a.shares.p5)}%` : '—' },
     {
       label: t('prostate.results.margins'),
-      value: a.margins.foci.length ? 'R1' : a.involvedCells ? 'R0' : '—',
-      sub: a.margins.foci.length
-        ? `${a.margins.foci.length} ${t('prostate.results.foci')}${a.margins.extent && a.margins.totalMm > 0 ? ` · ${t(`prostate.results.${a.margins.extent}`)}` : ''}`
-        : undefined,
+      value: a.margins.foci.length
+        ? t(a.margins.extent === 'extensive' ? 'prostate.results.marginExtensive' : 'prostate.results.marginFocal')
+        : a.involvedCells
+          ? t('prostate.results.marginFree')
+          : '—',
+      sub: a.margins.foci.length ? marginSites.join(' · ') : undefined,
+      small: true,
     },
     {
       label: t('prostate.results.staging'),
@@ -69,7 +57,9 @@ export function ResultsCard({ analysis: a, summary, onExport, exporting = false 
         {tiles.map((tile) => (
           <div key={tile.label} className="bg-accent-soft px-3 py-3">
             <dt className="text-[0.6875rem] tracking-wider text-ink-muted uppercase">{tile.label}</dt>
-            <dd className="tabular mt-1 text-2xl font-bold text-accent-ink">{tile.value}</dd>
+            <dd className={tile.small ? 'mt-1 text-base leading-snug font-bold text-accent-ink' : 'tabular mt-1 text-2xl font-bold text-accent-ink'}>
+              {tile.value}
+            </dd>
             {tile.sub && <dd className="tabular mt-0.5 text-xs text-ink-muted">{tile.sub}</dd>}
           </div>
         ))}
@@ -86,30 +76,22 @@ export function ResultsCard({ analysis: a, summary, onExport, exporting = false 
         </ul>
       )}
 
-      <div>
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <h3 className="text-sm font-semibold tracking-tight text-ink">{t('prostate.results.summaryTitle')}</h3>
-          <div className="flex flex-wrap gap-2">
-            {onExport && (
-              <Button type="button" size="sm" variant="secondary" onClick={onExport} loading={exporting} disabled={!summary}>
-                <ImageDown className="size-4" aria-hidden />
-                {t(exporting ? 'prostate.export.exporting' : 'prostate.export.button')}
-              </Button>
-            )}
-            <Button type="button" size="sm" onClick={() => void copy()} disabled={!summary}>
-              {copied ? <Check className="size-4" aria-hidden /> : <Copy className="size-4" aria-hidden />}
-              {copied ? t('prostate.results.copied') : t('prostate.results.copy')}
-            </Button>
-          </div>
+      {onExport && (
+        <div className="flex justify-end">
+          <Button type="button" size="sm" variant="secondary" onClick={onExport} loading={exporting} disabled={!a.involvedCells}>
+            <ImageDown className="size-4" aria-hidden />
+            {t(exporting ? 'prostate.export.exporting' : 'prostate.export.button')}
+          </Button>
         </div>
-        <textarea
-          readOnly
-          value={summary}
-          placeholder={t('prostate.results.empty')}
-          rows={16}
-          className="tabular mt-2 w-full resize-y rounded-md border border-line bg-surface px-3 py-2 text-xs leading-relaxed text-ink placeholder:text-ink-faint"
-        />
-      </div>
+      )}
+
+      {children && (
+        <div className="border-t border-line pt-5">
+          <h3 className="text-sm font-semibold tracking-tight text-ink">{t('prostate.report.title')}</h3>
+          <p className="mt-0.5 mb-4 text-sm text-ink-muted">{t('prostate.report.hint')}</p>
+          {children}
+        </div>
+      )}
     </div>
   )
 }

@@ -1,29 +1,36 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
+import { defaultTemplate, loadReports, newReportId, saveReports } from './report'
 import { DEFAULT_CASE, loadCase, loadTemplates, saveCase, saveTemplates } from './storage'
 import {
+  DEFAULT_REPORT_ID,
   EMPTY_CELL,
   type CaseGlobals,
   type CaseState,
   type CellData,
   type MappingConfig,
   type MappingTemplate,
+  type ReportStore,
 } from './types'
 
-/** Caso de prostatectomia em andamento + modelos de mapeamento, no navegador, por usuário. */
+/** Caso de prostatectomia em andamento, modelos de mapeamento e modelos de laudo, no navegador, por usuário. */
 export function useProstateCase() {
+  const { t } = useTranslation()
   const { user } = useAuth()
   const uid = user?.uid ?? null
 
   const [state, setState] = useState<CaseState>(DEFAULT_CASE)
   const [templates, setTemplates] = useState<MappingTemplate[]>([])
+  const [reports, setReports] = useState<ReportStore>({ templates: [], selectedId: DEFAULT_REPORT_ID })
   const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
     setState(loadCase(uid))
     setTemplates(loadTemplates(uid))
+    setReports(loadReports(uid, t))
     setHydrated(true)
-  }, [uid])
+  }, [uid, t])
 
   useEffect(() => {
     if (hydrated) saveCase(uid, state)
@@ -32,6 +39,10 @@ export function useProstateCase() {
   useEffect(() => {
     if (hydrated) saveTemplates(uid, templates)
   }, [hydrated, uid, templates])
+
+  useEffect(() => {
+    if (hydrated) saveReports(uid, reports)
+  }, [hydrated, uid, reports])
 
   const setMapping = useCallback(
     (patch: Partial<MappingConfig> | ((mapping: MappingConfig) => MappingConfig)) => {
@@ -73,5 +84,56 @@ export function useProstateCase() {
     setTemplates((list) => list.filter((t) => t.name !== name))
   }, [])
 
-  return { state, hydrated, setMapping, setCell, setGlobals, clearFindings, templates, saveTemplate, deleteTemplate }
+  /* ---------------------------------------------------- modelos de laudo */
+
+  const selectReport = useCallback((id: string) => {
+    setReports((r) => (r.templates.some((x) => x.id === id) ? { ...r, selectedId: id } : r))
+  }, [])
+
+  const setReportText = useCallback((id: string, text: string) => {
+    setReports((r) => ({ ...r, templates: r.templates.map((x) => (x.id === id ? { ...x, text } : x)) }))
+  }, [])
+
+  const renameReport = useCallback((id: string, name: string) => {
+    setReports((r) => ({ ...r, templates: r.templates.map((x) => (x.id === id ? { ...x, name } : x)) }))
+  }, [])
+
+  /** Novo modelo a partir do texto atual (ou vazio), já selecionado. */
+  const addReport = useCallback((name: string, text: string) => {
+    const id = newReportId()
+    setReports((r) => ({ templates: [...r.templates, { id, name, text }], selectedId: id }))
+    return id
+  }, [])
+
+  const deleteReport = useCallback((id: string) => {
+    if (id === DEFAULT_REPORT_ID) return
+    setReports((r) => {
+      const templates = r.templates.filter((x) => x.id !== id)
+      return { templates, selectedId: r.selectedId === id ? DEFAULT_REPORT_ID : r.selectedId }
+    })
+  }, [])
+
+  const resetDefaultReport = useCallback(() => {
+    const fresh = defaultTemplate(t)
+    setReports((r) => ({ ...r, templates: r.templates.map((x) => (x.id === DEFAULT_REPORT_ID ? fresh : x)) }))
+  }, [t])
+
+  return {
+    state,
+    hydrated,
+    setMapping,
+    setCell,
+    setGlobals,
+    clearFindings,
+    templates,
+    saveTemplate,
+    deleteTemplate,
+    reports,
+    selectReport,
+    setReportText,
+    renameReport,
+    addReport,
+    deleteReport,
+    resetDefaultReport,
+  }
 }

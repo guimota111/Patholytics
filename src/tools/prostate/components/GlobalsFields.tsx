@@ -65,6 +65,12 @@ export function GlobalsFields({ globals, setGlobals, svMapped, lnMapped }: Globa
           onChange={(v) => setGlobals({ lymphovascular: v as CaseGlobals['lymphovascular'] })}
           options={presence}
         />
+        <SelectField
+          label={t('prostate.globals.hgpin')}
+          value={globals.hgpin}
+          onChange={(v) => setGlobals({ hgpin: v as CaseGlobals['hgpin'] })}
+          options={presence}
+        />
         {!lnMapped && (
           <>
             <NumField label={t('prostate.globals.lnPositive')} value={globals.lnPositive} min={0} onChange={(v) => setGlobals({ lnPositive: v })} />

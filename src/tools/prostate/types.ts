@@ -108,6 +108,11 @@ export interface CaseGlobals {
   lnTotal: number | null
   perineural: Presence
   lymphovascular: Presence
+  /** Neoplasia intraepitelial prostática de alto grau. */
+  hgpin: Presence
+  /** Maiores eixos do nódulo dominante, em mm — só o patologista mede. */
+  noduleMmA: number | null
+  noduleMmB: number | null
 }
 
 export interface CaseState {
@@ -115,6 +120,20 @@ export interface CaseState {
   cells: Record<string, CellData>
   globals: CaseGlobals
 }
+
+/** Um modelo de laudo: texto livre com parâmetros entre colchetes, ex.: `[gleason]`. */
+export interface ReportTemplate {
+  id: string
+  name: string
+  text: string
+}
+
+export interface ReportStore {
+  templates: ReportTemplate[]
+  selectedId: string
+}
+
+export const DEFAULT_REPORT_ID = 'default'
 
 export interface MappingTemplate {
   name: string
