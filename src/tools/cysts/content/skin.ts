@@ -88,7 +88,6 @@ export const skin: Cyst[] = [
   },
   {
     id: 'milio',
-    frequency: 3,
     name: 'Mílio',
     aka: ['milium', 'milia'],
     sites: ['pele', 'orbita'],
@@ -183,7 +182,7 @@ export const skin: Cyst[] = [
     name: 'Seio pilonidal (pseudocisto pilonidal)',
     aka: ['cisto pilonidal', 'doença pilonidal', 'pilonidal sinus'],
     sites: ['pele', 'retrorretal'],
-    linings: ['sem-revestimento', 'escamoso-queratinizado'],
+    linings: ['sem-revestimento'],
     features: ['inflamacao', 'sebo-pelos', 'colesterol'],
     pseudocyst: true,
     lining: 'Sem revestimento epitelial verdadeiro na quase totalidade: cavidade forrada por tecido de granulação. Só o trajeto próximo ao óstio cutâneo pode ter epitélio escamoso.',
