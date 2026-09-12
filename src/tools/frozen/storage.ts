@@ -36,15 +36,20 @@ export function loadCongDoc(uid: string | null): CongDoc {
   return raw ? sanitizeCongDoc(raw) : defaultCongDoc()
 }
 
-export const saveCongDoc = (uid: string | null, doc: CongDoc) => write(keyFor(CONG_KEY, uid), doc)
+/** O nome do paciente nunca vai ao disco: vale só enquanto a aba está aberta. */
+export const saveCongDoc = (uid: string | null, doc: CongDoc) => write(keyFor(CONG_KEY, uid), { ...doc, paciente: '' })
 
 export function loadMohsDoc(uid: string | null): MohsDoc {
   return sanitizeMohsDoc(read(keyFor(MOHS_KEY, uid)))
 }
 
-export const saveMohsDoc = (uid: string | null, doc: MohsDoc) => write(keyFor(MOHS_KEY, uid), doc)
+export const saveMohsDoc = (uid: string | null, doc: MohsDoc) => write(keyFor(MOHS_KEY, uid), { ...doc, paciente: '' })
 
-export type SuggestionKey = 'cirurgiao' | 'patologista' | 'mohs_hospital' | 'mohs_cirurgiao' | 'mohs_patologista' | 'email_para'
+export type SuggestionKey = 'hospital' | 'cirurgiao' | 'patologista' | 'mohs_cirurgiao' | 'mohs_patologista' | 'email_para'
+
+export function forgetSuggestion(uid: string | null, key: SuggestionKey, value: string): void {
+  write(`${keyFor(SUGGESTION_PREFIX, uid)}:${key}`, loadSuggestions(uid, key).filter((v) => v !== value))
+}
 
 export function loadSuggestions(uid: string | null, key: SuggestionKey): string[] {
   const raw = read(`${keyFor(SUGGESTION_PREFIX, uid)}:${key}`)

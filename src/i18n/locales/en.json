@@ -1551,7 +1551,6 @@
     "cong": {
       "title": "Intraoperative exam — frozen section",
       "hospital": "Hospital",
-      "hospitalPick": "Select…",
       "paciente": "Patient name",
       "pacientePlaceholder": "Full name",
       "cirurgiao": "Surgeon",
@@ -1562,7 +1561,10 @@
       "isquemiaNota": "The report will use the typed time — clear the field to go back to the timer.",
       "informes": "Clinical information (optional)",
       "addPeca": "Add specimen",
-      "clearConfirm": "Clear the whole document? The timer is reset too."
+      "clearConfirm": "Clear the whole document? The timer is reset too.",
+      "hospitalPlaceholder": "Hospital name",
+      "hospitalHint": "Type the hospital; it is kept for the next frozen sections.",
+      "hospitalForget": "Remove {{name}} from the list"
     },
     "peca": {
       "nome": "Specimen name",
@@ -1618,7 +1620,8 @@
       "print": "Print / save PDF",
       "image": "Save image",
       "diagrams": "Include quadrant drawings",
-      "failed": "Could not generate. Allow pop-ups to print, or use Copy text."
+      "failed": "Could not generate. Allow pop-ups to print, or use Copy text.",
+      "generated": "patholytics.web.app · report generated in Patholytics"
     },
     "email": {
       "title": "Send by e-mail",

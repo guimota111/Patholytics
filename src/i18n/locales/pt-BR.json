@@ -1551,7 +1551,6 @@
     "cong": {
       "title": "Exame transoperatório — congelação",
       "hospital": "Hospital",
-      "hospitalPick": "Selecione…",
       "paciente": "Nome do paciente",
       "pacientePlaceholder": "Nome completo",
       "cirurgiao": "Cirurgião",
@@ -1562,7 +1561,10 @@
       "isquemiaNota": "O laudo vai usar o tempo digitado — apague o campo para voltar ao cronômetro.",
       "informes": "Informes clínicos (opcional)",
       "addPeca": "Adicionar peça",
-      "clearConfirm": "Limpar todo o documento? O cronômetro também é zerado."
+      "clearConfirm": "Limpar todo o documento? O cronômetro também é zerado.",
+      "hospitalPlaceholder": "Nome do hospital",
+      "hospitalHint": "Escreva o hospital; ele fica guardado para as próximas congelações.",
+      "hospitalForget": "Tirar {{name}} da lista"
     },
     "peca": {
       "nome": "Nome da peça",
@@ -1618,7 +1620,8 @@
       "print": "Imprimir / salvar PDF",
       "image": "Salvar imagem",
       "diagrams": "Incluir desenho dos quadrantes",
-      "failed": "Não deu para gerar. Permita pop-ups para imprimir, ou use Copiar texto."
+      "failed": "Não deu para gerar. Permita pop-ups para imprimir, ou use Copiar texto.",
+      "generated": "patholytics.web.app · laudo gerado no Patholytics"
     },
     "email": {
       "title": "Enviar por e-mail",

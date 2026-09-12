@@ -24,6 +24,11 @@ import { MohsDiagram } from './MohsDiagram'
 /** O laudo em papel: Georgia sobre branco, sempre — vai para a impressora e para o PNG. */
 const LAUDO_CSS = `
 .laudo-doc { background:#fff; color:#1a1a1a; font-family:'Georgia','Times New Roman',serif; font-size:14px; line-height:1.6; padding:44px 48px; width:100%; max-width:740px; margin:0 auto; box-sizing:border-box; }
+.laudo-brand { display:flex; align-items:center; justify-content:space-between; gap:12px; border-bottom:2px solid #d9dde4; padding-bottom:10px; margin-bottom:22px; font-family:Inter,'Segoe UI',system-ui,sans-serif; }
+.laudo-brand-mark { display:flex; align-items:center; gap:8px; color:#151a22; font-weight:700; font-size:15px; letter-spacing:-0.01em; }
+.laudo-brand-mark svg { width:22px; height:22px; color:#4a2fd1; }
+.laudo-brand-mark small { font-weight:400; font-size:11px; color:#8a93a3; margin-left:4px; }
+.laudo-brand-date { font-size:11px; color:#5a6474; }
 .laudo-hospital { text-align:center; font-weight:700; font-size:16px; margin-bottom:18px; text-transform:uppercase; letter-spacing:0.5px; }
 .laudo-meta { margin-bottom:18px; }
 .laudo-meta div { margin-bottom:2px; }
@@ -128,6 +133,7 @@ function CongPaper({ doc, now }: { doc: CongDoc; now: number }) {
   const isquemia = congIsquemiaTexto(doc, now)
   return (
     <>
+      <Brand now={now} />
       <div className="laudo-hospital">{hospitalNome(doc.hospital) || '[Hospital]'}</div>
       <div className="laudo-meta">
         <div>
@@ -191,7 +197,8 @@ function MohsPaper({ doc, now, withDiagrams }: { doc: MohsDoc; now: number; with
   const isqP = isquemiaLine(p, now)
   return (
     <>
-      <div className="laudo-hospital">{doc.hospital || '[Hospital]'}</div>
+      <Brand now={now} />
+      <div className="laudo-hospital">{hospitalNome(doc.hospital) || '[Hospital]'}</div>
       <div className="laudo-meta">
         <div>
           <strong>Paciente:</strong> {doc.paciente || '[Paciente]'}
@@ -289,6 +296,26 @@ function Diagramas({ frags }: { frags: MohsFrag[] }) {
           </div>
         )
       })}
+    </div>
+  )
+}
+
+/** Cabeçalho do Patholytics: a marca, o endereço e a data — vai para o PDF e para o PNG. */
+function Brand({ now }: { now: number }) {
+  const { t, i18n } = useTranslation()
+  return (
+    <div className="laudo-brand">
+      <span className="laudo-brand-mark">
+        <svg viewBox="0 0 32 32" aria-hidden focusable="false">
+          <circle cx="16" cy="16" r="9.5" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.35" />
+          <circle cx="16" cy="16" r="4.5" fill="none" stroke="currentColor" strokeWidth="2" />
+          <circle cx="16" cy="16" r="1.5" fill="currentColor" />
+          <path d="M16 2.5v4M16 25.5v4M2.5 16h4M25.5 16h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.55" />
+        </svg>
+        Patholytics
+        <small>{t('frozen.paper.generated')}</small>
+      </span>
+      <span className="laudo-brand-date">{new Date(now).toLocaleString(i18n.language, { dateStyle: 'long', timeStyle: 'short' })}</span>
     </div>
   )
 }

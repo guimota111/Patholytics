@@ -2,12 +2,12 @@ import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronDown, ChevronRight, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
-import { selectClass } from '@/components/ui/fields'
 import { cn } from '@/lib/cn'
 import { buildCongText, congIsquemiaTexto } from '../congText'
-import { HOSPITAIS, defaultCongDoc, defaultPeca, letterOf, type CongDoc, type Peca } from '../types'
+import { defaultCongDoc, defaultPeca, letterOf, type CongDoc, type Peca } from '../types'
 import type { Frozen } from '../useFrozen'
 import { ExportCard } from './ExportCard'
+import { HospitalField } from './HospitalField'
 import { IsquemiaCron } from './IsquemiaCron'
 import { MaskModal } from './MaskModal'
 import { PecaCard } from './PecaCard'
@@ -32,6 +32,7 @@ export function CongForm({ frozen, onSaveModelo, canSaveModelo }: CongFormProps)
   const text = useMemo(() => buildCongText(doc, new Date(now)), [doc, now])
 
   const rememberAll = () => {
+    remember('hospital', doc.hospital)
     remember('cirurgiao', doc.cirurgiao)
     remember('patologista', doc.patologista)
   }
@@ -46,17 +47,7 @@ export function CongForm({ frozen, onSaveModelo, canSaveModelo }: CongFormProps)
         </header>
         <div className="space-y-4 px-5 py-4">
           <div className="grid gap-4 sm:grid-cols-2">
-            <label className="block">
-              <span className="block text-sm font-medium text-ink">{t('frozen.cong.hospital')}</span>
-              <select value={doc.hospital} onChange={(e) => patch({ hospital: e.target.value })} className={cn(selectClass, 'mt-1.5')}>
-                <option value="">{t('frozen.cong.hospitalPick')}</option>
-                {HOSPITAIS.map((h) => (
-                  <option key={h.key} value={h.key}>
-                    {h.label}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <HospitalField value={doc.hospital} onChange={(hospital) => patch({ hospital })} frozen={frozen} />
             <label className="block">
               <span className="block text-sm font-medium text-ink">{t('frozen.cong.paciente')}</span>
               <input value={doc.paciente} onChange={(e) => patch({ paciente: e.target.value })} placeholder={t('frozen.cong.pacientePlaceholder')} className={cn(inputClass, 'mt-1.5')} />

@@ -27,7 +27,7 @@ export function MohsForm({ frozen }: { frozen: Frozen }) {
   const rememberAll = () => {
     remember('mohs_cirurgiao', doc.cirurgiao)
     remember('mohs_patologista', doc.patologistas)
-    remember('mohs_hospital', doc.hospital)
+    remember('hospital', doc.hospital)
   }
 
   const p = doc.pecaPrincipal
@@ -41,8 +41,8 @@ export function MohsForm({ frozen }: { frozen: Frozen }) {
         <div className="space-y-4 px-5 py-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label={t('frozen.cong.hospital')}>
-              <input value={doc.hospital} onChange={(e) => patch({ hospital: e.target.value })} onBlur={(e) => remember('mohs_hospital', e.target.value)} list="frozen-mohs-hospital" autoComplete="off" placeholder="Ex: Hospital Brasília Unidade Águas Claras" className={inputClass} />
-              <Datalist id="frozen-mohs-hospital" items={suggestions('mohs_hospital')} />
+              <input value={doc.hospital} onChange={(e) => patch({ hospital: e.target.value })} onBlur={(e) => remember('hospital', e.target.value)} list="frozen-mohs-hospital" autoComplete="off" placeholder="Ex: Hospital Brasília Unidade Águas Claras" className={inputClass} />
+              <Datalist id="frozen-mohs-hospital" items={suggestions('hospital')} />
             </Field>
             <Field label={t('frozen.cong.paciente')}>
               <input value={doc.paciente} onChange={(e) => patch({ paciente: e.target.value })} className={inputClass} />

@@ -4,12 +4,13 @@
    ========================================================================== */
 
 import { casseteFaixa, computeBlocos, dataAssinatura, isquemiaTexto } from './text'
-import { HOSPITAIS, type CongDoc, type Modelo, type Peca } from './types'
+import { hospitalFromLegacy, type CongDoc, type Modelo, type Peca } from './types'
 
 export const FRASE_RECEBIMENTO = 'o material foi recebido a fresco para exame de congelação e consiste em'
 
-export function hospitalNome(key: string): string {
-  return HOSPITAIS.find((h) => h.key === key)?.nome ?? key ?? ''
+/** O hospital é o nome escrito; chaves da versão antiga viram o nome completo. */
+export function hospitalNome(value: string): string {
+  return hospitalFromLegacy(String(value || '').trim())
 }
 
 /** O tempo digitado ganha do cronômetro — é a saída para quando esqueceram de apertar. */
@@ -122,14 +123,12 @@ export function iniciaisPaciente(nome: string): string {
   return `${partes.map((w) => w.charAt(0).toUpperCase()).join('.')}.`
 }
 
-/** 'HAC'/'HOBRA' saem prontos; um nome escrito vira acrônimo. */
+/** Um nome de hospital vira acrônimo para o assunto do e-mail; siglas curtas passam como estão. */
 export function siglaHospital(valor: string): string {
-  const v = String(valor || '').trim()
+  const v = hospitalNome(valor)
   if (!v) return ''
   const up = semAcento(v).toUpperCase()
-  if (up === 'HAC' || up === 'HOBRA') return up
-  if (/AGUAS\s+CLARAS/.test(up)) return 'HAC'
-  if (/LAGO\s+SUL|HOBRA/.test(up)) return 'HOBRA'
+  if (/^[A-Z0-9]{2,6}$/.test(up)) return up
   const iniciais = v
     .split(/\s+/)
     .filter((w) => !PALAVRAS_VAZIAS.includes(semAcento(w).toLowerCase()))

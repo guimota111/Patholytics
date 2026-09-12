@@ -32,12 +32,18 @@ export interface Cron {
   formol: string | null
 }
 
-export const HOSPITAIS: { key: string; label: string; nome: string }[] = [
-  { key: 'HAC', label: 'HAC — Hospital Brasília Águas Claras', nome: 'Hospital Brasília Águas Claras' },
-  { key: 'HOBRA', label: 'HOBRA — Hospital Brasília Lago Sul', nome: 'Hospital Brasília Lago Sul' },
-]
+/**
+ * A primeira versão guardava o hospital como chave de uma lista fixa; agora
+ * é o nome escrito pelo usuário. Documentos antigos são traduzidos ao carregar.
+ */
+const LEGACY_HOSPITAIS: Record<string, string> = {
+  HAC: 'Hospital Brasília Águas Claras',
+  HOBRA: 'Hospital Brasília Lago Sul',
+}
+export const hospitalFromLegacy = (value: string): string => LEGACY_HOSPITAIS[value] ?? value
 
 export interface CongDoc {
+  /** Nome do hospital, como o usuário escreveu. */
   hospital: string
   paciente: string
   cirurgiao: string
@@ -184,7 +190,7 @@ export function sanitizeCongDoc(raw: unknown): CongDoc {
   const p = (raw ?? {}) as Partial<CongDoc>
   const pecas = Array.isArray(p.pecas) ? p.pecas.map(sanitizePeca) : []
   return {
-    hospital: str(p.hospital),
+    hospital: hospitalFromLegacy(str(p.hospital)),
     paciente: str(p.paciente),
     cirurgiao: str(p.cirurgiao),
     patologista: str(p.patologista),

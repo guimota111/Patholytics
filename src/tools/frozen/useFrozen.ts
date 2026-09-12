@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
-import { loadCongDoc, loadMohsDoc, loadSuggestions, rememberSuggestion, saveCongDoc, saveMohsDoc, type SuggestionKey } from './storage'
+import { forgetSuggestion, loadCongDoc, loadMohsDoc, loadSuggestions, rememberSuggestion, saveCongDoc, saveMohsDoc, type SuggestionKey } from './storage'
 import type { CongDoc, Cron, MohsDoc } from './types'
 
 const isRunning = (cron: Cron) => Boolean(cron.inicio) && !cron.formol
@@ -58,7 +58,15 @@ export function useFrozen() {
     [uid],
   )
 
-  return { uid, hydrated, cong, setCong, mohs, setMohs, now, suggestions, remember }
+  const forget = useCallback(
+    (key: SuggestionKey, value: string) => {
+      forgetSuggestion(uid, key, value)
+      setSuggestionVersion((v) => v + 1)
+    },
+    [uid],
+  )
+
+  return { uid, hydrated, cong, setCong, mohs, setMohs, now, suggestions, remember, forget }
 }
 
 export type Frozen = ReturnType<typeof useFrozen>
