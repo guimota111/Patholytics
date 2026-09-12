@@ -66,8 +66,10 @@ export function suggest(cysts: Cyst[], choice: Choice): Suggestion[] {
     if (liningMatch && choice.linings.has(cyst.linings[0])) score += 0.5
     score += featureHits.length * 1.5
     score -= featureMisses * 0.5
+    // Comum sobe, raro desce: só desempata entre cistos que combinam igual.
+    score += ((cyst.frequency ?? 2) - 2) * 1
     out.push({ cyst, score, siteMatch, liningMatch, featureHits, featureMisses })
   }
 
-  return out.sort((a, b) => b.score - a.score || a.cyst.name.localeCompare(b.cyst.name, 'pt-BR'))
+  return out.sort((a, b) => b.score - a.score || (b.cyst.frequency ?? 2) - (a.cyst.frequency ?? 2) || a.cyst.name.localeCompare(b.cyst.name, 'pt-BR'))
 }

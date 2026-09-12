@@ -10,6 +10,7 @@ import type { Cyst } from '../types'
 export const thorax: Cyst[] = [
   {
     id: 'cisto-broncogenico',
+    frequency: 3,
     name: 'Cisto broncogênico',
     aka: ['cisto de duplicação do intestino anterior de tipo respiratório', 'bronchogenic cyst'],
     sites: ['mediastino', 'pulmao', 'mesenterio', 'pescoco'],
@@ -25,6 +26,7 @@ export const thorax: Cyst[] = [
   },
   {
     id: 'cisto-duplicacao-esofagica',
+    frequency: 1,
     name: 'Cisto de duplicação esofágica',
     aka: ['duplicação esofágica', 'esophageal duplication cyst'],
     sites: ['esofago', 'mediastino'],
@@ -84,6 +86,7 @@ export const thorax: Cyst[] = [
   },
   {
     id: 'timoma-cistico',
+    frequency: 1,
     name: 'Timoma cístico',
     aka: ['timoma com degeneração cística', 'cystic thymoma'],
     sites: ['mediastino'],
@@ -99,6 +102,7 @@ export const thorax: Cyst[] = [
   },
   {
     id: 'meningocele-lateral-toracica',
+    frequency: 1,
     name: 'Meningocele lateral torácica',
     aka: ['meningocele intratorácica', 'lateral thoracic meningocele'],
     sites: ['mediastino', 'coluna'],
@@ -128,6 +132,7 @@ export const thorax: Cyst[] = [
   },
   {
     id: 'bolha-enfisematosa',
+    frequency: 3,
     name: 'Bolha enfisematosa e bleb subpleural',
     aka: ['bulha', 'emphysematous bulla', 'subpleural bleb'],
     sites: ['pulmao'],
@@ -143,6 +148,7 @@ export const thorax: Cyst[] = [
   },
   {
     id: 'blastoma-pleuropulmonar-tipo-i',
+    frequency: 1,
     name: 'Blastoma pleuropulmonar tipo I',
     aka: ['PPB tipo I', 'pleuropulmonary blastoma type I'],
     sites: ['pulmao'],
@@ -173,6 +179,7 @@ export const thorax: Cyst[] = [
   },
   {
     id: 'cisto-sanguineo-valva-cardiaca',
+    frequency: 1,
     name: 'Cisto sanguíneo de valva cardíaca',
     aka: ['cisto hemático valvar congênito', 'blood cyst of the cardiac valve'],
     sites: ['coracao'],
@@ -188,6 +195,7 @@ export const thorax: Cyst[] = [
   },
   {
     id: 'cisto-mamario-simples',
+    frequency: 3,
     name: 'Cisto mamário simples',
     aka: ['cisto da alteração fibrocística', 'simple breast cyst'],
     sites: ['mama'],
@@ -203,6 +211,7 @@ export const thorax: Cyst[] = [
   },
   {
     id: 'cisto-mamario-metaplasia-apocrina',
+    frequency: 3,
     name: 'Cisto mamário com metaplasia apócrina',
     aka: ['metaplasia apócrina cística', 'apocrine metaplasia'],
     sites: ['mama'],
@@ -233,6 +242,7 @@ export const thorax: Cyst[] = [
   },
   {
     id: 'cisto-ectasia-ductal',
+    frequency: 3,
     name: 'Ectasia ductal (cisto de ectasia)',
     aka: ['mastite periductal', 'comedomastite', 'duct ectasia'],
     sites: ['mama'],
@@ -248,6 +258,7 @@ export const thorax: Cyst[] = [
   },
   {
     id: 'hiperplasia-hipersecretora-cistica',
+    frequency: 1,
     name: 'Hiperplasia hipersecretora cística',
     aka: ['lesão hipersecretora cística', 'cystic hypersecretory hyperplasia'],
     sites: ['mama'],

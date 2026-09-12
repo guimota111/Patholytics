@@ -12,6 +12,7 @@ import type { Cyst } from '../types'
 export const pelvis: Cyst[] = [
   {
     id: 'cisto-folicular',
+    frequency: 3,
     name: 'Cisto folicular do ovário',
     aka: ['follicular cyst'],
     sites: ['ovario'],
@@ -26,6 +27,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cisto-corpo-luteo',
+    frequency: 3,
     name: 'Cisto de corpo lúteo',
     aka: ['cisto lúteo', 'cisto hemorrágico do corpo lúteo', 'corpus luteum cyst'],
     sites: ['ovario'],
@@ -55,6 +57,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'endometrioma',
+    frequency: 3,
     name: 'Cisto endometriótico (endometrioma)',
     aka: ['cisto de chocolate', 'endometriotic cyst'],
     sites: ['ovario', 'mesenterio', 'pele', 'vulva', 'retrorretal', 'tuba'],
@@ -70,6 +73,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cistadenoma-seroso',
+    frequency: 3,
     name: 'Cistadenoma seroso do ovário',
     aka: ['serous cystadenoma'],
     sites: ['ovario'],
@@ -85,6 +89,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cistadenoma-mucinoso',
+    frequency: 3,
     name: 'Cistadenoma mucinoso do ovário',
     aka: ['mucinous cystadenoma'],
     sites: ['ovario'],
@@ -115,6 +120,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'teratoma-cistico-maduro',
+    frequency: 3,
     name: 'Teratoma cístico maduro (cisto dermoide)',
     aka: ['dermoid cyst', 'mature cystic teratoma'],
     sites: ['ovario', 'mediastino', 'testiculo', 'retrorretal', 'mesenterio'],
@@ -130,6 +136,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'struma-ovarii-cistico',
+    frequency: 1,
     name: 'Struma ovarii com alteração cística',
     aka: ['bócio ovariano', 'cystic struma ovarii'],
     sites: ['ovario'],
@@ -145,6 +152,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cisto-rete-ovarii',
+    frequency: 1,
     name: 'Cisto da rete ovarii',
     aka: ['cisto do hilo ovariano', 'rete ovarii cyst'],
     sites: ['ovario'],
@@ -160,6 +168,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cisto-inclusao-epitelial-superficie',
+    frequency: 3,
     name: 'Cisto de inclusão epitelial de superfície do ovário',
     aka: ['cisto de inclusão cortical', 'cortical inclusion cyst'],
     sites: ['ovario'],
@@ -175,6 +184,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cisto-paratubario',
+    frequency: 3,
     name: 'Cisto paratubário (paraovariano)',
     aka: ['cisto do mesossalpinge', 'paratubal cyst'],
     sites: ['tuba'],
@@ -190,6 +200,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'hidatide-de-morgagni',
+    frequency: 3,
     name: 'Hidátide de Morgagni',
     aka: ['apêndice vesicular', 'cisto paratubário fimbriado', 'hydatid of Morgagni'],
     sites: ['tuba'],
@@ -220,6 +231,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'ninho-de-walthard',
+    frequency: 3,
     name: 'Ninho de Walthard (cístico)',
     aka: ['restos de Walthard', 'metaplasia transicional', 'Walthard cell nest'],
     sites: ['tuba', 'ovario', 'testiculo'],
@@ -235,6 +247,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'hidrossalpinge',
+    frequency: 3,
     name: 'Hidrossalpinge',
     aka: ['hydrosalpinx'],
     sites: ['tuba'],
@@ -266,6 +279,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cisto-de-naboth',
+    frequency: 3,
     name: 'Cisto de Naboth',
     aka: ['ovulo nabothi', 'cisto de retenção endocervical', 'nabothian cyst'],
     sites: ['utero'],
@@ -311,6 +325,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'adenomiose-cistica',
+    frequency: 1,
     name: 'Adenomiose cística',
     aka: ['adenomioma cístico', 'cystic adenomyosis'],
     sites: ['utero'],
@@ -355,6 +370,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cisto-inclusao-epidermica-genital',
+    frequency: 3,
     name: 'Cisto de inclusão epidérmica da vulva e da vagina',
     aka: ['cisto epidermoide vulvar', 'cisto pós-episiotomia', 'squamous inclusion cyst'],
     sites: ['vulva'],
@@ -370,6 +386,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cisto-ducto-bartholin',
+    frequency: 3,
     name: 'Cisto do ducto de Bartholin',
     aka: ['cisto da glândula vestibular maior', 'Bartholin duct cyst'],
     sites: ['vulva'],
@@ -385,6 +402,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cisto-ducto-de-skene',
+    frequency: 1,
     name: 'Cisto do ducto de Skene',
     aka: ['cisto parauretral', 'Skene duct cyst'],
     sites: ['vulva'],
@@ -399,6 +417,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cisto-canal-de-nuck',
+    frequency: 1,
     name: 'Cisto do canal de Nuck',
     aka: ['hidrocele feminina', 'cisto do processo vaginal persistente', 'canal of Nuck cyst'],
     sites: ['vulva', 'pele'],
@@ -413,6 +432,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cisto-mucoso-vestibulo-vulvar',
+    frequency: 1,
     name: 'Cisto mucoso do vestíbulo vulvar',
     aka: ['cisto das glândulas vestibulares menores', 'mucous cyst of the vestibule'],
     sites: ['vulva'],
@@ -428,6 +448,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cisto-utriculo-prostatico',
+    frequency: 1,
     name: 'Cisto do utrículo prostático',
     aka: ['dilatação cística do utrículo', 'prostatic utricle cyst'],
     sites: ['prostata'],
@@ -443,6 +464,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cisto-ducto-mulleriano-masculino',
+    frequency: 1,
     name: 'Cisto do ducto mülleriano (masculino)',
     aka: ['cisto do remanescente mülleriano', 'Müllerian duct cyst'],
     sites: ['prostata'],
@@ -457,6 +479,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cisto-vesicula-seminal',
+    frequency: 1,
     name: 'Cisto da vesícula seminal',
     aka: ['síndrome de Zinner (com agenesia renal ipsilateral)', 'seminal vesicle cyst'],
     sites: ['prostata'],
@@ -472,6 +495,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cisto-ducto-ejaculatorio',
+    frequency: 1,
     name: 'Cisto do ducto ejaculatório',
     aka: ['cisto paramediano prostático', 'ejaculatory duct cyst'],
     sites: ['prostata'],
@@ -502,6 +526,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cisto-epididimario',
+    frequency: 3,
     name: 'Cisto do epidídimo',
     aka: ['epididymal cyst'],
     sites: ['testiculo'],
@@ -517,6 +542,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'espermatocele',
+    frequency: 3,
     name: 'Espermatocele',
     aka: ['cisto espermático', 'spermatocele'],
     sites: ['testiculo'],
@@ -532,6 +558,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cisto-tunica-albuginea',
+    frequency: 1,
     name: 'Cisto da túnica albugínea',
     aka: ['cyst of the tunica albuginea'],
     sites: ['testiculo'],
@@ -546,6 +573,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cisto-epidermoide-testicular',
+    frequency: 1,
     name: 'Cisto epidermoide do testículo',
     aka: ['cisto epidérmico intratesticular', 'testicular epidermoid cyst'],
     sites: ['testiculo'],
@@ -561,6 +589,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'displasia-cistica-rete-testis',
+    frequency: 1,
     name: 'Displasia cística da rete testis',
     aka: ['cystic dysplasia of the rete testis'],
     sites: ['testiculo'],
@@ -575,6 +604,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'hidrocele',
+    frequency: 3,
     name: 'Hidrocele',
     aka: ['hidrocele da túnica vaginal', 'hydrocele'],
     sites: ['testiculo'],
@@ -590,6 +620,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cisto-da-rafe-mediana',
+    frequency: 1,
     name: 'Cisto da rafe mediana',
     aka: ['cisto parameatal', 'cisto genitoperineal da rafe', 'median raphe cyst'],
     sites: ['penis', 'pele'],
@@ -619,6 +650,7 @@ export const pelvis: Cyst[] = [
   },
   {
     id: 'cistite-cistica-glandular',
+    frequency: 3,
     name: 'Cistite cística e glandular',
     aka: ['ninhos de von Brunn císticos', 'cystitis cystica et glandularis'],
     sites: ['bexiga'],

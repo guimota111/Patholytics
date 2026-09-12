@@ -1799,7 +1799,7 @@
       "contents": "No conteúdo:"
     },
     "step3Title": "Sugestões",
-    "step3Hint": "Do mais ao menos provável. Abra cada uma para ver as pistas e com o que se confunde.",
+    "step3Hint": "Do mais ao menos provável; entre empates, os cistos comuns vêm antes dos raros. Abra cada uma para ver as pistas e com o que se confunde.",
     "empty": "Escolha um local, um revestimento ou digite um nome para ver sugestões.",
     "noResults": "Nada combina com essa combinação. Tente tirar um achado ou marcar outro revestimento.",
     "clearAll": "limpar tudo",
@@ -1817,6 +1817,10 @@
     "rowClues": "Pistas",
     "rowMimics": "Não confunda com",
     "rowSources": "Fontes",
-    "disclaimer": "Ferramenta de apoio ao raciocínio: as sugestões vêm do local e do revestimento informados e não substituem a correlação com a clínica, a imagem e a lâmina inteira. O conteúdo foi compilado de referências públicas citadas em cada verbete."
+    "disclaimer": "Ferramenta de apoio ao raciocínio: as sugestões vêm do local e do revestimento informados e não substituem a correlação com a clínica, a imagem e a lâmina inteira. O conteúdo foi compilado de referências públicas citadas em cada verbete.",
+    "freq": {
+      "common": "comum",
+      "rare": "raro"
+    }
   }
 }

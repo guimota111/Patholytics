@@ -15,6 +15,7 @@ import type { Cyst } from '../types'
 export const abdomen: Cyst[] = [
   {
     id: 'cisto-biliar-simples',
+    frequency: 3,
     name: 'Cisto biliar simples (cisto hepático solitário)',
     aka: ['cisto hepático simples', 'simple hepatic cyst'],
     sites: ['figado'],
@@ -43,6 +44,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'cisto-hepatico-ciliado-intestino-anterior',
+    frequency: 1,
     name: 'Cisto hepático ciliado do intestino anterior',
     aka: ['ciliated hepatic foregut cyst', 'cisto broncogênico intra-hepático'],
     sites: ['figado'],
@@ -58,6 +60,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'neoplasia-cistica-mucinosa-do-figado',
+    frequency: 1,
     name: 'Neoplasia cística mucinosa do fígado',
     aka: ['antigo cistadenoma biliar', 'mucinous cystic neoplasm of the liver'],
     sites: ['figado'],
@@ -102,6 +105,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'complexo-de-von-meyenburg',
+    frequency: 3,
     name: 'Complexo de von Meyenburg (hamartoma de ductos biliares)',
     aka: ['biliary hamartoma', 'von Meyenburg complex'],
     sites: ['figado'],
@@ -133,6 +137,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'pseudocisto-pancreatico',
+    frequency: 3,
     name: 'Pseudocisto pancreático',
     aka: ['pancreatic pseudocyst'],
     sites: ['pancreas', 'mesenterio'],
@@ -149,6 +154,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'cistadenoma-seroso-do-pancreas',
+    frequency: 3,
     name: 'Cistadenoma seroso do pâncreas',
     aka: ['neoplasia cística serosa', 'adenoma microcístico', 'serous cystadenoma'],
     sites: ['pancreas'],
@@ -164,6 +170,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'neoplasia-cistica-mucinosa-do-pancreas',
+    frequency: 3,
     name: 'Neoplasia cística mucinosa do pâncreas',
     aka: ['antigo cistadenoma mucinoso', 'mucinous cystic neoplasm'],
     sites: ['pancreas'],
@@ -179,6 +186,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'ipmn',
+    frequency: 3,
     name: 'Neoplasia mucinosa papilar intraductal (IPMN)',
     aka: ['tumor produtor de mucina intraductal', 'intraductal papillary mucinous neoplasm'],
     sites: ['pancreas'],
@@ -194,6 +202,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'neoplasia-papilar-intraductal-oncocitica',
+    frequency: 1,
     name: 'Neoplasia papilar intraductal oncocítica (IOPN)',
     aka: ['antigo IPMN oncocítico', 'intraductal oncocytic papillary neoplasm'],
     sites: ['pancreas'],
@@ -209,6 +218,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'cisto-linfoepitelial-do-pancreas',
+    frequency: 1,
     name: 'Cisto linfoepitelial do pâncreas',
     aka: ['lymphoepithelial cyst of the pancreas'],
     sites: ['pancreas'],
@@ -224,6 +234,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'cisto-escamoide-dos-ductos-pancreaticos',
+    frequency: 1,
     name: 'Cisto escamoide dos ductos pancreáticos',
     aka: ['squamoid cyst of pancreatic ducts'],
     sites: ['pancreas'],
@@ -253,6 +264,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'tumor-neuroendocrino-cistico-do-pancreas',
+    frequency: 1,
     name: 'Tumor neuroendócrino cístico do pâncreas',
     aka: ['cystic pancreatic neuroendocrine tumour'],
     sites: ['pancreas'],
@@ -284,6 +296,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'cisto-epidermoide-do-baco',
+    frequency: 1,
     name: 'Cisto epidermoide do baço (cisto epitelial esplênico)',
     aka: ['cisto esplênico primário verdadeiro', 'splenic epidermoid cyst'],
     sites: ['baco'],
@@ -360,6 +373,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'cisto-de-glandula-anal',
+    frequency: 1,
     name: 'Cisto de glândula anal',
     aka: ['cisto do ducto anal', 'anal gland cyst'],
     sites: ['retrorretal', 'tubo-digestivo'],
@@ -375,6 +389,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'cisto-do-intestino-caudal',
+    frequency: 1,
     name: 'Cisto do intestino caudal (hamartoma cístico retrorretal)',
     aka: ['tailgut cyst', 'retrorectal cystic hamartoma'],
     sites: ['retrorretal'],
@@ -390,6 +405,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'duplicacao-retal',
+    frequency: 1,
     name: 'Cisto de duplicação retal',
     aka: ['rectal duplication cyst'],
     sites: ['retrorretal', 'tubo-digestivo'],
@@ -405,6 +421,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'cisto-mulleriano-retroperitoneal',
+    frequency: 1,
     name: 'Cisto mülleriano retroperitoneal',
     aka: ['cisto ciliado de diferenciação mülleriana', 'Müllerian cyst'],
     sites: ['mesenterio', 'mediastino'],
@@ -420,6 +437,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'cisto-renal-simples',
+    frequency: 3,
     name: 'Cisto renal simples',
     aka: ['cisto cortical simples', 'Bosniak I', 'simple renal cyst'],
     sites: ['rim'],
@@ -435,6 +453,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'doenca-renal-policistica-autossomica-dominante',
+    frequency: 3,
     name: 'Doença renal policística autossômica dominante',
     aka: ['rim policístico do adulto', 'PKD1 e PKD2', 'ADPKD'],
     sites: ['rim'],
@@ -465,6 +484,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'nefroma-cistico',
+    frequency: 1,
     name: 'Nefroma cístico',
     aka: ['nefroma cístico multilocular', 'família dos tumores mistos epiteliais e estromais', 'cystic nephroma'],
     sites: ['rim'],
@@ -480,6 +500,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'nefroblastoma-cistico-parcialmente-diferenciado',
+    frequency: 1,
     name: 'Nefroblastoma cístico parcialmente diferenciado',
     aka: ['tumor de Wilms cístico parcialmente diferenciado', 'cystic partially differentiated nephroblastoma'],
     sites: ['rim'],
@@ -509,6 +530,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'nefronoftise-doenca-cistica-medular',
+    frequency: 1,
     name: 'Nefronoftise e doença cística medular',
     aka: ['NPHP', 'doença renal túbulo-intersticial autossômica dominante (ADTKD)', 'nephronophthisis'],
     sites: ['rim'],
@@ -524,6 +546,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'neoplasia-renal-cistica-multilocular-baixo-potencial',
+    frequency: 1,
     name: 'Neoplasia renal cística multilocular de baixo potencial de malignidade',
     aka: ['antigo carcinoma de células renais cístico multilocular', 'MCRNLMP'],
     sites: ['rim'],
@@ -569,6 +592,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'cisto-endotelial-adrenal',
+    frequency: 1,
     name: 'Cisto endotelial (linfangiomatoso) da adrenal',
     aka: ['cisto angiomatoso adrenal', 'adrenal endothelial cyst'],
     sites: ['adrenal'],
@@ -584,6 +608,7 @@ export const abdomen: Cyst[] = [
   },
   {
     id: 'cisto-epitelial-mesotelial-adrenal',
+    frequency: 1,
     name: 'Cisto epitelial (mesotelial) da adrenal',
     aka: ['inclusão mesotelial adrenal', 'adrenal epithelial cyst'],
     sites: ['adrenal'],

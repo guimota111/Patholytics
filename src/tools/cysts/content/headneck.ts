@@ -11,6 +11,7 @@ import type { Cyst } from '../types'
 export const headneck: Cyst[] = [
   {
     id: 'cisto-radicular',
+    frequency: 3,
     name: 'Cisto radicular (periapical)',
     aka: ['cisto apical', 'cisto inflamatório periapical', 'radicular cyst'],
     sites: ['maxilares'],
@@ -41,6 +42,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'cisto-dentigero',
+    frequency: 3,
     name: 'Cisto dentígero',
     aka: ['cisto folicular', 'dentigerous cyst'],
     sites: ['maxilares'],
@@ -71,6 +73,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'ceratocisto-odontogenico',
+    frequency: 3,
     name: 'Ceratocisto odontogênico',
     aka: ['ceratocisto', '"tumor odontogênico ceratocístico" (termo de 2005, abandonado)', 'odontogenic keratocyst'],
     sites: ['maxilares'],
@@ -86,6 +89,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'cisto-odontogenico-ortoceratinizado',
+    frequency: 1,
     name: 'Cisto odontogênico ortoceratinizado',
     aka: ['COO', 'orthokeratinized odontogenic cyst', 'antiga "variante ortoceratinizada do ceratocisto"'],
     sites: ['maxilares'],
@@ -116,6 +120,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'cisto-odontogenico-botrioide',
+    frequency: 1,
     name: 'Cisto odontogênico botrioide',
     aka: ['cisto periodontal lateral policístico', 'botryoid odontogenic cyst'],
     sites: ['maxilares'],
@@ -131,6 +136,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'cisto-odontogenico-glandular',
+    frequency: 1,
     name: 'Cisto odontogênico glandular',
     aka: ['cisto sialo-odontogênico', 'glandular odontogenic cyst'],
     sites: ['maxilares'],
@@ -146,6 +152,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'cisto-odontogenico-calcificante',
+    frequency: 1,
     name: 'Cisto odontogênico calcificante',
     aka: ['cisto de Gorlin', 'cisto odontogênico de células fantasmas', 'calcifying odontogenic cyst'],
     sites: ['maxilares', 'boca'],
@@ -176,6 +183,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'cisto-gengival-do-adulto',
+    frequency: 1,
     name: 'Cisto gengival do adulto',
     aka: ['gingival cyst of the adult', 'equivalente em tecido mole do cisto periodontal lateral'],
     sites: ['boca'],
@@ -190,6 +198,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'cisto-da-bifurcacao-vestibular',
+    frequency: 1,
     name: 'Cisto da bifurcação vestibular (paradentário)',
     aka: ['cisto colateral inflamatório', 'buccal bifurcation cyst', 'paradental cyst'],
     sites: ['maxilares'],
@@ -220,6 +229,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'cisto-nasolabial',
+    frequency: 1,
     name: 'Cisto nasolabial',
     aka: ['cisto nasoalveolar', 'cisto de Klestadt', 'nasolabial cyst'],
     sites: ['boca', 'nariz', 'pele'],
@@ -235,6 +245,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'cisto-cirurgico-ciliado',
+    frequency: 1,
     name: 'Cisto cirúrgico ciliado',
     aka: ['cisto pós-operatório maxilar', 'surgical ciliated cyst (entrada nova na OMS 2022)'],
     sites: ['maxilares', 'nariz'],
@@ -265,6 +276,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'mucocele-e-ranula',
+    frequency: 3,
     name: 'Mucocele (extravasamento mucoso) e rânula',
     aka: ['fenômeno de extravasamento mucoso', 'rânula mergulhante', 'mucocele', 'ranula'],
     sites: ['boca', 'salivares', 'pescoco'],
@@ -311,6 +323,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'tumor-de-warthin-cistico',
+    frequency: 3,
     name: 'Tumor de Warthin (quando cístico)',
     aka: ['cistadenolinfoma papilífero', 'adenolinfoma', 'Warthin tumour'],
     sites: ['salivares'],
@@ -326,6 +339,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'cisto-do-ducto-tireoglosso',
+    frequency: 3,
     name: 'Cisto do ducto tireoglosso',
     aka: ['cisto tireoglosso', 'thyroglossal duct cyst'],
     sites: ['pescoco', 'tireoide', 'boca'],
@@ -341,6 +355,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'cisto-branquial-primeira-fenda',
+    frequency: 1,
     name: 'Cisto branquial da primeira fenda',
     aka: ['anomalia da primeira fenda branquial tipo I e II de Work', 'first branchial cleft cyst'],
     sites: ['orelha', 'salivares', 'pescoco'],
@@ -356,6 +371,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'cisto-branquial-segunda-fenda',
+    frequency: 3,
     name: 'Cisto branquial da segunda fenda',
     aka: ['cisto cervical lateral', 'cisto branquiogênico', 'second branchial cleft cyst'],
     sites: ['pescoco'],
@@ -371,6 +387,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'cisto-branquial-terceira-e-quarta-fendas',
+    frequency: 1,
     name: 'Anomalias branquiais da terceira e quarta fendas',
     aka: ['fístula do seio piriforme', 'third and fourth branchial cleft anomaly'],
     sites: ['pescoco', 'tireoide'],
@@ -386,6 +403,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'cisto-timico-cervical',
+    frequency: 1,
     name: 'Cisto tímico cervical',
     aka: ['cisto do ducto timofaríngeo', 'cervical thymic cyst'],
     sites: ['pescoco', 'mediastino'],
@@ -416,6 +434,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'cisto-paratireoidiano',
+    frequency: 1,
     name: 'Cisto de paratireoide',
     aka: ['cisto paratireoidiano funcionante ou não', 'parathyroid cyst'],
     sites: ['tireoide', 'mediastino'],
@@ -430,6 +449,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'nodulo-tireoidiano-cistico',
+    frequency: 3,
     name: 'Nódulo tireoidiano cístico (cisto coloide)',
     aka: ['nódulo coloide com degeneração cística', 'doença nodular folicular', 'cystic thyroid nodule'],
     sites: ['tireoide'],
@@ -445,6 +465,7 @@ export const headneck: Cyst[] = [
   },
   {
     id: 'colesteatoma',
+    frequency: 3,
     name: 'Colesteatoma',
     aka: ['cisto epidermoide da orelha média', 'queratoma', 'cholesteatoma'],
     sites: ['orelha'],

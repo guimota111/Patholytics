@@ -67,6 +67,12 @@ export interface Cyst {
   mimics?: string[]
   /** Sem revestimento epitelial verdadeiro. */
   pseudocyst?: boolean
+  /**
+   * Quão comum é na rotina: 3 = comum, 2 = incomum (padrão), 1 = raro. Entra
+   * na ordenação para os cistos do dia a dia aparecerem antes das raridades
+   * quando local e revestimento combinam igualmente.
+   */
+  frequency?: 1 | 2 | 3
   sources?: string[]
 }
 

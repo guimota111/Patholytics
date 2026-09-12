@@ -42,6 +42,7 @@ export const cns: Cyst[] = [
   },
   {
     id: 'cisto-aracnoide',
+    frequency: 3,
     name: 'Cisto aracnóideo',
     aka: ['cisto leptomeníngeo primário', 'arachnoid cyst'],
     sites: ['encefalo', 'coluna'],
@@ -71,6 +72,7 @@ export const cns: Cyst[] = [
   },
   {
     id: 'cisto-dermoide-snc',
+    frequency: 1,
     name: 'Cisto dermoide intracraniano e espinhal',
     aka: ['dermoide', 'dermoid cyst'],
     sites: ['encefalo', 'sela', 'coluna'],
@@ -86,6 +88,7 @@ export const cns: Cyst[] = [
   },
   {
     id: 'cisto-neurenterico',
+    frequency: 1,
     name: 'Cisto neurentérico (enterogênico, endodérmico)',
     aka: ['cisto endodérmico', 'cisto enterogênico', 'classificação de Wilkins e Odom A, B, C', 'neurenteric cyst'],
     sites: ['coluna', 'encefalo', 'mediastino'],
@@ -101,6 +104,7 @@ export const cns: Cyst[] = [
   },
   {
     id: 'cisto-glioependimario',
+    frequency: 1,
     name: 'Cisto glioependimário (ependimário, neuroglial)',
     aka: ['cisto neuroglial', 'cisto neuroepitelial', 'glioependymal cyst'],
     sites: ['encefalo', 'coluna'],
@@ -131,6 +135,7 @@ export const cns: Cyst[] = [
   },
   {
     id: 'cisto-pineal',
+    frequency: 3,
     name: 'Cisto da pineal',
     aka: ['cisto glial da pineal', 'pineal cyst'],
     sites: ['encefalo'],
@@ -161,6 +166,7 @@ export const cns: Cyst[] = [
   },
   {
     id: 'cisto-meningeo-espinhal',
+    frequency: 1,
     name: 'Cisto meníngeo espinhal (extradural e intradural)',
     aka: ['cisto aracnóideo espinhal', 'divertículo meníngeo', 'Nabors tipo I e III', 'spinal meningeal cyst'],
     sites: ['coluna'],
@@ -221,6 +227,7 @@ export const cns: Cyst[] = [
   },
   {
     id: 'cisto-leptomeningeo-pos-traumatico',
+    frequency: 1,
     name: 'Cisto leptomeníngeo pós-traumático (fratura em crescimento)',
     aka: ['fratura craniana evolutiva', 'growing skull fracture'],
     sites: ['encefalo', 'osso'],
@@ -265,6 +272,7 @@ export const cns: Cyst[] = [
   },
   {
     id: 'cisto-estromal-iris',
+    frequency: 1,
     name: 'Cisto estromal da íris',
     aka: ['cisto epitelial do estroma iriano', 'iris stromal cyst'],
     sites: ['orbita'],
@@ -295,6 +303,7 @@ export const cns: Cyst[] = [
   },
   {
     id: 'cisto-colobomatoso-orbitario',
+    frequency: 1,
     name: 'Cisto colobomatoso da órbita (microftalmia com cisto)',
     aka: ['microftalmia com cisto orbitário', 'colobomatous cyst'],
     sites: ['orbita'],

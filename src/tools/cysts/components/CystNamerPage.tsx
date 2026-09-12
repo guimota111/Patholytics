@@ -273,6 +273,8 @@ function SuggestionCard({ s, open, onToggle, muted = false }: { s: Suggestion; o
           <p className="text-base font-semibold text-ink">
             {c.name}
             {c.pseudocyst && <span className="ml-2 rounded-full border border-line px-2 py-0.5 text-[0.65rem] font-medium text-ink-muted uppercase">{t('cysts.pseudocyst')}</span>}
+            {c.frequency === 3 && <span className="ml-2 rounded-full bg-success/15 px-2 py-0.5 text-[0.65rem] font-medium text-success uppercase">{t('cysts.freq.common')}</span>}
+            {c.frequency === 1 && <span className="ml-2 rounded-full bg-elevated px-2 py-0.5 text-[0.65rem] font-medium text-ink-faint uppercase">{t('cysts.freq.rare')}</span>}
           </p>
           {c.aka && c.aka.length > 0 && <p className="text-xs text-ink-faint">{c.aka.join(' · ')}</p>}
           <p className="mt-1 text-sm text-ink-muted">{c.lining}</p>

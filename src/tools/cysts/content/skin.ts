@@ -9,21 +9,23 @@ import type { Cyst } from '../types'
 export const skin: Cyst[] = [
   {
     id: 'cisto-epidermoide',
+    frequency: 3,
     name: 'Cisto epidermoide (infundibular)',
     aka: ['cisto epidérmico', 'cisto de inclusão epidérmica', '"cisto sebáceo" (nome errado)', 'epidermoid cyst'],
-    sites: ['pele', 'boca', 'orbita', 'testiculo'],
+    sites: ['pele', 'boca', 'orbita', 'testiculo', 'partes-moles'],
     linings: ['escamoso-queratinizado'],
     features: ['queratina-lamelar', 'colesterol'],
     lining: 'Escamoso estratificado com camada granulosa evidente, sem cristas, igual à epiderme (queratinização infundibular).',
     wall: 'Estroma fibroso fino, sem anexos. Quando rompe, reação de corpo estranho com células gigantes e neutrófilos ao redor da queratina.',
     contents: 'Ortoqueratina lamelar frouxa, em cesto, acelular.',
-    where: 'Face, pescoço, tronco, couro cabeludo e escroto, em qualquer pele com folículo; poro central na clínica. Também no assoalho da boca (linha média, sem anexos, ao contrário do dermoide) e na órbita.',
-    clues: ['Camada granulosa presente e queratina lamelar: é o par que define o cisto.', 'Ruptura com granuloma de corpo estranho é o achado mais comum na peça.'],
+    where: 'Face, pescoço, tronco, couro cabeludo e escroto, em qualquer pele com folículo; poro central na clínica. Também no assoalho da boca (linha média, sem anexos, ao contrário do dermoide), na órbita e, por implantação após ferimento penetrante, na polpa digital, palma e planta (cisto de inclusão epidérmica pós-traumático).',
+    clues: ['Camada granulosa presente e queratina lamelar: é o par que define o cisto.', 'Ruptura com granuloma de corpo estranho é o achado mais comum na peça.', 'No dedo, pergunte por trauma penetrante: é o mesmo cisto, implantado.'],
     mimics: ['Cisto triquilemal: sem camada granulosa e com queratina compacta.', 'Cisto dermoide: anexos (pelos, sebáceas) na parede.', 'Esteatocistoma: cutícula eosinofílica crenulada e glândula sebácea na parede.'],
     sources: ['https://dermnetnz.org/topics/epidermoid-cyst-pathology', 'https://www.ncbi.nlm.nih.gov/books/NBK499974/'],
   },
   {
     id: 'cisto-triquilemal',
+    frequency: 3,
     name: 'Cisto triquilemal (pilar)',
     aka: ['cisto pilar', 'cisto do istmo-catágeno', 'trichilemmal cyst'],
     sites: ['pele'],
@@ -39,6 +41,7 @@ export const skin: Cyst[] = [
   },
   {
     id: 'tumor-triquilemal-proliferante',
+    frequency: 1,
     name: 'Tumor triquilemal proliferante',
     aka: ['cisto pilar proliferante', 'tumor pilar', 'proliferating trichilemmal tumour'],
     sites: ['pele'],
@@ -69,6 +72,7 @@ export const skin: Cyst[] = [
   },
   {
     id: 'cisto-viloso-eruptivo',
+    frequency: 1,
     name: 'Cisto viloso eruptivo',
     aka: ['cisto eruptivo de pelos velos', 'eruptive vellus hair cyst'],
     sites: ['pele'],
@@ -84,6 +88,7 @@ export const skin: Cyst[] = [
   },
   {
     id: 'milio',
+    frequency: 3,
     name: 'Mílio',
     aka: ['milium', 'milia'],
     sites: ['pele', 'orbita'],
@@ -142,6 +147,7 @@ export const skin: Cyst[] = [
   },
   {
     id: 'cisto-ciliado-cutaneo',
+    frequency: 1,
     name: 'Cisto ciliado cutâneo',
     aka: ['cisto mülleriano cutâneo', 'cutaneous ciliated cyst'],
     sites: ['pele'],
@@ -157,6 +163,7 @@ export const skin: Cyst[] = [
   },
   {
     id: 'cisto-broncogenico-cutaneo',
+    frequency: 1,
     name: 'Cisto broncogênico cutâneo',
     aka: ['cisto broncogênico subcutâneo', 'cutaneous bronchogenic cyst'],
     sites: ['pele', 'pescoco'],
@@ -172,6 +179,7 @@ export const skin: Cyst[] = [
   },
   {
     id: 'cisto-pilonidal',
+    frequency: 3,
     name: 'Seio pilonidal (pseudocisto pilonidal)',
     aka: ['cisto pilonidal', 'doença pilonidal', 'pilonidal sinus'],
     sites: ['pele', 'retrorretal'],
@@ -188,6 +196,7 @@ export const skin: Cyst[] = [
   },
   {
     id: 'pseudocisto-mixoide-digital',
+    frequency: 3,
     name: 'Pseudocisto mixoide digital',
     aka: ['cisto mucoso digital', 'cisto mixoide', 'gânglio periungueal', 'digital mucous cyst'],
     sites: ['pele', 'articulacao'],
@@ -204,6 +213,7 @@ export const skin: Cyst[] = [
   },
   {
     id: 'cisto-ganglionar',
+    frequency: 3,
     name: 'Cisto ganglionar (gânglio)',
     aka: ['ganglion cyst'],
     sites: ['articulacao', 'pele', 'partes-moles'],
@@ -220,6 +230,7 @@ export const skin: Cyst[] = [
   },
   {
     id: 'cisto-de-baker',
+    frequency: 3,
     name: 'Cisto de Baker (poplíteo)',
     aka: ['bursa gastrocnêmio-semimembranácea distendida', 'popliteal cyst'],
     sites: ['articulacao'],
@@ -250,6 +261,7 @@ export const skin: Cyst[] = [
   },
   {
     id: 'cisto-bursal',
+    frequency: 3,
     name: 'Cisto bursal (bursite crônica)',
     aka: ['higroma', 'bursite olecraniana', 'bursite pré-patelar', 'bursal cyst'],
     sites: ['articulacao'],
@@ -280,22 +292,8 @@ export const skin: Cyst[] = [
     sources: ['https://www.pathologyoutlines.com/topic/jointscysticmeniscus.html', 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4334430/'],
   },
   {
-    id: 'cisto-inclusao-epidermica-digito',
-    name: 'Cisto de inclusão epidérmica pós-traumático do dedo',
-    aka: ['cisto epidérmico de implantação', 'cisto epidermoide traumático', 'epidermal inclusion cyst of the digit'],
-    sites: ['pele', 'partes-moles'],
-    linings: ['escamoso-queratinizado'],
-    features: ['queratina-lamelar', 'inflamacao'],
-    lining: 'Escamoso estratificado com camada granulosa bem definida (epiderme implantada).',
-    wall: 'Parede fibrosa com inflamação crônica e granulomatosa se rompido; sem anexos; pode erodir o osso por pressão.',
-    contents: 'Queratina lamelar compacta, branca, em pasta.',
-    where: 'Polpa digital, palma, planta e leito ungueal, após ferimento penetrante, amputação de ponta de dedo ou cirurgia; adultos, mão dominante.',
-    clues: ['História de trauma penetrante no dedo.', 'Nódulo firme na polpa com epitélio escamoso e granulosa.'],
-    mimics: ['Cisto epidermoide intraósseo: mesma histologia, centrado na medular da falange.', 'Pseudocisto mixoide digital: mucina, sem epitélio.', 'Tumor de células gigantes da bainha: sólido.'],
-    sources: ['https://pmc.ncbi.nlm.nih.gov/articles/PMC10387594/'],
-  },
-  {
     id: 'cisto-epidermoide-intraosseo',
+    frequency: 1,
     name: 'Cisto epidermoide intraósseo',
     aka: ['intraosseous epidermoid cyst'],
     sites: ['osso'],
@@ -343,6 +341,7 @@ export const skin: Cyst[] = [
   },
   {
     id: 'cisto-osseo-subcondral',
+    frequency: 3,
     name: 'Cisto ósseo subcondral (geodo)',
     aka: ['geodo degenerativo', 'cisto subarticular', 'subchondral cyst'],
     sites: ['osso'],
@@ -359,6 +358,7 @@ export const skin: Cyst[] = [
   },
   {
     id: 'ganglio-intraosseo',
+    frequency: 1,
     name: 'Gânglio intraósseo',
     aka: ['cisto ganglionar intraósseo', 'intraosseous ganglion'],
     sites: ['osso'],
@@ -375,6 +375,7 @@ export const skin: Cyst[] = [
   },
   {
     id: 'pseudocisto-da-orelha',
+    frequency: 1,
     name: 'Pseudocisto da orelha',
     aka: ['seroma auricular', 'condromalácia cística idiopática', 'pseudocyst of the auricle'],
     sites: ['orelha'],

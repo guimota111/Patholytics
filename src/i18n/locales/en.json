@@ -1799,7 +1799,7 @@
       "contents": "In the contents:"
     },
     "step3Title": "Suggestions",
-    "step3Hint": "Most to least likely. Open each one for the clues and the look-alikes.",
+    "step3Hint": "Most to least likely; among ties, common cysts come before rare ones. Open each one for the clues and the look-alikes.",
     "empty": "Pick a site, a lining, or type a name to see suggestions.",
     "noResults": "Nothing matches that combination. Try removing a finding or ticking another lining.",
     "clearAll": "clear all",
@@ -1817,6 +1817,10 @@
     "rowClues": "Clues",
     "rowMimics": "Do not confuse with",
     "rowSources": "Sources",
-    "disclaimer": "A reasoning aid: suggestions come from the site and lining you entered and do not replace correlation with the clinical picture, imaging and the whole slide. Content was compiled from the public references cited in each entry; the entries themselves are in Portuguese."
+    "disclaimer": "A reasoning aid: suggestions come from the site and lining you entered and do not replace correlation with the clinical picture, imaging and the whole slide. Content was compiled from the public references cited in each entry; the entries themselves are in Portuguese.",
+    "freq": {
+      "common": "common",
+      "rare": "rare"
+    }
   }
 }
