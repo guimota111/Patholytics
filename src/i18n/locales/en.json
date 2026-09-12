@@ -302,6 +302,14 @@
     "frozen": {
       "name": "Frozen section",
       "description": "The intraoperative report built on the spot: specimens, cassettes and grossing masks, Mohs surgery with clock-face quadrants, cold-ischemia timer and output as text, paper or e-mail."
+    },
+    "bugCatalog": {
+      "name": "Bug catalogue",
+      "description": "Fungi, parasites and bacteria on the slide: search by name or filter by morphology, site and clinical setting, and send in your photos."
+    },
+    "foreignCatalog": {
+      "name": "Foreign body catalogue",
+      "description": "Fillers, sutures, talc and the like: filter by where they turn up and the clinical setting, and send in your photos."
     }
   },
   "stager": {
@@ -1671,6 +1679,77 @@
       "copy": "Copy text",
       "delete": "Delete template",
       "deleteConfirm": "Delete"
+    }
+  },
+  "catalog": {
+    "bugs": {
+      "title": "Bug catalogue",
+      "subtitle": "Search by name or tick what you see on the slide — spores, hyphae, budding — and where the patient is ill. Every bug has its own page, with photos from whoever sent them.",
+      "searchPlaceholder": "Name or genus: candida, histoplasma, leishmania…",
+      "back": "Back to the bug catalogue",
+      "emptyBody": "The first bugs are being prepared. Send your photos: each one joins the catalogue with your credit."
+    },
+    "foreign": {
+      "title": "Foreign body catalogue",
+      "subtitle": "Material that should not be there — filler, thread, talc, pollen. Filter by site and clinical setting: PMMA turns up in skin, hardly ever in the stomach.",
+      "searchPlaceholder": "Material: PMMA, silicone, talc, suture…",
+      "back": "Back to the foreign body catalogue",
+      "emptyBody": "The first entries are being prepared. Send your photos: each one joins the catalogue with your credit."
+    },
+    "search": "Search",
+    "facets": {
+      "traits": "Features",
+      "sites": "Where it appears",
+      "clinical": "Clinical setting"
+    },
+    "clearFilters": "Clear search and filters",
+    "results": "Results",
+    "entriesWord_one": "entry",
+    "entriesWord_other": "entries",
+    "emptyTitle": "Catalogue in preparation",
+    "noMatchTitle": "Nothing matches these filters",
+    "noMatchBody": "Drop a filter or try another name.",
+    "noPhoto": "no photo",
+    "submitButton": "Send a photo",
+    "submitForEntry": "Send a photo of this one",
+    "photos": "Photos",
+    "noPhotosYet": "No photos yet — send yours.",
+    "credit": "Photo: {{name}}",
+    "noFacets": "No features recorded.",
+    "missingTitle": "This entry does not exist",
+    "missingBody": "The item you looked for is not in the catalogue.",
+    "footer": "The catalogue is curated by hand: submitted photos are reviewed before they go in, always credited to the sender. The content is the same for every account.",
+    "submit": {
+      "title": "Send a photo to the catalogue",
+      "hint": {
+        "bugs": "Found a nice bug on the slide? Send the photo. I review it, identify what I can and publish it with your credit.",
+        "foreign": "Found a foreign body on the slide? Send the photo. I review it and publish it with your credit."
+      },
+      "photo": "Photo",
+      "photoPick": "Click to choose the photo",
+      "photoHint": "JPG or PNG. The photo is shrunk in your browser before it leaves.",
+      "subject": {
+        "bugs": "What bug it is (or what you think it is)",
+        "foreign": "What material it is (or what you think it is)"
+      },
+      "subjectPlaceholder": {
+        "bugs": "e.g. Candida, Histoplasma, \"budding yeast\"…",
+        "foreign": "e.g. PMMA, silicone, suture thread…"
+      },
+      "site": "Where it was found",
+      "sitePlaceholder": "Organ or site, stain: \"skin, H&E 40×\"",
+      "notes": "Notes",
+      "notesPlaceholder": "Clinical context, doubts, what caught your eye…",
+      "credit": "Credit",
+      "creditHint": "How your name should appear beside the photo.",
+      "consent": "I allow this photo to be published in the catalogue, with the credit above.",
+      "send": "Send photo",
+      "sending": "Sending…",
+      "sentTitle": "Photo sent. Thank you!",
+      "sentBody": "It joins the curation queue and, once published, appears in the catalogue with your credit.",
+      "close": "Close",
+      "failed": "Could not send. Check the connection and try again.",
+      "tooBig": "The photo is still too large after shrinking. Crop to the region of interest and try again."
     }
   }
 }

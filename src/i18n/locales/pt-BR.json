@@ -302,6 +302,14 @@
     "frozen": {
       "name": "Congelação",
       "description": "O laudo transoperatório montado na hora: peças, cassetes e máscaras de macroscopia, cirurgia de Mohs com os quadrantes no relógio, cronômetro de isquemia fria e saída em texto, papel ou e-mail."
+    },
+    "bugCatalog": {
+      "name": "Catálogo de bichos",
+      "description": "Fungos, parasitas e bactérias na lâmina: busque pelo nome ou filtre por morfologia, sítio e clínica, e mande as suas fotos."
+    },
+    "foreignCatalog": {
+      "name": "Catálogo de corpos estranhos",
+      "description": "Preenchedores, suturas, talco e afins: filtre por onde aparecem e pela clínica, e mande as suas fotos."
     }
   },
   "stager": {
@@ -1671,6 +1679,77 @@
       "copy": "Copiar texto",
       "delete": "Excluir modelo",
       "deleteConfirm": "Excluir"
+    }
+  },
+  "catalog": {
+    "bugs": {
+      "title": "Catálogo de bichos",
+      "subtitle": "Procure pelo nome ou marque o que você está vendo na lâmina — esporo, hifa, brotamento — e onde o paciente está doente. Cada bicho tem a sua página, com as fotos de quem as mandou.",
+      "searchPlaceholder": "Nome ou gênero: candida, histoplasma, leishmania…",
+      "back": "Voltar ao catálogo de bichos",
+      "emptyBody": "Os primeiros bichos estão sendo preparados. Mande as suas fotos: cada uma entra no catálogo com o seu crédito."
+    },
+    "foreign": {
+      "title": "Catálogo de corpos estranhos",
+      "subtitle": "Material que não devia estar ali — preenchedor, fio, talco, pólen. Filtre pelo sítio e pela clínica: um PMMA aparece na pele, quase nunca no estômago.",
+      "searchPlaceholder": "Material: PMMA, silicone, talco, sutura…",
+      "back": "Voltar ao catálogo de corpos estranhos",
+      "emptyBody": "Os primeiros verbetes estão sendo preparados. Mande as suas fotos: cada uma entra no catálogo com o seu crédito."
+    },
+    "search": "Buscar",
+    "facets": {
+      "traits": "Características",
+      "sites": "Onde aparece",
+      "clinical": "Clínica"
+    },
+    "clearFilters": "Limpar busca e filtros",
+    "results": "Resultados",
+    "entriesWord_one": "verbete",
+    "entriesWord_other": "verbetes",
+    "emptyTitle": "Catálogo em preparação",
+    "noMatchTitle": "Nada com esses filtros",
+    "noMatchBody": "Tire um filtro ou procure por outro nome.",
+    "noPhoto": "sem foto",
+    "submitButton": "Enviar uma foto",
+    "submitForEntry": "Enviar foto deste",
+    "photos": "Fotos",
+    "noPhotosYet": "Ainda sem fotos — mande a sua.",
+    "credit": "Foto: {{name}}",
+    "noFacets": "Sem características cadastradas.",
+    "missingTitle": "Este verbete não existe",
+    "missingBody": "O item que você procurou não está no catálogo.",
+    "footer": "O catálogo é curado à mão: as fotos enviadas passam por revisão antes de entrar, sempre com o crédito de quem mandou. O conteúdo é o mesmo para todas as contas.",
+    "submit": {
+      "title": "Enviar uma foto para o catálogo",
+      "hint": {
+        "bugs": "Achou um bicho bonito na lâmina? Mande a foto. Eu reviso, identifico o que der e publico com o seu crédito.",
+        "foreign": "Achou um corpo estranho na lâmina? Mande a foto. Eu reviso e publico com o seu crédito."
+      },
+      "photo": "Foto",
+      "photoPick": "Clique para escolher a foto",
+      "photoHint": "JPG ou PNG. A foto é reduzida no seu navegador antes de sair.",
+      "subject": {
+        "bugs": "Que bicho é (ou o que você acha que é)",
+        "foreign": "Que material é (ou o que você acha que é)"
+      },
+      "subjectPlaceholder": {
+        "bugs": "Ex.: Candida, Histoplasma, \"levedura com brotamento\"…",
+        "foreign": "Ex.: PMMA, silicone, fio de sutura…"
+      },
+      "site": "Onde foi encontrado",
+      "sitePlaceholder": "Órgão ou sítio, coloração: \"pele, HE 40×\"",
+      "notes": "Observações",
+      "notesPlaceholder": "Contexto clínico, dúvida, o que chamou a atenção…",
+      "credit": "Crédito",
+      "creditHint": "Como o seu nome deve aparecer junto da foto.",
+      "consent": "Autorizo publicar esta foto no catálogo, com o crédito acima.",
+      "send": "Enviar foto",
+      "sending": "Enviando…",
+      "sentTitle": "Foto enviada. Obrigado!",
+      "sentBody": "Ela entra na fila de curadoria e, quando for publicada, aparece no catálogo com o seu crédito.",
+      "close": "Fechar",
+      "failed": "Não deu para enviar. Verifique a conexão e tente de novo.",
+      "tooBig": "A foto ficou grande demais mesmo reduzida. Recorte a região de interesse e tente de novo."
     }
   }
 }

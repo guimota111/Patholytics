@@ -28,6 +28,8 @@ const MacroscopyManualPage = lazy(() => import('@/pages/tools/MacroscopyManual')
 const MacroscopySystemPage = lazy(() => import('@/pages/tools/MacroscopySystem'))
 const MacroscopyProtocolPage = lazy(() => import('@/pages/tools/MacroscopyProtocol'))
 const FrozenPage = lazy(() => import('@/pages/tools/Frozen'))
+const BugCatalogPage = lazy(() => import('@/pages/tools/BugCatalog'))
+const ForeignCatalogPage = lazy(() => import('@/pages/tools/ForeignCatalog'))
 
 export default function App() {
   const { t } = useTranslation()
@@ -93,6 +95,10 @@ export default function App() {
             <Route path="/tools/macroscopia/:systemId" element={<MacroscopySystemPage />} />
             <Route path="/tools/macroscopia/:systemId/:protocolId" element={<MacroscopyProtocolPage />} />
             <Route path="/tools/congelacao" element={<FrozenPage />} />
+            <Route path="/tools/bichos" element={<BugCatalogPage />} />
+            <Route path="/tools/bichos/:entryId" element={<BugCatalogPage />} />
+            <Route path="/tools/corpos-estranhos" element={<ForeignCatalogPage />} />
+            <Route path="/tools/corpos-estranhos/:entryId" element={<ForeignCatalogPage />} />
           </Route>
 
           <Route path="*" element={<NotFoundPage />} />

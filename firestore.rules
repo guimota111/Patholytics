@@ -37,6 +37,22 @@ service cloud.firestore {
       allow read, write: if isOwner(uid);
     }
 
+    // Catálogos (bichos, corpos estranhos): fotos que os usuários mandam para
+    // a curadoria. Quem está logado só cria, em nome próprio e dentro do
+    // tamanho; ninguém lê pelo cliente — a curadoria é feita no console.
+    match /submissions/{id} {
+      allow create: if request.auth != null
+                    && incoming().uid == request.auth.uid
+                    && incoming().catalog in ['bugs', 'foreign']
+                    && incoming().status == 'pending'
+                    && incoming().subject is string && incoming().subject.size() <= 200
+                    && incoming().site is string && incoming().site.size() <= 200
+                    && incoming().notes is string && incoming().notes.size() <= 2000
+                    && incoming().credit is string && incoming().credit.size() <= 120
+                    && incoming().image is string && incoming().image.size() <= 900000;
+      allow read, update, delete: if false;
+    }
+
     function isOwner(uid) {
       return request.auth != null && request.auth.uid == uid;
     }
