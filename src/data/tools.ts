@@ -97,7 +97,8 @@ export const TOOLS: Tool[] = [
     i18nKey: 'nameThatCyst',
     icon: CircleDot,
     category: 'differential',
-    status: 'coming-soon',
+    status: 'available',
+    path: '/tools/cistos',
   },
   {
     id: 'marker-helper',

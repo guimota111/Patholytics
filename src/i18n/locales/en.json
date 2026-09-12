@@ -260,8 +260,8 @@
       "description": "Site-specific pTNM staging from the CAP / AJCC 8th edition protocols, with the report line ready to copy."
     },
     "nameThatCyst": {
-      "name": "Name That Cyst",
-      "description": "Identify cystic lesions from epithelial lining, contents and anatomical site."
+      "name": "Name that cyst",
+      "description": "Say where the cyst is and what lines it: the tool suggests the possible names and what tells them apart."
     },
     "markerHelper": {
       "name": "Marker Helper",
@@ -1772,5 +1772,51 @@
       "failed": "Could not send. Check the connection and try again.",
       "tooBig": "The photo is still too large after shrinking. Crop to the region of interest and try again."
     }
+  },
+  "cysts": {
+    "subtitle": "Say where the cyst is and what lines it; the tool lists the possible names and what tells them apart. Covers true cysts and pseudocysts across the body.",
+    "search": "Search by name",
+    "searchPlaceholder": "Know the name already? Type: thyroglossal, Gartner, nasopalatine…",
+    "clearSearch": "Clear search",
+    "step1Title": "Where is the cyst?",
+    "step1Hint": "Click a region on the figure or pick it from the list, then the exact site.",
+    "pickRegion": "Pick a region to see its sites.",
+    "siteLabel": "Exact site",
+    "step2Title": "What lines the cyst?",
+    "step2Hint": "Tick the epithelium you see (more than one if in doubt) and the findings in the wall and contents.",
+    "liningGroup": {
+      "squamous": "Squamous",
+      "glandular": "Glandular",
+      "ciliated": "Ciliated",
+      "special": "Other linings",
+      "none": "No epithelium"
+    },
+    "featuresTitle": "Helpful findings",
+    "featuresHint": "Each finding you tick moves cysts that have it up the list and those that lack it down.",
+    "featureGroup": {
+      "lining": "In the epithelium:",
+      "wall": "In the wall:",
+      "contents": "In the contents:"
+    },
+    "step3Title": "Suggestions",
+    "step3Hint": "Most to least likely. Open each one for the clues and the look-alikes.",
+    "empty": "Pick a site, a lining, or type a name to see suggestions.",
+    "noResults": "Nothing matches that combination. Try removing a finding or ticking another lining.",
+    "clearAll": "clear all",
+    "alsoConsider": "Also consider",
+    "alsoConsiderHint": "Cysts with this lining at other sites, so the ones that occur in more than one place are not forgotten.",
+    "pseudocyst": "pseudocyst",
+    "matchSite": "site",
+    "matchLining": "lining",
+    "matchFeatures": "{{n}} finding(s)",
+    "missFeatures": "lacks {{n}} finding(s)",
+    "rowWhere": "Where and in whom",
+    "rowLining": "Lining",
+    "rowWall": "Wall",
+    "rowContents": "Contents",
+    "rowClues": "Clues",
+    "rowMimics": "Do not confuse with",
+    "rowSources": "Sources",
+    "disclaimer": "A reasoning aid: suggestions come from the site and lining you entered and do not replace correlation with the clinical picture, imaging and the whole slide. Content was compiled from the public references cited in each entry; the entries themselves are in Portuguese."
   }
 }

@@ -260,8 +260,8 @@
       "description": "Estadiamento pTNM por sítio, a partir dos protocolos CAP / AJCC 8ª edição, com a linha do laudo pronta para copiar."
     },
     "nameThatCyst": {
-      "name": "Name That Cyst",
-      "description": "Identificação de lesões císticas pelo revestimento epitelial, conteúdo e sítio anatômico."
+      "name": "Nomeador de cistos",
+      "description": "Diga onde o cisto está e o que o reveste: a ferramenta sugere os nomes possíveis e o que separa um do outro."
     },
     "markerHelper": {
       "name": "Marker Helper",
@@ -1772,5 +1772,51 @@
       "failed": "Não deu para enviar. Verifique a conexão e tente de novo.",
       "tooBig": "A foto ficou grande demais mesmo reduzida. Recorte a região de interesse e tente de novo."
     }
+  },
+  "cysts": {
+    "subtitle": "Diga onde o cisto está e o que o reveste; a ferramenta lista os nomes possíveis e o que separa um do outro. Cobre cistos verdadeiros e pseudocistos de todo o corpo.",
+    "search": "Buscar pelo nome",
+    "searchPlaceholder": "Já sabe o nome? Digite: tireoglosso, Gartner, nasopalatino…",
+    "clearSearch": "Limpar busca",
+    "step1Title": "Onde está o cisto?",
+    "step1Hint": "Clique numa região do boneco ou escolha na lista, depois o local exato.",
+    "pickRegion": "Escolha uma região para ver os locais.",
+    "siteLabel": "Local exato",
+    "step2Title": "O que reveste o cisto?",
+    "step2Hint": "Marque o epitélio que você vê (pode marcar mais de um se houver dúvida) e os achados da parede e do conteúdo.",
+    "liningGroup": {
+      "squamous": "Escamoso",
+      "glandular": "Glandular",
+      "ciliated": "Ciliado",
+      "special": "Outros revestimentos",
+      "none": "Sem epitélio"
+    },
+    "featuresTitle": "Achados que ajudam",
+    "featuresHint": "Cada achado marcado sobe na lista os cistos que o têm e desce os que não o têm.",
+    "featureGroup": {
+      "lining": "No epitélio:",
+      "wall": "Na parede:",
+      "contents": "No conteúdo:"
+    },
+    "step3Title": "Sugestões",
+    "step3Hint": "Do mais ao menos provável. Abra cada uma para ver as pistas e com o que se confunde.",
+    "empty": "Escolha um local, um revestimento ou digite um nome para ver sugestões.",
+    "noResults": "Nada combina com essa combinação. Tente tirar um achado ou marcar outro revestimento.",
+    "clearAll": "limpar tudo",
+    "alsoConsider": "Considere também",
+    "alsoConsiderHint": "Cistos com este revestimento em outros locais, para não esquecer os que ocorrem em mais de um lugar.",
+    "pseudocyst": "pseudocisto",
+    "matchSite": "local",
+    "matchLining": "revestimento",
+    "matchFeatures": "{{n}} achado(s)",
+    "missFeatures": "sem {{n}} achado(s)",
+    "rowWhere": "Onde e em quem",
+    "rowLining": "Revestimento",
+    "rowWall": "Parede",
+    "rowContents": "Conteúdo",
+    "rowClues": "Pistas",
+    "rowMimics": "Não confunda com",
+    "rowSources": "Fontes",
+    "disclaimer": "Ferramenta de apoio ao raciocínio: as sugestões vêm do local e do revestimento informados e não substituem a correlação com a clínica, a imagem e a lâmina inteira. O conteúdo foi compilado de referências públicas citadas em cada verbete."
   }
 }
