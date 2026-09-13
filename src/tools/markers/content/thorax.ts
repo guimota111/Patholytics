@@ -80,6 +80,7 @@ export const thorax: Tumor[] = [
       { marker: 'pdl1', pct: [25, 35], note: 'preditivo, não diagnóstico (TPS ≥ 50%)' },
       { marker: 'p53', pct: [40, 60] },
       { marker: 'ki67', pct: [30, 70] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma espinocelular pulmonar: p40 e CK5/6 positivos, TTF-1 negativo.',
@@ -130,6 +131,7 @@ export const thorax: Tumor[] = [
       { marker: 'calretinina', pct: [0, 10] },
       { marker: 'p53', pct: [20, 40] },
       { marker: 'ki67', pct: [10, 40] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Metástase de adenocarcinoma pancreático ou biliar: quadro clínico e imagem; SMAD4 perdido favorece pâncreas.',
@@ -185,6 +187,7 @@ export const thorax: Tumor[] = [
       { marker: 'p53', pct: [60, 85] },
       { marker: 'pdl1', pct: [25, 40] },
       { marker: 'ki67', pct: [50, 90] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma sólido: TTF-1 e napsina positivas, p40 negativo.',
@@ -398,6 +401,7 @@ export const thorax: Tumor[] = [
       { marker: 'pdl1', pct: [50, 80], note: 'expressão alta frequente; pode responder a imunoterapia' },
       { marker: 'p53', pct: [60, 85] },
       { marker: 'ki67', pct: [70, 95] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Mesotelioma sarcomatoide: perda de BAP1 ou de MTAP, crescimento em casca pleural, calretinina e D2-40.',
@@ -493,6 +497,7 @@ export const thorax: Tumor[] = [
       { marker: 'ini1', pct: [0, 5] },
       { marker: 'ki67', pct: [60, 95] },
       { marker: 'betacatenina', pct: [0, 15], note: 'nuclear negativa: separa do blastoma pulmonar do adulto' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Malformação adenomatoide cística congênita: sem camada cambial nem atipia.',
@@ -538,6 +543,7 @@ export const thorax: Tumor[] = [
       { marker: 'afp', pct: [10, 30] },
       { marker: 'ki67', pct: [20, 60] },
       { marker: 'p53', pct: [20, 50], note: 'mais no blastoma' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma pulmonar convencional: β-catenina só membranosa, sem mórulas.',
@@ -595,6 +601,7 @@ export const thorax: Tumor[] = [
       { marker: 'pax8', pct: [0, 10], note: 'negativo: separa do seroso ovariano, que também é WT1 positivo' },
       { marker: 'er', pct: [0, 10], note: 'idem' },
       { marker: 'ki67', pct: [20, 60] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma pulmonar invadindo a pleura: claudina-4, MOC-31, TTF-1 e napsina positivos.',
@@ -650,6 +657,7 @@ export const thorax: Tumor[] = [
       { marker: 'stat6', pct: [0, 5], note: 'negativo: separa do tumor fibroso solitário' },
       { marker: 'mdm2', pct: [0, 10] },
       { marker: 'ki67', pct: [50, 90] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Pleurite fibrosa organizada: zonalidade, sem invasão, MTAP e BAP1 retidos.',
@@ -753,6 +761,7 @@ export const thorax: Tumor[] = [
       { marker: 'p53', pct: [50, 80] },
       { marker: 'ki67', pct: [50, 90] },
       { marker: 'pdl1', pct: [50, 80] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Timoma B3: sem atipia franca, CD5 e CD117 negativos nas epiteliais, GLUT1 negativa.',
@@ -804,6 +813,7 @@ export const thorax: Tumor[] = [
       { marker: 'gata3', pct: [0, 15], note: 'negativa: separa do paraganglioma' },
       { marker: 'tdt', pct: [0, 5] },
       { marker: 'ki67', pct: [30, 70] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Paraganglioma mediastinal: queratina negativa, GATA3 positiva, células sustentaculares S100.',
@@ -845,6 +855,7 @@ export const thorax: Tumor[] = [
       { marker: 'd240', pct: [10, 40] },
       { marker: 'ki67', pct: [0, 5] },
       { marker: 'mdm2', pct: [0, 5], note: 'negativo: separa de sarcoma intimal mixoide' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Trombo organizado: laminação, sem células mixoides calretinina positivas.',
@@ -891,6 +902,7 @@ export const thorax: Tumor[] = [
       { marker: 'sox10', pct: [0, 5] },
       { marker: 'p53', pct: [50, 80] },
       { marker: 'ki67', pct: [60, 95] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Mixoma cardíaco: polipoide, calretinina positiva, sem atipia.',
@@ -944,6 +956,7 @@ export const thorax: Tumor[] = [
       { marker: 'gata3', pct: [0, 10] },
       { marker: 'ecaderina', pct: [70, 95], note: 'perda nos componentes de anel de sinete' },
       { marker: 'ki67', pct: [50, 90] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma gástrico proximal: distinção topográfica, não imuno-histoquímica.',
@@ -993,6 +1006,7 @@ export const thorax: Tumor[] = [
       { marker: 'ecaderina', pct: [80, 95] },
       { marker: 'sox2', pct: [70, 95] },
       { marker: 'ki67', pct: [60, 95] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma pouco diferenciado: CDX2 e CK7 positivos, p40 negativo.',

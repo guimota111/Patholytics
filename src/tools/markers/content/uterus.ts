@@ -70,6 +70,7 @@ export const uterus: Tumor[] = [
       { marker: 'ck20', pct: [0, 10] },
       { marker: 'l1cam', pct: [10, 25], note: 'positivo marca risco alto' },
       { marker: 'ki67', pct: [20, 60] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Hiperplasia atípica (EIN): sem invasão estromal, sem confluência glandular franca.',
@@ -112,6 +113,7 @@ export const uterus: Tumor[] = [
       { marker: 'p16', pct: [5, 20] },
       { marker: 'mlh1', pct: [10, 25], note: 'o positivo é a perda; pode preceder o carcinoma' },
       { marker: 'ki67', pct: [10, 30] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Hiperplasia sem atipia: PAX2 e PTEN retidos, citologia igual à do fundo.',
@@ -162,6 +164,7 @@ export const uterus: Tumor[] = [
       { marker: 'mlh1', pct: [0, 10] },
       { marker: 'l1cam', pct: [70, 90], note: 'alto neste tipo' },
       { marker: 'vimentina', pct: [30, 60] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma endometrioide grau 3: p53 selvagem na maioria, ER e PR fortes, PTEN perdido.',
@@ -211,6 +214,7 @@ export const uterus: Tumor[] = [
       { marker: 'arid1a', pct: [20, 40], note: 'o positivo é a perda' },
       { marker: 'sall4', pct: [0, 10], note: 'o negativo contra saco vitelino' },
       { marker: 'ki67', pct: [20, 60] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma seroso com células claras: p53 aberrante, ER pode ser positivo.',
@@ -262,6 +266,7 @@ export const uterus: Tumor[] = [
       { marker: 'cd10', pct: [20, 50] },
       { marker: 'mlh1', pct: [5, 15], note: 'o positivo é a perda' },
       { marker: 'ki67', pct: [60, 95] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma endometrioide com metaplasia fusocelular: componente fusiforme é queratina positivo e não atípico o bastante.',
@@ -357,6 +362,7 @@ export const uterus: Tumor[] = [
       { marker: 'melana', pct: [0, 5] },
       { marker: 'ciclinad1', pct: [0, 15] },
       { marker: 'ki67', pct: [1, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Leiomiossarcoma: dois ou mais dos três critérios, p16 e p53 alterados, Ki-67 alto.',
@@ -409,6 +415,7 @@ export const uterus: Tumor[] = [
       { marker: 'melana', pct: [0, 5] },
       { marker: 'ae1ae3', pct: [10, 40], note: 'focal; não conclua carcinossarcoma' },
       { marker: 'ki67', pct: [30, 80] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Leiomioma com atipia bizarra: sem necrose tumoral, mitoses baixas, p16 e p53 normais.',
@@ -450,6 +457,7 @@ export const uterus: Tumor[] = [
       { marker: 'fh', pct: [5, 15], note: 'o positivo é a perda; reclassifica como leiomioma FH-deficiente' },
       { marker: 'hmb45', pct: [0, 5] },
       { marker: 'ki67', pct: [5, 20] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Leiomiossarcoma: dois ou mais critérios de Stanford.',
@@ -497,6 +505,7 @@ export const uterus: Tumor[] = [
       { marker: 'betacatenina', pct: [40, 70], pattern: 'N', note: 'reflete a fusão JAZF1 em parte' },
       { marker: 'p53', pct: [0, 10] },
       { marker: 'ki67', pct: [1, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Nódulo estromal endometrial: circunscrito, sem permeação nem invasão vascular.',
@@ -545,6 +554,7 @@ export const uterus: Tumor[] = [
       { marker: 'p53', pct: [10, 30] },
       { marker: 'dog1', pct: [0, 10], note: 'negativa apesar do CD117 positivo' },
       { marker: 'ki67', pct: [30, 80] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Sarcoma do estroma de baixo grau: CD10, ER e PR fortes, ciclina D1 focal.',
@@ -592,6 +602,7 @@ export const uterus: Tumor[] = [
       { marker: 'miogenina', pct: [5, 25], note: 'nos elementos heterólogos rabdomioblásticos' },
       { marker: 'p53', pct: [10, 30], note: 'aberrante no crescimento sarcomatoso excessivo' },
       { marker: 'ciclinad1', pct: [10, 40] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Pólipo endometrial: sem manguito hipercelular, sem atipia estromal, mitoses raras.',
@@ -632,6 +643,13 @@ export const uterus: Tumor[] = [
       { marker: 'inibina', pct: [60, 90] },
       { marker: 'ae1ae3', pct: [95, 100] },
       { marker: 'ki67', pct: [40, 80], note: 'alto no trofoblasto da completa' },
+      { marker: 'ck7', pct: [85, 100], note: 'trofoblasto' },
+      { marker: 'er', pct: 0, note: 'o negativo que separa das lesões endometriais' },
+      { marker: 'pr', pct: 0 },
+      { marker: 'p53', pct: [0, 10], note: 'selvagem' },
+      { marker: 'pax8', pct: [0, 15] },
+      { marker: 'p16', pct: [30, 70], note: 'positivo sem HPV; não interprete como colo' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Aborto hidrópico não molar: p57 retido, sem hiperplasia trofoblástica, vilos com contorno liso.',
@@ -678,6 +696,7 @@ export const uterus: Tumor[] = [
       { marker: 'sall4', pct: [0, 10] },
       { marker: 'oct4', pct: [0, 5] },
       { marker: 'ki67', pct: [10, 50], note: 'acima de 10% separa das lesões trofoblásticas não neoplásicas' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Sítio placentário exagerado: Ki-67 abaixo de 1%, sem massa.',
@@ -726,6 +745,7 @@ export const uterus: Tumor[] = [
       { marker: 'pax8', pct: [10, 40] },
       { marker: 'gata3', pct: [10, 40], note: 'pode ser positivo; não use contra urotelial isoladamente' },
       { marker: 'ki67', pct: [60, 95] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Lesão intraepitelial de alto grau com extensão glandular: sem invasão do estroma.',
@@ -774,6 +794,7 @@ export const uterus: Tumor[] = [
       { marker: 'satb2', pct: [0, 10] },
       { marker: 'muc6', pct: [0, 15], note: 'difusa favorece o tipo gástrico HPV-independente' },
       { marker: 'ki67', pct: [50, 90] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma endometrioide do corpo: ER, PR e vimentina positivos, p16 focal.',
@@ -823,6 +844,7 @@ export const uterus: Tumor[] = [
       { marker: 'smad4', pct: [10, 30], note: 'o positivo é a perda' },
       { marker: 'hnf1b', pct: [40, 80], note: 'pode confundir com carcinoma de células claras' },
       { marker: 'ki67', pct: [20, 60] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma endocervical HPV-associado: p16 em bloco, mitoses apicais.',

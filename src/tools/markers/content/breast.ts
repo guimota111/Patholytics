@@ -71,6 +71,7 @@ export const breast: Tumor[] = [
       { marker: 'calponina', pct: [0, 5] },
       { marker: 'p53', pct: [15, 30], note: 'aberrante sobretudo nos de grau 3' },
       { marker: 'ki67', pct: [30, 60], note: 'usado para separar luminal A de luminal B (corte em torno de 20%)' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma lobular invasivo: perda de E-caderina, p120 citoplasmática, fila indiana.',
@@ -125,6 +126,7 @@ export const breast: Tumor[] = [
       { marker: 'p53', pct: [40, 70] },
       { marker: 'ki67', pct: [60, 90] },
       { marker: 'pdl1', pct: [10, 30] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma gástrico ou esofágico HER2-positivo metastático: CDX2 positivo, GATA3 negativo.',
@@ -183,6 +185,7 @@ export const breast: Tumor[] = [
       { marker: 'p53', pct: [70, 90] },
       { marker: 'ki67', pct: [80, 100] },
       { marker: 'pdl1', pct: [30, 50], note: 'avaliado por CPS ou IC conforme o ensaio' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Melanoma metastático: SOX10 positivo também; Melan-A, HMB-45 e queratinas resolvem.',
@@ -242,6 +245,7 @@ export const breast: Tumor[] = [
       { marker: 'ttf1', pct: [0, 3] },
       { marker: 'ki67', pct: [10, 30], note: 'em geral baixo no clássico' },
       { marker: 'p53', pct: [10, 30], note: 'aberrante no pleomórfico' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma gástrico difuso de células em anel de sinete: também perde E-caderina; GATA3, TRPS1 e ER positivos apontam mama, CDX2 aponta estômago.',
@@ -287,6 +291,10 @@ export const breast: Tumor[] = [
       { marker: 'p120', pct: [95, 100] },
       { marker: 'ki67', pct: [10, 40] },
       { marker: 'p53', pct: [10, 30], note: 'aberrante no CDIS de alto grau' },
+      { marker: 'ck7', pct: [90, 100] },
+      { marker: 'gata3', pct: [90, 100] },
+      { marker: 'trps1', pct: [90, 100] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma invasor: perda completa da camada mioepitelial em p63, calponina e miosina.',
@@ -337,6 +345,7 @@ export const breast: Tumor[] = [
       { marker: 'pax8', pct: [0, 5], note: 'negativo: separa de mucinoso ovariano' },
       { marker: 'p63', pct: [0, 5] },
       { marker: 'ki67', pct: [5, 25] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Cisto mucocele-símile: mucina extravasada sem células epiteliais flutuantes; procure atipia nos ductos.',
@@ -381,6 +390,7 @@ export const breast: Tumor[] = [
       { marker: 'colageno-iv', pct: [0, 20], note: 'membrana basal ausente ao redor dos túbulos invasores' },
       { marker: 'ki67', pct: [0, 15] },
       { marker: 'p53', pct: [0, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenose esclerosante: lobulocêntrica, mioepitélio preservado.',
@@ -431,6 +441,7 @@ export const breast: Tumor[] = [
       { marker: 'p53', pct: [50, 80] },
       { marker: 'ki67', pct: [60, 95] },
       { marker: 'pdl1', pct: [30, 50] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Tumor filoide maligno: CD34 pode ser positivo, queratinas e p63 negativos, componente epitelial benigno em fendas.',
@@ -479,6 +490,7 @@ export const breast: Tumor[] = [
       { marker: 'pax8', pct: [0, 5] },
       { marker: 'ki67', pct: [30, 70] },
       { marker: 'p53', pct: [30, 60] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma oncocítico e de células claras: sem secreção por decapitação nem AR difuso.',
@@ -527,6 +539,7 @@ export const breast: Tumor[] = [
       { marker: 'pax8', pct: [0, 5] },
       { marker: 'ttf1', pct: [0, 3] },
       { marker: 'ki67', pct: [30, 60] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma seroso metastático micropapilar: PAX8 e WT1 positivos.',
@@ -575,6 +588,7 @@ export const breast: Tumor[] = [
       { marker: 'trps1', pct: [90, 100] },
       { marker: 'ecaderina', pct: [90, 100] },
       { marker: 'ki67', pct: [5, 25] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Papiloma intraductal: mioepitélio presente nas papilas, CK5/6 em mosaico, ER heterogêneo.',
@@ -622,6 +636,7 @@ export const breast: Tumor[] = [
       { marker: 's100', pct: [10, 30], note: 'pode ser fraca: não use isolada contra melanoma' },
       { marker: 'ck20', pct: [0, 5] },
       { marker: 'ki67', pct: [40, 80] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Melanoma in situ do mamilo: SOX10 e Melan-A positivos, CK7 negativa.',
@@ -668,6 +683,11 @@ export const breast: Tumor[] = [
       { marker: 'desmina', pct: [10, 30] },
       { marker: 'stat6', pct: [0, 10], note: 'negativo: separa do tumor fibroso solitário' },
       { marker: 'mdm2', pct: [0, 15], note: 'amplificado em raros filoides malignos com desdiferenciação lipossarcomatosa' },
+      { marker: 'ck7', pct: [85, 100], note: 'só o componente epitelial; o estroma é negativo' },
+      { marker: 'gata3', pct: [80, 100], note: 'idem' },
+      { marker: 'trps1', pct: [70, 95], note: 'epitélio; o estroma do filoide também pode marcar e confundir com metaplásico' },
+      { marker: 'ecaderina', pct: [90, 100], note: 'epitélio' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma metaplásico fusocelular: queratinas e p63 positivos no componente fusocelular.',
@@ -718,6 +738,7 @@ export const breast: Tumor[] = [
       { marker: 'her2', pct: [0, 10] },
       { marker: 'ecaderina', pct: [70, 95] },
       { marker: 'ki67', pct: [20, 50] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoide pulmonar metastático: TTF-1 positivo, ER negativo.',
@@ -762,6 +783,7 @@ export const breast: Tumor[] = [
       { marker: 'her2', pct: [0, 10] },
       { marker: 'ki67', pct: [5, 30] },
       { marker: 'p53', pct: [10, 30], note: 'aberrante nas formas malignas' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Papiloma com hiperplasia mioepitelial: arquitetura papilar com eixos fibrovasculares.',
@@ -805,6 +827,7 @@ export const breast: Tumor[] = [
       { marker: 'sox10', pct: [60, 90] },
       { marker: 'ck903', pct: [0, 20] },
       { marker: 'ki67', pct: [0, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma tubular: túbulos angulados, ER positivo, S100 negativa, sem membrana basal.',
@@ -846,6 +869,11 @@ export const breast: Tumor[] = [
       { marker: 'ae1ae3', pct: 0 },
       { marker: 'stat6', pct: [0, 5] },
       { marker: 'ki67', pct: [0, 5] },
+      { marker: 'gata3', pct: 0, note: 'o negativo esperado: a lesão é estromal, não epitelial' },
+      { marker: 'trps1', pct: 0 },
+      { marker: 'ck7', pct: 0 },
+      { marker: 'p63', pct: 0 },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Angiossarcoma de baixo grau: canais com hemácias, CD31 e ERG positivos, atipia endotelial.',

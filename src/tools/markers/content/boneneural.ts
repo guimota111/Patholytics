@@ -267,6 +267,7 @@ export const boneneural: Tumor[] = [
       { marker: 'cd34', pct: [0, 10], note: 'negativo: ajuda contra sarcoma epitelioide, que também perde INI1' },
       { marker: 'glipicano3', pct: [10, 30] },
       { marker: 'ki67', pct: [70, 100] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Sarcoma epitelioide proximal: também perde INI1, mas é de adulto jovem, pélvico e CD34 positivo.',
@@ -323,6 +324,9 @@ export const boneneural: Tumor[] = [
       { marker: 'cd45', pct: 0 },
       { marker: 'myc', pct: [20, 40], note: 'expressão de MYCN nos casos amplificados (confirme por FISH)' },
       { marker: 'ki67', pct: [50, 95] },
+      { marker: 'sox10', pct: [10, 30], note: 'só nas células sustentaculares, como o S100' },
+      { marker: 'cd20', pct: 0 },
+      { marker: 'cd34', pct: [0, 5] },
     ],
     mimics: [
       'Sarcoma de Ewing: CD99 membranoso difuso, sem neurópilo nem PHOX2B.',
@@ -368,6 +372,7 @@ export const boneneural: Tumor[] = [
       { marker: 'ki67', pct: [0, 5], note: 'índice baixíssimo: o oposto do neuroblastoma' },
       { marker: 'ae1ae3', pct: 0 },
       { marker: 'gata3', pct: [30, 70] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Ganglioneuroblastoma: focos de neuroblastos com neurópilo; amostre todo o tumor.',
@@ -423,6 +428,10 @@ export const boneneural: Tumor[] = [
       { marker: 'ttf1', pct: [0, 5] },
       { marker: 'cdx2', pct: [0, 5] },
       { marker: 'ki67', pct: [5, 25] },
+      { marker: 'pax8', pct: 0, note: 'o negativo que separa de carcinoma renal quando a massa é adrenal ou retroperitoneal' },
+      { marker: 'desmina', pct: 0 },
+      { marker: 'cd34', pct: [0, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma adrenocortical: SF-1, inibina e Melan-A positivos, cromogranina negativa.',
@@ -472,6 +481,7 @@ export const boneneural: Tumor[] = [
       { marker: 'cd99', pct: [0, 20] },
       { marker: 'ini1', pct: [0, 5] },
       { marker: 'ki67', pct: [10, 40] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Melanoma: S100 e SOX10 difusos, sem a bifasia nem a idade.',
@@ -526,6 +536,7 @@ export const boneneural: Tumor[] = [
       { marker: 'cd117', pct: [0, 5], note: 'negativo: separa do GIST na parede gástrica' },
       { marker: 'dog1', pct: [0, 5] },
       { marker: 'ki67', pct: [0, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Neurofibroma: S100 em apenas parte das células, CD34 em rede, axônios presentes.',
@@ -575,6 +586,7 @@ export const boneneural: Tumor[] = [
       { marker: 'ki67', pct: [0, 10], note: 'acima de 10% levanta suspeita de transformação' },
       { marker: 'p53', pct: [0, 10] },
       { marker: 'p16', pct: [0, 20], note: 'a perda de p16/CDKN2A acompanha a progressão para MPNST' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Schwannoma: S100 difusa, encapsulado, Antoni A/B.',
@@ -627,6 +639,7 @@ export const boneneural: Tumor[] = [
       { marker: 'ini1', pct: [5, 20], note: 'perda no MPNST epitelioide, que também é S100 difusa' },
       { marker: 'ki67', pct: [60, 95] },
       { marker: 'p53', pct: [40, 70] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Schwannoma celular: S100 e SOX10 difusos, H3K27me3 retido, sem necrose.',
@@ -674,6 +687,7 @@ export const boneneural: Tumor[] = [
       { marker: 'stat6', pct: [0, 5] },
       { marker: 'ki67', pct: [0, 10] },
       { marker: 'h3k27me3', pct: [0, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Neurofibroma e schwannoma: S100 e SOX10 positivos.',
@@ -721,6 +735,7 @@ export const boneneural: Tumor[] = [
       { marker: 'ini1', pct: [0, 5] },
       { marker: 'ki67', pct: [50, 90] },
       { marker: 'bcor', pct: [0, 15], note: 'positivo na variante com BCOR ITD, que é morfologicamente idêntica' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Fibromatose infantil: menos celular, sem necrose, β-catenina em parte.',
@@ -770,6 +785,7 @@ export const boneneural: Tumor[] = [
       { marker: 'p53', pct: [50, 80] },
       { marker: 'ki67', pct: [60, 95] },
       { marker: 'h3g34', pct: [0, 5], note: 'negativo: separa do tumor de células gigantes com osso reativo' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Osteossarcoma de células gigantes vs tumor de células gigantes: H3.3 G34W positivo no segundo.',
@@ -814,6 +830,7 @@ export const boneneural: Tumor[] = [
       { marker: 'ae1ae3', pct: 0 },
       { marker: 's100', pct: [0, 10] },
       { marker: 'sma', pct: [0, 20] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Osteossarcoma osteoblástico: permeação, atipia, mitoses atípicas e necrose.',
@@ -860,6 +877,7 @@ export const boneneural: Tumor[] = [
       { marker: 'p53', pct: [20, 50], note: 'mais nos graus altos e no desdiferenciado' },
       { marker: 'ki67', pct: [10, 50] },
       { marker: 'nkx22', pct: [0, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Encondroma: bem delimitado, sem permeação, hipocelular; a distinção é radiológica e arquitetural, não imuno-histoquímica.',
@@ -908,6 +926,7 @@ export const boneneural: Tumor[] = [
       { marker: 'braquiuria', pct: [0, 5] },
       { marker: 'bcor', pct: [0, 15] },
       { marker: 'ki67', pct: [50, 90] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Sarcoma de Ewing: sem ilhotas de cartilagem; a fusão resolve (EWSR1::FLI1 vs HEY1::NCOA2).',
@@ -946,6 +965,7 @@ export const boneneural: Tumor[] = [
       { marker: 'satb2', pct: [20, 50] },
       { marker: 'p63', pct: [20, 50] },
       { marker: 'ki67', pct: [0, 15] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Tumor de células gigantes do osso: H3.3 G34W positivo, epífise mas em adulto com placa fechada.',
@@ -990,6 +1010,7 @@ export const boneneural: Tumor[] = [
       { marker: 'desmina', pct: [0, 10] },
       { marker: 'p53', pct: [0, 20], note: 'aberrante no TCG maligno' },
       { marker: 'ki67', pct: [10, 40] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Tumor marrom do hiperparatireoidismo: dosar PTH e cálcio; histologia quase idêntica.',
@@ -1035,6 +1056,7 @@ export const boneneural: Tumor[] = [
       { marker: 'cd31', pct: [0, 10], note: 'os espaços não têm revestimento endotelial' },
       { marker: 'erg', pct: [0, 10] },
       { marker: 'ki67', pct: [5, 30] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Osteossarcoma telangiectásico: atipia acentuada nos septos, osteoide maligno, p53 aberrante.',
@@ -1071,6 +1093,7 @@ export const boneneural: Tumor[] = [
       { marker: 'ki67', pct: [0, 5] },
       { marker: 'ae1ae3', pct: 0 },
       { marker: 'braquiuria', pct: [0, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Condrossarcoma periférico secundário: capa espessa e desorganizada, permeação, mitoses.',
@@ -1119,6 +1142,7 @@ export const boneneural: Tumor[] = [
       { marker: 'pax8', pct: [0, 10], note: 'negativo: separa de carcinoma renal metastático' },
       { marker: 'ttf1', pct: [0, 5] },
       { marker: 'ki67', pct: [5, 30] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Condrossarcoma (inclusive do clivus): S100 positivo mas queratina e braquiúria negativas.',
@@ -1161,6 +1185,7 @@ export const boneneural: Tumor[] = [
       { marker: 'cd34', pct: [0, 15] },
       { marker: 'ttf1', pct: [0, 5], note: 'negativo: ajuda contra metástase pulmonar' },
       { marker: 'ki67', pct: [5, 25] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Displasia osteofibrosa: sem ninhos epiteliais (apenas células isoladas queratina positivas), criança, curso benigno.',

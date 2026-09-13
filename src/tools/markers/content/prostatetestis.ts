@@ -68,6 +68,7 @@ export const prostatetestis: Tumor[] = [
       { marker: 'pten', pct: [20, 40], note: 'o positivo é a perda; associada a pior prognóstico' },
       { marker: 'p53', pct: [10, 30] },
       { marker: 'ki67', pct: [2, 20] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenose (hiperplasia adenomatosa atípica): camada basal fragmentada mas presente, AMACR fraco.',
@@ -119,6 +120,7 @@ export const prostatetestis: Tumor[] = [
       { marker: 'satb2', pct: [0, 10] },
       { marker: 'pten', pct: [30, 60], note: 'o positivo é a perda' },
       { marker: 'ki67', pct: [10, 40] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma intraductal da próstata: camada basal presente (p63 e CK903 positivos em periferia).',
@@ -157,6 +159,7 @@ export const prostatetestis: Tumor[] = [
       { marker: 'erg', pct: [10, 20] },
       { marker: 'pten', pct: [0, 10], note: 'retido; a perda favorece carcinoma intraductal' },
       { marker: 'ki67', pct: [2, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma intraductal: glândulas maiores, atipia mais acentuada, necrose, PTEN perdido, ERG positivo.',
@@ -193,6 +196,7 @@ export const prostatetestis: Tumor[] = [
       { marker: 'psa', pct: [95, 100] },
       { marker: 'erg', pct: [0, 5], note: 'o negativo; positividade indicaria carcinoma' },
       { marker: 'ki67', pct: [1, 3] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma de grupo de grau 1: sem basais em nenhuma glândula, nucléolo proeminente, infiltrativo.',
@@ -395,6 +399,11 @@ export const prostatetestis: Tumor[] = [
       { marker: 'ck7', pct: [10, 40] },
       { marker: 'er', pct: 0 },
       { marker: 'ki67', pct: [50, 90] },
+      { marker: 'pax8', pct: [0, 15], note: 'o negativo que separa do carcinoma de células claras mülleriano, que é o mímico no ovário' },
+      { marker: 'wt1', pct: [0, 10] },
+      { marker: 'pr', pct: [0, 5] },
+      { marker: 'p53', pct: [10, 30] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma embrionário: CD30, SOX2 e OCT4 positivos.',
@@ -446,6 +455,10 @@ export const prostatetestis: Tumor[] = [
       { marker: 'afp', pct: [0, 10] },
       { marker: 'p16', pct: [40, 80] },
       { marker: 'ki67', pct: [80, 100] },
+      { marker: 'er', pct: 0, note: 'o negativo que separa das lesões endometriais quando a massa é uterina' },
+      { marker: 'pr', pct: 0 },
+      { marker: 'p53', pct: [20, 50] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Tumor trofoblástico do sítio placentário: monofásico, hPL difuso, hCG focal, Ki-67 mais baixo.',
@@ -491,6 +504,7 @@ export const prostatetestis: Tumor[] = [
       { marker: 'sinaptofisina', pct: [20, 50] },
       { marker: 'afp', pct: [0, 20] },
       { marker: 'ki67', pct: [10, 50] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Teratoma pré-puberal: organoide, sem GCNIS, sem i(12p), benigno.',
@@ -531,6 +545,7 @@ export const prostatetestis: Tumor[] = [
       { marker: 'sox2', pct: [0, 5] },
       { marker: 'prame', pct: [80, 95] },
       { marker: 'ki67', pct: [40, 80] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Células de Sertoli reativas e túbulos atróficos: OCT4 negativo, SOX9 e inibina positivos.',
@@ -614,6 +629,7 @@ export const prostatetestis: Tumor[] = [
       { marker: 'cromogranina', pct: [0, 15] },
       { marker: 'ar', pct: [50, 90] },
       { marker: 'ki67', pct: [1, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Tumor de restos adrenais testiculares: múltiplos, bilaterais, em hiperplasia adrenal congênita; imuno sobreposta.',
@@ -658,6 +674,7 @@ export const prostatetestis: Tumor[] = [
       { marker: 'oct4', pct: [0, 5] },
       { marker: 'melana', pct: [10, 40] },
       { marker: 'ki67', pct: [1, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Seminoma com padrão tubular: OCT4 e SALL4 positivos.',
@@ -704,6 +721,12 @@ export const prostatetestis: Tumor[] = [
       { marker: 'erg', pct: [0, 5] },
       { marker: 'desmina', pct: [10, 40] },
       { marker: 'ki67', pct: [1, 3] },
+      { marker: 'sall4', pct: 0, note: 'o negativo que afasta tumor germinativo no testículo' },
+      { marker: 'oct4', pct: 0 },
+      { marker: 'cd30', pct: 0 },
+      { marker: 'er', pct: [0, 10], note: 'o negativo que ajuda contra adenossarcoma e endometriose quando a lesão é uterina' },
+      { marker: 'pr', pct: [0, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma metastático com anel de sinete: MOC-31 e BerEP4 positivos, atipia.',

@@ -71,6 +71,7 @@ export const gi: Tumor[] = [
       { marker: 'gata3', pct: [0, 5] },
       { marker: 'heppar1', pct: [0, 10], note: 'positivo na variante hepatoide' },
       { marker: 'ki67', pct: [60, 95] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma colorretal metastático: SATB2 e CDX2 difusos, CK7 negativa.',
@@ -124,6 +125,7 @@ export const gi: Tumor[] = [
       { marker: 'p53', pct: [30, 50] },
       { marker: 'pax8', pct: [0, 5], note: 'negativo: separa de mucinoso ovariano primário' },
       { marker: 'ki67', pct: [40, 80] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma lobular de mama metastático: GATA3, TRPS1 e ER positivos, CDX2 negativo.',
@@ -174,6 +176,7 @@ export const gi: Tumor[] = [
       { marker: 'her2', pct: [10, 25] },
       { marker: 'p53', pct: [60, 85] },
       { marker: 'ki67', pct: [70, 95] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma hepatocelular: MOC-31 e claudina-4 negativos, CEA canalicular, SALL4 negativo, CK19 negativa.',
@@ -233,6 +236,7 @@ export const gi: Tumor[] = [
       { marker: 'pax8', pct: [0, 10], note: 'o policlonal pode ser positivo: use o monoclonal' },
       { marker: 'gata3', pct: [0, 5] },
       { marker: 'ki67', pct: [70, 95] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma de intestino delgado ou de ampola: SATB2 em geral negativo, CK7 positiva.',
@@ -328,6 +332,7 @@ export const gi: Tumor[] = [
       { marker: 'mlh1', pct: [0, 5], note: 'MMR em geral intacto' },
       { marker: 'ecaderina', pct: [85, 100] },
       { marker: 'ki67', pct: [5, 30], note: 'baixo no LAMN, alto no adenocarcinoma mucinoso' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Tumor mucinoso ovariano primário: PAX8 positivo em parte, SATB2 negativo, unilateral e grande.',
@@ -378,6 +383,7 @@ export const gi: Tumor[] = [
       { marker: 'her2', pct: [5, 15] },
       { marker: 'p53', pct: [40, 70] },
       { marker: 'ki67', pct: [60, 90] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma colorretal metastático ou por extensão: SATB2 difuso.',
@@ -425,6 +431,7 @@ export const gi: Tumor[] = [
       { marker: 'ki67', pct: [10, 30], note: 'define o grau: menos de 3% é G1, 3 a 20% é G2, acima de 20% é G3' },
       { marker: 'p53', pct: [0, 10], note: 'selvagem: aberrante sugere carcinoma neuroendócrino' },
       { marker: 'rb1', pct: [0, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma neuroendócrino gástrico: Ki-67 muito alto, p53 aberrante, perda de RB1, necrose.',
@@ -475,6 +482,7 @@ export const gi: Tumor[] = [
       { marker: 'ki67', pct: [5, 20], note: 'em geral menor que 3%: G1' },
       { marker: 'p53', pct: [0, 5] },
       { marker: 'atrx', pct: [0, 5], note: 'retido; a perda é do NET pancreático' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'NET pancreático metastático no fígado: ISL1 e PDX1 positivos, serotonina negativa.',
@@ -521,6 +529,7 @@ export const gi: Tumor[] = [
       { marker: 'muc2', pct: [0, 15], note: 'negativo: separa do adenocarcinoma de células caliciformes' },
       { marker: 'ki67', pct: [0, 10], note: 'quase sempre G1' },
       { marker: 'p53', pct: [0, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma de células caliciformes: células caliciformes verdadeiras com mucina, MUC2 positivo, comportamento de adenocarcinoma.',
@@ -565,6 +574,7 @@ export const gi: Tumor[] = [
       { marker: 'sstr2', pct: [60, 90] },
       { marker: 'ae1ae3', pct: [70, 95] },
       { marker: 'ki67', pct: [0, 15] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma prostático invadindo o reto: NKX3.1 e PSA positivos, marcadores neuroendócrinos negativos.',
@@ -611,6 +621,7 @@ export const gi: Tumor[] = [
       { marker: 'er', pct: [0, 5] },
       { marker: 'p53', pct: [20, 50], note: 'aberrante nos de alto grau' },
       { marker: 'ki67', pct: [20, 60] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'NET apendicular: ninhos sólidos sem células caliciformes, marcadores neuroendócrinos difusos.',
@@ -758,6 +769,7 @@ export const gi: Tumor[] = [
       { marker: 'gcdfp15', pct: [0, 20], note: 'negativo: separa da doença de Paget perianal' },
       { marker: 'p53', pct: [40, 70] },
       { marker: 'ki67', pct: [50, 85] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma retal invadindo o canal anal: CK20, CDX2 e SATB2 positivos, com displasia mucosa.',
@@ -811,6 +823,7 @@ export const gi: Tumor[] = [
       { marker: 'p53', pct: [10, 30] },
       { marker: 'alk', pct: [0, 5], note: 'negativo: separa do tumor miofibroblástico inflamatório' },
       { marker: 'betacatenina', pct: [0, 10], note: 'nuclear negativa: separa da fibromatose' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Leiomioma e leiomiossarcoma: desmina difusa, DOG1 e KIT negativos.',
@@ -857,6 +870,7 @@ export const gi: Tumor[] = [
       { marker: 'ki67', pct: [0, 5] },
       { marker: 'p53', pct: [0, 10] },
       { marker: 'er', pct: [10, 40], note: 'nos leiomiomas de mulheres' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'GIST: DOG1 e KIT positivos, desmina negativa.',
@@ -897,6 +911,7 @@ export const gi: Tumor[] = [
       { marker: 'desmina', pct: [0, 15] },
       { marker: 's100', pct: [0, 5] },
       { marker: 'ki67', pct: [0, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'GIST epitelioide: DOG1 e KIT positivos.',
@@ -941,6 +956,7 @@ export const gi: Tumor[] = [
       { marker: 'stat6', pct: [0, 5] },
       { marker: 'ki67', pct: [0, 10] },
       { marker: 'igg4', pct: [10, 30], note: 'plasmócitos presentes, mas não é doença de IgG4' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'GIST: DOG1 e KIT positivos, sem eosinofilia.',
@@ -981,6 +997,7 @@ export const gi: Tumor[] = [
       { marker: 'betacatenina', pct: [0, 10] },
       { marker: 'alk', pct: [0, 5] },
       { marker: 'ki67', pct: [0, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'GIST mixoide: DOG1 e KIT positivos.',

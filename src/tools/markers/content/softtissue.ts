@@ -56,6 +56,7 @@ export const softtissue: Tumor[] = [
       { marker: 'ki67', pct: [0, 5] },
       { marker: 'stat6', pct: [0, 5] },
       { marker: 'hmga2', pct: [50, 80], note: 'rearranjo de HMGA2 em 12q14-15 é comum: positividade não indica malignidade' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Lipossarcoma bem diferenciado: MDM2 e CDK4 nucleares positivos com amplificação por FISH, septos espessos e células estromais atípicas.',
@@ -101,6 +102,7 @@ export const softtissue: Tumor[] = [
       { marker: 'ki67', pct: [0, 20] },
       { marker: 'ae1ae3', pct: 0 },
       { marker: 'hmb45', pct: [0, 2] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Lipoma: MDM2 e CDK4 negativos, sem células estromais atípicas.',
@@ -150,6 +152,7 @@ export const softtissue: Tumor[] = [
       { marker: 'ki67', pct: [60, 90] },
       { marker: 'p53', pct: [20, 50] },
       { marker: 'ini1', pct: [0, 5], note: 'retido' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Sarcoma pleomórfico indiferenciado: MDM2/CDK4 negativos; no retroperitônio, sempre teste MDM2 antes de assumir UPS.',
@@ -196,6 +199,7 @@ export const softtissue: Tumor[] = [
       { marker: 'ki67', pct: [20, 60], note: 'alto no componente de células redondas' },
       { marker: 'p53', pct: [10, 30] },
       { marker: 'muc4', pct: [0, 10], note: 'negativo: separa do sarcoma fibromixoide de baixo grau' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Mixoma intramuscular: hipocelular, sem rede capilar plexiforme, sem lipoblastos.',
@@ -240,6 +244,7 @@ export const softtissue: Tumor[] = [
       { marker: 'sox10', pct: [0, 5] },
       { marker: 'ini1', pct: [0, 10] },
       { marker: 'ki67', pct: [70, 95] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Lipossarcoma desdiferenciado com componente pleomórfico: MDM2 amplificado.',
@@ -284,6 +289,7 @@ export const softtissue: Tumor[] = [
       { marker: 'dog1', pct: [0, 5] },
       { marker: 's100', pct: [0, 5] },
       { marker: 'ae1ae3', pct: [0, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Leiomiossarcoma: atipia, mitoses, necrose, Ki-67 e p16 altos.',
@@ -335,6 +341,7 @@ export const softtissue: Tumor[] = [
       { marker: 'mdm2', pct: [0, 15], note: 'negativo: teste sempre no retroperitônio para excluir desdiferenciado' },
       { marker: 'hmb45', pct: [0, 5] },
       { marker: 'ebv', pct: [0, 5], note: 'positivo nos leiomiossarcomas de imunossuprimidos (EBV-associados)' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Lipossarcoma desdiferenciado: MDM2 e CDK4 amplificados.',
@@ -390,6 +397,14 @@ export const softtissue: Tumor[] = [
       { marker: 'ini1', pct: [0, 5], note: 'retido' },
       { marker: 'alk', pct: [30, 60], note: 'expressão sem rearranjo: não é tumor miofibroblástico' },
       { marker: 'ki67', pct: [70, 95] },
+      { marker: 'ck7', pct: 0, note: 'o negativo que ajuda contra carcinoma quando o tumor é vesical ou vaginal' },
+      { marker: 'ck903', pct: 0 },
+      { marker: 'p63', pct: [0, 5] },
+      { marker: 'p40', pct: 0 },
+      { marker: 'gata3', pct: [0, 5], note: 'o negativo que separa de carcinoma urotelial sarcomatoide na bexiga' },
+      { marker: 'sox10', pct: [0, 5] },
+      { marker: 'cd34', pct: [0, 10] },
+      { marker: 'sall4', pct: [0, 5], note: 'o negativo que ajuda contra tumor germinativo em sítio genital' },
     ],
     mimics: [
       'Rabdomiossarcoma alveolar: miogenina difusa e forte, fusão de FOXO1.',
@@ -487,6 +502,7 @@ export const softtissue: Tumor[] = [
       { marker: 'p53', pct: [40, 70] },
       { marker: 'ki67', pct: [70, 95] },
       { marker: 'alk', pct: [20, 50] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Sarcoma pleomórfico indiferenciado: sem desmina/MyoD1 (mas procure bem, o RMS pleomórfico é subdiagnosticado).',
@@ -541,6 +557,7 @@ export const softtissue: Tumor[] = [
       { marker: 'prame', pct: [40, 70], note: 'positiva: não interprete como melanoma' },
       { marker: 'ini1', pct: [10, 30], note: 'redução da expressão (não perda completa) descrita' },
       { marker: 'ki67', pct: [30, 70] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Tumor fibroso solitário: CD34 e STAT6 positivos, queratinas negativas.',
@@ -594,6 +611,7 @@ export const softtissue: Tumor[] = [
       { marker: 'mdm2', pct: [0, 10], note: 'negativo, salvo raros casos com coamplificação' },
       { marker: 'ki67', pct: [10, 40] },
       { marker: 'tle1', pct: [20, 50], note: 'fraca: não confunda com sarcoma sinovial' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Sarcoma sinovial monofásico: EMA e queratinas focais, SS18-SSX positivo, STAT6 negativo.',
@@ -640,6 +658,7 @@ export const softtissue: Tumor[] = [
       { marker: 'er', pct: [10, 30], note: 'ERβ, não detectado pelo clone habitual de ERα' },
       { marker: 'ki67', pct: [0, 15] },
       { marker: 'mdm2', pct: [0, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Fasciite nodular: lesão pequena e rápida, padrão em cultura de tecido, USP6 rearranjado, β-catenina nuclear negativa.',
@@ -686,6 +705,7 @@ export const softtissue: Tumor[] = [
       { marker: 'alk', pct: [0, 10], note: 'negativo: separa do tumor miofibroblástico inflamatório' },
       { marker: 'ki67', pct: [30, 70], note: 'índice alto sem significar malignidade' },
       { marker: 'p53', pct: [0, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Sarcoma fusocelular: atipia nuclear e mitoses atípicas, que a fasciite não tem.',
@@ -737,6 +757,13 @@ export const softtissue: Tumor[] = [
       { marker: 'igg4', pct: [10, 30], note: 'plasmócitos IgG4 podem existir: não confunda com doença de IgG4' },
       { marker: 'ki67', pct: [10, 40] },
       { marker: 'cd30', pct: [0, 10], note: 'negativo: separa de ALCL ALK-positivo' },
+      { marker: 'ck7', pct: [0, 10], note: 'o negativo que ajuda contra carcinoma sarcomatoide, o mímico que importa na bexiga e no pulmão' },
+      { marker: 'ck903', pct: [0, 5] },
+      { marker: 'p63', pct: [0, 10] },
+      { marker: 'gata3', pct: [0, 5] },
+      { marker: 'ttf1', pct: 0 },
+      { marker: 'p53', pct: [0, 10], note: 'selvagem; aberrante favorece carcinoma sarcomatoide' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Doença relacionada a IgG4: fibrose estoriforme, flebite obliterante, IgG4/IgG acima de 40%, ALK negativo.',
@@ -786,6 +813,7 @@ export const softtissue: Tumor[] = [
       { marker: 'melana', pct: [0, 5] },
       { marker: 'camta1', pct: [0, 5] },
       { marker: 'ki67', pct: [30, 70] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Granuloma anular ou necrobiose: sem atipia, queratina negativa, INI1 retido.',
@@ -838,6 +866,7 @@ export const softtissue: Tumor[] = [
       { marker: 'cd34', pct: [0, 10] },
       { marker: 'sinaptofisina', pct: [0, 10] },
       { marker: 'ki67', pct: [5, 25] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Paraganglioma: cromogranina e sinaptofisina positivos, células sustentaculares S100.',
@@ -886,6 +915,7 @@ export const softtissue: Tumor[] = [
       { marker: 'ini1', pct: [0, 5], note: 'retido' },
       { marker: 'brafv600e', pct: [0, 5], note: 'negativo, ao contrário de boa parte dos melanomas' },
       { marker: 'ki67', pct: [20, 50] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Melanoma metastático: imunofenótipo idêntico; separa-se pela fusão de EWSR1 e pela ausência de lesão primária cutânea.',
@@ -935,6 +965,11 @@ export const softtissue: Tumor[] = [
       { marker: 'ini1', pct: [0, 5], note: 'retido: separa do sarcoma epitelioide' },
       { marker: 'hhv8', pct: [0, 2] },
       { marker: 'ki67', pct: [5, 30] },
+      { marker: 'arginase', pct: 0, note: 'o negativo obrigatório quando a lesão é hepática, que é onde ele mais aparece' },
+      { marker: 'heppar1', pct: 0 },
+      { marker: 'glipicano3', pct: [0, 5] },
+      { marker: 'ck7', pct: [0, 10], note: 'o negativo que ajuda contra colangiocarcinoma' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma metastático: queratina difusa com ERG e CD31 negativos.',
@@ -987,6 +1022,7 @@ export const softtissue: Tumor[] = [
       { marker: 's100', pct: [0, 5] },
       { marker: 'ki67', pct: [70, 95] },
       { marker: 'p53', pct: [40, 70] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Hemangioendotelioma epitelioide: CAMTA1 positivo, matriz mixo-hialina, atipia menor.',
@@ -1033,6 +1069,7 @@ export const softtissue: Tumor[] = [
       { marker: 'sma', pct: [60, 90], note: 'pericitos organizados ao redor dos canais' },
       { marker: 'ae1ae3', pct: [0, 10], note: 'focal no hemangioendotelioma pseudomiogênico' },
       { marker: 'ki67', pct: [0, 15] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Angiossarcoma bem diferenciado: canais dissecantes, atipia, mitoses.',
@@ -1080,6 +1117,7 @@ export const softtissue: Tumor[] = [
       { marker: 's100', pct: [0, 5] },
       { marker: 'hmb45', pct: [0, 5] },
       { marker: 'ki67', pct: [0, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Tumor neuroendócrino: cromogranina e sinaptofisina positivas, SMA negativa.',
@@ -1131,6 +1169,7 @@ export const softtissue: Tumor[] = [
       { marker: 'pax8', pct: [0, 5] },
       { marker: 'ini1', pct: [0, 5] },
       { marker: 'ki67', pct: [5, 30] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Melanoma metastático: SOX10 positivo, S100 difusa.',
@@ -1229,6 +1268,7 @@ export const softtissue: Tumor[] = [
       { marker: 'rb1', pct: [30, 60], note: 'perda descrita em parte dos casos' },
       { marker: 'p53', pct: [40, 70] },
       { marker: 'ki67', pct: [30, 80] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Lipossarcoma mixoide: jovem, profundo, rede capilar plexiforme delicada, DDIT3 rearranjado.',
@@ -1276,6 +1316,7 @@ export const softtissue: Tumor[] = [
       { marker: 'ini1', pct: [0, 5] },
       { marker: 'ki67', pct: [0, 20] },
       { marker: 'mdm2', pct: [0, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Fibromatose desmoide: β-catenina nuclear, MUC4 negativa.',
@@ -1363,6 +1404,7 @@ export const softtissue: Tumor[] = [
       { marker: 'mdm2', pct: [0, 5] },
       { marker: 'ki67', pct: [0, 5] },
       { marker: 'p53', pct: [0, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Lipossarcoma mixoide: rede capilar plexiforme, lipoblastos, DDIT3 rearranjado.',
@@ -1412,6 +1454,10 @@ export const softtissue: Tumor[] = [
       { marker: 'desmina', pct: [0, 5] },
       { marker: 'ki67', pct: [0, 10], note: 'acima de 10% sugere a forma maligna' },
       { marker: 'p53', pct: [0, 20] },
+      { marker: 'p40', pct: 0, note: 'o tumor é negativo; quem marca é a hiperplasia pseudoepiteliomatosa suprajacente, e é ela que vira diagnóstico errado de carcinoma escamoso' },
+      { marker: 'cd34', pct: [0, 10] },
+      { marker: 'sma', pct: [0, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma de células escamosas: a hiperplasia pseudoepiteliomatosa engana em biópsia superficial; queratinas e p40 separam.',
@@ -1457,6 +1503,7 @@ export const softtissue: Tumor[] = [
       { marker: 'desmina', pct: [0, 10] },
       { marker: 'sma', pct: [10, 30] },
       { marker: 'ki67', pct: [1, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Lipossarcoma mixoide: em adolescente ou adulto, DDIT3 rearranjado, PLAG1 negativo; morfologia praticamente idêntica.',
@@ -1504,6 +1551,7 @@ export const softtissue: Tumor[] = [
       { marker: 'pax8', pct: [0, 5] },
       { marker: 'inibina', pct: [0, 5] },
       { marker: 'ki67', pct: [1, 3] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Lipossarcoma bem diferenciado: atipia estromal, MDM2 e CDK4 amplificados, em adulto mais velho.',
@@ -1553,6 +1601,7 @@ export const softtissue: Tumor[] = [
       { marker: 'ae1ae3', pct: [0, 10] },
       { marker: 's100', pct: [0, 10] },
       { marker: 'ki67', pct: [1, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Metástase em linfonodo: o manguito linfoide engana; procure a pseudocápsula e a ausência de seios.',
@@ -1651,6 +1700,7 @@ export const softtissue: Tumor[] = [
       { marker: 'braquiuria', pct: [0, 5], note: 'o negativo contra cordoma, que também é epitelioide em matriz' },
       { marker: 'stat6', pct: [0, 5] },
       { marker: 'ki67', pct: [5, 25] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma lobular metastático: queratina forte, GATA3 e ER positivos, E-caderina perdida mas p120 citoplasmático.',
@@ -1701,6 +1751,7 @@ export const softtissue: Tumor[] = [
       { marker: 'cd34', pct: [0, 10] },
       { marker: 'mdm2', pct: [0, 5], note: 'o negativo contra lipossarcoma mixoide e desdiferenciado' },
       { marker: 'ki67', pct: [1, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Cordoma extra-axial: braquiúria e queratina positivas, células fisalíforas.',
@@ -1750,6 +1801,7 @@ export const softtissue: Tumor[] = [
       { marker: 'camta1', pct: [0, 5], note: 'o negativo que separa do hemangioendotelioma epitelioide' },
       { marker: 's100', pct: [0, 10] },
       { marker: 'ki67', pct: [2, 15] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Sarcoma epitelioide: INI1 perdido, CD34 positivo, ERG negativo.',
@@ -1798,6 +1850,7 @@ export const softtissue: Tumor[] = [
       { marker: 'hhv8', pct: 0, note: 'o negativo que exclui Kaposi' },
       { marker: 's100', pct: [0, 5] },
       { marker: 'ki67', pct: [1, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Angiossarcoma epitelioide: atipia marcada, canais dissecantes, necrose, Ki-67 alto.',
@@ -1846,6 +1899,7 @@ export const softtissue: Tumor[] = [
       { marker: 'alk', pct: [0, 10] },
       { marker: 'colageno-iv', pct: [60, 90], note: 'membrana basal pericelular' },
       { marker: 'ki67', pct: [1, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Tumor fibroso solitário: STAT6 nuclear, CD34 difuso.',
@@ -1894,6 +1948,9 @@ export const softtissue: Tumor[] = [
       { marker: 'calretinina', pct: [0, 10], note: 'o negativo que ajuda contra cisto mesotelial' },
       { marker: 'wt1', pct: [0, 15] },
       { marker: 'ki67', pct: [1, 3] },
+      { marker: 's100', pct: 0 },
+      { marker: 'desmina', pct: [0, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Hemangioma infantil: GLUT1 positivo, lóbulos capilares densos, involui.',
@@ -1945,6 +2002,7 @@ export const softtissue: Tumor[] = [
       { marker: 'muc4', pct: [0, 5], note: 'o negativo contra sarcoma fibromixoide de baixo grau' },
       { marker: 'ae1ae3', pct: 0 },
       { marker: 'ki67', pct: [1, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Angiomiofibroblastoma: bem delimitado, mais celular ao redor dos vasos, não infiltra, HMGA2 negativo.',

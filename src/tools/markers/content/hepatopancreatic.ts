@@ -70,6 +70,7 @@ export const hepatopancreatic: Tumor[] = [
       { marker: 'ttf1', pct: [0, 10], note: 'clone SPT24 pode dar citoplasmática: não é pulmão' },
       { marker: 'sall4', pct: [0, 15], note: 'positivo na variante tipo saco vitelino, de pior prognóstico' },
       { marker: 'ki67', pct: [10, 50] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenoma hepatocelular: reticulina preservada, glipicano-3 negativo, sem invasão.',
@@ -121,6 +122,7 @@ export const hepatopancreatic: Tumor[] = [
       { marker: 'ck20', pct: 0 },
       { marker: 'moc31', pct: [0, 10] },
       { marker: 'ki67', pct: [5, 25] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Hiperplasia nodular focal: cicatriz central estrelada, glutamina sintetase em mapa, sem atipia.',
@@ -163,6 +165,7 @@ export const hepatopancreatic: Tumor[] = [
       { marker: 'ck7', pct: [10, 40], note: 'ductulos periféricos no subtipo inflamatório' },
       { marker: 'cd34', pct: [10, 30], note: 'focal; difuso e completo favorece HCC' },
       { marker: 'ki67', pct: [1, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Hiperplasia nodular focal: glutamina sintetase em mapa geográfico ao redor das veias, cicatriz central, ductulos CK7 positivos.',
@@ -206,6 +209,7 @@ export const hepatopancreatic: Tumor[] = [
       { marker: 'betacatenina', pct: [0, 5], pattern: 'N' },
       { marker: 'cd34', pct: [10, 30], note: 'periseptal' },
       { marker: 'ki67', pct: [1, 3] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenoma hepatocelular inflamatório: SAA difusa, sem mapa de glutamina sintetase, sem ductulos.',
@@ -248,6 +252,7 @@ export const hepatopancreatic: Tumor[] = [
       { marker: 'ck7', pct: [10, 30] },
       { marker: 'vimentina', pct: [30, 70], note: 'componente mesenquimal' },
       { marker: 'ki67', pct: [20, 70] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma hepatocelular pediátrico: em criança mais velha, sem componente fetal organizado.',
@@ -300,6 +305,7 @@ export const hepatopancreatic: Tumor[] = [
       { marker: 'pax8', pct: [0, 10] },
       { marker: 'er', pct: 0 },
       { marker: 'ki67', pct: [20, 60] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma pancreático metastático: SMAD4 perdido com mais frequência, mas a separação é clínica.',
@@ -350,6 +356,7 @@ export const hepatopancreatic: Tumor[] = [
       { marker: 'arginase', pct: 0 },
       { marker: 'her2', pct: [10, 20], note: 'alvo terapêutico em parte dos de vesícula' },
       { marker: 'ki67', pct: [30, 70] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Colecistite crônica com metaplasia e atipia reativa: p53 selvagem, SMAD4 retido, sem desmoplasia.',
@@ -404,6 +411,7 @@ export const hepatopancreatic: Tumor[] = [
       { marker: 'sinaptofisina', pct: [0, 10] },
       { marker: 'ttf1', pct: 0 },
       { marker: 'ki67', pct: [20, 60] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Pancreatite crônica e pancreatite autoimune: lobularidade preservada, SMAD4 retido, maspina negativa, IgG4 na autoimune.',
@@ -447,6 +455,7 @@ export const hepatopancreatic: Tumor[] = [
       { marker: 'pr', pct: 0 },
       { marker: 'inibina', pct: 0 },
       { marker: 'ki67', pct: [5, 40], note: 'sobe com o grau de displasia' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Neoplasia cística mucinosa: estroma de tipo ovariano ER, PR e inibina positivo, em mulher, na cauda, sem comunicação ductal.',
@@ -489,6 +498,7 @@ export const hepatopancreatic: Tumor[] = [
       { marker: 'smad4', pct: [0, 15], note: 'retido, salvo em carcinoma associado' },
       { marker: 'p53', pct: [5, 25] },
       { marker: 'ki67', pct: [2, 20] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'IPMN de ramo secundário: comunica com ducto, sem estroma ovariano.',
@@ -538,6 +548,12 @@ export const hepatopancreatic: Tumor[] = [
       { marker: 'er', pct: [0, 15] },
       { marker: 'sox11', pct: [80, 100] },
       { marker: 'ki67', pct: [1, 10] },
+      { marker: 'ck7', pct: [0, 15], note: 'o negativo que ajuda contra adenocarcinoma ductal' },
+      { marker: 'ck19', pct: [0, 15] },
+      { marker: 'muc5ac', pct: 0 },
+      { marker: 'cdx2', pct: 0 },
+      { marker: 'p53', pct: [0, 10], note: 'selvagem' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'NET pancreático: cromogranina difusa, queratina forte, β-catenina de membrana.',
@@ -587,6 +603,7 @@ export const hepatopancreatic: Tumor[] = [
       { marker: 'glipicano3', pct: [10, 30] },
       { marker: 'afp', pct: [10, 25], note: 'mais nos pancreatoblastomas e nos casos pediátricos' },
       { marker: 'ki67', pct: [20, 60] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'NET pancreático: cromogranina difusa, cromatina em sal e pimenta, tripsina negativa.',
@@ -630,6 +647,7 @@ export const hepatopancreatic: Tumor[] = [
       { marker: 'ck7', pct: [20, 50] },
       { marker: 'p63', pct: [30, 60], note: 'nos corpúsculos escamoides' },
       { marker: 'ki67', pct: [30, 70] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma de células acinares: sem corpúsculos escamoides, em adulto.',
@@ -680,6 +698,10 @@ export const hepatopancreatic: Tumor[] = [
       { marker: 'rb1', pct: [0, 5], note: 'retido; a perda indica carcinoma neuroendócrino de alto grau' },
       { marker: 'p53', pct: [0, 10], note: 'selvagem; aberrante indica alto grau pouco diferenciado' },
       { marker: 'ki67', pct: [1, 20], note: 'o número exato é que dá o grau; conte 500 células' },
+      { marker: 'ck7', pct: [10, 30] },
+      { marker: 'ck19', pct: [20, 50], note: 'quando positiva, prognóstico pior' },
+      { marker: 'muc5ac', pct: [0, 10], note: 'o negativo que separa do adenocarcinoma ductal' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma neuroendócrino de alto grau: pouco diferenciado, RB1 perdido, p53 aberrante, Ki-67 muito alto.',
@@ -725,6 +747,7 @@ export const hepatopancreatic: Tumor[] = [
       { marker: 'pax8', pct: [0, 15] },
       { marker: 'cd10', pct: [10, 40] },
       { marker: 'ki67', pct: [1, 3] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Neoplasia cística mucinosa e IPMN: mucina, estroma ovariano no primeiro.',

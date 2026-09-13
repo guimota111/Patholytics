@@ -203,6 +203,7 @@ export const headneck: Tumor[] = [
       { marker: 'p16', pct: [5, 15] },
       { marker: 'p53', pct: [0, 10], note: 'aberrante sugere transformação maligna' },
       { marker: 'ki67', pct: [10, 30], note: 'basal e parabasal; difuso e alto favorece carcinoma' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma escamoso bem diferenciado: atipia, desmoplasia, mitoses em camadas altas.',
@@ -246,6 +247,7 @@ export const headneck: Tumor[] = [
       { marker: 'p40', pct: [0, 5] },
       { marker: 's100', pct: [0, 5] },
       { marker: 'ki67', pct: [50, 80] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma colorretal metastático: imuno idêntica; só a clínica separa.',
@@ -528,6 +530,7 @@ export const headneck: Tumor[] = [
       { marker: 'afp', pct: [0, 20] },
       { marker: 'ini1', pct: 0, note: 'retido' },
       { marker: 'ki67', pct: [50, 80] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Teratoma imaturo: organoide, sem componente carcinomatoso franco, em criança.',
@@ -570,6 +573,7 @@ export const headneck: Tumor[] = [
       { marker: 'stat6', pct: 0 },
       { marker: 'ae1ae3', pct: [0, 5], note: 'só nas glândulas aprisionadas' },
       { marker: 'ki67', pct: [5, 20] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Tumor fibroso solitário: STAT6 nuclear, S100 negativo.',
@@ -609,6 +613,7 @@ export const headneck: Tumor[] = [
       { marker: 'stat6', pct: 0 },
       { marker: 'ae1ae3', pct: 0 },
       { marker: 'ki67', pct: [1, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Tumor fibroso solitário: STAT6 nuclear.',
@@ -648,6 +653,7 @@ export const headneck: Tumor[] = [
       { marker: 'betacatenina', pct: [10, 30], pattern: 'N' },
       { marker: 'berep4', pct: [40, 70] },
       { marker: 'ki67', pct: [2, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma ameloblástico: atipia, mitoses frequentes, necrose, Ki-67 alto.',
@@ -686,6 +692,7 @@ export const headneck: Tumor[] = [
       { marker: 'ki67', pct: [5, 20], note: 'nas camadas suprabasais, maior que nos outros cistos odontogênicos' },
       { marker: 'p53', pct: [0, 10] },
       { marker: 'calretinina', pct: [0, 10], note: 'ajuda contra o ameloblastoma uniscístico, que é positivo' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Cisto dentígero: revestimento não queratinizado de duas a quatro camadas, sem paliçada.',
@@ -724,6 +731,7 @@ export const headneck: Tumor[] = [
       { marker: 'ae1ae3', pct: [0, 10], note: 'só nas ilhas odontogênicas aprisionadas' },
       { marker: 'mdm2', pct: 0, note: 'negativa; separa de lipossarcoma mixoide invadindo' },
       { marker: 'ki67', pct: [1, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Papila dental ou folículo dentário hiperplásico: pequenos, associados a dente em formação, não permeiam osso.',
@@ -764,6 +772,7 @@ export const headneck: Tumor[] = [
       { marker: 'gata3', pct: [10, 40], note: 'cuidado: positiva no paraganglioma' },
       { marker: 'th', pct: [0, 10] },
       { marker: 'ki67', pct: [1, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Paraganglioma jugulotimpânico: queratina negativa, sustentaculares S100 positivas, zellballen.',

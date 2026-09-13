@@ -58,6 +58,7 @@ export const cns: Tumor[] = [
       { marker: 'cd34', pct: [10, 30] },
       { marker: 'neun', pct: [0, 5], note: 'só neurônios aprisionados' },
       { marker: 'ki67', pct: [15, 50] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Astrocitoma IDH-mutante grau 4: IDH1 R132H positivo, ATRX perdido, paciente mais jovem.',
@@ -103,6 +104,7 @@ export const cns: Tumor[] = [
       { marker: 'neun', pct: [0, 5] },
       { marker: 'ema', pct: [0, 10] },
       { marker: 'ki67', pct: [2, 20], note: 'sobe com o grau' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Oligodendroglioma: ATRX retido, p53 selvagem, codeleção 1p/19q, halos perinucleares e vasos em tela de galinheiro.',
@@ -143,6 +145,7 @@ export const cns: Tumor[] = [
       { marker: 'sinaptofisina', pct: [10, 30], note: 'no neurópilo de fundo; não conclua neuronal' },
       { marker: 'ema', pct: [0, 5] },
       { marker: 'ki67', pct: [2, 15] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Astrocitoma IDH-mutante com células claras: ATRX perdido, p53 aberrante.',
@@ -187,6 +190,7 @@ export const cns: Tumor[] = [
       { marker: 'sinaptofisina', pct: [10, 30] },
       { marker: 'neun', pct: [0, 5] },
       { marker: 'ki67', pct: [10, 50] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Astrocitoma pilocítico do tronco: bifásico, fibras de Rosenthal, KIAA1549::BRAF, bom prognóstico.',
@@ -233,6 +237,7 @@ export const cns: Tumor[] = [
       { marker: 'cd34', pct: [10, 30] },
       { marker: 'neun', pct: [0, 5] },
       { marker: 'ki67', pct: [1, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Astrocitoma difuso: infiltrativo, sem bifasicidade, IDH pode ser mutante.',
@@ -278,6 +283,7 @@ export const cns: Tumor[] = [
       { marker: 'sinaptofisina', pct: [10, 30] },
       { marker: 'idh1', pct: 0 },
       { marker: 'ki67', pct: [2, 25] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Astrocitoma pilocítico: bifásico, fibras de Rosenthal, sem pseudorrosetas verdadeiras.',
@@ -325,6 +331,7 @@ export const cns: Tumor[] = [
       { marker: 'desmina', pct: [0, 10] },
       { marker: 'crx', pct: [10, 30], note: 'positivo levanta pineoblastoma' },
       { marker: 'ki67', pct: [40, 90] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Tumor teratoide rabdoide atípico: INI1 perdido, em lactente, células rabdoides.',
@@ -376,6 +383,7 @@ export const cns: Tumor[] = [
       { marker: 'braquiuria', pct: [0, 5], note: 'o negativo contra cordoma no subtipo cordoide' },
       { marker: 'ini1', pct: [0, 5], note: 'retido' },
       { marker: 'ki67', pct: [1, 20], note: 'acompanha o grau, mas não é critério formal' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Tumor fibroso solitário: STAT6 nuclear, CD34, vasos em galhada.',
@@ -417,6 +425,7 @@ export const cns: Tumor[] = [
       { marker: 'cromogranina', pct: [0, 15] },
       { marker: 's100', pct: [20, 50] },
       { marker: 'ki67', pct: [1, 5], note: 'acima de 2 a 3% define a variante atípica' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Oligodendroglioma: OLIG2 positivo, IDH-mutante, codeleção 1p/19q, no parênquima.',
@@ -460,6 +469,7 @@ export const cns: Tumor[] = [
       { marker: 'atrx', pct: [0, 5] },
       { marker: 'h3k27m', pct: 0 },
       { marker: 'ki67', pct: [1, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Tumor neuroepitelial disembrioplásico: elemento glioneuronal específico com neurônios flutuantes, sem neurônios displásicos.',
@@ -500,6 +510,7 @@ export const cns: Tumor[] = [
       { marker: 'neun', pct: [0, 10] },
       { marker: 'sinaptofisina', pct: [10, 40] },
       { marker: 'ki67', pct: [1, 15] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Glioblastoma de células gigantes: em adulto, IDH-selvagem, sem reticulina pericelular nem CD34.',
@@ -545,6 +556,7 @@ export const cns: Tumor[] = [
       { marker: 'pit1', pct: 0 },
       { marker: 'tpit', pct: 0 },
       { marker: 'ki67', pct: [1, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Cisto da bolsa de Rathke: revestimento cuboide ciliado com células caliciformes, sem paliçada.',
@@ -589,6 +601,7 @@ export const cns: Tumor[] = [
       { marker: 'gata3', pct: [20, 50], note: 'nos tireotróficos e gonadotróficos' },
       { marker: 'ttf1', pct: [0, 10], note: 'positivo no tumor de células fusiformes da hipófise posterior' },
       { marker: 'ki67', pct: [1, 10], note: 'acima de 3% em tumor invasivo aponta comportamento agressivo' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Hiperplasia hipofisária: reticulina expandida mas preservada.',
@@ -636,6 +649,7 @@ export const cns: Tumor[] = [
       { marker: 'gfap', pct: [10, 40], note: 'só astrócitos aprisionados na borda' },
       { marker: 'braquiuria', pct: [10, 30] },
       { marker: 'ki67', pct: [1, 3] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Metástase de carcinoma renal de células claras: PAX8, queratina e EMA positivos, inibina negativa.',
@@ -676,6 +690,7 @@ export const cns: Tumor[] = [
       { marker: 'p53', pct: [10, 50], note: 'aberrante no carcinoma, sobretudo em Li-Fraumeni' },
       { marker: 'sinaptofisina', pct: [0, 15] },
       { marker: 'ki67', pct: [1, 30], note: 'baixo no papiloma, alto no carcinoma' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Plexo coroide normal e hiperplasia: arquitetura em paralelepípedo regular, sem massa.',
@@ -721,6 +736,8 @@ export const cns: Tumor[] = [
       { marker: 'desmina', pct: [0, 5] },
       { marker: 'cd45', pct: 0 },
       { marker: 'ki67', pct: [70, 100] },
+      { marker: 'sox10', pct: [0, 5], note: 'o negativo que separa de melanoma uveal, o outro tumor intraocular' },
+      { marker: 's100', pct: [0, 10] },
     ],
     mimics: [
       'Doença de Coats e retinopatia da prematuridade: sem massa celular, exsudato.',

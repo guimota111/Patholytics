@@ -50,6 +50,7 @@ export const skin: Tumor[] = [
       { marker: 'cd34', pct: [0, 10], note: 'negativo no tumor; o estroma do tricoepitelioma é CD34 positivo' },
       { marker: 'ki67', pct: [20, 50], note: 'índice geralmente 10 a 30%' },
       { marker: 'bcl2', pct: [80, 95], note: 'difuso; no tricoepitelioma fica restrito à camada periférica' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Tricoepitelioma/tricoblastoma: PHLDA1 difusa, estroma CD34 positivo, CD10 no estroma e não no epitélio, células de Merkel CK20 positivas.',
@@ -148,6 +149,7 @@ export const skin: Tumor[] = [
       { marker: 'p16', pct: [20, 50], note: 'em bloco nas lesões HPV-associadas (genital, periungueal)' },
       { marker: 'p53', pct: [50, 80] },
       { marker: 'ki67', pct: [80, 100], note: 'positividade em toda a espessura' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Doença de Paget extramamária: CK7 e GCDFP-15 positivos, p63/p40 negativos.',
@@ -301,6 +303,7 @@ export const skin: Tumor[] = [
       { marker: 'desmina', pct: [0, 5] },
       { marker: 'brafv600e', pct: [0, 10], note: 'BRAF é raro neste subtipo, ao contrário do convencional' },
       { marker: 'pdl1', pct: [40, 70], note: 'carga mutacional alta; boa resposta a imunoterapia' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Cicatriz: fusocelulares S100 positivas isoladas podem existir; a densidade e a atipia decidem, com SOX10 mais confiável que S100.',
@@ -344,6 +347,7 @@ export const skin: Tumor[] = [
       { marker: 'pan-trk', pct: [0, 10], note: 'positiva nos Spitz com fusão NTRK' },
       { marker: 'ae1ae3', pct: 0 },
       { marker: 'cd34', pct: [0, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Melanoma: assimetria, ausência de maturação, mitoses profundas, PRAME difusa, perda de p16.',
@@ -382,6 +386,7 @@ export const skin: Tumor[] = [
       { marker: 'ae1ae3', pct: 0 },
       { marker: 'cd34', pct: [0, 5] },
       { marker: 'sma', pct: [0, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Melanoma metastático pigmentado: nódulo expansivo com atipia, mitoses e necrose.',
@@ -430,6 +435,7 @@ export const skin: Tumor[] = [
       { marker: 'melana', pct: [0, 5], note: 'o clone A103 pode marcar sebáceo: armadilha clássica com melanoma' },
       { marker: 'sox10', pct: [0, 5] },
       { marker: 's100', pct: [0, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma basocelular com diferenciação sebácea: BerEP4 difusa, EMA negativa nas áreas basaloides.',
@@ -470,6 +476,7 @@ export const skin: Tumor[] = [
       { marker: 's100', pct: [0, 15] },
       { marker: 'sox10', pct: [0, 20] },
       { marker: 'gcdfp15', pct: [10, 40] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma basocelular: paliçada periférica e fenda de retração, BerEP4 difusa, sem ductos com cutícula.',
@@ -511,6 +518,7 @@ export const skin: Tumor[] = [
       { marker: 'pax8', pct: [0, 5], note: 'negativa: chave contra metástase renal' },
       { marker: 'ki67', pct: [10, 40] },
       { marker: 'p53', pct: [20, 60], note: 'aberrante mais no hidradenocarcinoma' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma renal de células claras metastático: PAX8 e CA-IX positivos, queratina fraca, rede vascular delicada.',
@@ -554,6 +562,7 @@ export const skin: Tumor[] = [
       { marker: 'p53', pct: [0, 20], note: 'aberrante nos raros espiradenocarcinomas' },
       { marker: 'berep4', pct: [30, 60] },
       { marker: 'myb', pct: [20, 50], note: 'positivo em parte dos cilindromas, como no adenoide cístico' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma adenoide cístico cutâneo: infiltrativo, perineural, MYB positivo, sem a bainha hialina em mosaico.',
@@ -592,6 +601,7 @@ export const skin: Tumor[] = [
       { marker: 'bcl2', pct: [30, 60], note: 'restrita à camada periférica, ao contrário do basocelular difuso' },
       { marker: 'ema', pct: [0, 10] },
       { marker: 'ki67', pct: [20, 50] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma basocelular: PHLDA1 negativa, CD10 epitelial, estroma CD34 negativo, fenda epitélio-estroma, bcl-2 difusa.',
@@ -631,6 +641,7 @@ export const skin: Tumor[] = [
       { marker: 'ema', pct: [0, 15] },
       { marker: 's100', pct: [0, 10] },
       { marker: 'p53', pct: [10, 30], note: 'aberrante no raro pilomatrixocarcinoma' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Pilomatrixocarcinoma: infiltração, atipia acentuada, necrose e mitoses atípicas com invasão vascular.',
@@ -674,6 +685,7 @@ export const skin: Tumor[] = [
       { marker: 'pr', pct: [30, 70] },
       { marker: 'ki67', pct: [0, 10] },
       { marker: 'p53', pct: [0, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma anexial microcístico: infiltra fundo e músculo, com invasão perineural e perda focal da camada mioepitelial.',
@@ -710,6 +722,7 @@ export const skin: Tumor[] = [
       { marker: 'sma', pct: [20, 50] },
       { marker: 'ki67', pct: [10, 30] },
       { marker: 'p53', pct: [20, 50] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Siringoma: superficial, sem perineural, sem invasão de músculo.',
@@ -760,6 +773,7 @@ export const skin: Tumor[] = [
       { marker: 's100', pct: [10, 30], note: 'pode ser fracamente positiva: não use isolada contra melanoma' },
       { marker: 'melana', pct: [0, 5] },
       { marker: 'ki67', pct: [50, 80] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Doença de Bowen pagetoide: p63/p40 e CK5/6 positivos, CK7 negativa.',
@@ -799,6 +813,7 @@ export const skin: Tumor[] = [
       { marker: 'ki67', pct: [0, 15] },
       { marker: 'cd10', pct: [40, 80], note: 'positivo: não separa de fibroxantoma atípico' },
       { marker: 'erg', pct: [0, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Dermatofibrossarcoma protuberans: CD34 difuso, FXIIIa negativo, infiltração em favo de mel no subcutâneo, sem colágeno aprisionado nem hiperplasia epidérmica.',
@@ -841,6 +856,7 @@ export const skin: Tumor[] = [
       { marker: 'stat6', pct: [0, 5], note: 'negativo: separa do tumor fibroso solitário' },
       { marker: 'ki67', pct: [10, 30] },
       { marker: 'nestina', pct: [70, 95], note: 'positiva; proposta como auxiliar quando CD34 é fraco' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Dermatofibroma: FXIIIa positivo, CD34 negativo no centro, colágeno aprisionado.',
@@ -886,6 +902,7 @@ export const skin: Tumor[] = [
       { marker: 'cd34', pct: [0, 10] },
       { marker: 'p53', pct: [70, 95], note: 'aberrante na maioria, por assinatura UV' },
       { marker: 'ki67', pct: [70, 95] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma espinocelular sarcomatoide: queratinas ou p40 positivos ao menos focalmente.',
@@ -934,6 +951,7 @@ export const skin: Tumor[] = [
       { marker: 'sox10', pct: [0, 5] },
       { marker: 'hhv8', pct: [0, 5], note: 'negativo: separa do sarcoma de Kaposi' },
       { marker: 'camta1', pct: [0, 5], note: 'negativo: separa do hemangioendotelioma epitelioide' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Sarcoma de Kaposi: HHV-8 nuclear positivo, fendas com hemácias e glóbulos hialinos.',
@@ -981,6 +999,7 @@ export const skin: Tumor[] = [
       { marker: 'sma', pct: [0, 15] },
       { marker: 'ki67', pct: [20, 50] },
       { marker: 'myc', pct: [0, 10], note: 'negativo, ao contrário do angiossarcoma pós-radioterapia' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Angiossarcoma: HHV-8 negativo, atipia muito maior, canais anastomosados.',
@@ -1020,6 +1039,7 @@ export const skin: Tumor[] = [
       { marker: 'ki67', pct: [0, 20], note: 'alto na fase proliferativa do hemangioma infantil' },
       { marker: 'fosb', pct: [0, 10], note: 'positivo no hemangioma epitelioide (fusão FOS/FOSB)' },
       { marker: 'ae1ae3', pct: 0 },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Sarcoma de Kaposi em fase inicial: HHV-8 positivo, fendas dissecantes, plasmócitos.',
@@ -1063,6 +1083,7 @@ export const skin: Tumor[] = [
       { marker: 'cd34', pct: [0, 15] },
       { marker: 'ae1ae3', pct: [0, 5] },
       { marker: 'hmb45', pct: [0, 5], note: 'negativo: separa do PEComa' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Leiomiossarcoma cutâneo: atipia, mitoses (acima de 1 por 10 campos na pele já preocupa), necrose, Ki-67 alto.',

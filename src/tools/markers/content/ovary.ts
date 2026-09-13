@@ -67,6 +67,7 @@ export const ovary: Tumor[] = [
       { marker: 'berep4', pct: [90, 100], note: 'positivo contra mesotelioma' },
       { marker: 'moc31', pct: [90, 100] },
       { marker: 'ki67', pct: [50, 90] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma seroso de baixo grau: p53 selvagem, atipia uniforme, poucas mitoses.',
@@ -117,6 +118,7 @@ export const ovary: Tumor[] = [
       { marker: 'napsina', pct: [0, 5] },
       { marker: 'calretinina', pct: [5, 20] },
       { marker: 'ki67', pct: [2, 15] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma seroso de alto grau: p53 aberrante, atipia marcada, Ki-67 alto.',
@@ -162,6 +164,7 @@ export const ovary: Tumor[] = [
       { marker: 'ck20', pct: [0, 5] },
       { marker: 'cdx2', pct: [0, 5] },
       { marker: 'ki67', pct: [1, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Cistoadenoma seroso com proliferação focal: menos de 10% de proliferação.',
@@ -213,6 +216,7 @@ export const ovary: Tumor[] = [
       { marker: 'pms2', pct: [10, 20] },
       { marker: 'arid1a', pct: [20, 30], note: 'o positivo é a perda' },
       { marker: 'ki67', pct: [20, 60] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Metástase de adenocarcinoma colorretal: CK20, CDX2 e SATB2 positivos, ER e PAX8 negativos, vimentina negativa.',
@@ -263,6 +267,7 @@ export const ovary: Tumor[] = [
       { marker: 'sall4', pct: [0, 10], note: 'o negativo contra tumor do saco vitelino' },
       { marker: 'glipicano3', pct: [10, 30], note: 'pode confundir com saco vitelino' },
       { marker: 'ki67', pct: [10, 40] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Tumor do saco vitelino: SALL4 e AFP positivos, ER e PAX8 negativos, em jovem.',
@@ -310,6 +315,7 @@ export const ovary: Tumor[] = [
       { marker: 'p53', pct: [30, 60], note: 'aberrante no carcinoma' },
       { marker: 'her2', pct: [15, 30], note: 'amplificado em parte dos carcinomas mucinosos' },
       { marker: 'ki67', pct: [20, 60] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Metástase de adenocarcinoma colorretal ou apendicular: SATB2 e CK20 difusos, CK7 negativo, bilateral.',
@@ -355,6 +361,7 @@ export const ovary: Tumor[] = [
       { marker: 'inibina', pct: [10, 40], note: 'no estroma' },
       { marker: 'ck20', pct: [0, 10] },
       { marker: 'ki67', pct: [1, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma urotelial metastático: atipia, invasão, história vesical.',
@@ -396,6 +403,12 @@ export const ovary: Tumor[] = [
       { marker: 'glipicano3', pct: [0, 5] },
       { marker: 'p53', pct: [0, 5] },
       { marker: 'ki67', pct: [1, 10] },
+      { marker: 'er', pct: [0, 10], note: 'o negativo que separa dos tumores epiteliais de superfície' },
+      { marker: 'pr', pct: [0, 10] },
+      { marker: 'wt1', pct: [0, 10] },
+      { marker: 'pax8', pct: [10, 40], note: 'só nos componentes tireoidiano e respiratório' },
+      { marker: 'ck7', pct: [30, 70], note: 'componentes glandulares' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Teratoma imaturo: tubos neuroepiteliais primitivos, SALL4 positivo, em jovem.',
@@ -444,6 +457,7 @@ export const ovary: Tumor[] = [
       { marker: 'sall4', pct: [0, 5] },
       { marker: 'p53', pct: [0, 10], note: 'selvagem; aberrante indica transformação' },
       { marker: 'ki67', pct: [2, 20] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma endometrioide com padrão de cordão sexual: EMA e CK7 positivos, inibina negativa.',
@@ -490,6 +504,7 @@ export const ovary: Tumor[] = [
       { marker: 'brg1', pct: [0, 5], note: 'retido; a perda define carcinoma de pequenas células hipercalcêmico' },
       { marker: 'pr', pct: [60, 90] },
       { marker: 'ki67', pct: [10, 40] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma de pequenas células do ovário de tipo hipercalcêmico: BRG1 perdido, hipercalcemia, agressivo.',
@@ -534,6 +549,7 @@ export const ovary: Tumor[] = [
       { marker: 'ar', pct: [50, 90] },
       { marker: 'sall4', pct: [0, 10] },
       { marker: 'ki67', pct: [5, 30] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma endometrioide de padrão sertoliforme: EMA e CK7 positivos, inibina negativa.',
@@ -579,6 +595,10 @@ export const ovary: Tumor[] = [
       { marker: 'pr', pct: [50, 90] },
       { marker: 'ae1ae3', pct: [0, 10] },
       { marker: 'ki67', pct: [1, 5] },
+      { marker: 'ck7', pct: 0, note: 'o negativo que separa dos carcinomas de superfície' },
+      { marker: 'pax8', pct: [0, 15] },
+      { marker: 'p53', pct: [0, 10], note: 'selvagem' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Leiomioma ovariano: desmina e h-caldesmon difusos, inibina negativa.',
@@ -666,6 +686,7 @@ export const ovary: Tumor[] = [
       { marker: 'er', pct: [60, 90] },
       { marker: 'ck7', pct: [95, 100] },
       { marker: 'bcl2', pct: [10, 40] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Lesão p53 signature: p53 aberrante mas sem atipia e com Ki-67 baixo.',
@@ -711,6 +732,7 @@ export const ovary: Tumor[] = [
       { marker: 'muc2', pct: [30, 60] },
       { marker: 'inibina', pct: [0, 20], note: 'só no estroma luteinizado, não no tumor' },
       { marker: 'ki67', pct: [30, 80] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma mucinoso primário ovariano: unilateral, grande, com componente borderline, PAX8 pode ser positivo.',

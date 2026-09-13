@@ -67,6 +67,7 @@ export const kidneyurothelial: Tumor[] = [
       { marker: 'ck20', pct: 0 },
       { marker: 'gata3', pct: [0, 5] },
       { marker: 'ki67', pct: [5, 30] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Angiomiolipoma epitelioide: HMB-45, Melan-A e catepsina K positivos, PAX8 negativo.',
@@ -119,6 +120,7 @@ export const kidneyurothelial: Tumor[] = [
       { marker: 'gata3', pct: [0, 10] },
       { marker: 'wt1', pct: [0, 10] },
       { marker: 'ki67', pct: [5, 30] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenoma papilar: até 15 mm, baixo grau, mesma imuno; só o tamanho separa.',
@@ -167,6 +169,7 @@ export const kidneyurothelial: Tumor[] = [
       { marker: 'melana', pct: [0, 5] },
       { marker: 'hmb45', pct: [0, 5] },
       { marker: 'ki67', pct: [1, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Oncocitoma renal: CK7 em células isoladas e esparsas, núcleo redondo e regular, cicatriz central.',
@@ -209,6 +212,7 @@ export const kidneyurothelial: Tumor[] = [
       { marker: 'sdhb', pct: [0, 5], note: 'retido' },
       { marker: 'sox9', pct: [0, 15] },
       { marker: 'ki67', pct: [1, 3] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'RCC cromófobo eosinofílico: CK7 difusa, núcleo enrugado, halo perinuclear.',
@@ -258,6 +262,7 @@ export const kidneyurothelial: Tumor[] = [
       { marker: 'hmb45', pct: [10, 30] },
       { marker: 'tfeb', pct: [0, 5], note: 'positivo define o RCC t(6;11), entidade distinta' },
       { marker: 'ki67', pct: [10, 40] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'RCC de células claras: CA-IX em caixa, queratina forte, TFE3 negativo.',
@@ -302,6 +307,7 @@ export const kidneyurothelial: Tumor[] = [
       { marker: 'sdhb', pct: [0, 5], note: 'retido' },
       { marker: 'tfe3', pct: [0, 10] },
       { marker: 'ki67', pct: [20, 60] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'RCC papilar de tipo 2: FH retido, sem halo perinucleolar.',
@@ -348,6 +354,7 @@ export const kidneyurothelial: Tumor[] = [
       { marker: 'p63', pct: [0, 15] },
       { marker: 'gata3', pct: [0, 15] },
       { marker: 'ki67', pct: [50, 90] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma de ductos coletores: INI1 retido, paciente mais velho, sem falciforme.',
@@ -396,6 +403,7 @@ export const kidneyurothelial: Tumor[] = [
       { marker: 'p63', pct: [0, 10] },
       { marker: 'uroplaquina', pct: [0, 5] },
       { marker: 'ki67', pct: [30, 70] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma urotelial da pelve renal invadindo o parênquima: GATA3, p63 e uroplaquina positivos.',
@@ -443,6 +451,7 @@ export const kidneyurothelial: Tumor[] = [
       { marker: 'sall4', pct: [10, 40] },
       { marker: 'p53', pct: [10, 30], note: 'aberrante acompanha anaplasia' },
       { marker: 'ki67', pct: [40, 90] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Sarcoma de células claras do rim: BCOR positivo, sem componente epitelial, metastatiza para osso.',
@@ -485,6 +494,7 @@ export const kidneyurothelial: Tumor[] = [
       { marker: 's100', pct: [0, 15] },
       { marker: 'cd34', pct: [10, 30] },
       { marker: 'ki67', pct: [10, 50], note: 'alto na variante celular' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Nefroblastoma estromal predominante: tem blastema ou epitélio, WT1 positivo.',
@@ -530,6 +540,7 @@ export const kidneyurothelial: Tumor[] = [
       { marker: 's100', pct: [0, 10] },
       { marker: 'sall4', pct: [0, 5] },
       { marker: 'ki67', pct: [10, 40] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Nefroblastoma blastematoso: WT1 positivo, blastema azul denso.',
@@ -588,6 +599,7 @@ export const kidneyurothelial: Tumor[] = [
       { marker: 'cdx2', pct: [5, 20] },
       { marker: 'ecaderina', pct: [70, 95], note: 'perdida na variante plasmocitoide' },
       { marker: 'ki67', pct: [30, 80] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma prostático pouco diferenciado: NKX3.1 e P501S positivos, GATA3 negativo.',
@@ -637,6 +649,7 @@ export const kidneyurothelial: Tumor[] = [
       { marker: 'nkx31', pct: 0 },
       { marker: 'psa', pct: 0 },
       { marker: 'ttf1', pct: 0 },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Atipia reativa e pós-quimioterapia intravesical: p53 selvagem, CK20 só nas guarda-chuva, inflamação.',
@@ -680,6 +693,7 @@ export const kidneyurothelial: Tumor[] = [
       { marker: 'p16', pct: [10, 30], note: 'em bloco levanta origem no colo uterino' },
       { marker: 'p53', pct: [50, 75] },
       { marker: 'ki67', pct: [50, 90] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma urotelial com diferenciação escamosa: tem componente urotelial ou CIS, CK20 e uroplaquina podem ajudar.',
@@ -722,6 +736,7 @@ export const kidneyurothelial: Tumor[] = [
       { marker: 'p63', pct: [0, 10] },
       { marker: 'pax8', pct: [0, 10] },
       { marker: 'ki67', pct: [40, 80] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma colorretal invadindo a bexiga: imuno idêntica; a clínica decide.',
@@ -816,6 +831,7 @@ export const kidneyurothelial: Tumor[] = [
       { marker: 'ck903', pct: [0, 10] },
       { marker: 'p53', pct: [0, 5] },
       { marker: 'ki67', pct: [1, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenocarcinoma prostático: NKX3.1, P501S e PSA positivos, PAX8 negativo.',
@@ -867,6 +883,7 @@ export const kidneyurothelial: Tumor[] = [
       { marker: 'p53', pct: [20, 50], note: 'mais frequente no carcinoma; germinativa em Li-Fraumeni' },
       { marker: 'betacatenina', pct: [20, 50], pattern: 'N' },
       { marker: 'ki67', pct: [1, 40], note: 'abaixo de 5% favorece adenoma; acima de 20% indica alto risco' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma renal de células claras invadindo a adrenal: PAX8 e CA-IX positivos, queratina forte.',

@@ -60,6 +60,7 @@ export const salivarythyroid: Tumor[] = [
       { marker: 'ema', pct: [70, 90], note: 'luminal' },
       { marker: 'myb', pct: [0, 10] },
       { marker: 'ki67', pct: [1, 5], note: 'acima de 10% levanta carcinoma ex-adenoma pleomórfico' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma adenoide cístico: cribriforme com pseudocistos de membrana basal, MYB positivo, invasão perineural, sem estroma condroide verdadeiro.',
@@ -148,6 +149,7 @@ export const salivarythyroid: Tumor[] = [
       { marker: 'mamaglobina', pct: [0, 15], note: 'negativa; o secretor é difusamente positivo' },
       { marker: 'pan-trk', pct: [0, 5] },
       { marker: 'ki67', pct: [5, 40], note: 'sobe com o grau' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma escamoso: queratinização, sem células mucosas, sem MAML2.',
@@ -197,6 +199,7 @@ export const salivarythyroid: Tumor[] = [
       { marker: 'plag1', pct: [0, 10], note: 'negativa; separa do adenoma pleomórfico celular' },
       { marker: 'er', pct: [0, 10] },
       { marker: 'ki67', pct: [5, 30], note: 'acima de 20% acompanha transformação de alto grau' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenoma pleomórfico celular: PLAG1 positivo, estroma condroide, sem invasão perineural.',
@@ -243,6 +246,7 @@ export const salivarythyroid: Tumor[] = [
       { marker: 'ttf1', pct: [0, 10], note: 'cuidado com o padrão folicular, que imita tireoide' },
       { marker: 'tireoglobulina', pct: 0 },
       { marker: 'ki67', pct: [1, 10], note: 'alto na transformação de alto grau' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma secretor: mamaglobina, S100 e SOX10 difusos, ETV6::NTRK3, DOG1 negativo.',
@@ -292,6 +296,7 @@ export const salivarythyroid: Tumor[] = [
       { marker: 'er', pct: [0, 10] },
       { marker: 'trps1', pct: [30, 70], note: 'não prova origem mamária aqui' },
       { marker: 'ki67', pct: [2, 15] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma de células acinares: DOG1 apical, NR4A3, grânulos de zimogênio, mamaglobina negativa.',
@@ -337,6 +342,7 @@ export const salivarythyroid: Tumor[] = [
       { marker: 'cd117', pct: [10, 40] },
       { marker: 'mamaglobina', pct: [20, 50] },
       { marker: 'ki67', pct: [1, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma adenoide cístico: p40 positivo, células anguladas hipercromáticas, MYB.',
@@ -388,6 +394,7 @@ export const salivarythyroid: Tumor[] = [
       { marker: 's100', pct: [0, 15] },
       { marker: 'p53', pct: [50, 75] },
       { marker: 'ki67', pct: [40, 90] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Metástase de carcinoma mamário: ER frequentemente positivo, história de mama.',
@@ -432,6 +439,7 @@ export const salivarythyroid: Tumor[] = [
       { marker: 'caix', pct: [0, 15], note: 'ajuda contra metástase de RCC de células claras' },
       { marker: 'pax8', pct: [0, 10] },
       { marker: 'ki67', pct: [2, 15] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Metástase de carcinoma renal de células claras: PAX8 e CA-IX positivos, sem camada mioepitelial.',
@@ -478,6 +486,7 @@ export const salivarythyroid: Tumor[] = [
       { marker: 'ini1', pct: [10, 40], note: 'o positivo é a perda; ocorre em parte dos mioepiteliais de partes moles' },
       { marker: 'desmina', pct: [0, 10] },
       { marker: 'ki67', pct: [10, 40] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Mioepitelioma benigno: sem invasão, sem necrose, Ki-67 baixo.',
@@ -520,6 +529,7 @@ export const salivarythyroid: Tumor[] = [
       { marker: 'sox10', pct: [30, 70] },
       { marker: 'p53', pct: [50, 75], note: 'no componente maligno' },
       { marker: 'ki67', pct: [30, 80], note: 'a diferença entre os dois componentes é o achado útil' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenoma pleomórfico celular ou atípico: sem invasão, Ki-67 baixo, p53 selvagem.',
@@ -567,6 +577,7 @@ export const salivarythyroid: Tumor[] = [
       { marker: 'cea', pct: [0, 10] },
       { marker: 'p53', pct: [0, 10] },
       { marker: 'ki67', pct: [1, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'NIFTP: encapsulado, núcleo papilífero, sem invasão, sem papilas verdadeiras, sem psamomas.',
@@ -609,6 +620,7 @@ export const salivarythyroid: Tumor[] = [
       { marker: 'brafv600e', pct: [0, 5], note: 'praticamente ausente; se positivo, reveja o diagnóstico' },
       { marker: 'calcitonina', pct: 0 },
       { marker: 'ki67', pct: [1, 3] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Variante folicular invasiva do papilífero: qualquer invasão capsular ou vascular a exclui.',
@@ -656,6 +668,7 @@ export const salivarythyroid: Tumor[] = [
       { marker: 'brafv600e', pct: [0, 5] },
       { marker: 'calcitonina', pct: 0 },
       { marker: 'ki67', pct: [1, 5] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenoma folicular: sem invasão, mesma citologia.',
@@ -703,6 +716,7 @@ export const salivarythyroid: Tumor[] = [
       { marker: 'gata3', pct: [0, 10], note: 'idem' },
       { marker: 'brafv600e', pct: [0, 5] },
       { marker: 'ki67', pct: [2, 10] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Adenoma oncocítico: sem invasão.',
@@ -751,6 +765,7 @@ export const salivarythyroid: Tumor[] = [
       { marker: 'gata3', pct: [10, 40] },
       { marker: 's100', pct: [10, 30], note: 'sustentaculares periféricas em alguns' },
       { marker: 'ki67', pct: [2, 20], note: 'acima de 5% acompanha alto grau' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma folicular ou papilífero de padrão sólido: tireoglobulina positiva, calcitonina negativa.',
@@ -795,6 +810,7 @@ export const salivarythyroid: Tumor[] = [
       { marker: 'p53', pct: [20, 40], note: 'aumenta na progressão para anaplásico' },
       { marker: 'sinaptofisina', pct: [0, 15] },
       { marker: 'ki67', pct: [10, 30] },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Carcinoma anaplásico: perda de TTF-1 e tireoglobulina, anaplasia franca, p53 aberrante.',
@@ -889,6 +905,7 @@ export const salivarythyroid: Tumor[] = [
       { marker: 'ciclinad1', pct: [30, 70], note: 'superexpressa em parte dos adenomas' },
       { marker: 'rb1', pct: [10, 40], note: 'perda descrita em parte dos carcinomas' },
       { marker: 'ki67', pct: [1, 10], note: 'acima de 5% favorece carcinoma' },
+      { marker: 'cd45', pct: 0 },
     ],
     mimics: [
       'Nódulo tireoidiano de células claras: TTF-1 e tireoglobulina positivos.',
