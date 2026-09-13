@@ -105,7 +105,8 @@ export const TOOLS: Tool[] = [
     i18nKey: 'markerHelper',
     icon: TestTubes,
     category: 'differential',
-    status: 'coming-soon',
+    status: 'available',
+    path: '/tools/marcadores',
   },
   {
     id: 'ackerman',
