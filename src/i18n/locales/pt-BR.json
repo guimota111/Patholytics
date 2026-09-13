@@ -1907,6 +1907,7 @@
     "hideProfile": "esconder o perfil",
     "nextTitle": "O que pedir a seguir",
     "nextHint": "Marcadores que mais separam os candidatos do topo. O número é a porcentagem esperada em cada um.",
-    "disclaimer": "Ferramenta de apoio ao raciocínio: as porcentagens vêm da literatura citada em cada verbete e variam com clone, fixação e recuperação antigênica. A lista não substitui a correlação com a clínica, a lâmina inteira e os controles do seu laboratório."
+    "disclaimer": "Ferramenta de apoio ao raciocínio: as porcentagens vêm da literatura citada em cada verbete e variam com clone, fixação e recuperação antigênica. A lista não substitui a correlação com a clínica, a lâmina inteira e os controles do seu laboratório.",
+    "plausibilityHint": "Plausibilidade em relação ao primeiro colocado"
   }
 }

@@ -57,7 +57,6 @@ export function MarkerHelperPage() {
   const hasChoice = choice.site !== null || choice.cells.size + choice.architecture.size + choice.features.size + choice.markers.size > 0 || choice.query.trim() !== ''
   const all = [...primary, ...secondary]
   const best = all.length ? Math.max(...all.map((s) => s.score)) : 0
-  const worst = all.length ? Math.min(...all.map((s) => s.score)) : 0
   const comparedTumors = compared.map(findTumor).filter((x): x is NonNullable<typeof x> => Boolean(x))
   const compareRows = useMemo(() => (comparedTumors.length >= 2 ? compareTumors(comparedTumors) : []), [comparedTumors])
 
@@ -199,7 +198,7 @@ export function MarkerHelperPage() {
                   {primary.length > 0 && (
                     <ul className="space-y-3">
                       {primary.slice(0, 30).map((s, i) => (
-                        <TumorCard key={s.tumor.id} s={s} rank={i + 1} open={open === s.tumor.id} onToggle={() => setOpen(open === s.tumor.id ? null : s.tumor.id)} compared={compared.includes(s.tumor.id)} onCompare={() => toggleCompare(s.tumor.id)} best={best} worst={worst} />
+                        <TumorCard key={s.tumor.id} s={s} rank={i + 1} open={open === s.tumor.id} onToggle={() => setOpen(open === s.tumor.id ? null : s.tumor.id)} compared={compared.includes(s.tumor.id)} onCompare={() => toggleCompare(s.tumor.id)} best={best} />
                       ))}
                     </ul>
                   )}
@@ -212,7 +211,7 @@ export function MarkerHelperPage() {
                       <p className="mb-3 text-xs text-ink-muted">{t('markers.alsoConsiderHint')}</p>
                       <ul className="space-y-3">
                         {secondary.map((s, i) => (
-                          <TumorCard key={s.tumor.id} s={s} rank={i + 1} open={open === s.tumor.id} onToggle={() => setOpen(open === s.tumor.id ? null : s.tumor.id)} compared={compared.includes(s.tumor.id)} onCompare={() => toggleCompare(s.tumor.id)} best={best} worst={worst} muted />
+                          <TumorCard key={s.tumor.id} s={s} rank={i + 1} open={open === s.tumor.id} onToggle={() => setOpen(open === s.tumor.id ? null : s.tumor.id)} compared={compared.includes(s.tumor.id)} onCompare={() => toggleCompare(s.tumor.id)} best={best} muted />
                         ))}
                       </ul>
                     </div>

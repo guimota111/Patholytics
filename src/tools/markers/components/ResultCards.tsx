@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronDown, ChevronUp, ExternalLink, Minus, Plus } from 'lucide-react'
 import { cn } from '@/lib/cn'
+import { plausibility } from '../match'
 import type { CompareRow, MarkerVerdict, NextMarker, Result, Suggestion, Verdict } from '../match'
 import { BAND_LABELS, PATTERN_LABELS, bandOf, findMarker, findMorph, pctLabel, type Band, type MarkerResult, type Tumor } from '../types'
 
@@ -41,18 +42,17 @@ interface CardProps {
   compared: boolean
   onCompare: () => void
   muted?: boolean
-  /** Pontuação máxima da lista, para a barra relativa. */
+  /** Pontuação do primeiro colocado, base da barra de plausibilidade. */
   best: number
-  worst: number
 }
 
-export function TumorCard({ s, rank, open, onToggle, compared, onCompare, muted = false, best, worst }: CardProps) {
+export function TumorCard({ s, rank, open, onToggle, compared, onCompare, muted = false, best }: CardProps) {
   const { t } = useTranslation()
   const [profile, setProfile] = useState(false)
   const tm = s.tumor
   const counts = countVerdicts(s.markers)
-  const span = Math.max(best - worst, 1)
-  const width = Math.round(((s.score - worst) / span) * 100)
+  const share = plausibility(s.score, best)
+  const width = Math.round(share * 100)
 
   return (
     <li className={cn('rounded-lg border bg-surface', open ? 'border-accent/50 shadow-card' : 'border-line', muted && 'opacity-90')}>
@@ -82,8 +82,13 @@ export function TumorCard({ s, rank, open, onToggle, compared, onCompare, muted 
             {s.ageHit === false && <Pill cls={VERDICT_STYLE.excecao}>{t('markers.ageOff')}</Pill>}
             {s.sexMismatch && <Pill cls={VERDICT_STYLE['nao-bate']}>{t('markers.sexOff')}</Pill>}
           </div>
-          <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-elevated" aria-hidden>
-            <div className="h-full rounded-full bg-accent" style={{ width: `${width}%` }} />
+          <div className="mt-2 flex items-center gap-2" title={t('markers.plausibilityHint')}>
+            <div className="h-1 flex-1 overflow-hidden rounded-full bg-elevated" aria-hidden>
+              <div className={cn('h-full rounded-full', width >= 10 ? 'bg-accent' : 'bg-ink-faint/40')} style={{ width: `${Math.max(width, 1)}%` }} />
+            </div>
+            <span className="shrink-0 text-[0.65rem] font-medium text-ink-faint tabular-nums">
+              {width >= 1 ? `${width}%` : '< 1%'}
+            </span>
           </div>
         </button>
         <div className="flex shrink-0 flex-col items-end gap-2">

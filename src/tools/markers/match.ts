@@ -337,3 +337,18 @@ export function compareTumors(tumors: Tumor[]): CompareRow[] {
 }
 
 export const ageLabel = (id: AgeBand) => AGE_BANDS.find((a) => a.id === id)?.label ?? id
+
+/**
+ * Quanto este candidato vale em relação ao primeiro colocado, de 0 a 1.
+ *
+ * Como a pontuação é uma soma de log-verossimilhanças, exp(pontuação − melhor)
+ * é a razão de verossimilhança contra o topo: 1 para o primeiro, e uma queda
+ * multiplicativa para quem contradiz o que foi informado. Um único "não bate"
+ * forte já derruba a barra — CD45 positivo num carcinoma vale ln(0,03) × 1,5,
+ * o que sobra em torno de 0,5%.
+ *
+ * É diferente da barra relativa que havia antes (posição entre o pior e o
+ * melhor da lista), que dava quase cheio ao segundo colocado mesmo quando ele
+ * estava excluído pela imuno.
+ */
+export const plausibility = (score: number, best: number) => Math.exp(score - best)

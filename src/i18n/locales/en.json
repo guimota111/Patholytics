@@ -1907,6 +1907,7 @@
     "hideProfile": "hide the profile",
     "nextTitle": "What to order next",
     "nextHint": "Markers that best separate the top candidates. The number is the expected percentage in each.",
-    "disclaimer": "A reasoning aid: percentages come from the literature cited in each entry and vary with clone, fixation and antigen retrieval. The list does not replace correlation with the clinical picture, the whole slide and your own laboratory controls."
+    "disclaimer": "A reasoning aid: percentages come from the literature cited in each entry and vary with clone, fixation and antigen retrieval. The list does not replace correlation with the clinical picture, the whole slide and your own laboratory controls.",
+    "plausibilityHint": "Plausibility relative to the top candidate"
   }
 }
