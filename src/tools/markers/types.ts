@@ -473,6 +473,7 @@ export const MARKERS: Marker[] = [
   { id: 'pd1', label: 'PD-1 (CD279)', group: 'hemato', pattern: 'M', hint: 'T auxiliar folicular: angioimunoblástico; rosetas em Hodgkin predomínio linfocitário.' },
   { id: 'cxcl13', label: 'CXCL13', group: 'hemato', pattern: 'C', hint: 'T auxiliar folicular (angioimunoblástico).' },
   { id: 'cd25', label: 'CD25', group: 'hemato', pattern: 'M', hint: 'Mastocitose sistêmica, tricoleucemia, ATLL.' },
+  { id: 'cd61', label: 'CD61 (e CD42b)', aka: ['glicoproteína IIIa'], group: 'hemato', pattern: 'M', hint: 'Megacariócitos e blastos megacarioblásticos: conta e morfologia na medula, onde o hematoxilina-eosina esconde as formas pequenas e displásicas.' },
   { id: 'triptase', label: 'Triptase', group: 'hemato', pattern: 'C', hint: 'Mastócitos.' },
   { id: 'anexina', label: 'Anexina A1', group: 'hemato', pattern: 'C', hint: 'Tricoleucemia (específica entre B).' },
   { id: 'ighv', label: 'IgD', group: 'hemato', pattern: 'M', hint: 'Manto e LLC (IgD+); marginal negativa.' },
@@ -529,6 +530,7 @@ export const MARKERS: Marker[] = [
   { id: 'sox9', label: 'SOX9', group: 'mesenquimal', pattern: 'N', hint: 'Condroide (condrossarcoma, condroblastoma), também mama basal, próstata, colangiocarcinoma.' },
   { id: 'runx2', label: 'RUNX2', group: 'mesenquimal', pattern: 'N', hint: 'Osteoblástico (osteossarcoma).' },
   { id: 'h3g34', label: 'H3.3 G34W', group: 'molecular', pattern: 'N', hint: 'Tumor de células gigantes do osso (vs outros tumores ricos em células gigantes).' },
+  { id: 'h3g34rv', label: 'H3.3 G34R/V', group: 'molecular', pattern: 'N', hint: 'Glioma hemisférico difuso H3 G34-mutante, do adolescente. Clone distinto do G34W do tumor de células gigantes do osso: não são intercambiáveis.' },
   { id: 'h3k36m', label: 'H3.3 K36M', group: 'molecular', pattern: 'N', hint: 'Condroblastoma.' },
   { id: 'dnajb1', label: 'DNAJB1-PRKACA', group: 'molecular', pattern: 'C', hint: 'HCC fibrolamelar (FISH ou IHC surrogate).' },
 ]
