@@ -161,14 +161,21 @@ export function TumorCard({ s, rank, open, onToggle, compared, onCompare, muted 
           {tm.sources.length > 0 && (
             <Row label={t('markers.rowSources')}>
               <ul className="space-y-0.5">
-                {tm.sources.map((u) => (
-                  <li key={u}>
-                    <a href={u} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs text-accent hover:underline">
-                      {u.replace(/^https?:\/\//, '').slice(0, 80)}
-                      <ExternalLink className="size-3" aria-hidden />
-                    </a>
-                  </li>
-                ))}
+                {tm.sources.map((u) =>
+                  u.startsWith('http') ? (
+                    <li key={u}>
+                      <a href={u} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs text-accent hover:underline">
+                        {u.replace(/^https?:\/\//, '').slice(0, 80)}
+                        <ExternalLink className="size-3" aria-hidden />
+                      </a>
+                    </li>
+                  ) : (
+                    /* Referência de livro ou artigo sem link: texto puro. */
+                    <li key={u} className="text-xs text-ink-muted">
+                      {u}
+                    </li>
+                  ),
+                )}
               </ul>
             </Row>
           )}
@@ -199,11 +206,14 @@ function VerdictLine({ v }: { v: MarkerVerdict }) {
           · {t('markers.pctOf', { pct: pctLabel(v.entry.pct) })}
           {v.entry.pattern && ` · ${PATTERN_LABELS[v.entry.pattern]}`}
           {v.entry.note && ` · ${v.entry.note}`}
-          {v.entry.source && (
-            <a href={v.entry.source} target="_blank" rel="noreferrer" className="ml-1 inline-flex items-center text-accent hover:underline" aria-label={t('markers.source')}>
-              <ExternalLink className="size-3" aria-hidden />
-            </a>
-          )}
+          {v.entry.source &&
+            (v.entry.source.startsWith('http') ? (
+              <a href={v.entry.source} target="_blank" rel="noreferrer" className="ml-1 inline-flex items-center text-accent hover:underline" aria-label={t('markers.source')}>
+                <ExternalLink className="size-3" aria-hidden />
+              </a>
+            ) : (
+              <span className="ml-1 text-ink-faint"> ({v.entry.source})</span>
+            ))}
         </span>
       ) : (
         <span className="text-xs text-ink-faint">· {t('markers.noDataHint')}</span>

@@ -59,7 +59,7 @@ export const skin: Tumor[] = [
     ],
     pitfalls: ['BerEP4 também é positiva em anexiais benignos e em adenocarcinomas metastáticos: use com EMA e com a morfologia.', 'A paliçada e a fenda de retração podem faltar no padrão infiltrativo e morfeiforme.'],
     molecular: 'Ativação da via Hedgehog: mutação de PTCH1 na maioria, SMO em parte (alvo de vismodegibe); assinatura de UV.',
-    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK482439/', 'https://dermnetnz.org/topics/basal-cell-carcinoma-pathology'],
+    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK482439/', 'https://dermnetnz.org/topics/basal-cell-carcinoma-pathology', 'WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)'],
   },
   {
     id: 'carcinoma-espinocelular-cutaneo',
@@ -110,7 +110,7 @@ export const skin: Tumor[] = [
     ],
     pitfalls: ['O CEC sarcomatoide pode perder todas as queratinas comuns: use um coquetel amplo mais p63/p40 antes de chamar de sarcoma.', 'Ki-67 e p53 não separam queratoacantoma de CEC bem diferenciado.'],
     molecular: 'Carga mutacional altíssima com assinatura UV: TP53, CDKN2A, NOTCH1/2, TERT promotor.',
-    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK441939/', 'https://dermnetnz.org/topics/squamous-cell-carcinoma-pathology'],
+    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK441939/', 'https://dermnetnz.org/topics/squamous-cell-carcinoma-pathology', 'WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)'],
   },
   {
     id: 'doenca-de-bowen',
@@ -155,7 +155,7 @@ export const skin: Tumor[] = [
       'Queratose actínica: atipia limitada ao terço inferior, poupando os anexos.',
     ],
     pitfalls: ['A colonização de folículos é regra e não deve ser lida como invasão.', 'Melan-A em corte de pele fotoexposta superestima melanócitos: não diagnostique melanoma in situ com Melan-A isolado.'],
-    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK459260/', 'https://dermnetnz.org/topics/bowen-disease-pathology'],
+    sources: ['WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Calonje et al., McKee’s Pathology of the Skin, 5ª ed.'],
   },
   {
     id: 'carcinoma-merkel',
@@ -206,7 +206,7 @@ export const skin: Tumor[] = [
     ],
     pitfalls: ['PAX5 e TdT positivos numa fração dos casos: nunca diagnosticar linfoma sem CD45.', 'CK20 negativa em cerca de 10%, sobretudo nos casos poliomavírus-negativos e com assinatura UV.'],
     molecular: 'Poliomavírus de Merkel integrado em cerca de 80% dos casos, ou assinatura UV com mutações de TP53 e RB1 nos vírus-negativos.',
-    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK482329/', 'https://dermnetnz.org/topics/merkel-cell-carcinoma-pathology'],
+    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK482329/', 'https://dermnetnz.org/topics/merkel-cell-carcinoma-pathology', 'WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)'],
   },
   {
     id: 'melanoma-convencional',
@@ -262,7 +262,7 @@ export const skin: Tumor[] = [
     ],
     pitfalls: ['Melanomas desdiferenciados perdem SOX10, S100 e Melan-A: se a lesão é dérmica, pleomórfica e "nula", pense em melanoma desdiferenciado ou fibroxantoma atípico.', 'PRAME também é positiva em CEC, sarcoma sinovial e seminoma: só vale dentro do contexto melanocítico.'],
     molecular: 'BRAF V600 em cerca de metade, NRAS em 15 a 20%, NF1 nos de pele danificada por sol; TERT promotor quase universal.',
-    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK470409/', 'https://dermnetnz.org/topics/melanoma-pathology'],
+    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK470409/', 'https://dermnetnz.org/topics/melanoma-pathology', 'WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)'],
   },
   {
     id: 'melanoma-desmoplasico',
@@ -310,7 +310,7 @@ export const skin: Tumor[] = [
     ],
     pitfalls: ['Pedir só Melan-A e HMB-45 numa lesão fusocelular deixa passar o melanoma desmoplásico: SOX10 é obrigatório.', 'Células de Schwann e dendríticas dérmicas são S100 positivas: use SOX10 e a densidade celular.'],
     molecular: 'Carga mutacional muito alta com assinatura UV, NF1 frequente; BRAF V600 raro.',
-    sources: ['https://pmc.ncbi.nlm.nih.gov/articles/PMC5745168/', 'https://dermnetnz.org/topics/desmoplastic-melanoma-pathology'],
+    sources: ['WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Calonje et al., McKee’s Pathology of the Skin, 5ª ed.', 'Revisões de PRAME e SOX10 em melanoma desmoplásico (Am J Surg Pathol, 2018-2021)'],
   },
   {
     id: 'nevo-melanocitico',
@@ -351,7 +351,7 @@ export const skin: Tumor[] = [
       'Melanoma spitzoide: Ki-67 dérmico alto, PRAME difusa, mitoses profundas e atípicas.',
     ],
     pitfalls: ['Nevo de Spitz pode ter mitoses e Ki-67 não desprezível na juventude: idade e morfologia mandam.', 'HMB-45 difusa em profundidade é sinal de alerta, mas o nevo azul é difusamente positivo por natureza.'],
-    sources: ['https://dermnetnz.org/topics/melanocytic-naevus-pathology', 'https://pmc.ncbi.nlm.nih.gov/articles/PMC8544464/'],
+    sources: ['WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Calonje et al., McKee’s Pathology of the Skin, 5ª ed.', 'Lezcano et al., Am J Surg Pathol 2018 (PRAME em lesões melanocíticas)'],
   },
   {
     id: 'nevo-azul',
@@ -389,7 +389,7 @@ export const skin: Tumor[] = [
       'Melanoma de nevo azul: nódulo celular com atipia, mitoses e perda de BAP1 em parte.',
     ],
     molecular: 'Mutações de GNAQ ou GNA11, as mesmas do melanoma uveal.',
-    sources: ['https://dermnetnz.org/topics/blue-naevus-pathology', 'https://www.ncbi.nlm.nih.gov/books/NBK564327/'],
+    sources: ['WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Calonje et al., McKee’s Pathology of the Skin, 5ª ed.'],
   },
   {
     id: 'carcinoma-sebaceo',
@@ -438,7 +438,7 @@ export const skin: Tumor[] = [
       'Hiperplasia sebácea e sebaceoma: lóbulos organizados com camada basaloide periférica fina, sem atipia.',
     ],
     pitfalls: ['O clone A103 de Melan-A marca células sebáceas e adrenocorticais: nunca diagnostique melanoma com A103 isolado.', 'Adipofilina precisa de fixação adequada; tecido processado em álcool pode dissolver o lipídio.'],
-    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK562144/', 'https://pmc.ncbi.nlm.nih.gov/articles/PMC6371734/'],
+    sources: ['WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Plaza & Prieto, Applied Immunohistochemistry in Dermatopathology', 'Plaza et al., Am J Dermatopathol (adipofilina no carcinoma sebáceo)'],
   },
   {
     id: 'poroma-porocarcinoma',
@@ -477,7 +477,7 @@ export const skin: Tumor[] = [
       'Hidradenoma: lóbulos maiores com células claras e escamoides, sem conexão epidérmica ampla.',
     ],
     molecular: 'Fusões YAP1::MAML2 e YAP1::NUTM1 na maioria dos poromas e porocarcinomas.',
-    sources: ['https://dermnetnz.org/topics/poroma-pathology', 'https://www.ncbi.nlm.nih.gov/books/NBK560887/'],
+    sources: ['WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Calonje et al., McKee’s Pathology of the Skin, 5ª ed.', 'Sekine et al., J Clin Invest 2019 (fusões de YAP1 em poroma e porocarcinoma)'],
   },
   {
     id: 'hidradenoma',
@@ -519,7 +519,7 @@ export const skin: Tumor[] = [
       'Melanoma de células claras (balloon cell): SOX10 positivo, queratina negativa.',
     ],
     molecular: 'Fusão CRTC1::MAML2 em parte dos hidradenomas de células claras, a mesma do carcinoma mucoepidermoide.',
-    sources: ['https://dermnetnz.org/topics/hidradenoma-pathology', 'https://www.ncbi.nlm.nih.gov/books/NBK580546/'],
+    sources: ['WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Calonje et al., McKee’s Pathology of the Skin, 5ª ed.'],
   },
   {
     id: 'espiradenoma-cilindroma',
@@ -561,7 +561,7 @@ export const skin: Tumor[] = [
       'Espiradenocarcinoma: perda abrupta da dupla população e do p63 periférico, com atipia e mitoses.',
     ],
     molecular: 'Inativação de CYLD, esporádica ou germinativa (Brooke-Spiegler); fusões MYB em parte dos cilindromas.',
-    sources: ['https://dermnetnz.org/topics/cylindroma-pathology', 'https://www.ncbi.nlm.nih.gov/books/NBK560697/'],
+    sources: ['https://dermnetnz.org/topics/cylindroma-pathology', 'WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Calonje et al., McKee’s Pathology of the Skin, 5ª ed.'],
   },
   {
     id: 'tricoepitelioma',
@@ -599,7 +599,7 @@ export const skin: Tumor[] = [
       'Carcinoma basocelular infiltrativo: atipia, mitoses atípicas e estroma mixoide, sem corpos papilares.',
     ],
     pitfalls: ['Nenhum marcador isolado separa tricoepitelioma de basocelular com certeza: use PHLDA1, CD10, CD34 e CK20 em painel, sempre com a arquitetura.'],
-    sources: ['https://dermnetnz.org/topics/trichoepithelioma-pathology', 'https://pmc.ncbi.nlm.nih.gov/articles/PMC4144227/'],
+    sources: ['https://dermnetnz.org/topics/trichoepithelioma-pathology', 'WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Sellheyer et al. (PHLDA1 no tricoepitelioma vs carcinoma basocelular)'],
   },
   {
     id: 'pilomatricoma',
@@ -638,7 +638,7 @@ export const skin: Tumor[] = [
       'Cisto epidermoide roto: sem células basaloides matriciais nem β-catenina nuclear.',
     ],
     molecular: 'Mutação ativadora de CTNNB1 (β-catenina) em quase todos os casos.',
-    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK499993/', 'https://dermnetnz.org/topics/pilomatricoma-pathology'],
+    sources: ['https://dermnetnz.org/topics/pilomatricoma-pathology', 'WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Calonje et al., McKee’s Pathology of the Skin, 5ª ed.'],
   },
   {
     id: 'siringoma',
@@ -680,7 +680,7 @@ export const skin: Tumor[] = [
       'Carcinoma basocelular morfeiforme: BerEP4 positiva, sem ductos CEA positivos com duas camadas.',
       'Tricoepitelioma desmoplásico: cistos córneos e corpos papilares, sem ductos verdadeiros.',
     ],
-    sources: ['https://dermnetnz.org/topics/syringoma-pathology', 'https://www.ncbi.nlm.nih.gov/books/NBK560508/'],
+    sources: ['WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Calonje et al., McKee’s Pathology of the Skin, 5ª ed.'],
   },
   {
     id: 'carcinoma-anexial-microcistico',
@@ -718,7 +718,7 @@ export const skin: Tumor[] = [
       'Metástase de carcinoma mamário ou de células escamosas: história clínica, GATA3/ER.',
     ],
     pitfalls: ['A citologia branda engana em biópsia superficial: sem o fundo da lesão o diagnóstico passa por siringoma.'],
-    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK560548/', 'https://dermnetnz.org/topics/microcystic-adnexal-carcinoma-pathology'],
+    sources: ['WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Calonje et al., McKee’s Pathology of the Skin, 5ª ed.'],
   },
   {
     id: 'paget-extramamaria',
@@ -767,7 +767,7 @@ export const skin: Tumor[] = [
       'Carcinoma sebáceo pagetoide na pálpebra: adipofilina e AR positivos.',
     ],
     pitfalls: ['Células claras benignas de Toker no mamilo e na vulva também são CK7 positivas: a atipia e a mucina decidem.'],
-    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK563293/', 'https://dermnetnz.org/topics/extramammary-paget-disease-pathology'],
+    sources: ['https://dermnetnz.org/topics/extramammary-paget-disease-pathology', 'WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Plaza & Prieto, Applied Immunohistochemistry in Dermatopathology'],
   },
   {
     id: 'dermatofibroma',
@@ -806,7 +806,7 @@ export const skin: Tumor[] = [
       'Melanoma desmoplásico: SOX10 positivo.',
     ],
     pitfalls: ['Variantes celulares e atípicas recidivam e podem preocupar; o padrão CD34/FXIIIa pode ser ambíguo na periferia.'],
-    sources: ['https://dermnetnz.org/topics/dermatofibroma-pathology', 'https://www.ncbi.nlm.nih.gov/books/NBK470538/'],
+    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK470538/', 'WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Calonje et al., McKee’s Pathology of the Skin, 5ª ed.'],
   },
   {
     id: 'dfsp',
@@ -849,7 +849,7 @@ export const skin: Tumor[] = [
       'Fibrossarcoma cutâneo: sempre procurar componente DFSP residual e testar COL1A1::PDGFB.',
     ],
     molecular: 'Fusão COL1A1::PDGFB por t(17;22), quase sempre como cromossomo em anel; base do tratamento com imatinibe.',
-    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK559111/', 'https://dermnetnz.org/topics/dermatofibrosarcoma-protuberans-pathology'],
+    sources: ['https://dermnetnz.org/topics/dermatofibrosarcoma-protuberans-pathology', 'WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Goldblum, Folpe & Weiss, Enzinger & Weiss\'s Soft Tissue Tumors, 7ª ed.'],
   },
   {
     id: 'fibroxantoma-atipico',
@@ -895,7 +895,7 @@ export const skin: Tumor[] = [
     ],
     pitfalls: ['É diagnóstico de exclusão: laudar sem o painel completo é o erro clássico.', 'CD10 positivo não confirma nada: CEC e dermatofibroma também marcam.'],
     molecular: 'Assinatura UV com TP53 mutado e alta carga mutacional; sem alteração definidora.',
-    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK526040/', 'https://dermnetnz.org/topics/atypical-fibroxanthoma-pathology'],
+    sources: ['WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Goldblum, Folpe & Weiss, Enzinger & Weiss\'s Soft Tissue Tumors, 7ª ed.', 'Calonje et al., McKee’s Pathology of the Skin, 5ª ed.'],
   },
   {
     id: 'angiossarcoma-cutaneo',
@@ -943,7 +943,7 @@ export const skin: Tumor[] = [
     ],
     pitfalls: ['O angiossarcoma epitelioide expressa queratina em até 1/3: sem ERG/CD31 vira carcinoma metastático.', 'CD31 marca macrófagos; ERG é mais limpo.'],
     molecular: 'Amplificação de MYC nos secundários a radioterapia e linfedema; alterações de KDR e PLCG1 nos primários.',
-    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK519034/', 'https://pmc.ncbi.nlm.nih.gov/articles/PMC5563455/'],
+    sources: ['WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Goldblum, Folpe & Weiss, Enzinger & Weiss\'s Soft Tissue Tumors, 7ª ed.'],
   },
   {
     id: 'sarcoma-kaposi',
@@ -989,7 +989,7 @@ export const skin: Tumor[] = [
       'Angiomatose bacilar: aglomerados bacilares com Warthin-Starry, neutrófilos, HHV-8 negativo.',
     ],
     molecular: 'Infecção por herpesvírus humano 8 (HHV-8 / KSHV) em todas as formas.',
-    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK534839/', 'https://dermnetnz.org/topics/kaposi-sarcoma-pathology'],
+    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK534839/', 'https://dermnetnz.org/topics/kaposi-sarcoma-pathology', 'WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)'],
   },
   {
     id: 'hemangioma-cutaneo',
@@ -1026,7 +1026,7 @@ export const skin: Tumor[] = [
       'Angiossarcoma bem diferenciado: infiltração dissecante do colágeno com atipia endotelial.',
       'Malformação vascular: canais de parede irregular, sem lobulação nem fase proliferativa, GLUT1 negativo.',
     ],
-    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK556077/', 'https://dermnetnz.org/topics/pyogenic-granuloma-pathology'],
+    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK556077/', 'WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Goldblum, Folpe & Weiss, Enzinger & Weiss\'s Soft Tissue Tumors, 7ª ed.'],
   },
   {
     id: 'leiomioma-cutaneo',
@@ -1071,6 +1071,6 @@ export const skin: Tumor[] = [
       'PEComa cutâneo: HMB-45 e Melan-A positivos.',
     ],
     molecular: 'Perda bialélica de FH nos casos sindrômicos (HLRCC); esporádicos sem alteração definidora.',
-    sources: ['https://www.ncbi.nlm.nih.gov/books/NBK560523/', 'https://dermnetnz.org/topics/leiomyoma-pathology'],
+    sources: ['WHO Classification of Tumours, 4ª ed.: Skin Tumours (2018)', 'Goldblum, Folpe & Weiss, Enzinger & Weiss\'s Soft Tissue Tumors, 7ª ed.'],
   },
 ]
