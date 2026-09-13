@@ -308,6 +308,7 @@ export const MARKERS: Marker[] = [
   { id: 'ecaderina', label: 'E-caderina', group: 'epitelial', pattern: 'M', hint: 'Membranosa em epitélios; perdida no carcinoma lobular e no gástrico difuso.' },
   { id: 'p120', label: 'p120 catenina', group: 'epitelial', pattern: 'M', hint: 'Membranosa no ductal; citoplasmática no lobular (redistribui quando E-caderina é perdida).' },
   { id: 'muc5ac', label: 'MUC5AC', group: 'epitelial', pattern: 'C', hint: 'Mucina gástrica foveolar: pancreatobiliar, gástrico, mucinoso pulmonar e ovariano.' },
+  { id: 'muc6', label: 'MUC6', group: 'epitelial', pattern: 'C', hint: 'Mucina pilórica e de glândulas profundas: adenocarcinoma endocervical de tipo gástrico, pancreatobiliar, IPMN gástrico.' },
   { id: 'muc2', label: 'MUC2', group: 'epitelial', pattern: 'C', hint: 'Mucina intestinal (caliciformes): colorretal, mucinoso.' },
   { id: 'gcdfp15', label: 'GCDFP-15', group: 'epitelial', pattern: 'C', hint: 'Apócrino: mama, salivares, sudoríparas.' },
   { id: 'mamaglobina', label: 'Mamaglobina', group: 'epitelial', pattern: 'C', hint: 'Mama; também carcinoma secretor salivar e endométrio.' },
