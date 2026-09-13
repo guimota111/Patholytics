@@ -50,7 +50,7 @@ export const kidneyurothelial: Tumor[] = [
     ],
     markers: [
       { marker: 'pax8', pct: [90, 100], note: 'o marcador de origem renal por excelência' },
-      { marker: 'caix', pct: [90, 100], note: 'padrão em caixa difuso; nos outros RCC é só perinecrótico' },
+      { marker: 'caix', pct: [85, 95], note: 'padrão em caixa difuso; nos outros RCC é só perinecrótico', source: 'Séries de imuno-histoquímica em RCC: positividade de 88% (68/77) no de células claras' },
       { marker: 'cd10', pct: [85, 95] },
       { marker: 'vimentina', pct: [85, 95] },
       { marker: 'ae1ae3', pct: [80, 95] },

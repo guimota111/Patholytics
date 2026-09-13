@@ -51,7 +51,7 @@ export const ovary: Tumor[] = [
     ],
     markers: [
       { marker: 'pax8', pct: [90, 100] },
-      { marker: 'p53', pct: [90, 100], note: 'aberrante; o padrão selvagem praticamente exclui o diagnóstico' },
+      { marker: 'p53', pct: [95, 100], note: 'aberrante; o padrão selvagem praticamente exclui o diagnóstico, mas cerca de 4% têm TP53 mutado com imuno selvagem', source: 'Köbel et al., J Pathol Clin Res 2:247 (2016), p53 otimizado como preditor de TP53 mutado' },
       { marker: 'wt1', pct: [80, 95] },
       { marker: 'ck7', pct: [95, 100] },
       { marker: 'p16', pct: [70, 90], note: 'em bloco, sem HPV' },

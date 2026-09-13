@@ -580,7 +580,7 @@ export const softtissue: Tumor[] = [
       'Variante gordurosa e variante de células gigantes (antigo angiofibroma de células gigantes) entram na mesma família.',
     ],
     markers: [
-      { marker: 'stat6', pct: [90, 100], note: 'nuclear; praticamente definidora nesse contexto' },
+      { marker: 'stat6', pct: [95, 100], note: 'nuclear; praticamente definidora nesse contexto', source: 'Doyle et al., Mod Pathol 27:390 (2014): 59 de 60 casos (98%)' },
       { marker: 'cd34', pct: [85, 95], note: 'pode ser perdida nas áreas desdiferenciadas' },
       { marker: 'bcl2', pct: [70, 90] },
       { marker: 'cd99', pct: [60, 85] },
@@ -921,7 +921,7 @@ export const softtissue: Tumor[] = [
       'Atipia acentuada, mitoses acima de 3 por 5 mm² e necrose marcam a forma de alto risco.',
     ],
     markers: [
-      { marker: 'camta1', pct: [85, 95], note: 'nuclear; definidora na forma clássica' },
+      { marker: 'camta1', pct: [80, 90], note: 'nuclear; os negativos costumam carregar a fusão alternativa YAP1::TFE3, e nesses o TFE3 é que marca', source: 'Séries comparando CAMTA1 por imuno com FISH de WWTR1::CAMTA1 (sensibilidade de 80 a 88%)' },
       { marker: 'erg', pct: [95, 100] },
       { marker: 'cd31', pct: [90, 100] },
       { marker: 'cd34', pct: [50, 80] },

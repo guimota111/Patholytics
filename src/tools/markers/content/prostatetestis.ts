@@ -64,7 +64,7 @@ export const prostatetestis: Tumor[] = [
       { marker: 'ck7', pct: [10, 30] },
       { marker: 'ck20', pct: [0, 10] },
       { marker: 'gata3', pct: [0, 10], note: 'o negativo que separa de urotelial' },
-      { marker: 'erg', pct: [40, 55], note: 'nuclear; reflete a fusão TMPRSS2-ERG e prova neoplasia quando positivo' },
+      { marker: 'erg', pct: [35, 50], note: 'nuclear; reflete a fusão TMPRSS2::ERG e prova neoplasia quando positivo. A frequência varia com a população: cerca de 50% em europeus e bem menos em homens de ascendência africana', source: 'Coortes em microarranjo com ERG por imuno em torno de 34%; meta-análise de diferenças raciais em Am J Epidemiol 186:1352 (2017)' },
       { marker: 'pten', pct: [20, 40], note: 'o positivo é a perda; associada a pior prognóstico' },
       { marker: 'p53', pct: [10, 30] },
       { marker: 'ki67', pct: [2, 20] },

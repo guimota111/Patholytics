@@ -184,7 +184,7 @@ export const salivarythyroid: Tumor[] = [
       'MYB nuclear ou rearranjo MYB::NFIB apoiam quando a morfologia é limítrofe.',
     ],
     markers: [
-      { marker: 'myb', pct: [70, 90], note: 'reflete a fusão MYB::NFIB ou MYBL1' },
+      { marker: 'myb', pct: [70, 90], note: 'reflete a fusão MYB::NFIB ou MYBL1. Fortemente dependente do clone e do ponto de corte: as séries vão de 26 a 97%, então valide o seu anticorpo antes de confiar num negativo' },
       { marker: 'cd117', pct: [85, 100], note: 'luminal; sensível mas nada específica' },
       { marker: 'p63', pct: [90, 100], note: 'abluminal, padrão em cesto ao redor das cribras' },
       { marker: 'p40', pct: [85, 100] },

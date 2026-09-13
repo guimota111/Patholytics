@@ -56,7 +56,7 @@ export const thorax: Tumor[] = [
       'Testar EGFR, ALK, ROS1, BRAF, KRAS G12C e PD-L1 nos avançados: o resultado muda o tratamento de primeira linha.',
     ],
     markers: [
-      { marker: 'ttf1', pct: [75, 85], note: 'clone 8G7G3/1; com SPT24 chega a 90% mas perde especificidade' },
+      { marker: 'ttf1', pct: [65, 85], note: 'clone 8G7G3/1 (65 a 82% nas séries comparativas); o SPT24 sobe para cerca de 85%, com menos especificidade', source: 'Comparison of Three Different TTF-1 Clones in Resected Primary Lung Cancer, Am J Clin Pathol 150:533 (2018)' },
       { marker: 'napsina', pct: [70, 85], note: 'mais específica que TTF-1 para adenocarcinoma pulmonar' },
       { marker: 'ck7', pct: [90, 100] },
       { marker: 'ae1ae3', pct: [95, 100] },

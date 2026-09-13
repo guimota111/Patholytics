@@ -51,7 +51,7 @@ export const hepatopancreatic: Tumor[] = [
     ],
     markers: [
       { marker: 'arginase', pct: [85, 95], note: 'a mais sensível, inclusive nos pouco diferenciados' },
-      { marker: 'heppar1', pct: [80, 90], note: 'cai bastante nos pouco diferenciados' },
+      { marker: 'heppar1', pct: [70, 90], note: 'a queda nos pouco diferenciados é grande: 83% nos moderados contra 46% nos pouco diferenciados, contra 86% da arginase', source: 'Yan et al., Am J Surg Pathol 34:1147 (2010), arginase-1 contra HepPar-1' },
       { marker: 'cd10', pct: [60, 80], pattern: 'M', note: 'padrão canalicular; é o padrão que conta' },
       { marker: 'cea', pct: [60, 85], pattern: 'M', note: 'CEA policlonal em padrão canalicular; o monoclonal é negativo' },
       { marker: 'glipicano3', pct: [70, 85], note: 'negativo em adenoma e em cirrose, o que o torna útil' },
