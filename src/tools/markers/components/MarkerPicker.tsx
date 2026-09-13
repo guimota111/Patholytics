@@ -12,7 +12,7 @@ import { cn } from '@/lib/cn'
 import { normalize, type MarkerInput, type Result } from '../match'
 import { MARKERS, PATTERN_LABELS, findMarker, type Marker, type Pattern } from '../types'
 
-const QUICK: string[] = ['ae1ae3', 'ck7', 'ck20', 'ttf1', 'cdx2', 'gata3', 'pax8', 'p40', 'er', 's100', 'sox10', 'cd45', 'sinaptofisina', 'cromogranina', 'vimentina', 'desmina', 'sma', 'cd34', 'cd31', 'cd117', 'ki67', 'p53', 'p16', 'ini1']
+const QUICK: string[] = ['ae1ae3', 'ck7', 'ck20', 'ttf1', 'cdx2', 'gata3', 'pax8', 'p40', 'er', 's100', 'sox10', 'cd45', 'sinaptofisina', 'cromogranina', 'vimentina', 'desmina', 'miogenina', 'sma', 'cd34', 'cd31', 'cd117', 'cd99', 'ki67', 'p53', 'p16', 'ini1']
 const PATTERNS: Pattern[] = ['N', 'C', 'M', 'NC', 'CM', 'dot']
 
 interface Props {
