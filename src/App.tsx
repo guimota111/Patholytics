@@ -32,6 +32,8 @@ const BugCatalogPage = lazy(() => import('@/pages/tools/BugCatalog'))
 const ForeignCatalogPage = lazy(() => import('@/pages/tools/ForeignCatalog'))
 const CystNamerPage = lazy(() => import('@/pages/tools/CystNamer'))
 const MarkerHelperPage = lazy(() => import('@/pages/tools/MarkerHelper'))
+const AlgorithmsPage = lazy(() => import('@/pages/tools/Algorithms'))
+const AlgorithmPage = lazy(() => import('@/pages/tools/Algorithm'))
 
 export default function App() {
   const { t } = useTranslation()
@@ -103,6 +105,8 @@ export default function App() {
             <Route path="/tools/corpos-estranhos/:entryId" element={<ForeignCatalogPage />} />
             <Route path="/tools/cistos" element={<CystNamerPage />} />
             <Route path="/tools/marcadores" element={<MarkerHelperPage />} />
+            <Route path="/tools/algoritmos" element={<AlgorithmsPage />} />
+            <Route path="/tools/algoritmos/:algorithmId" element={<AlgorithmPage />} />
           </Route>
 
           <Route path="*" element={<NotFoundPage />} />

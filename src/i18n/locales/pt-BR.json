@@ -267,6 +267,10 @@
       "name": "Marker Helper",
       "description": "Transforma uma morfologia em diferencial ranqueado e painel de imuno-histoquímica direcionado."
     },
+    "algorithms": {
+      "name": "Algoritmos diferenciais",
+      "description": "Algoritmos vivos para uma situação de cada vez: responda o que a lâmina e a imuno mostram e veja os candidatos se reordenarem. Começa pelas neoplasias oncocíticas do rim."
+    },
     "ki67": {
       "name": "Ki-67 Calculator",
       "description": "Índice de proliferação em hotspot a partir de um campo enviado, com a contagem aberta a correção."
@@ -1909,5 +1913,85 @@
     "nextHint": "Marcadores que mais separam os candidatos do topo. O número é a porcentagem esperada em cada um.",
     "disclaimer": "Ferramenta de apoio ao raciocínio: as porcentagens vêm da literatura citada em cada verbete e variam com clone, fixação e recuperação antigênica. A lista não substitui a correlação com a clínica, a lâmina inteira e os controles do seu laboratório.",
     "plausibilityHint": "Plausibilidade em relação ao primeiro colocado"
+  },
+  "algorithms": {
+    "subtitle": "Ferramentas menores e mais precisas que o Marker Helper: cada algoritmo cobre uma situação só, com as perguntas que importam nela. Responda o que a lâmina e a imuno mostram, na ordem que quiser; a lista de candidatos se reordena a cada resposta e a ferramenta aponta a próxima pergunta que mais separa os que sobraram.",
+    "count_one": "algoritmo",
+    "count_other": "algoritmos",
+    "nEntities": "{{n}} entidades",
+    "nQuestions": "{{n}} perguntas",
+    "scopeLabel": "Quando usar:",
+    "revised": "Revisado em {{date}}",
+    "remove": "Tirar",
+    "clearAll": "limpar tudo",
+    "clearQuestion": "limpar",
+    "suggested": "próximo passo",
+    "groupHint": {
+      "clinica": "O que vem no pedido e na macroscopia. Nada é obrigatório: responda o que você tem.",
+      "morfologia": "O que você vê no HE. A arquitetura dominante é a primeira divisão do algoritmo; o resto refina.",
+      "imuno": "Marque só o que foi feito. Cada resultado sobe os candidatos que o mostram e desce os que não o mostram.",
+      "molecular": "Se já houver resultado de sequenciamento, FISH ou cariótipo."
+    },
+    "conclusionTitle": "Até agora",
+    "conclusionNone": "Responda o que você tem: a lista reage a cada resposta.",
+    "conclusionOpen": "Em aberto: {{name}} lidera, com {{n}} ainda em jogo.",
+    "conclusionAllExcluded": "Nenhum candidato combina com tudo o que foi respondido. Reveja uma resposta ou use a categoria de escape, no fim da página.",
+    "conclusionFavours": "Favorece {{name}}. Ainda em jogo: {{rivals}}.",
+    "noRivals": "nenhum outro",
+    "conclusionStrong": "O perfil fecha com {{name}}. Confira os critérios no verbete antes de laudar.",
+    "nAnswered": "{{n}} respostas dadas",
+    "candidatesTitle": "Candidatos",
+    "candidatesHint": "Do mais ao menos plausível. Clique para abrir o verbete e ver o que bateu.",
+    "nExcluded": "{{n}} praticamente excluídos",
+    "standing": {
+      "lider": "líder",
+      "em-jogo": "em jogo",
+      "improvavel": "improvável",
+      "excluido": "excluído"
+    },
+    "verdict": {
+      "bate": "bate",
+      "possivel": "possível",
+      "contra": "contra",
+      "exclui": "exclui"
+    },
+    "likelihood": {
+      "tipico": "típico desta entidade",
+      "comum": "comum nesta entidade",
+      "possivel": "possível nesta entidade",
+      "raro": "raro nesta entidade",
+      "nunca": "praticamente nunca nesta entidade"
+    },
+    "nFit": "{{n}} bate",
+    "nAgainst": "{{n}} contra",
+    "nExcludes": "{{n}} exclui",
+    "plausibilityHint": "Plausibilidade em relação ao primeiro colocado",
+    "nextTitle": "Próximo passo",
+    "nextHint": "A pergunta ainda não respondida que mais separa os candidatos do topo, e o que se espera em cada um.",
+    "nextEmpty": "Nenhuma pergunta restante separa os candidatos do topo.",
+    "nextSettled": "Só um candidato segue em jogo. Confira os critérios no verbete.",
+    "rowAnswers": "Suas respostas",
+    "rowKeys": "O que define",
+    "rowIhc": "Imuno",
+    "rowMolecular": "Molecular",
+    "rowBehavior": "Comportamento",
+    "rowPitfalls": "Armadilhas",
+    "rowSources": "Fontes",
+    "schemaTitle": "Esquema do algoritmo",
+    "schemaHint": "Os ramos do algoritmo clássico, acesos pelas suas respostas: ativo quando tudo o que o ramo pede foi respondido e bate, parcial quando bate mas falta responder algo, fechado quando uma resposta o contradiz.",
+    "branch": {
+      "ativo": "ativo",
+      "parcial": "parcial",
+      "aberto": "não avaliado",
+      "fechado": "fechado"
+    },
+    "adviceTitle": "Conselhos de bancada",
+    "fallbackTitle": "Se nada fecha",
+    "sourcesTitle": "Fontes",
+    "notFound": "Algoritmo não encontrado",
+    "notFoundBody": "O identificador do endereço não corresponde a nenhum algoritmo.",
+    "backToList": "Voltar aos algoritmos",
+    "disclaimer": "Ferramenta de apoio ao raciocínio: as frequências vêm da literatura citada em cada algoritmo e resumem séries pequenas em várias entidades novas. A lista não substitui a correlação com a clínica, a lâmina inteira, os controles do seu laboratório e, quando a entidade exige, a confirmação molecular.",
+    "nextStart": "Comece por onde quiser (a arquitetura dominante e CK7 com CD117 costumam render mais). A partir da primeira resposta, aparece aqui a pergunta que mais separa os candidatos."
   }
 }
