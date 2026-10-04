@@ -50,11 +50,39 @@ export interface CalculatorResult {
   warnings?: string[]
 }
 
+export type OrganId =
+  | 'breast'
+  | 'prostate'
+  | 'lung'
+  | 'stomach'
+  | 'colon'
+  | 'liver'
+  | 'pancreas'
+  | 'gallbladder'
+  | 'kidney'
+  | 'bladder'
+  | 'uterus'
+  | 'ovary'
+  | 'vulva'
+  | 'thyroid'
+  | 'skin'
+  | 'bone'
+  | 'soft_tissue'
+  | 'head_neck'
+  | 'esophagus'
+  | 'adrenal'
+  | 'thymus'
+  | 'anus'
+  | 'appendix'
+  | 'testis'
+  | 'penis'
+
 export interface Calculator {
   id: string
   name: string
   section: string
   system: string
+  organId?: OrganId
   version?: string
   reference?: string
   summary?: string

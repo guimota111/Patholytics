@@ -1,9 +1,9 @@
 import { useEffect, useRef, type KeyboardEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronLeft, ChevronRight, SlidersHorizontal } from 'lucide-react'
+import { ChevronLeft, ChevronRight, FlaskConical, SlidersHorizontal } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/cn'
-import { colLabel, coordOf, rowLabel, type CoreAnswers, type TmaField } from '../types'
+import { CONTROL_PRESETS, MAX_CONTROL_LABEL, colLabel, coordOf, rowLabel, type CoreAnswers, type TmaField } from '../types'
 
 interface TmaFocusProps {
   core: [number, number]
@@ -11,8 +11,11 @@ interface TmaFocusProps {
   total: number
   fields: TmaField[]
   answers: CoreAnswers
+  /** Rótulo do controle quando este core é um; null quando é caso. */
+  control: string | null
   atLast: boolean
   onAnswer: (fieldId: string, value: string) => void
+  onControl: (label: string | null) => void
   onPrevious: () => void
   onNext: () => void
   onEditFields: () => void
@@ -28,8 +31,10 @@ export function TmaFocus({
   total,
   fields,
   answers,
+  control,
   atLast,
   onAnswer,
+  onControl,
   onPrevious,
   onNext,
   onEditFields,
@@ -52,14 +57,21 @@ export function TmaFocus({
   }
 
   const single = fields.length === 1
+  const isControl = control !== null
+  const defaultControl = t('tma.controlDefault')
 
   return (
     <div className="rounded-lg border border-line bg-elevated shadow-card">
       <div className="flex items-start justify-between gap-3 border-b border-line px-5 py-4">
         <div>
           <p className="text-xs tracking-wider text-ink-faint uppercase">{t('tma.currentCore')}</p>
-          <p className="tabular mt-1 text-2xl font-semibold tracking-tight text-accent-ink">
+          <p className="tabular mt-1 flex items-center gap-2 text-2xl font-semibold tracking-tight text-accent-ink">
             {coordOf(row, col)}
+            {isControl && (
+              <span className="rounded-full border border-warning/40 bg-warning-soft px-2 py-0.5 text-xs font-medium tracking-normal text-warning">
+                {t('tma.controlTitle', { label: control })}
+              </span>
+            )}
           </p>
           <p className="mt-1 text-xs text-ink-faint">
             {t('tma.position', {
@@ -81,6 +93,54 @@ export function TmaFocus({
       </div>
 
       <div className="space-y-4 px-5 py-5" onKeyDown={handleKeyDown}>
+        <div className="space-y-1.5">
+          <p className="flex items-center gap-1.5 text-sm font-medium text-ink">
+            <FlaskConical className="size-3.5 text-ink-faint" aria-hidden />
+            {t('tma.controlLabel')}
+          </p>
+          <div role="group" aria-label={t('tma.controlLabel')} className="flex flex-wrap items-center gap-1.5">
+            {CONTROL_PRESETS.map((preset) => {
+              const label = `${defaultControl} ${preset}`
+              const active = control === label
+              return (
+                <button
+                  key={preset}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() => onControl(active ? null : label)}
+                  className={cn(
+                    'rounded-md border-2 px-3 py-1.5 text-sm font-medium transition-colors',
+                    active
+                      ? 'border-warning bg-warning-soft text-warning'
+                      : 'border-line bg-surface text-ink-muted hover:border-line-strong hover:text-ink',
+                  )}
+                >
+                  {label}
+                </button>
+              )
+            })}
+            <input
+              type="text"
+              value={isControl && !CONTROL_PRESETS.some((preset) => control === `${defaultControl} ${preset}`) ? control : ''}
+              maxLength={MAX_CONTROL_LABEL}
+              onChange={(event) => onControl(event.target.value.trim() ? event.target.value : null)}
+              placeholder={t('tma.controlPlaceholder')}
+              aria-label={t('tma.controlOther')}
+              className="min-w-40 flex-1 rounded-md border border-line bg-surface px-3 py-1.5 text-sm text-ink transition-colors placeholder:text-ink-faint hover:border-line-strong"
+            />
+            {isControl && (
+              <button
+                type="button"
+                onClick={() => onControl(null)}
+                className="rounded-md px-2 py-1.5 text-xs text-ink-muted transition-colors hover:bg-raised hover:text-ink"
+              >
+                {t('tma.controlClear')}
+              </button>
+            )}
+          </div>
+          <p className="text-xs text-ink-faint">{t('tma.controlHint')}</p>
+        </div>
+
         {fields.map((field, i) => {
           const value = answers[field.id] ?? ''
           const inputId = `tma-field-${field.id}`

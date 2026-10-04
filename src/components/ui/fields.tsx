@@ -136,7 +136,7 @@ export function Toggle({
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className="size-4 rounded border-line accent-[var(--color-accent)]"
+        className="size-4 shrink-0 rounded border-line accent-[var(--color-accent)]"
       />
       {label}
     </label>

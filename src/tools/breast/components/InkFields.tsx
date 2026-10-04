@@ -56,8 +56,9 @@ export function InkFields({ inks, onChange, defaults, onSaveDefaults, onApplyDef
 
       {onSaveDefaults && (
         <div className="flex flex-wrap items-center gap-2">
-          <Button type="button" size="sm" variant="secondary" onClick={onSaveDefaults} disabled={isDefault}>
-            <Save className="size-4" aria-hidden />
+          {/* Rótulo longo: em 320 px ele passava da borda numa linha só. */}
+          <Button type="button" size="sm" variant="secondary" wrap onClick={onSaveDefaults} disabled={isDefault}>
+            <Save className="size-4 shrink-0" aria-hidden />
             {t(isDefault ? 'breast.inks.savedDefault' : 'breast.inks.saveDefault')}
           </Button>
           {defaults && !isDefault && onApplyDefaults && (

@@ -123,7 +123,7 @@ export default function ProstateMapperPage() {
                 <div className="px-5 py-5">
                   <Suspense
                     fallback={
-                      <div className="flex h-[420px] items-center justify-center">
+                      <div className="flex h-[19rem] items-center justify-center sm:h-[420px]">
                         <Spinner />
                       </div>
                     }

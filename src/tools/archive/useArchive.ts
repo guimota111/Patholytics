@@ -1,13 +1,13 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useAuth } from '@/hooks/useAuth'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   createNode,
   deleteNodes,
   importNodes,
   incrementCopyCount,
-  seedCategories,
   subscribeToArchive,
   updateNode,
+  type ArchiveSpace,
+  type CreateInput,
 } from './service'
 import {
   buildIndex,
@@ -17,7 +17,6 @@ import {
   type ArchiveExport,
   type ArchiveIndex,
   type ArchiveNode,
-  type NodeType,
 } from './types'
 
 export interface SearchHit {
@@ -26,31 +25,36 @@ export interface SearchHit {
   matchContent: boolean
 }
 
-/** Estado do arquivo do usuário, sincronizado em tempo real com o Firestore. */
-export function useArchive(seedLabels: string[]) {
-  const { user } = useAuth()
-  const uid = user?.uid ?? null
+/** Quem assina o que for publicado neste espaço (só o catálogo usa). */
+export interface Signature {
+  uid: string
+  name: string
+}
 
+export type ArchiveSpaceState = ReturnType<typeof useArchiveSpace>
+
+/**
+ * Um espaço do arquivo — a biblioteca do usuário ou o catálogo compartilhado —
+ * sincronizado em tempo real com o Firestore. A página monta um por espaço; as
+ * derivações (índice, favoritos, tags, busca) são as mesmas para os dois.
+ */
+export function useArchiveSpace(space: ArchiveSpace | null, signature: Signature | null = null) {
   const [nodes, setNodes] = useState<ArchiveNode[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
-  const seeded = useRef(false)
+
+  // `space` é um objeto novo a cada render; a identidade que importa é a chave.
+  const spaceKey = space ? (space.kind === 'catalog' ? 'catalog' : `library:${space.uid}`) : ''
 
   useEffect(() => {
-    if (!uid) return
+    if (!space) return
     setLoading(true)
     setError(null)
-    seeded.current = false
     const unsubscribe = subscribeToArchive(
-      uid,
+      space,
       (items) => {
         setNodes(items)
         setLoading(false)
-        // Primeira abertura: dá uma estrutura inicial em vez de uma árvore vazia.
-        if (items.length === 0 && !seeded.current) {
-          seeded.current = true
-          seedCategories(uid, seedLabels).catch((e: Error) => setError(e))
-        }
       },
       (e) => {
         setError(e)
@@ -58,14 +62,16 @@ export function useArchive(seedLabels: string[]) {
       },
     )
     return unsubscribe
-    // seedLabels só importa na primeira abertura; não reassina ao trocar idioma.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [uid])
+  }, [spaceKey])
 
   const index: ArchiveIndex = useMemo(() => buildIndex(nodes), [nodes])
 
   const favorites = useMemo(
-    () => nodes.filter((n) => n.favorite && n.type !== 'category').sort((a, b) => b.copyCount - a.copyCount || a.label.localeCompare(b.label, 'pt-BR')),
+    () =>
+      nodes
+        .filter((n) => n.favorite && n.type !== 'category')
+        .sort((a, b) => b.copyCount - a.copyCount || a.label.localeCompare(b.label, 'pt-BR')),
     [nodes],
   )
 
@@ -84,7 +90,8 @@ export function useArchive(seedLabels: string[]) {
         const inLabel = norm(n.label).includes(q)
         const inContent = n.type !== 'category' && norm(n.content).includes(q)
         const inTags = n.tags.some((t) => norm(t).includes(q))
-        if (inLabel || inContent || inTags) hits.push({ node: n, matchContent: !inLabel && inContent })
+        const inAuthor = norm(n.authorName).includes(q)
+        if (inLabel || inContent || inTags || inAuthor) hits.push({ node: n, matchContent: !inLabel && inContent })
       }
       hits.sort((a, b) => {
         const ac = a.node.type === 'category'
@@ -97,44 +104,51 @@ export function useArchive(seedLabels: string[]) {
     [nodes],
   )
 
-  const requireUid = () => {
-    if (!uid) throw new Error('not signed in')
-    return uid
+  const requireSpace = () => {
+    if (!space) throw new Error('not signed in')
+    return space
   }
 
+  /** No catálogo, toda folha nasce assinada por quem a publicou. */
   const add = useCallback(
-    (input: { parentId: string; type: NodeType; label: string; content?: string; icon?: string; tags?: string[] }) =>
-      createNode(requireUid(), input),
+    (input: CreateInput) => {
+      const target = requireSpace()
+      const signed =
+        target.kind === 'catalog' && input.type !== 'category' && signature
+          ? { ...input, author: { uid: signature.uid, name: signature.name } }
+          : input
+      return createNode(target, signed)
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [uid],
+    [spaceKey, signature?.uid, signature?.name],
   )
 
   const update = useCallback(
     (id: string, changes: Partial<Pick<ArchiveNode, 'label' | 'content' | 'icon' | 'tags' | 'favorite'>>) =>
-      updateNode(requireUid(), id, changes),
+      updateNode(requireSpace(), id, changes),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [uid],
+    [spaceKey],
   )
 
   const move = useCallback(
     (id: string, targetId: string) => {
       if (!canMoveInto(id, targetId, index)) return Promise.resolve()
-      return updateNode(requireUid(), id, { parentId: targetId })
+      return updateNode(requireSpace(), id, { parentId: targetId })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [uid, index],
+    [spaceKey, index],
   )
 
   const remove = useCallback(
-    (id: string) => deleteNodes(requireUid(), [id, ...descendantsOf(id, index)]),
+    (id: string) => deleteNodes(requireSpace(), [id, ...descendantsOf(id, index)]),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [uid, index],
+    [spaceKey, index],
   )
 
   const countCopy = useCallback(
-    (id: string) => incrementCopyCount(requireUid(), id),
+    (id: string) => incrementCopyCount(requireSpace(), id),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [uid],
+    [spaceKey],
   )
 
   const exportAll = useCallback((): ArchiveExport => {
@@ -152,18 +166,19 @@ export function useArchive(seedLabels: string[]) {
         tags: n.tags,
         copyCount: n.copyCount,
         favorite: n.favorite,
+        ...(n.authorName ? { authorUid: n.authorUid, authorName: n.authorName } : {}),
       })),
     }
   }, [nodes])
 
   const importAll = useCallback(
-    (data: ArchiveExport) => importNodes(requireUid(), data.nodes, nodes),
+    (data: ArchiveExport) => importNodes(requireSpace(), data.nodes, nodes),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [uid, nodes],
+    [spaceKey, nodes],
   )
 
   return {
-    ready: Boolean(uid),
+    ready: Boolean(space),
     nodes,
     index,
     favorites,

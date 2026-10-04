@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
-import { MANUAL_PATH, ManualFooter } from '@/tools/macroscopy/components/ManualChrome'
+import { MANUAL_PATH, ManualFooter, ManualNotice } from '@/tools/macroscopy/components/ManualChrome'
 import { SYSTEMS } from '@/tools/macroscopy/content'
 import type { MacroSystem } from '@/tools/macroscopy/types'
 
@@ -22,6 +22,8 @@ export default function MacroscopyManualPage() {
           {t('macroscopy.systems')}
         </Badge>
       </header>
+
+      <ManualNotice />
 
       <div className="mt-8 grid gap-5 md:grid-cols-2 2xl:grid-cols-3">
         {SYSTEMS.map((system) => (

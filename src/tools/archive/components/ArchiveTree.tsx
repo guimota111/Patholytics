@@ -11,6 +11,7 @@ import {
   type ArchiveIndex,
   type ArchiveNode,
 } from '../types'
+import type { SpaceRights } from '../permissions'
 
 export interface TreeHandlers {
   expanded: Set<string>
@@ -21,7 +22,10 @@ export interface TreeHandlers {
   onView: (id: string) => void
   onRename: (node: ArchiveNode) => void
   onDelete: (node: ArchiveNode) => void
+  /** Biblioteca: liga/desliga a estrela. Catálogo: salva uma cópia. */
   onToggleFav: (node: ArchiveNode) => void
+  /** Rótulo do botão de estrela, que muda de sentido entre os dois espaços. */
+  favLabel: (node: ArchiveNode) => string
   /** Modo mover: arrastar itens para outra categoria. */
   editMode: boolean
   dragId: string | null
@@ -34,7 +38,13 @@ export interface TreeHandlers {
 
 interface ArchiveTreeProps {
   index: ArchiveIndex
+  /** Seção de atalho no topo; vazia no catálogo, que não tem favoritos. */
   favorites: ArchiveNode[]
+  rights: SpaceRights
+  /** Catálogo: assina cada folha com o crédito de quem a publicou. */
+  showCredit?: boolean
+  /** O ramo de atalho no topo; o catálogo não tem favoritos próprios. */
+  showFavorites?: boolean
   handlers: TreeHandlers
 }
 
@@ -42,11 +52,18 @@ interface ArchiveTreeProps {
 const rowBase =
   'group flex min-h-9 items-center gap-1 rounded-md pr-1 text-sm transition-colors hover:bg-surface'
 
-export function ArchiveTree({ index, favorites, handlers: h }: ArchiveTreeProps) {
+export function ArchiveTree({
+  index,
+  favorites,
+  rights,
+  showCredit = false,
+  showFavorites = true,
+  handlers: h,
+}: ArchiveTreeProps) {
   const { t } = useTranslation()
 
   const dragProps = (node: ArchiveNode) =>
-    h.editMode
+    h.editMode && rights.rightsFor(node).canMove
       ? {
           draggable: true,
           onDragStart: (e: DragEvent) => {
@@ -80,36 +97,44 @@ export function ArchiveTree({ index, favorites, handlers: h }: ArchiveTreeProps)
         }
       : {}
 
-  const actions = (node: ArchiveNode) => (
-    <span className="ml-auto flex items-center opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100">
-      {node.type !== 'category' && (
-        <button
-          type="button"
-          onClick={() => h.onToggleFav(node)}
-          className={cn('rounded p-1 hover:bg-raised', node.favorite ? 'text-amber-500' : 'text-ink-faint hover:text-ink')}
-          aria-label={t(node.favorite ? 'archive.row.unfavorite' : 'archive.row.favorite')}
-        >
-          <Star className="size-3.5" fill={node.favorite ? 'currentColor' : 'none'} aria-hidden />
-        </button>
-      )}
-      <button
-        type="button"
-        onClick={() => h.onRename(node)}
-        className="rounded p-1 text-ink-faint hover:bg-raised hover:text-ink"
-        aria-label={t('archive.row.rename')}
-      >
-        <Pencil className="size-3.5" aria-hidden />
-      </button>
-      <button
-        type="button"
-        onClick={() => h.onDelete(node)}
-        className="rounded p-1 text-ink-faint hover:bg-danger-soft hover:text-danger"
-        aria-label={t('archive.row.delete')}
-      >
-        <Trash2 className="size-3.5" aria-hidden />
-      </button>
-    </span>
-  )
+  const actions = (node: ArchiveNode) => {
+    const can = rights.rightsFor(node)
+    return (
+      <span className="ml-auto flex items-center opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100">
+        {node.type !== 'category' && (
+          <button
+            type="button"
+            onClick={() => h.onToggleFav(node)}
+            className={cn('rounded p-1 hover:bg-raised', node.favorite ? 'text-amber-500' : 'text-ink-faint hover:text-ink')}
+            aria-label={h.favLabel(node)}
+            title={h.favLabel(node)}
+          >
+            <Star className="size-3.5" fill={node.favorite ? 'currentColor' : 'none'} aria-hidden />
+          </button>
+        )}
+        {can.canEdit && (
+          <button
+            type="button"
+            onClick={() => h.onRename(node)}
+            className="rounded p-1 text-ink-faint hover:bg-raised hover:text-ink"
+            aria-label={t('archive.row.rename')}
+          >
+            <Pencil className="size-3.5" aria-hidden />
+          </button>
+        )}
+        {can.canDelete && (
+          <button
+            type="button"
+            onClick={() => h.onDelete(node)}
+            className="rounded p-1 text-ink-faint hover:bg-danger-soft hover:text-danger"
+            aria-label={t('archive.row.delete')}
+          >
+            <Trash2 className="size-3.5" aria-hidden />
+          </button>
+        )}
+      </span>
+    )
+  }
 
   const leafRow = (node: ArchiveNode, depth: number, key?: string) => (
     <div
@@ -122,6 +147,9 @@ export function ArchiveTree({ index, favorites, handlers: h }: ArchiveTreeProps)
       <button type="button" onClick={() => h.onView(node.id)} className="flex min-w-0 flex-1 items-center gap-2 py-1.5 text-left">
         <span aria-hidden>{LEAF_ICON[node.type as 'report' | 'note']}</span>
         <span className="truncate text-ink">{node.label}</span>
+        {showCredit && node.authorName && (
+          <span className="shrink-0 truncate text-xs text-ink-faint">{node.authorName}</span>
+        )}
         {node.favorite && <Star className="size-3 shrink-0 text-amber-500" fill="currentColor" aria-hidden />}
         {node.copyCount > 0 && (
           <span className="tabular inline-flex shrink-0 items-center gap-1 text-xs text-ink-faint">
@@ -191,6 +219,7 @@ export function ArchiveTree({ index, favorites, handlers: h }: ArchiveTreeProps)
 
   return (
     <div className="space-y-3">
+      {showFavorites && (
       <div>
         <div className={cn(rowBase, 'pl-2')}>
           <button
@@ -214,6 +243,7 @@ export function ArchiveTree({ index, favorites, handlers: h }: ArchiveTreeProps)
             favorites.map((n) => leafRow(n, 1, `fav-${n.id}`))
           ))}
       </div>
+      )}
 
       {roots.map((root) => {
         const isOpen = h.expanded.has(root.id)

@@ -11,7 +11,7 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Info, Search, X } from 'lucide-react'
-import { BigChip, StepCard } from '@/components/ui/didactic'
+import { BigChip, StepCard, TopicGroup, TopicList } from '@/components/ui/didactic'
 import { cn } from '@/lib/cn'
 import { compareTumors, emptyChoice, nextMarkers, suggest, type Choice, type MarkerInput, type Result } from '../match'
 import { TUMORS, findTumor } from '../content'
@@ -147,11 +147,11 @@ export function MarkerHelperPage() {
         </StepCard>
 
         <StepCard number={2} title={t('markers.step2Title')} hint={t('markers.step2Hint')}>
-          <div className="space-y-5">
+          <TopicList>
             <MorphGroup label={t('markers.cells')} items={CELLS} chosen={choice.cells} onToggle={(id) => toggleSet('cells', id)} big />
             <MorphGroup label={t('markers.architecture')} items={ARCHITECTURES} chosen={choice.architecture} onToggle={(id) => toggleSet('architecture', id)} />
             <MorphGroup label={t('markers.features')} hint={t('markers.featuresHint')} items={featureList} chosen={choice.features} onToggle={(id) => toggleSet('features', id)} />
-          </div>
+          </TopicList>
         </StepCard>
 
         <StepCard number={3} title={t('markers.step3Title')} hint={t('markers.step3Hint')}>
@@ -180,7 +180,7 @@ export function MarkerHelperPage() {
                     {findMarker(id)?.label} {input.result === 'pos' ? '+' : '−'}
                   </Tag>
                 ))}
-                <button type="button" onClick={clearAll} className="text-xs text-accent hover:underline">
+                <button type="button" onClick={clearAll} className="inline-flex min-h-9 items-center text-xs text-accent hover:underline sm:min-h-0">
                   {t('markers.clearAll')}
                 </button>
               </div>
@@ -236,9 +236,7 @@ export function MarkerHelperPage() {
 
 function MorphGroup({ label, hint, items, chosen, onToggle, big = false }: { label: string; hint?: string; items: Morph[]; chosen: Set<string>; onToggle: (id: string) => void; big?: boolean }) {
   return (
-    <div>
-      <p className="mb-1 text-xs font-medium tracking-wide text-ink-muted uppercase">{label}</p>
-      {hint && <p className="mb-2 text-xs text-ink-muted">{hint}</p>}
+    <TopicGroup label={label} hint={hint} selected={items.filter((m) => chosen.has(m.id)).map((m) => m.label)}>
       <div className="flex flex-wrap gap-1.5">
         {items.map((m) => (
           <button
@@ -256,7 +254,7 @@ function MorphGroup({ label, hint, items, chosen, onToggle, big = false }: { lab
           </button>
         ))}
       </div>
-    </div>
+    </TopicGroup>
   )
 }
 

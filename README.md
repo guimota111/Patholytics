@@ -172,6 +172,39 @@ memory) and committed in batches; Export/Import round-trips the collection as
 JSON with fresh ids on import, which is also the migration path from the
 stand-alone ArquivosLaudos app.
 
+Alongside that private library sits the shared catalogue — the same node shape
+in a top-level collection every signed-in user reads. Folders belong to the
+curators, because the folder tree is the map everyone navigates by; leaves
+belong to whoever published them. `favorite` has no place in a document other
+people read, so starring a catalogue template copies it into the reader's own
+library instead, carrying the original credit.
+
+```
+sharedArchive/{nodeId}
+  parentId     string        'root_reports' | 'root_notes' | another node id
+  type         'category' | 'report' | 'note'
+  label        string
+  content      string        template text; empty for categories
+  icon         string        emoji shown on a folder; empty for leaves
+  tags         string[]      free labels, searchable
+  copyCount    number        atomic increment on every copy; sorts siblings
+  authorUid    string        who published it; empty for the house archive
+  authorName   string        the credit they chose, frozen at publication
+  createdAt/updatedAt timestamp
+```
+
+`firestore.rules` is the only thing standing between a user and the shared
+tree, so it carries the whole permission model: read for anyone signed in;
+categories written only by `isCurator()`; a leaf created in the caller's own
+name and edited or deleted only by its author or a curator; and one narrow
+extra rule letting any reader raise `copyCount` by exactly one, which is how
+the counter stays shared. The document shape is closed with `hasOnly`/`hasAll`,
+and the name `Patholytics` is reserved so nobody can sign as the house.
+
+The two provenance fields on a personal node — `sourceId` and `sourceCredit` —
+are set when a template is copied out of the catalogue and survive any later
+edit of the copy, so the credit does not get lost when the text is adapted.
+
 ## Project layout
 
 ```

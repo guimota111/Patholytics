@@ -46,7 +46,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label={t('common.language')}
-        className="inline-flex h-8 items-center gap-1.5 rounded-md px-2 text-sm text-ink-muted transition-colors hover:bg-elevated hover:text-ink"
+        className="inline-flex h-11 items-center gap-1.5 rounded-md px-2 text-sm text-ink-muted transition-colors hover:bg-elevated hover:text-ink sm:h-8"
       >
         <Globe className="size-4" aria-hidden />
         <span className="tabular text-xs font-medium">{SHORT_LABEL[active]}</span>

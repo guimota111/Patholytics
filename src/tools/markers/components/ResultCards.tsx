@@ -8,10 +8,12 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronDown, ChevronUp, ExternalLink, Minus, Plus } from 'lucide-react'
+import { ReportButton } from '@/components/feedback/ReportButton'
 import { cn } from '@/lib/cn'
 import { plausibility } from '../match'
 import type { CompareRow, MarkerVerdict, NextMarker, Result, Suggestion, Verdict } from '../match'
 import { BAND_LABELS, PATTERN_LABELS, bandOf, findMarker, findMorph, pctLabel, type Band, type MarkerResult, type Tumor } from '../types'
+import { ScrollX } from '@/components/ui/ScrollX'
 
 const VERDICT_ORDER: Verdict[] = ['nao-bate', 'excecao', 'padrao', 'bate', 'compativel', 'sem-dados']
 
@@ -118,11 +120,15 @@ export function TumorCard({ s, rank, open, onToggle, compared, onCompare, muted 
           {(s.morphHits.length > 0 || s.morphMisses.length > 0) && (
             <Row label={t('markers.rowMorph')}>
               <div className="flex flex-wrap gap-1.5">
-                {s.morphHits.map((id) => (
-                  <Pill key={id} cls={VERDICT_STYLE.bate}>
-                    {findMorph(id)?.label ?? id}
-                  </Pill>
-                ))}
+                {s.morphHits.map((id) => {
+                  const variant = s.morphVariants.includes(id)
+                  return (
+                    <Pill key={id} cls={variant ? VERDICT_STYLE.compativel : VERDICT_STYLE.bate}>
+                      {findMorph(id)?.label ?? id}
+                      {variant && ` (${t('markers.morphVariant')})`}
+                    </Pill>
+                  )
+                })}
                 {s.morphMisses.map((id) => (
                   <Pill key={id} cls={cn(VERDICT_STYLE['nao-bate'], 'line-through')}>
                     {findMorph(id)?.label ?? id}
@@ -158,7 +164,7 @@ export function TumorCard({ s, rank, open, onToggle, compared, onCompare, muted 
           )}
           {tm.molecular && <Row label={t('markers.rowMolecular')}>{tm.molecular}</Row>}
           <Row label={t('markers.rowProfile')}>
-            <button type="button" onClick={() => setProfile((v) => !v)} className="text-xs text-accent hover:underline">
+            <button type="button" onClick={() => setProfile((v) => !v)} className="inline-flex min-h-9 items-center text-xs text-accent hover:underline sm:min-h-0">
               {profile ? t('markers.hideProfile') : t('markers.showProfile', { n: tm.markers.length })}
             </button>
             {profile && <Profile tumor={tm} />}
@@ -169,7 +175,7 @@ export function TumorCard({ s, rank, open, onToggle, compared, onCompare, muted 
                 {tm.sources.map((u) =>
                   u.startsWith('http') ? (
                     <li key={u}>
-                      <a href={u} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs text-accent hover:underline">
+                      <a href={u} target="_blank" rel="noreferrer" className="inline-flex min-h-9 items-center gap-1 text-xs text-accent hover:underline sm:min-h-0">
                         {u.replace(/^https?:\/\//, '').slice(0, 80)}
                         <ExternalLink className="size-3" aria-hidden />
                       </a>
@@ -184,6 +190,9 @@ export function TumorCard({ s, rank, open, onToggle, compared, onCompare, muted 
               </ul>
             </Row>
           )}
+          <div className="flex justify-end border-t border-line pt-3">
+            <ReportButton target={{ tool: 'marcadores', itemId: tm.id, itemName: tm.name }} />
+          </div>
         </div>
       )}
     </li>
@@ -305,8 +314,8 @@ const shortName = (n: string) => (n.length > 34 ? n.slice(0, 32) + '…' : n)
 export function CompareTable({ tumors, rows }: { tumors: Tumor[]; rows: CompareRow[] }) {
   const { t } = useTranslation()
   return (
-    <div className="overflow-x-auto rounded-lg border border-line bg-surface">
-      <table className="w-full text-xs">
+    <ScrollX className="rounded-lg border border-line bg-surface" innerClassName="rounded-lg">
+      <table className="w-full min-w-[30rem] text-xs">
         <thead>
           <tr className="border-b border-line text-left text-ink-muted">
             <th className="px-3 py-2 font-medium">{t('markers.marker')}</th>
@@ -336,7 +345,7 @@ export function CompareTable({ tumors, rows }: { tumors: Tumor[]; rows: CompareR
           ))}
         </tbody>
       </table>
-    </div>
+    </ScrollX>
   )
 }
 

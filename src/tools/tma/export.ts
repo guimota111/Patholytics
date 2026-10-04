@@ -5,7 +5,7 @@
    ========================================================================== */
 
 import { downloadBlob } from '@/lib/canvasReport'
-import { buildOrder, coordOf, keyOf, type TmaState } from './types'
+import { buildOrder, coordOf, hasControls, keyOf, type TmaState } from './types'
 
 export interface TableOptions {
   /** Primeira linha com o nome dos campos. */
@@ -13,18 +13,27 @@ export interface TableOptions {
   /** Primeira coluna com a coordenada do core (A1, A2…). */
   coordinate: boolean
   coordinateLabel: string
+  /** Cabeçalho da coluna de controle; a coluna só sai quando o mapa tem controles. */
+  controlLabel?: string
 }
 
 /** A tabela crua, já na ordem de leitura do mapa. Cores vazios viram células vazias. */
 export function tableRows(state: TmaState, options: TableOptions): string[][] {
   const rows: string[][] = []
+  const withControls = hasControls(state)
   if (options.header) {
-    rows.push([...(options.coordinate ? [options.coordinateLabel] : []), ...state.fields.map((field) => field.label)])
+    rows.push([
+      ...(options.coordinate ? [options.coordinateLabel] : []),
+      ...(withControls ? [options.controlLabel ?? 'Controle'] : []),
+      ...state.fields.map((field) => field.label),
+    ])
   }
   for (const [r, c] of buildOrder(state.rows, state.cols)) {
-    const answers = state.results[keyOf(r, c)] ?? {}
+    const key = keyOf(r, c)
+    const answers = state.results[key] ?? {}
     rows.push([
       ...(options.coordinate ? [coordOf(r, c)] : []),
+      ...(withControls ? [state.controls[key] ?? ''] : []),
       ...state.fields.map((field) => (answers[field.id] ?? '').trim()),
     ])
   }

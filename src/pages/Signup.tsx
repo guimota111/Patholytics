@@ -62,7 +62,7 @@ export default function SignupPage() {
       footer={
         <>
           {t('auth.signup.hasAccount')}{' '}
-          <Link to="/login" className="font-medium text-accent hover:text-accent-hover">
+          <Link to="/login" className="inline-flex min-h-9 items-center font-medium text-accent hover:text-accent-hover">
             {t('auth.signup.loginLink')}
           </Link>
         </>

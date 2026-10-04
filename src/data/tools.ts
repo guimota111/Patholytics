@@ -5,6 +5,8 @@ import {
   Calculator,
   CircleDot,
   Fingerprint,
+  FlaskConical,
+  Gauge,
   Gem,
   Grid3x3,
   ListTree,
@@ -18,7 +20,8 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 
-export type ToolStatus = 'available' | 'coming-soon'
+/** `preview`: já abre, mas está em construção — o cartão e a tela avisam para não usar como referência ainda. */
+export type ToolStatus = 'available' | 'preview' | 'coming-soon'
 export type ToolCategoryId = 'calculators' | 'staging' | 'differential' | 'imaging' | 'workflow'
 
 export interface Tool {
@@ -77,6 +80,22 @@ export const TOOLS: Tool[] = [
     path: '/tools/stager',
   },
   {
+    id: 'ihc-scores',
+    i18nKey: 'ihcScores',
+    icon: FlaskConical,
+    category: 'calculators',
+    status: 'available',
+    path: '/tools/escores',
+  },
+  {
+    id: 'grading',
+    i18nKey: 'grading',
+    icon: Gauge,
+    category: 'staging',
+    status: 'available',
+    path: '/tools/graduacoes',
+  },
+  {
     id: 'bug-catalog',
     i18nKey: 'bugCatalog',
     icon: Bug,
@@ -113,7 +132,8 @@ export const TOOLS: Tool[] = [
     i18nKey: 'ackerman',
     icon: Fingerprint,
     category: 'differential',
-    status: 'coming-soon',
+    status: 'available',
+    path: '/tools/peles-inflamatorias',
   },
   {
     id: 'ki67',
@@ -166,7 +186,7 @@ export const TOOLS: Tool[] = [
     i18nKey: 'macroscopy',
     icon: BookOpen,
     category: 'workflow',
-    status: 'available',
+    status: 'preview',
     path: '/tools/macroscopia',
   },
   {
@@ -182,6 +202,8 @@ export const TOOLS: Tool[] = [
 export const toolsByCategory = (category: ToolCategoryId): Tool[] =>
   TOOLS.filter((tool) => tool.category === category)
 
-export const availableTools = (): Tool[] => TOOLS.filter((tool) => tool.status === 'available')
+/** Ferramentas que abrem — inclui as em construção. */
+export const isShipped = (tool: Tool): tool is Tool & { path: string } => tool.status !== 'coming-soon' && Boolean(tool.path)
+export const availableTools = (): Tool[] => TOOLS.filter(isShipped)
 
 export const comingSoonTools = (): Tool[] => TOOLS.filter((tool) => tool.status === 'coming-soon')

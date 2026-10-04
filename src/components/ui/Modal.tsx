@@ -36,7 +36,7 @@ export function Modal({
         if (event.target === event.currentTarget) onClose()
       }}
     >
-      <div className="flex max-h-[92dvh] w-full flex-col rounded-t-xl border border-line bg-elevated shadow-pop sm:max-w-lg sm:rounded-xl"
+      <div className="flex max-h-[92dvh] w-full flex-col rounded-t-xl border border-line bg-elevated pb-[env(safe-area-inset-bottom)] shadow-pop sm:max-w-lg sm:rounded-xl sm:pb-0"
         style={wide ? { maxWidth: '44rem' } : undefined}
       >
         <div className="flex items-center justify-between gap-3 border-b border-line px-5 py-4">
@@ -44,7 +44,7 @@ export function Modal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md p-1 text-ink-faint transition-colors hover:bg-raised hover:text-ink"
+            className="-mr-2 flex size-11 shrink-0 items-center justify-center rounded-md text-ink-faint transition-colors hover:bg-raised hover:text-ink sm:-mr-1 sm:size-8"
             aria-label={title}
           >
             <X className="size-4" aria-hidden />

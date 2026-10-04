@@ -3,11 +3,13 @@ import { Pencil, Trash2 } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { DEFAULT_FOLDER_ICON, LEAF_ICON, snippet, type ArchiveNode } from '../types'
 import type { SearchHit } from '../useArchive'
+import type { SpaceRights } from '../permissions'
 
 interface SearchResultsProps {
   q: string
   hits: SearchHit[]
   pathOf: (node: ArchiveNode) => string[]
+  rights: SpaceRights
   viewId: string | null
   onOpenCategory: (node: ArchiveNode) => void
   onOpenLeaf: (node: ArchiveNode) => void
@@ -16,7 +18,7 @@ interface SearchResultsProps {
 }
 
 /** Lista plana dos resultados, cada um com o caminho na árvore. */
-export function SearchResults({ q, hits, pathOf, viewId, onOpenCategory, onOpenLeaf, onRename, onDelete }: SearchResultsProps) {
+export function SearchResults({ q, hits, pathOf, rights, viewId, onOpenCategory, onOpenLeaf, onRename, onDelete }: SearchResultsProps) {
   const { t } = useTranslation()
 
   if (hits.length === 0) return <p className="px-2 py-4 text-sm text-ink-faint">{t('archive.results.none')}</p>
@@ -26,6 +28,7 @@ export function SearchResults({ q, hits, pathOf, viewId, onOpenCategory, onOpenL
       <p className="tabular px-2 pb-1 text-xs text-ink-faint">{t('archive.results.count', { count: hits.length })}</p>
       {hits.map(({ node, matchContent }) => {
         const isCat = node.type === 'category'
+        const can = rights.rightsFor(node)
         return (
           <div
             key={node.id}
@@ -52,12 +55,16 @@ export function SearchResults({ q, hits, pathOf, viewId, onOpenCategory, onOpenL
               </span>
             </button>
             <span className="flex shrink-0 items-center opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100">
-              <button type="button" onClick={() => onRename(node)} className="rounded p-1 text-ink-faint hover:bg-raised hover:text-ink" aria-label={t('archive.row.rename')}>
-                <Pencil className="size-3.5" aria-hidden />
-              </button>
-              <button type="button" onClick={() => onDelete(node)} className="rounded p-1 text-ink-faint hover:bg-danger-soft hover:text-danger" aria-label={t('archive.row.delete')}>
-                <Trash2 className="size-3.5" aria-hidden />
-              </button>
+              {can.canEdit && (
+                <button type="button" onClick={() => onRename(node)} className="rounded p-1 text-ink-faint hover:bg-raised hover:text-ink" aria-label={t('archive.row.rename')}>
+                  <Pencil className="size-3.5" aria-hidden />
+                </button>
+              )}
+              {can.canDelete && (
+                <button type="button" onClick={() => onDelete(node)} className="rounded p-1 text-ink-faint hover:bg-danger-soft hover:text-danger" aria-label={t('archive.row.delete')}>
+                  <Trash2 className="size-3.5" aria-hidden />
+                </button>
+              )}
             </span>
           </div>
         )

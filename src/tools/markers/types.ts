@@ -571,7 +571,11 @@ export interface Tumor {
   behavior: Behavior
   /** Onde ocorre: primário ou metástase frequente, com a frequência lá. */
   sites: TumorSite[]
-  /** ids de CELLS: as caras que o tumor costuma ter (qualquer uma combina). */
+  /**
+   * ids de CELLS, em ordem: primeiro a cara habitual, depois as variantes,
+   * da mais para a menos frequente. O ranking dá ganho cheio às duas
+   * primeiras e pouco às demais (ver CELL_HIT_BY_POSITION em match.ts).
+   */
   cells: string[]
   /** ids de ARCHITECTURES. */
   architecture?: string[]

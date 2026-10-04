@@ -1,19 +1,28 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Check, Copy, Pencil, Star, Trash2, X } from 'lucide-react'
+import { BookmarkCheck, BookmarkPlus, Check, Copy, Pencil, Star, Trash2, X } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
+import { ReportButton } from '@/components/feedback/ReportButton'
 import { cn } from '@/lib/cn'
 import { LEAF_ICON, type ArchiveNode } from '../types'
+import type { SpaceRights } from '../permissions'
 
 interface NodePanelProps {
   node: ArchiveNode | null
   path: string[]
+  rights: SpaceRights
+  /** Catálogo: mostra o crédito, o botão de salvar e o relato de erro. */
+  shared: boolean
+  /** Catálogo: já existe uma cópia deste laudo na biblioteca do usuário. */
+  saved?: boolean
+  credit?: string
   onEdit: (node: ArchiveNode) => void
   onDelete: (node: ArchiveNode) => void
   onClose: () => void
   onTagClick: (tag: string) => void
   onCopied: (node: ArchiveNode) => void
   onToggleFav: (node: ArchiveNode) => void
+  onSave?: (node: ArchiveNode) => void
 }
 
 /** Copia com fallback para contextos sem a API Clipboard. */
@@ -30,8 +39,22 @@ async function copyText(text: string): Promise<void> {
   if (!ok) throw new Error('copy failed')
 }
 
-/** Painel de leitura da máscara aberta: conteúdo, copiar, tags, favorito. */
-export function NodePanel({ node, path, onEdit, onDelete, onClose, onTagClick, onCopied, onToggleFav }: NodePanelProps) {
+/** Painel de leitura da máscara aberta: conteúdo, copiar, tags, crédito. */
+export function NodePanel({
+  node,
+  path,
+  rights,
+  shared,
+  saved = false,
+  credit,
+  onEdit,
+  onDelete,
+  onClose,
+  onTagClick,
+  onCopied,
+  onToggleFav,
+  onSave,
+}: NodePanelProps) {
   const { t } = useTranslation()
   const [copied, setCopied] = useState(false)
   const [copyError, setCopyError] = useState(false)
@@ -52,6 +75,8 @@ export function NodePanel({ node, path, onEdit, onDelete, onClose, onTagClick, o
       </div>
     )
   }
+
+  const can = rights.rightsFor(node)
 
   const copy = async () => {
     try {
@@ -75,6 +100,12 @@ export function NodePanel({ node, path, onEdit, onDelete, onClose, onTagClick, o
             <span aria-hidden>{LEAF_ICON[node.type as 'report' | 'note'] ?? '📄'}</span>
             <span className="truncate">{node.label}</span>
           </h2>
+          {/* Quem pôs este laudo aqui — no catálogo, o autor; na biblioteca, de
+              quem veio a cópia, preservado mesmo depois de editada. */}
+          {shared && credit && <p className="mt-1 text-xs text-ink-muted">{t('archive.shared.by', { name: credit })}</p>}
+          {!shared && node.sourceCredit && (
+            <p className="mt-1 text-xs text-ink-muted">{t('archive.shared.copyOf', { name: node.sourceCredit })}</p>
+          )}
           {node.tags.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1.5">
               {node.tags.map((tag) => (
@@ -106,25 +137,42 @@ export function NodePanel({ node, path, onEdit, onDelete, onClose, onTagClick, o
         {node.content || t(node.type === 'note' ? 'archive.panel.noContentNote' : 'archive.panel.noContentReport')}
       </pre>
 
-      <div className="flex flex-wrap gap-2 border-t border-line px-5 py-3">
-        <Button
-          type="button"
-          size="sm"
-          variant="secondary"
-          onClick={() => onToggleFav(node)}
-          className={cn(node.favorite && 'text-amber-600')}
-        >
-          <Star className="size-4" fill={node.favorite ? 'currentColor' : 'none'} aria-hidden />
-          {t(node.favorite ? 'archive.row.unfavorite' : 'archive.row.favorite')}
-        </Button>
-        <Button type="button" size="sm" variant="secondary" onClick={() => onEdit(node)}>
-          <Pencil className="size-4" aria-hidden />
-          {t('archive.panel.edit')}
-        </Button>
-        <Button type="button" size="sm" variant="danger" onClick={() => onDelete(node)}>
-          <Trash2 className="size-4" aria-hidden />
-          {t('archive.row.delete')}
-        </Button>
+      <div className="flex flex-wrap items-center gap-2 border-t border-line px-5 py-3">
+        {shared ? (
+          <Button type="button" size="sm" variant="secondary" onClick={() => onSave?.(node)} disabled={saved}>
+            {saved ? <BookmarkCheck className="size-4" aria-hidden /> : <BookmarkPlus className="size-4" aria-hidden />}
+            {t(saved ? 'archive.shared.saved' : 'archive.shared.save')}
+          </Button>
+        ) : (
+          <Button
+            type="button"
+            size="sm"
+            variant="secondary"
+            onClick={() => onToggleFav(node)}
+            className={cn(node.favorite && 'text-amber-600')}
+          >
+            <Star className="size-4" fill={node.favorite ? 'currentColor' : 'none'} aria-hidden />
+            {t(node.favorite ? 'archive.row.unfavorite' : 'archive.row.favorite')}
+          </Button>
+        )}
+        {can.canEdit && (
+          <Button type="button" size="sm" variant="secondary" onClick={() => onEdit(node)}>
+            <Pencil className="size-4" aria-hidden />
+            {t('archive.panel.edit')}
+          </Button>
+        )}
+        {can.canDelete && (
+          <Button type="button" size="sm" variant="danger" onClick={() => onDelete(node)}>
+            <Trash2 className="size-4" aria-hidden />
+            {t('archive.row.delete')}
+          </Button>
+        )}
+        {shared && (
+          <ReportButton
+            target={{ tool: 'archive', itemId: node.id, itemName: node.label }}
+            className="ml-1"
+          />
+        )}
         <Button type="button" size="sm" variant="ghost" onClick={onClose} className="ml-auto">
           <X className="size-4" aria-hidden />
           {t('archive.panel.close')}

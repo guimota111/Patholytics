@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { LayoutGrid, LogOut, Menu, PanelLeftClose, PanelLeftOpen, User as UserIcon } from 'lucide-react'
+import { LayoutGrid, LogOut, Menu, MessageSquareWarning, PanelLeftClose, PanelLeftOpen, User as UserIcon } from 'lucide-react'
 import { Logo } from '@/components/ui/Logo'
 import { AppSidebar } from '@/components/AppSidebar'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { ThemeSwitcher } from '@/components/ThemeSwitcher'
 import { ToolErrorBoundary } from '@/components/ToolErrorBoundary'
+import { FeedbackProvider } from '@/components/feedback/FeedbackProvider'
 import { useAuth } from '@/hooks/useAuth'
+import { useFeedback } from '@/hooks/useFeedback'
 import { useDismiss } from '@/hooks/useClickOutside'
 import { cn } from '@/lib/cn'
 
@@ -68,12 +70,13 @@ export function AppLayout() {
   }
 
   return (
+    <FeedbackProvider>
     <div className="flex min-h-dvh bg-ground">
       <AppSidebar open={menuOpen} onClose={closeMenu} collapsed={collapsed} onToggleCollapsed={toggleCollapsed} />
 
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-30 border-b border-line bg-ground/85 backdrop-blur-sm">
-          <div className="shell flex h-14 items-center justify-between gap-4">
+          <div className="shell flex h-14 items-center justify-between gap-2 sm:gap-4">
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -81,7 +84,7 @@ export function AppLayout() {
                 aria-label={menuLabel}
                 title={desktop ? menuLabel : undefined}
                 aria-expanded={desktop ? !collapsed : menuOpen}
-                className="-ml-1.5 rounded-md p-1.5 text-ink-muted transition-colors hover:bg-elevated hover:text-ink"
+                className="-ml-1.5 flex size-11 items-center justify-center rounded-md text-ink-muted transition-colors hover:bg-elevated hover:text-ink lg:size-9"
               >
                 <Menu className="size-5 lg:hidden" aria-hidden />
                 {collapsed ? (
@@ -91,11 +94,12 @@ export function AppLayout() {
                 )}
               </button>
               <Link to="/dashboard" aria-label={t('common.appName')} className={cn(!collapsed && 'lg:hidden')}>
-                <Logo />
+                <Logo labelClassName="hidden min-[380px]:inline" />
               </Link>
             </div>
 
             <div className="flex items-center gap-1">
+              <ReportProblemButton />
               <ThemeSwitcher />
               <LanguageSwitcher />
               <AccountMenu />
@@ -110,6 +114,25 @@ export function AppLayout() {
         </main>
       </div>
     </div>
+    </FeedbackProvider>
+  )
+}
+
+/** Atalho global: relata o erro da tela em que a pessoa está. */
+function ReportProblemButton() {
+  const { t } = useTranslation()
+  const { report } = useFeedback()
+  return (
+    <button
+      type="button"
+      onClick={() => report()}
+      title={t('feedback.title')}
+      className="flex size-11 items-center justify-center gap-1.5 rounded-md text-sm text-ink-muted transition-colors hover:bg-elevated hover:text-ink sm:size-auto sm:px-2.5 sm:py-2"
+    >
+      <MessageSquareWarning className="size-4" aria-hidden />
+      <span className="hidden sm:inline">{t('feedback.button')}</span>
+      <span className="sr-only sm:hidden">{t('feedback.button')}</span>
+    </button>
   )
 }
 
@@ -146,7 +169,7 @@ function AccountMenu() {
         onClick={() => setOpen((value) => !value)}
         aria-haspopup="menu"
         aria-expanded={open}
-        className="flex items-center gap-2 rounded-md py-1 pl-1 pr-1.5 transition-colors hover:bg-elevated"
+        className="flex min-h-11 items-center gap-2 rounded-md py-1 pl-1 pr-1.5 transition-colors hover:bg-elevated sm:min-h-0"
       >
         <span className="flex size-7 items-center justify-center rounded-full border border-accent/30 bg-accent-soft text-[0.6875rem] font-semibold text-accent-ink">
           {initialsOf(displayName, email)}
@@ -159,7 +182,7 @@ function AccountMenu() {
       {open && (
         <div
           role="menu"
-          className="absolute right-0 z-50 mt-1.5 w-60 overflow-hidden rounded-md border border-line bg-elevated shadow-pop"
+          className="absolute right-0 z-50 mt-1.5 w-[min(15rem,calc(100vw-2rem))] overflow-hidden rounded-md border border-line bg-elevated shadow-pop"
         >
           <div className="border-b border-line px-3 py-3">
             <p className="truncate text-sm font-medium text-ink">{displayName || '—'}</p>
@@ -171,7 +194,7 @@ function AccountMenu() {
               to="/profile"
               role="menuitem"
               onClick={close}
-              className="flex items-center gap-2 px-3 py-2 text-sm text-ink-muted transition-colors hover:bg-raised hover:text-ink"
+              className="flex items-center gap-2 px-3 py-2.5 text-sm text-ink-muted transition-colors hover:bg-raised hover:text-ink"
             >
               <UserIcon className="size-4" aria-hidden />
               {t('nav.profile')}
@@ -180,7 +203,7 @@ function AccountMenu() {
               to="/"
               role="menuitem"
               onClick={close}
-              className="flex items-center gap-2 px-3 py-2 text-sm text-ink-muted transition-colors hover:bg-raised hover:text-ink"
+              className="flex items-center gap-2 px-3 py-2.5 text-sm text-ink-muted transition-colors hover:bg-raised hover:text-ink"
             >
               <LayoutGrid className="size-4" aria-hidden />
               {t('nav.backToSite')}
@@ -189,7 +212,7 @@ function AccountMenu() {
               type="button"
               role="menuitem"
               onClick={() => void handleSignOut()}
-              className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-ink-muted transition-colors hover:bg-raised hover:text-danger"
+              className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm text-ink-muted transition-colors hover:bg-raised hover:text-danger"
             >
               <LogOut className="size-4" aria-hidden />
               {t('nav.logout')}

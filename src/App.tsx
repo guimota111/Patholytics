@@ -18,11 +18,14 @@ const NotFoundPage = lazy(() => import('@/pages/NotFound'))
 // Ferramentas — cada uma no seu proprio modulo, carregada sob demanda.
 const StagerIndexPage = lazy(() => import('@/pages/tools/StagerIndex'))
 const StagerCalculatorPage = lazy(() => import('@/pages/tools/StagerCalculator'))
+const ScoresPage = lazy(() => import('@/pages/tools/Scores'))
+const GradingPage = lazy(() => import('@/pages/tools/Grading'))
 const TmaMapperPage = lazy(() => import('@/pages/tools/TmaMapper'))
 const FieldConverterPage = lazy(() => import('@/pages/tools/FieldConverter'))
 const ProstateMapperPage = lazy(() => import('@/pages/tools/ProstateMapper'))
 const BreastMapperPage = lazy(() => import('@/pages/tools/BreastMapper'))
 const ReportArchivePage = lazy(() => import('@/pages/tools/ReportArchive'))
+const ArchiveContributorsPage = lazy(() => import('@/pages/tools/ArchiveContributors'))
 const BillingPage = lazy(() => import('@/pages/tools/Billing'))
 const MacroscopyManualPage = lazy(() => import('@/pages/tools/MacroscopyManual'))
 const MacroscopySystemPage = lazy(() => import('@/pages/tools/MacroscopySystem'))
@@ -32,6 +35,7 @@ const BugCatalogPage = lazy(() => import('@/pages/tools/BugCatalog'))
 const ForeignCatalogPage = lazy(() => import('@/pages/tools/ForeignCatalog'))
 const CystNamerPage = lazy(() => import('@/pages/tools/CystNamer'))
 const MarkerHelperPage = lazy(() => import('@/pages/tools/MarkerHelper'))
+const InflammatorySkinPage = lazy(() => import('@/pages/tools/InflammatorySkin'))
 
 export default function App() {
   const { t } = useTranslation()
@@ -85,6 +89,10 @@ export default function App() {
 
             <Route path="/tools/stager" element={<StagerIndexPage />} />
             <Route path="/tools/stager/:calculatorId" element={<StagerCalculatorPage />} />
+            <Route path="/tools/escores" element={<ScoresPage />} />
+            <Route path="/tools/escores/:calculatorId" element={<ScoresPage />} />
+            <Route path="/tools/graduacoes" element={<GradingPage />} />
+            <Route path="/tools/graduacoes/:calculatorId" element={<GradingPage />} />
 
             <Route path="/tools/tma" element={<TmaMapperPage />} />
             <Route path="/tools/fields" element={<FieldConverterPage />} />
@@ -92,6 +100,7 @@ export default function App() {
             <Route path="/tools/breast" element={<BreastMapperPage />} />
             <Route path="/tools/breast/:module" element={<BreastMapperPage />} />
             <Route path="/tools/archive" element={<ReportArchivePage />} />
+            <Route path="/tools/archive/colaboradores" element={<ArchiveContributorsPage />} />
             <Route path="/tools/billing" element={<BillingPage />} />
             <Route path="/tools/macroscopia" element={<MacroscopyManualPage />} />
             <Route path="/tools/macroscopia/:systemId" element={<MacroscopySystemPage />} />
@@ -103,6 +112,7 @@ export default function App() {
             <Route path="/tools/corpos-estranhos/:entryId" element={<ForeignCatalogPage />} />
             <Route path="/tools/cistos" element={<CystNamerPage />} />
             <Route path="/tools/marcadores" element={<MarkerHelperPage />} />
+            <Route path="/tools/peles-inflamatorias" element={<InflammatorySkinPage />} />
           </Route>
 
           <Route path="*" element={<NotFoundPage />} />

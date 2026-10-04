@@ -3,7 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { LayoutGrid, PanelLeftClose, User as UserIcon, X } from 'lucide-react'
 import { Logo } from '@/components/ui/Logo'
-import { TOOL_CATEGORIES, toolsByCategory, type Tool } from '@/data/tools'
+import { TOOL_CATEGORIES, isShipped, toolsByCategory, type Tool } from '@/data/tools'
 import { cn } from '@/lib/cn'
 
 interface AppSidebarProps {
@@ -17,7 +17,7 @@ interface AppSidebarProps {
 
 const rowClass = ({ isActive }: { isActive: boolean }) =>
   cn(
-    'flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm transition-colors',
+    'flex items-center gap-2.5 rounded-md px-2.5 py-2.5 text-sm transition-colors lg:py-1.5',
     isActive ? 'bg-elevated text-ink' : 'text-ink-muted hover:bg-elevated hover:text-ink',
   )
 
@@ -71,7 +71,7 @@ export function AppSidebar({ open, onClose, collapsed, onToggleCollapsed }: AppS
         // Hidden rail: nothing inside may take focus or be read out.
         inert={collapsed && !open ? true : undefined}
         className={cn(
-          'fixed inset-y-0 left-0 z-50 w-64 border-r border-line bg-surface',
+          'fixed inset-y-0 left-0 z-50 w-[17.5rem] border-r border-line bg-surface',
           'transition-[transform,width] duration-200 ease-out',
           'lg:sticky lg:top-0 lg:bottom-auto lg:z-30 lg:h-dvh lg:shrink-0 lg:translate-x-0 lg:overflow-hidden',
           collapsed ? 'lg:w-0 lg:border-r-0' : 'lg:w-64',
@@ -79,7 +79,7 @@ export function AppSidebar({ open, onClose, collapsed, onToggleCollapsed }: AppS
         )}
       >
         {/* Fixed-width inner column, so the content does not reflow while the rail animates shut. */}
-        <div className="flex h-full w-64 flex-col">
+        <div className="flex h-full w-[17.5rem] flex-col lg:w-64">
           <div className="flex h-14 shrink-0 items-center justify-between gap-2 border-b border-line px-4">
             <Link to="/dashboard" aria-label={t('common.appName')}>
               <Logo />
@@ -88,13 +88,13 @@ export function AppSidebar({ open, onClose, collapsed, onToggleCollapsed }: AppS
               type="button"
               onClick={onClose}
               aria-label={t('nav.closeMenu')}
-              className="-mr-1 rounded-md p-1.5 text-ink-muted transition-colors hover:bg-elevated hover:text-ink lg:hidden"
+              className="-mr-2 flex size-11 items-center justify-center rounded-md text-ink-muted transition-colors hover:bg-elevated hover:text-ink lg:hidden"
             >
               <X className="size-4" aria-hidden />
             </button>
           </div>
 
-          <nav className="flex-1 space-y-6 overflow-x-hidden overflow-y-auto px-3 py-4">
+          <nav className="flex-1 space-y-6 overflow-x-hidden overflow-y-auto px-3 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
             <ul className="space-y-0.5">
               <li>
                 <NavLink to="/dashboard" className={rowClass}>
@@ -149,7 +149,6 @@ export function AppSidebar({ open, onClose, collapsed, onToggleCollapsed }: AppS
   )
 }
 
-const isShipped = (tool: Tool): tool is Tool & { path: string } => tool.status === 'available' && Boolean(tool.path)
 
 function ToolRow({ tool }: { tool: Tool & { path: string } }) {
   const { t } = useTranslation()

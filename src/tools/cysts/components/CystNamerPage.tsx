@@ -8,7 +8,8 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronDown, ChevronUp, ExternalLink, Info, Search, X } from 'lucide-react'
-import { BigChip, StepCard } from '@/components/ui/didactic'
+import { ReportButton } from '@/components/feedback/ReportButton'
+import { BigChip, StepCard, TopicGroup, TopicList } from '@/components/ui/didactic'
 import { cn } from '@/lib/cn'
 import { suggest, type Suggestion } from '../match'
 import { CYSTS } from '../content'
@@ -132,29 +133,37 @@ export function CystNamerPage() {
 
         <StepCard number={2} title={t('cysts.step2Title')} hint={t('cysts.step2Hint')}>
           <div className="space-y-5">
-            {LINING_GROUPS.map((g) => (
-              <div key={g}>
-                <p className="mb-2 text-xs font-medium tracking-wide text-ink-muted uppercase">{t(`cysts.liningGroup.${g}`)}</p>
-                <div className="flex flex-wrap gap-2">
-                  {LININGS.filter((l) => l.group === g).map((l) => (
-                    <LiningChip key={l.id} lining={l} active={linings.has(l.id)} onClick={() => toggleIn(setLinings, l.id)} />
-                  ))}
-                </div>
-              </div>
-            ))}
+            <TopicList>
+              {LINING_GROUPS.map((g) => {
+                const items = LININGS.filter((l) => l.group === g)
+                return (
+                  <TopicGroup key={g} label={t(`cysts.liningGroup.${g}`)} selected={items.filter((l) => linings.has(l.id)).map((l) => l.label)}>
+                    <div className="flex flex-wrap gap-2">
+                      {items.map((l) => (
+                        <LiningChip key={l.id} lining={l} active={linings.has(l.id)} onClick={() => toggleIn(setLinings, l.id)} />
+                      ))}
+                    </div>
+                  </TopicGroup>
+                )
+              })}
+            </TopicList>
             <div className="border-t border-line pt-4">
               <p className="mb-1 text-sm font-medium text-ink">{t('cysts.featuresTitle')}</p>
               <p className="mb-3 text-xs text-ink-muted">{t('cysts.featuresHint')}</p>
-              <div className="space-y-3">
-                {FEATURE_GROUPS.map((g) => (
-                  <div key={g} className="flex flex-wrap items-center gap-1.5">
-                    <span className="mr-1 text-xs text-ink-faint">{t(`cysts.featureGroup.${g}`)}</span>
-                    {FEATURES.filter((f) => f.group === g).map((f) => (
-                      <FeatureChip key={f.id} feature={f} active={features.has(f.id)} onClick={() => toggleIn(setFeatures, f.id)} />
-                    ))}
-                  </div>
-                ))}
-              </div>
+              <TopicList>
+                {FEATURE_GROUPS.map((g) => {
+                  const items = FEATURES.filter((f) => f.group === g)
+                  return (
+                    <TopicGroup key={g} label={t(`cysts.featureGroup.${g}`)} selected={items.filter((f) => features.has(f.id)).map((f) => f.label)}>
+                      <div className="flex flex-wrap gap-1.5">
+                        {items.map((f) => (
+                          <FeatureChip key={f.id} feature={f} active={features.has(f.id)} onClick={() => toggleIn(setFeatures, f.id)} />
+                        ))}
+                      </div>
+                    </TopicGroup>
+                  )
+                })}
+              </TopicList>
             </div>
           </div>
         </StepCard>
@@ -176,7 +185,7 @@ export function CystNamerPage() {
                     {findFeature(id)?.label}
                   </Tag>
                 ))}
-                <button type="button" onClick={clearAll} className="text-xs text-accent hover:underline">
+                <button type="button" onClick={clearAll} className="inline-flex min-h-9 items-center text-xs text-accent hover:underline sm:min-h-0">
                   {t('cysts.clearAll')}
                 </button>
               </div>
@@ -316,7 +325,7 @@ function SuggestionCard({ s, open, onToggle, muted = false }: { s: Suggestion; o
               <ul className="space-y-0.5">
                 {c.sources.map((u) => (
                   <li key={u}>
-                    <a href={u} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs text-accent hover:underline">
+                    <a href={u} target="_blank" rel="noreferrer" className="inline-flex min-h-9 items-center gap-1 text-xs text-accent hover:underline sm:min-h-0">
                       {u.replace(/^https?:\/\//, '').slice(0, 80)}
                       <ExternalLink className="size-3" aria-hidden />
                     </a>
@@ -325,6 +334,9 @@ function SuggestionCard({ s, open, onToggle, muted = false }: { s: Suggestion; o
               </ul>
             </Row>
           )}
+          <div className="flex justify-end border-t border-line pt-3">
+            <ReportButton target={{ tool: 'cistos', itemId: c.id, itemName: c.name }} />
+          </div>
         </div>
       )}
     </li>

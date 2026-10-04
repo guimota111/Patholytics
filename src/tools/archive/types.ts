@@ -24,10 +24,22 @@ export interface ArchiveNode {
   icon: string
   tags: string[]
   copyCount: number
+  /** Favorito pessoal; sempre falso no catálogo, onde o documento é de todos. */
   favorite: boolean
+  /** Catálogo: uid de quem publicou. Vazio no acervo da casa. */
+  authorUid: string
+  /** Catálogo: o nome que a pessoa escolheu assinar, congelado na publicação. */
+  authorName: string
+  /** Biblioteca: id do nó do catálogo de onde esta cópia veio. */
+  sourceId: string
+  /** Biblioteca: crédito do original, preservado mesmo se a cópia for editada. */
+  sourceCredit: string
   createdAt: Timestamp | null
   updatedAt: Timestamp | null
 }
+
+/** Crédito do acervo que já vem com a ferramenta. Nome reservado nas regras. */
+export const HOUSE_CREDIT = 'Patholytics'
 
 /** Ícones disponíveis para as pastas. */
 export const FOLDER_ICONS = [
@@ -63,6 +75,10 @@ export function sanitizeNode(id: string, data: DocumentData): ArchiveNode {
     tags: Array.isArray(data.tags) ? data.tags.filter((t: unknown): t is string => typeof t === 'string') : [],
     copyCount: typeof data.copyCount === 'number' ? data.copyCount : 0,
     favorite: data.favorite === true,
+    authorUid: str(data.authorUid),
+    authorName: str(data.authorName),
+    sourceId: str(data.sourceId),
+    sourceCredit: str(data.sourceCredit),
     createdAt: (data.createdAt as Timestamp | undefined) ?? null,
     updatedAt: (data.updatedAt as Timestamp | undefined) ?? null,
   }
@@ -179,5 +195,8 @@ export interface ArchiveExport {
     tags: string[]
     copyCount: number
     favorite: boolean
+    /** Só no catálogo: preserva o crédito num export/import de backup. */
+    authorUid?: string
+    authorName?: string
   }[]
 }

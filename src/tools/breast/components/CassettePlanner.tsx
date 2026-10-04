@@ -60,7 +60,7 @@ export function CassettePlanner({ lesion, map, plan, index, onChange }: Cassette
         {autoStart ? (
           <span className="pb-2 text-xs text-ink-faint">{t('breast.cassette.autoStart')}</span>
         ) : (
-          <button type="button" onClick={() => onChange({ start: null })} className="pb-2 text-xs text-accent hover:underline">
+          <button type="button" onClick={() => onChange({ start: null })} className="inline-flex min-h-9 items-center pb-2 text-xs text-accent hover:underline sm:min-h-0">
             {t('breast.cassette.backToAuto')}
           </button>
         )}
@@ -93,7 +93,7 @@ export function CassettePlanner({ lesion, map, plan, index, onChange }: Cassette
             )
           })}
           {lesion.cassettes.slice !== null && (
-            <button type="button" onClick={() => onChange({ slice: null })} className="ml-1 text-xs text-accent hover:underline">
+            <button type="button" onClick={() => onChange({ slice: null })} className="ml-1 inline-flex min-h-9 items-center text-xs text-accent hover:underline sm:min-h-0">
               {t('breast.cassette.useLargest', { n: plan.largest })}
             </button>
           )}

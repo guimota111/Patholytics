@@ -502,7 +502,7 @@ interface SceneRefs {
 }
 
 const BreastModel = forwardRef<BreastModelHandle, BreastModelProps>(function BreastModel(
-  { map, theme, mode, cells, selectedLesion, onSelectLesion, selectedCassette, onSelectCassette, className, heightClass = 'h-[460px]' },
+  { map, theme, mode, cells, selectedLesion, onSelectLesion, selectedCassette, onSelectCassette, className, heightClass = 'h-[21rem] sm:h-[460px]' },
   ref,
 ) {
   const { t, i18n } = useTranslation()

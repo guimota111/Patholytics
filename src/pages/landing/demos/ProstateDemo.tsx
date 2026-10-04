@@ -70,7 +70,7 @@ export default function ProstateDemo() {
     <div ref={ref} className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
       <DemoFrame className="flex flex-col">
         <DemoLabel>{t('landing.demo.prostate.tableLabel')}</DemoLabel>
-        <div className="max-h-[23.5rem] min-h-[12rem] flex-1 overflow-auto rounded-md border border-line">
+        <div className="relative max-h-[23.5rem] min-h-[12rem] flex-1 overflow-auto rounded-md border border-line">
           <table className="w-full min-w-[26rem] text-sm">
             <thead className="sticky top-0 bg-surface text-[0.6875rem] tracking-wider text-ink-faint uppercase">
               <tr className="border-b border-line">
@@ -102,7 +102,7 @@ export default function ProstateDemo() {
                         <span className="truncate text-xs text-ink-faint">{row.cell.group?.name}</span>
                       </span>
                     </td>
-                    <td className="px-2 py-1.5">
+                    <td className="w-16 px-2 py-1.5">
                       <NumField
                         value={row.data.tumor}
                         onChange={(v) => setCell(id, { tumor: v })}
@@ -112,7 +112,7 @@ export default function ProstateDemo() {
                         aria-label={`${t('prostate.table.tumor')} ${row.cell.label}`}
                       />
                     </td>
-                    <td className="px-2 py-1.5">
+                    <td className="w-16 px-2 py-1.5">
                       <NumField
                         value={row.data.g4}
                         onChange={(v) => setCell(id, { g4: v })}

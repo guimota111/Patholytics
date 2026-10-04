@@ -4,7 +4,7 @@
    Nenhum outro arquivo precisa mudar.
    ========================================================================== */
 
-import type { Calculator } from './types'
+import type { Calculator, OrganId } from './types'
 
 import adrenal from './calculators/adrenal'
 import bileductPerihilar from './calculators/bileduct_perihilar'
@@ -63,7 +63,64 @@ import skinMerkel from './calculators/skin_merkel'
 import softTissue from './calculators/soft_tissue'
 import thymus from './calculators/thymus'
 
-export const calculators: Calculator[] = [
+const ORGAN_MAP: Record<string, OrganId> = {
+  breast_invasive: 'breast',
+  breast_dcis: 'breast',
+  breast_phyllodes: 'breast',
+  colorectal: 'colon',
+  gastric: 'stomach',
+  net_colorectal: 'colon',
+  net_duodamp: 'stomach',
+  net_jejileum: 'colon',
+  net_pancreas: 'pancreas',
+  bileduct_perihilar: 'gallbladder',
+  gallbladder: 'gallbladder',
+  uterus_endometrium: 'uterus',
+  adrenal: 'adrenal',
+  esophagus: 'esophagus',
+  small_intestine: 'colon',
+  appendix: 'appendix',
+  anus: 'anus',
+  gist: 'stomach',
+  net_appendix: 'appendix',
+  net_stomach: 'stomach',
+  ampulla: 'pancreas',
+  pancreas_exo: 'pancreas',
+  bileduct_intrahepatic: 'liver',
+  bileduct_distal: 'gallbladder',
+  hcc: 'liver',
+  kidney: 'kidney',
+  bladder: 'bladder',
+  ureter_renal_pelvis: 'kidney',
+  urethra: 'bladder',
+  prostate: 'prostate',
+  testis: 'testis',
+  penis: 'penis',
+  cervix: 'uterus',
+  ovary: 'ovary',
+  vulva: 'vulva',
+  vagina: 'vulva',
+  uterine_sarcoma: 'uterus',
+  thyroid: 'thyroid',
+  lung: 'lung',
+  thymus: 'thymus',
+  pleura_mesothelioma: 'lung',
+  skin_melanoma: 'skin',
+  skin_merkel: 'skin',
+  skin_cutaneous_hn: 'skin',
+  bone: 'bone',
+  soft_tissue: 'soft_tissue',
+  hn_oral: 'head_neck',
+  hn_larynx: 'head_neck',
+  hn_oropharynx_hpv: 'head_neck',
+  hn_oropharynx_hpvind: 'head_neck',
+  hn_nasopharynx: 'head_neck',
+  hn_nasal: 'head_neck',
+  hn_salivary: 'head_neck',
+  hn_mucosal_melanoma: 'head_neck',
+}
+
+const rawCalculators: Calculator[] = [
   breastInvasive,
   breastDcis,
   breastPhyllodes,
@@ -129,6 +186,11 @@ export const calculators: Calculator[] = [
   hnSalivary,
   hnMucosalMelanoma,
 ]
+
+export const calculators: Calculator[] = rawCalculators.map((calc) => ({
+  ...calc,
+  organId: calc.organId ?? ORGAN_MAP[calc.id],
+}))
 
 /** Ordem das seções na listagem. */
 export const sectionOrder = [

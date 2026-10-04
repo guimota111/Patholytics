@@ -86,6 +86,63 @@ export function BigChip({
   )
 }
 
+/** Lista de tópicos recolhidos: cada linha só abre se o usuário quiser. */
+export function TopicList({ children, className }: { children: ReactNode; className?: string }) {
+  return <div className={cn('divide-y divide-line overflow-hidden rounded-md border border-line bg-surface', className)}>{children}</div>
+}
+
+/**
+ * Um tópico recolhido. Fechado, mostra o rótulo, quantos itens foram
+ * marcados e os primeiros rótulos marcados, para a página ficar curta sem
+ * esconder o que já foi escolhido. Aberto, mostra os chips do tópico.
+ */
+export function TopicGroup({
+  label,
+  hint,
+  selected = [],
+  defaultOpen = false,
+  children,
+}: {
+  label: string
+  hint?: string
+  /** Rótulos dos itens já marcados neste tópico. */
+  selected?: string[]
+  defaultOpen?: boolean
+  children: ReactNode
+}) {
+  const [open, setOpen] = useState(defaultOpen)
+  const shown = selected.slice(0, 6)
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className="flex w-full flex-wrap items-center gap-x-2 gap-y-1 px-3.5 py-2.5 text-left text-sm transition-colors hover:bg-raised"
+      >
+        {open ? <ChevronDown className="size-4 shrink-0 text-ink-faint" aria-hidden /> : <ChevronRight className="size-4 shrink-0 text-ink-faint" aria-hidden />}
+        <span className={cn('font-medium', selected.length > 0 ? 'text-ink' : 'text-ink-muted')}>{label}</span>
+        {selected.length > 0 && (
+          <span className="tabular rounded-full bg-accent px-1.5 py-px text-[0.65rem] font-semibold text-white">{selected.length}</span>
+        )}
+        {!open &&
+          shown.map((s) => (
+            <span key={s} className="rounded-full border border-accent/40 bg-accent-soft px-2 py-0.5 text-[0.7rem] text-accent-ink">
+              {s}
+            </span>
+          ))}
+        {!open && selected.length > shown.length && <span className="text-xs text-ink-faint">+{selected.length - shown.length}</span>}
+      </button>
+      {open && (
+        <div className="border-t border-line bg-elevated px-3.5 py-3">
+          {hint && <p className="mb-2 text-xs text-ink-muted">{hint}</p>}
+          {children}
+        </div>
+      )}
+    </div>
+  )
+}
+
 /** Caixa de resultado em destaque. */
 export function ResultBox({ children, className }: { children: ReactNode; className?: string }) {
   return (

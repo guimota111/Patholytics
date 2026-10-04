@@ -14,6 +14,33 @@ interface State {
   error: Error | null
 }
 
+const STALE_RELOAD_KEY = 'patholytics.staleChunkReload'
+
+/**
+ * Depois de um deploy, a aba que ficou aberta ainda aponta para os chunks
+ * antigos; o hosting responde o index.html no lugar do JS que não existe
+ * mais, e o `import()` da rota falha. Foi o que deixou usuários numa tela em
+ * branco no /dashboard logo após o login — recarregar resolvia. Aqui a
+ * recarga é automática, uma vez só, para não entrar em loop se a falha for
+ * outra.
+ */
+export function isStaleChunkError(error: unknown): boolean {
+  const message = error instanceof Error ? error.message : String(error)
+  return /dynamically imported module|Importing a module script failed|Loading (CSS )?chunk|Unable to preload CSS|MIME type/i.test(message)
+}
+
+export function reloadOnceForStaleChunk(): boolean {
+  try {
+    const last = Number(sessionStorage.getItem(STALE_RELOAD_KEY) ?? 0)
+    if (Date.now() - last < 60_000) return false
+    sessionStorage.setItem(STALE_RELOAD_KEY, String(Date.now()))
+  } catch {
+    // sem sessionStorage, recarrega mesmo assim — o pior caso é um refresh a mais
+  }
+  window.location.reload()
+  return true
+}
+
 /**
  * Um erro de renderização dentro de uma ferramenta não pode apagar a tela
  * inteira: aqui ele vira uma mensagem com botão de recarregar, e fica no
@@ -28,6 +55,7 @@ export class ToolErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, info: ErrorInfo) {
     console.error('Tool crashed:', error, info.componentStack)
+    if (isStaleChunkError(error)) reloadOnceForStaleChunk()
   }
 
   componentDidUpdate(prev: Props) {

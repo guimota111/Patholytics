@@ -16,12 +16,12 @@ export function MarketingLayout() {
       <header className="sticky top-0 z-40 border-b border-line bg-ground/85 backdrop-blur-sm">
         <div className="shell flex h-14 items-center justify-between">
           <Link to="/" aria-label={t('common.appName')}>
-            <Logo />
+            <Logo labelClassName="hidden min-[380px]:inline" />
           </Link>
 
           <nav className="flex items-center gap-1.5">
             <a
-              href="#prostata"
+              href="#ferramentas"
               className="hidden rounded-md px-3 py-1.5 text-sm text-ink-muted transition-colors hover:text-ink sm:inline-flex"
             >
               {t('nav.tools')}

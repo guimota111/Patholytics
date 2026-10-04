@@ -15,6 +15,7 @@ import {
   type MicroscopeConfig,
 } from '../optics'
 import { BigChip, MoreSection, ResultBox } from '@/components/ui/didactic'
+import { ScrollX } from '@/components/ui/ScrollX'
 
 interface MicroscopeCardProps {
   config: MicroscopeConfig
@@ -202,7 +203,7 @@ export function MicroscopeCard({ config, onChange, onReset }: MicroscopeCardProp
 
       {valid && (
         <MoreSection label={t('fov.tableLabel')}>
-          <div className="overflow-x-auto">
+          <ScrollX>
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-line text-left text-xs tracking-wider text-ink-faint uppercase">
@@ -237,8 +238,8 @@ export function MicroscopeCard({ config, onChange, onReset }: MicroscopeCardProp
                 })}
               </tbody>
             </table>
+            </ScrollX>
             <p className="mt-3 text-xs leading-relaxed text-ink-faint">{t('fov.formula')}</p>
-          </div>
         </MoreSection>
       )}
     </div>

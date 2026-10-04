@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AlertTriangle, Check, Copy, RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
+import { cn } from '@/lib/cn'
 import { SHOW_STAGE_GROUP } from '../config'
 import type { CalculatorResult } from '../types'
 
@@ -42,7 +43,13 @@ export function ResultPanel({ result, onReset }: ResultPanelProps) {
 
       <div className="space-y-5 px-5 py-5">
         {result.tnm && result.tnm.length > 0 && (
-          <dl className="grid grid-cols-3 gap-px overflow-hidden rounded-md border border-line bg-line">
+          // Colunas conforme a contagem, para a última linha não sobrar célula vazia (as suítes usam 1 a 6 selos).
+          <dl
+            className={cn(
+              'grid gap-px overflow-hidden rounded-md border border-line bg-line',
+              result.tnm.length === 1 ? 'grid-cols-1' : result.tnm.length % 3 === 0 || result.tnm.length === 5 ? 'grid-cols-3' : 'grid-cols-2',
+            )}
+          >
             {result.tnm.map((badge) => (
               <div key={badge.k} className="bg-surface px-3 py-2.5">
                 <dt className="text-xs tracking-wider text-ink-faint uppercase">{badge.k}</dt>

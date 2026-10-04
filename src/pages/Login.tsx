@@ -60,7 +60,7 @@ export default function LoginPage() {
       footer={
         <>
           {t('auth.login.noAccount')}{' '}
-          <Link to="/signup" className="font-medium text-accent hover:text-accent-hover">
+          <Link to="/signup" className="inline-flex min-h-9 items-center font-medium text-accent hover:text-accent-hover">
             {t('auth.login.signupLink')}
           </Link>
         </>
@@ -101,7 +101,7 @@ export default function LoginPage() {
               <div className="text-right">
                 <Link
                   to="/reset-password"
-                  className="text-xs text-ink-muted transition-colors hover:text-accent"
+                  className="inline-flex min-h-9 items-center text-xs text-ink-muted transition-colors hover:text-accent"
                 >
                   {t('auth.login.forgot')}
                 </Link>

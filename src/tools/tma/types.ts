@@ -24,9 +24,19 @@ export interface TmaState {
   fields: TmaField[]
   /** Respostas por core, com chave `linha-coluna` (índices base 0). */
   results: Record<string, CoreAnswers>
+  /**
+   * Cores de controle, com chave `linha-coluna` e o rótulo que o usuário deu
+   * ("Controle +", "Tonsila"...). A lâmina costuma trazer um ou dois; marcar
+   * evita que entrem na conta como caso e deixa o mapa e a tabela avisarem.
+   */
+  controls: Record<string, string>
   /** Índice do core atual dentro da ordem de leitura. */
   current: number
 }
+
+/** Rótulos prontos dos controles; o usuário pode digitar qualquer outro. */
+export const CONTROL_PRESETS = ['+', '−'] as const
+export const MAX_CONTROL_LABEL = 40
 
 export const MIN_DIMENSION = 1
 export const MAX_DIMENSION = 40
@@ -68,6 +78,12 @@ export function buildOrder(rows: number, cols: number): [number, number][] {
 
 export const clampDimension = (value: number) =>
   Math.max(MIN_DIMENSION, Math.min(MAX_DIMENSION, Math.floor(value) || MIN_DIMENSION))
+
+/** O rótulo do controle neste core, ou null quando é um core de caso. */
+export const controlOf = (state: Pick<TmaState, 'controls'>, row: number, col: number): string | null =>
+  state.controls[keyOf(row, col)] ?? null
+
+export const hasControls = (state: Pick<TmaState, 'controls'>) => Object.keys(state.controls).length > 0
 
 /** Quantos campos de um core têm resposta. */
 export function answeredCount(answers: CoreAnswers | undefined, fields: TmaField[]): number {

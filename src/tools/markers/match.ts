@@ -91,6 +91,8 @@ export interface Suggestion {
   siteRole: SiteRole | null
   siteFreq: 1 | 2 | 3 | null
   morphHits: string[]
+  /** Subconjunto de morphHits: caras que o tumor só tem como variante (posição ≥ 2 na lista). */
+  morphVariants: string[]
   morphMisses: string[]
   ageHit: boolean | null
   sexMismatch: boolean
@@ -110,6 +112,12 @@ export const normalize = (s: string) =>
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v))
 
 const PRIOR_BY_FREQ: Record<1 | 2 | 3, number> = { 3: 1.2, 2: 0.4, 1: -0.4 }
+/**
+ * Ganho por uma cara celular escolhida, pela posição em que o tumor a lista:
+ * habitual (1ª e 2ª) vale cheio; a partir da 3ª é variante e vale pouco.
+ */
+const CELL_HIT_BY_POSITION = [1.2, 0.9, 0.4]
+const CELL_VARIANT_FROM = 2
 const METASTASIS_PENALTY = 0.6
 const MARKER_WEIGHT = 1.5
 const LN_HALF = Math.log(0.5)
@@ -167,20 +175,31 @@ export function scoreTumor(tumor: Tumor, choice: Choice): Suggestion {
   }
 
   // Morfologia: cada escolha que o tumor tem sobe, cada uma que não tem desce.
+  // Em `cells` a ordem importa: a primeira cara é a habitual, as seguintes
+  // são variantes cada vez mais raras. Um carcinoma que lista "fusocelular"
+  // em terceiro lugar não pode empatar com um leiomiossarcoma, para quem a
+  // célula fusiforme é a regra; por isso o ganho cai com a posição.
   const morphHits: string[] = []
+  const morphVariants: string[] = []
   const morphMisses: string[] = []
-  const check = (chosen: Set<string>, have: string[] | undefined, hit: number, miss: number) => {
+  const check = (chosen: Set<string>, have: string[] | undefined, hit: number | number[], miss: number) => {
     for (const id of chosen) {
-      if (have?.includes(id)) {
+      const at = have?.indexOf(id) ?? -1
+      if (at >= 0) {
         morphHits.push(id)
-        score += hit
+        if (Array.isArray(hit)) {
+          score += hit[Math.min(at, hit.length - 1)]
+          if (at >= CELL_VARIANT_FROM) morphVariants.push(id)
+        } else {
+          score += hit
+        }
       } else {
         morphMisses.push(id)
         score -= miss
       }
     }
   }
-  check(choice.cells, tumor.cells, 1.2, 1.0)
+  check(choice.cells, tumor.cells, CELL_HIT_BY_POSITION, 1.0)
   check(choice.architecture, tumor.architecture, 0.8, 0.4)
   check(choice.features, tumor.features, 0.8, 0.5)
 
@@ -205,7 +224,7 @@ export function scoreTumor(tumor: Tumor, choice: Choice): Suggestion {
   }
   score += MARKER_WEIGHT * markerScore
 
-  return { tumor, score, siteRole, siteFreq, morphHits, morphMisses, ageHit, sexMismatch, markers, markerScore, covered }
+  return { tumor, score, siteRole, siteFreq, morphHits, morphVariants, morphMisses, ageHit, sexMismatch, markers, markerScore, covered }
 }
 
 const hasEvidence = (c: Choice) => c.cells.size + c.architecture.size + c.features.size + c.markers.size > 0

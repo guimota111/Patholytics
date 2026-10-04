@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ArrowUpRight, Info, Search } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
+import { OrganIcon } from '@/components/icons/OrganIcons'
 import { calculators, groupBySection } from '@/tools/stager/registry'
 
 /** Busca simples por nome, seção e sistema — sem acento e sem caixa. */
@@ -75,21 +76,32 @@ export default function StagerIndexPage() {
                   <Link
                     key={calc.id}
                     to={`/tools/stager/${calc.id}`}
-                    className="group flex h-full flex-col rounded-lg border border-line bg-elevated p-5 shadow-card transition-colors hover:border-accent/40 hover:bg-raised"
+                    className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-elevated shadow-card transition-all duration-200 hover:border-accent/40 hover:bg-raised hover:shadow-lg hover:shadow-accent/5"
                   >
-                    <div className="flex items-start justify-between gap-3">
-                      <h3 className="text-sm font-semibold tracking-tight text-ink">{calc.name}</h3>
-                      <ArrowUpRight
-                        className="size-4 shrink-0 text-ink-faint transition-colors group-hover:text-accent"
-                        aria-hidden
-                      />
+                    <div className="relative h-40 w-full overflow-hidden bg-surface/30 border-b border-line flex items-center justify-center p-4">
+                      <OrganIcon organId={calc.organId} className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-110" />
                     </div>
-                    <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-faint">
-                      {calc.summary}
-                    </p>
-                    <span className="mt-4 inline-flex w-fit rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs text-ink-muted">
-                      {calc.system}
-                    </span>
+                    <div className="flex flex-1 flex-col justify-between p-5">
+                      <div>
+                        <div className="flex items-start justify-between gap-3">
+                          <h3 className="text-sm font-semibold tracking-tight text-ink transition-colors group-hover:text-accent">
+                            {calc.name}
+                          </h3>
+                          <ArrowUpRight
+                            className="size-4 shrink-0 text-ink-faint transition-colors group-hover:text-accent"
+                            aria-hidden
+                          />
+                        </div>
+                        <p className="mt-2 text-xs leading-relaxed text-ink-faint line-clamp-2">
+                          {calc.summary}
+                        </p>
+                      </div>
+                      <div className="mt-4 pt-4 flex items-center justify-between border-t border-line/50">
+                        <span className="inline-flex w-fit rounded-full border border-line bg-surface px-2.5 py-0.5 text-[11px] font-medium text-ink-muted">
+                          {calc.system}
+                        </span>
+                      </div>
+                    </div>
                   </Link>
                 ))}
               </div>

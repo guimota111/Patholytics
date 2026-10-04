@@ -34,10 +34,16 @@ export function TmaExportModal({ state, onClose }: TmaExportModalProps) {
     if (timer.current) clearTimeout(timer.current)
   }, [])
 
-  const options: TableOptions = { header, coordinate, coordinateLabel: t('tma.coordinateColumn') }
+  const options: TableOptions = {
+    header,
+    coordinate,
+    coordinateLabel: t('tma.coordinateColumn'),
+    controlLabel: t('tma.controlColumn'),
+  }
   const fileBase = fileBaseFor(state)
-  const total = state.rows * state.cols
-  const filled = Object.keys(state.results).length
+  // Controles ficam fora da conta: o progresso é sobre os cores de caso.
+  const total = state.rows * state.cols - Object.keys(state.controls).length
+  const filled = Object.keys(state.results).filter((key) => !(key in state.controls)).length
   const labels: PaperLabels = {
     title: t('tma.paperTitle'),
     dims: t('tma.dimensions', { rows: state.rows, cols: state.cols }),
@@ -46,6 +52,7 @@ export function TmaExportModal({ state, onClose }: TmaExportModalProps) {
     empty: t('tma.legendEmpty'),
     partial: t('tma.legendPartial'),
     complete: t('tma.legendFilled'),
+    control: t('tma.legendControl'),
     footer: t('tma.paperFooter'),
   }
 

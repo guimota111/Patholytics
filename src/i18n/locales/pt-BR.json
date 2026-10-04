@@ -7,6 +7,7 @@
     "saved": "Salvo",
     "cancel": "Cancelar",
     "back": "Voltar",
+    "underConstruction": "Em construção",
     "comingSoon": "Em breve",
     "language": "Idioma",
     "theme": "Tema",
@@ -36,25 +37,56 @@
     "hero": {
       "eyebrow": "Para quem assina laudo todo dia",
       "title": "O instrumental do patologista, afiado",
+      "subtitle": "Um lugar só para as contas e consultas que aparecem no meio de um laudo: gradação, estadiamento pTNM, conversão de campos, diagnóstico diferencial e as rotinas de macroscopia. Tudo roda no seu navegador, com a referência ao lado do resultado.",
       "ctaPrimary": "Criar conta grátis",
       "ctaSecondary": "Entrar",
-      "scrollCue": "Role para usar cada ferramenta aqui mesmo"
+      "scrollCue": "Role para ver uma prévia de cada ferramenta"
     },
-    "openTool": "Abrir ferramenta",
-    "disclaimer": "Ferramentas de uso profissional por patologistas qualificados. O resultado apoia — nunca substitui — o seu julgamento. As demonstrações desta página rodam só no seu navegador e não são salvas.",
+    "openTool": "Abrir a ferramenta completa",
+    "disclaimer": "Ferramentas de uso profissional por patologistas qualificados. O resultado apoia — nunca substitui — o seu julgamento. As prévias desta página são versões reduzidas das ferramentas, rodam só no seu navegador e não são salvas.",
     "nav": {
       "label": "Seções da página",
       "inicio": "Início",
+      "peles": "Peles inflamatórias",
+      "marcadores": "Marker Helper",
+      "bichos": "Catálogo de bichos",
+      "corpos-estranhos": "Corpos estranhos",
+      "mohs": "Mohs na congelação",
       "prostata": "Próstata",
       "mama": "Mama",
       "estadiamento": "Estadiamento",
       "campos": "Campos do microscópio",
       "cobranca": "Cobrança CBHPM",
       "arquivo": "Arquivo de laudos",
-      "tma": "Mapeador de TMA",
+      "ferramentas": "Todas as ferramentas",
       "conta": "Criar conta"
     },
     "snaps": {
+      "skin": {
+        "eyebrow": "Peles inflamatórias",
+        "title": "Do padrão de reação ao diferencial, com o que procurar na lâmina",
+        "body": "Marque o padrão em pequeno aumento e os achados que você está vendo: as hipóteses se reordenam, e cada uma diz o achado-chave que ainda falta procurar."
+      },
+      "markers": {
+        "eyebrow": "Imuno-histoquímica",
+        "title": "A imuno que você já tem, e a que mais separa os candidatos",
+        "body": "Cada marcador entra com a porcentagem da literatura naquele tumor. Marque positivo ou negativo e veja a lista se reordenar — e qual anticorpo pedir a seguir."
+      },
+      "bugs": {
+        "eyebrow": "Catálogo de bichos",
+        "title": "Hifa septada? Brotamento de base larga? Filtre pelo que está vendo",
+        "body": "Fungos, parasitas e bactérias descritos pela morfologia na lâmina, com fotos. Marque as características e o catálogo encolhe até o nome."
+      },
+      "foreign": {
+        "eyebrow": "Corpos estranhos",
+        "title": "Aquele material que ninguém sabe o que é",
+        "body": "Preenchedores, suturas, próteses, cristais e contaminantes, filtrados pela clínica e pelo comportamento à luz polarizada."
+      },
+      "mohs": {
+        "eyebrow": "Congelação",
+        "title": "A peça de Mohs no relógio, com o laudo saindo junto",
+        "body": "Gire o eixo de corte, divida a peça em quadrantes e clique no que tem tumor: os rótulos em horas, os cassetes e as frases do laudo se refazem sozinhos."
+      },
       "prostate": {
         "eyebrow": "Próstata",
         "title": "A prostatectomia inteira em uma tabela e um modelo 3D",
@@ -73,7 +105,7 @@
       "fields": {
         "eyebrow": "Campos e contagens",
         "title": "O seu campo de 40× vale quantos mm²?",
-        "body": "Do número gravado na ocular saem o diâmetro, a área e a conversão da sua contagem — inclusive os cortes da tabela mitótica de mama para o seu microscópio."
+        "body": "Do número gravado na ocular saem o diâmetro e a área do seu campo — e quantos campos você precisa percorrer para cobrir a área que o protocolo daquele tumor exige."
       },
       "billing": {
         "eyebrow": "Bancada",
@@ -84,11 +116,6 @@
         "eyebrow": "Bancada",
         "title": "As suas máscaras de laudo a uma busca de distância",
         "body": "Categorias, tags, favoritos e copiar com um clique. Busque por título, texto ou tag e leve a máscara pronta para o seu editor."
-      },
-      "tma": {
-        "eyebrow": "Bancada",
-        "title": "Um tissue microarray core a core",
-        "body": "Percorra a lâmina na ordem de leitura e escreva o resultado de cada core; no fim, a coluna inteira sai pronta para colar na planilha."
       }
     },
     "demo": {
@@ -113,9 +140,13 @@
       },
       "fields": {
         "scopeLabel": "O seu microscópio e a sua contagem",
-        "breastLabel": "Score mitótico de mama (CAP / NHSBSP)",
-        "scoreIs": "Com essa contagem, o score mitótico é {{score}}.",
-        "scoreNeedsTen": "O score de mama é definido para 10 campos consecutivos — ajuste os campos contados para 10."
+        "tumorLabel": "O que você está contando",
+        "tumor": {
+          "gist": "GIST",
+          "melanoma": "Melanoma"
+        },
+        "answerLabel": "Quantos campos você precisa ver",
+        "required": "Área exigida"
       },
       "billing": {
         "pieceLabel": "Peça na bancada",
@@ -126,13 +157,50 @@
         "treeLabel": "Arquivo — busque e selecione",
         "noMatch": "Nada encontrado com esse termo."
       },
-      "tma": {
-        "columnLabel": "Tabela pronta para a planilha"
+      "catalog": {
+        "filterLabel": "Filtre pelo que está vendo",
+        "searchPlaceholder": "Buscar pelo nome…",
+        "resultsLabel": "Verbetes que sobraram",
+        "count": "{{shown}} de {{total}} verbetes",
+        "empty": "Nada com essa combinação — tire um filtro."
+      },
+      "skin": {
+        "patternLabel": "Padrão de reação (pequeno aumento)",
+        "findingsLabel": "O que você está vendo",
+        "resultsLabel": "Hipóteses, em ordem",
+        "lookFor": "Procure na lâmina:",
+        "hint": "Marque um achado e veja a ordem mudar. Na ferramenta há também a clínica e a comparação lado a lado.",
+        "empty": "Marque um padrão ou um achado para começar."
+      },
+      "markers": {
+        "caseLabel": "O caso",
+        "caseText": "Massa pulmonar, biópsia por agulha: células glandulares atípicas, com desmoplasia.",
+        "panelLabel": "O que já voltou do laboratório",
+        "positive": "Positivo",
+        "negative": "Negativo",
+        "hint": "A porcentagem ao lado de cada marcador é a da literatura naquele tumor — é dela que sai a pontuação.",
+        "resultsLabel": "Diagnósticos, em ordem",
+        "nextLabel": "O que mais separa os de cima"
+      },
+      "mohs": {
+        "pieceLabel": "A peça vista de cima",
+        "rotateBack": "Girar o eixo meia hora para trás",
+        "rotateForward": "Girar o eixo meia hora para a frente",
+        "shape": {
+          "circle": "Peça inteira",
+          "halfmoon": "Meia-lua"
+        },
+        "divisions": "{{count}} quadrantes",
+        "tumor": "tumor",
+        "tumorType": "carcinoma basocelular",
+        "hint": "Clique num quadrante para marcar tumor na margem.",
+        "cassettesLabel": "Quadrantes e cassetes",
+        "reportLabel": "O texto do laudo"
       }
     },
     "cta": {
       "title": "Crie a conta e leve os seus casos junto",
-      "subtitle": "Aqui em cima nada é salvo. Com conta, os casos, as máscaras e as preferências ficam sincronizados entre os seus dispositivos.",
+      "subtitle": "As prévias aqui de cima são recortes, e nada é salvo. Com conta, você usa as ferramentas inteiras e leva os casos, as máscaras e as preferências sincronizados entre os seus dispositivos.",
       "button": "Criar conta grátis"
     },
     "footer": {
@@ -148,7 +216,13 @@
       "disclaimer": "Aviso médico",
       "rights": "Todos os direitos reservados.",
       "placeholderNote": "As páginas institucionais são placeholders enquanto o produto está em beta."
-    }
+    },
+    "tools": {
+      "eyebrow": "Tudo que tem aqui",
+      "title": "{{count}} ferramentas, uma para cada parada do laudo",
+      "body": "Além das prévias acima, os catálogos, o diferencial e as rotinas de bancada — que não cabem numa tela, mas estão todas prontas. Clique em qualquer uma para abrir."
+    },
+    "previewNote": "Esta é uma prévia simplificada: a ferramenta completa está no portal."
   },
   "auth": {
     "login": {
@@ -276,8 +350,8 @@
       "description": "Estimativa de celularidade a partir de imagem de biópsia de medula óssea, comparada à faixa esperada para a idade."
     },
     "ackerman": {
-      "name": "Ackerman Would Be Proud",
-      "description": "Diferenciais dermatopatológicos organizados por padrão de reação e arquitetura."
+      "name": "Peles inflamatórias",
+      "description": "Correlaciona dados clínicos e padrões de reação para organizar diferenciais dermatopatológicos."
     },
     "tma": {
       "name": "Mapeador de TMA",
@@ -289,7 +363,7 @@
     },
     "reportArchive": {
       "name": "Arquivo de laudos",
-      "description": "Suas máscaras de laudo e notas em pastas, com busca, tags, favoritos e copiar com um clique — sincronizado na sua conta."
+      "description": "Um catálogo de máscaras que a comunidade alimenta, com crédito a quem enviou, e a sua biblioteca para guardar e adaptar o que interessa."
     },
     "billing": {
       "name": "Ajuste de cobrança (CBHPM)",
@@ -310,6 +384,14 @@
     "foreignCatalog": {
       "name": "Catálogo de corpos estranhos",
       "description": "Preenchedores, suturas, talco e afins: filtre por onde aparecem e pela clínica, e mande as suas fotos."
+    },
+    "ihcScores": {
+      "name": "Escores de imuno",
+      "description": "Receptores hormonais, HER2 (mama e gástrico), PD-L1, Ki-67, H-score, MMR e p53: da contagem ou do padrão ao resultado e à frase do laudo."
+    },
+    "grading": {
+      "name": "Outras graduações",
+      "description": "Nottingham, FNCLCC, WHO/ISUP renal, regressão tumoral, OLGA/OLGIM, Marsh, METAVIR/Ishak, MASLD, Banff e nefrite lúpica numa página só."
     }
   },
   "stager": {
@@ -390,6 +472,17 @@
     "editFieldsTitle": "Editar campos do core",
     "editFieldsWarning": "Remover um campo apaga as respostas dele em todos os cores.",
     "saveFields": "Salvar campos",
+    "legendControl": "Controle",
+    "controlLabel": "Este core é um controle?",
+    "controlDefault": "Controle",
+    "controlOther": "Outro controle",
+    "controlPlaceholder": "Outro: tonsila, placenta…",
+    "controlClear": "Não é controle",
+    "controlHint": "Controles ficam marcados no mapa e na tabela, e não entram na conta dos cores de caso.",
+    "controlTitle": "Controle: {{label}}",
+    "controlCount_one": "{{count}} controle",
+    "controlCount_other": "{{count}} controles",
+    "controlColumn": "Controle",
     "legendPartial": "Parcial",
     "export": "Exportar",
     "exportTitle": "Exportar resultados",
@@ -1388,21 +1481,14 @@
     "envFile": ".env"
   },
   "archive": {
-    "subtitle": "Suas máscaras de laudo e notas numa árvore de categorias, com busca por título, texto ou tag, favoritos e um botão de copiar. Fica na sua conta e sincroniza entre os seus dispositivos.",
-    "privacy": "O arquivo é privado: só a sua conta lê e escreve nele. Use Exportar para guardar uma cópia em JSON — e Importar para trazê-la de volta ou migrar de outro arquivo.",
+    "subtitle": "Um catálogo de máscaras de laudo que a comunidade alimenta, e uma biblioteca sua para guardar e adaptar o que interessa. Busca por título, texto ou tag, e um botão de copiar.",
+    "privacy": "A sua biblioteca é privada: só a sua conta lê e escreve nela. O catálogo é compartilhado — o que você publicar lá aparece para todos os usuários, assinado com o seu nome. Use Exportar para guardar uma cópia em JSON.",
     "loadError": "Não foi possível carregar o arquivo. Verifique a conexão e recarregue a página.",
     "roots": {
       "reports": "Laudos",
       "notes": "Notas",
       "favorites": "Favoritos",
       "favoritesEmpty": "Marque uma máscara com ★ para vê-la aqui."
-    },
-    "seed": {
-      "headNeck": "Cabeça e pescoço",
-      "neuro": "Neuro",
-      "gi": "Gastro",
-      "hemato": "Hemato",
-      "dermato": "Dermato"
     },
     "toolbar": {
       "search": "Buscar categoria, título, texto ou #tag…",
@@ -1431,7 +1517,7 @@
       "selectHint": "Clique para selecionar · duplo clique para abrir"
     },
     "panel": {
-      "empty": "Selecione um laudo ou uma nota à esquerda para ver a máscara aqui.",
+      "empty": "Selecione um laudo ou uma nota para ver a máscara aqui.",
       "copy": "Copiar máscara",
       "copied": "Copiado",
       "copyError": "Não foi possível copiar — selecione o texto e copie manualmente.",
@@ -1468,6 +1554,37 @@
       "deleteConfirm": "Excluir \"{{label}}\"?",
       "deleteCascade": "Todas as subcategorias, laudos e notas dentro dela também serão removidos.",
       "error": "Ocorreu um erro ao salvar. Tente novamente."
+    },
+    "tabs": {
+      "catalog": "Catálogo",
+      "library": "Minha biblioteca"
+    },
+    "shared": {
+      "by": "Enviado por {{name}}",
+      "copyOf": "Cópia do catálogo, de {{name}}",
+      "anonymous": "Colaborador",
+      "save": "Salvar na minha biblioteca",
+      "saved": "Já está na sua biblioteca",
+      "saveTitle": "Salvar na minha biblioteca",
+      "saveIntro": "“{{label}}”, de {{name}}, vai virar uma máscara sua — você pode adaptá-la ao seu serviço sem mexer no original.",
+      "alreadySaved": "Você já tem uma cópia deste laudo em {{path}}. Salvar de novo cria uma segunda.",
+      "chooseFolder": "Em qual pasta?",
+      "banner": "Catálogo da comunidade: qualquer pessoa publica um laudo, e ele aparece assinado. As pastas são mantidas pela curadoria. Achou um erro? Use o sinalizador no laudo.",
+      "bannerCurator": "Você é a curadoria: pode criar e reorganizar pastas, editar ou apagar qualquer laudo e importar um acervo inteiro.",
+      "pickFolderFirst": "Escolha primeiro a pasta do catálogo em que o laudo entra."
+    },
+    "contributors": {
+      "link": "Maiores colaboradores",
+      "back": "voltar ao arquivo",
+      "title": "Maiores colaboradores",
+      "subtitle": "Quem alimenta o catálogo compartilhado. A ordem é pelo número de laudos publicados; o total de cópias desempata.",
+      "reports_one": "{{count}} laudo",
+      "reports_other": "{{count}} laudos",
+      "copies_one": "{{count}} cópia",
+      "copies_other": "{{count}} cópias",
+      "since": "desde {{date}}",
+      "empty": "Ninguém publicou no catálogo ainda. O primeiro laudo pode ser o seu.",
+      "houseNote": "O acervo que já vem com a ferramenta."
     }
   },
   "billing": {
@@ -1524,6 +1641,8 @@
     "systemCount": "{{n}} peças"
   },
   "macroscopy": {
+    "wipTitle": "Em construção.",
+    "wipBody": "Este manual ainda está sendo escrito: por enquanto só o sistema digestório tem roteiros, e eles não foram revisados. Não use como referência na bancada até este aviso sair.",
     "subtitle": "O roteiro de cada peça, passo a passo, organizado por sistema. Escolha o sistema e, dentro dele, a peça que está na bancada.",
     "systems": "sistemas",
     "protocolCount_one": "{{count}} roteiro",
@@ -1773,6 +1892,108 @@
       "tooBig": "A foto ficou grande demais mesmo reduzida. Recorte a região de interesse e tente de novo."
     }
   },
+  "inflammatorySkin": {
+    "subtitle": "Escolha o padrão de reação, marque o que a clínica informa e o que a lâmina mostra; a ferramenta ordena as hipóteses, diz o que combinou, o que pesa contra e o que ainda falta procurar na lâmina.",
+    "search": "Buscar pelo nome",
+    "searchPlaceholder": "Já tem uma hipótese? Digite: líquen plano, Sweet, lúpus…",
+    "clearSearch": "Limpar busca",
+    "step1Title": "Qual é o padrão de reação?",
+    "step1Hint": "Em pequeno aumento, onde está a doença? Marque mais de um quando a biópsia for mista; o padrão principal de cada verbete pesa mais que o secundário.",
+    "step2Title": "O que a clínica informa?",
+    "step2Hint": "Marque só o que está presente. A ausência de um dado não exclui nada.",
+    "step3Title": "O que a lâmina mostra?",
+    "step3Hint": "Percorra os compartimentos de cima para baixo. Cada achado marcado sobe os verbetes que o preveem e desce os que o listam como contrário.",
+    "step4Title": "Hipóteses",
+    "step4Hint": "Do mais ao menos compatível. Abra cada uma para ver o que procurar na lâmina, as pistas e com o que não confundir. A ordem é apoio ao raciocínio, não conclusão.",
+    "patternGroup": {
+      "epidermal": "Epiderme e junção",
+      "dermal": "Derme",
+      "blister": "Bolhas e pústulas",
+      "adnexal": "Anexos",
+      "deep": "Subcutâneo"
+    },
+    "clinicalGroup": {
+      "who": "Quem",
+      "course": "Curso",
+      "lesion": "Lesão",
+      "where": "Onde",
+      "context": "Contexto"
+    },
+    "histologyGroup": {
+      "corneum": "Camada córnea",
+      "epidermis": "Epiderme",
+      "junction": "Junção e bolhas",
+      "infiltrate": "Infiltrado dérmico",
+      "stroma": "Vasos e estroma",
+      "adnexa": "Anexos",
+      "subcutis": "Subcutâneo",
+      "special": "Organismos, colorações e IF"
+    },
+    "empty": "Marque um padrão, um dado clínico ou um achado, ou digite um nome, para ver as hipóteses.",
+    "noResults": "Nada combina o suficiente. Tire um achado, reveja o padrão dominante ou busque pelo nome.",
+    "clearAll": "limpar caso",
+    "showMore": "Mostrar mais {{n}} hipóteses",
+    "showLess": "Mostrar menos",
+    "alsoConsider": "Considere também",
+    "alsoConsiderHint": "Verbetes de outro padrão de reação que ainda assim explicam vários dos itens marcados, para não esquecer as biópsias mistas.",
+    "compare": "Comparar os {{n}} primeiros",
+    "compareHide": "Fechar comparação",
+    "compareHint": "Achado",
+    "compareSelected": "marcado",
+    "legendHallmark": "achado-chave",
+    "legendYes": "compatível",
+    "legendAgainst": "pesa contra",
+    "matchPrimary": "padrão principal",
+    "matchSecondary": "padrão secundário",
+    "matchHallmark": "{{n}} achado(s)-chave",
+    "matchHistology": "{{n}} da lâmina",
+    "matchClinical": "{{n}} da clínica",
+    "matchLookFor": "procurar {{n}}",
+    "againstNote": "o verbete lista como contrário",
+    "unexplainedNote": "marcado, mas o verbete não prevê",
+    "rowLookFor": "Procure na lâmina",
+    "rowLookForHint": "Achados-chave deste diagnóstico que ainda não foram marcados.",
+    "rowClues": "O que sustenta",
+    "rowAgainst": "Pesa contra",
+    "rowMimics": "Não confundir com",
+    "rowNext": "Próximo passo",
+    "rowSources": "Fontes",
+    "freq": {
+      "common": "comum",
+      "rare": "raro"
+    },
+    "disclaimer": "Ferramenta educacional de apoio ao diagnóstico diferencial de dermatoses inflamatórias. Não substitui a revisão das lâminas, a correlação clínico-patológica, a exclusão de agentes infecciosos com colorações e cultura, a imunofluorescência quando indicada, nem os critérios diagnósticos vigentes."
+  },
+  "feedback": {
+    "button": "Relatar erro",
+    "title": "Relatar um erro",
+    "kindLabel": "Do que se trata?",
+    "kind": {
+      "content": "Erro de conteúdo",
+      "bug": "A ferramenta falhou",
+      "suggestion": "Sugestão",
+      "other": "Outro"
+    },
+    "about": "Sobre:",
+    "messageLabel": "O que está errado?",
+    "messageHint": "Quanto mais específico, mais rápido a correção sai. Se puder, cite a fonte que contradiz o que está escrito.",
+    "placeholder": {
+      "content": "Ex.: no verbete de líquen plano, a paraceratose está listada como compatível, mas o clássico é ortoceratose (Weedon, cap. 3).",
+      "bug": "O que você fez, o que esperava e o que aconteceu.",
+      "suggestion": "O que faria esta tela servir melhor ao seu dia?",
+      "other": "Escreva à vontade."
+    },
+    "wantsReply": "Quero resposta sobre este relato",
+    "contactLabel": "E-mail para resposta",
+    "privacy": "Vão junto: a tela em que você está, o item apontado, o seu e-mail de cadastro e o navegador. Nada do caso que você está analisando é enviado.",
+    "send": "Enviar relato",
+    "sending": "Enviando…",
+    "failed": "Não foi possível enviar agora. Tente de novo em instantes.",
+    "sentTitle": "Relato enviado",
+    "sentBody": "Obrigado. Cada correção nasce de um relato como este.",
+    "close": "Fechar",
+    "reportItem": "Relatar erro neste verbete"
+  },
   "cysts": {
     "subtitle": "Diga onde o cisto está e o que o reveste; a ferramenta lista os nomes possíveis e o que separa um do outro. Cobre cistos verdadeiros e pseudocistos de todo o corpo.",
     "search": "Buscar pelo nome",
@@ -1794,9 +2015,9 @@
     "featuresTitle": "Achados que ajudam",
     "featuresHint": "Cada achado marcado sobe na lista os cistos que o têm e desce os que não o têm.",
     "featureGroup": {
-      "lining": "No epitélio:",
-      "wall": "Na parede:",
-      "contents": "No conteúdo:"
+      "lining": "No epitélio",
+      "wall": "Na parede",
+      "contents": "No conteúdo"
     },
     "step3Title": "Sugestões",
     "step3Hint": "Do mais ao menos provável; entre empates, os cistos comuns vêm antes dos raros. Abra cada uma para ver as pistas e com o que se confunde.",
@@ -1879,6 +2100,7 @@
     "nVariable": "{{n}} variável",
     "nNoData": "{{n}} sem dados",
     "morphScore": "morfologia {{hit}}/{{total}}",
+    "morphVariant": "variante",
     "ageOff": "idade atípica",
     "sexOff": "sexo incompatível",
     "expand": "Abrir",
@@ -1909,5 +2131,27 @@
     "nextHint": "Marcadores que mais separam os candidatos do topo. O número é a porcentagem esperada em cada um.",
     "disclaimer": "Ferramenta de apoio ao raciocínio: as porcentagens vêm da literatura citada em cada verbete e variam com clone, fixação e recuperação antigênica. A lista não substitui a correlação com a clínica, a lâmina inteira e os controles do seu laboratório.",
     "plausibilityHint": "Plausibilidade em relação ao primeiro colocado"
+  },
+  "lightbox": {
+    "open": "Ver maior",
+    "close": "Fechar",
+    "prev": "Foto anterior",
+    "next": "Próxima foto",
+    "zoomIn": "Aproximar",
+    "zoomOut": "Afastar",
+    "reset": "Caber na tela",
+    "counter": "{{i}} de {{n}}",
+    "hint": "Clique na foto para aproximar · roda do mouse para o aumento · setas para trocar de foto · Esc para fechar"
+  },
+  "suites": {
+    "searchPlaceholder": "Buscar por nome, sistema ou órgão",
+    "scores": {
+      "subtitle": "Escores de imuno-histoquímica que dependem de contagem ou de padrão. Preencha, leia os avisos e copie a frase para o laudo.",
+      "disclaimer": "Ferramenta de apoio. Os cortes seguem as diretrizes e bulas citadas em cada calculadora; o resultado final, o clone usado e a conferência do laudo são responsabilidade do patologista."
+    },
+    "grading": {
+      "subtitle": "Graduações e escores histológicos que não cabem no Estadiador. Cada calculadora traz a referência e a linha pronta para o laudo.",
+      "disclaimer": "Ferramenta de apoio. Os critérios seguem as referências citadas em cada calculadora; a graduação final e a conferência do laudo são responsabilidade do patologista."
+    }
   }
 }

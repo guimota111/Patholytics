@@ -30,7 +30,7 @@ export function ThemeSwitcher({ className }: { className?: string }) {
         aria-expanded={open}
         aria-label={t('common.theme')}
         title={t(`theme.${preference}`)}
-        className="inline-flex h-8 items-center rounded-md px-2 text-ink-muted transition-colors hover:bg-elevated hover:text-ink"
+        className="inline-flex h-11 items-center rounded-md px-2 text-ink-muted transition-colors hover:bg-elevated hover:text-ink sm:h-8"
       >
         <TriggerIcon className="size-4" aria-hidden />
       </button>

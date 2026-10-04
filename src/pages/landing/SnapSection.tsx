@@ -47,10 +47,17 @@ export function SnapSection({
             </h2>
             <p className="mt-2 text-base leading-relaxed text-ink-muted">{body}</p>
           </div>
-          <ButtonLink to={to} variant="secondary">
-            {t('landing.openTool')}
-            <ArrowRight className="size-4" aria-hidden />
-          </ButtonLink>
+          {/* O que se vê aqui é um recorte; a ferramenta inteira fica no portal,
+              e o botão precisa dizer isso em toda seção. */}
+          <div className="flex flex-col items-start gap-1.5 sm:items-end">
+            <ButtonLink to={to} variant="secondary">
+              {t('landing.openTool')}
+              <ArrowRight className="size-4" aria-hidden />
+            </ButtonLink>
+            <p className="max-w-56 text-xs leading-relaxed text-ink-faint sm:text-right">
+              {t('landing.previewNote')}
+            </p>
+          </div>
         </header>
 
         <div className="mt-6">{children}</div>

@@ -1,5 +1,5 @@
 import { forwardRef } from 'react'
-import { buildOrder, colLabel, coordOf, fillOf, keyOf, rowLabel, type CoreFill, type TmaState } from '../types'
+import { buildOrder, colLabel, controlOf, coordOf, fillOf, hasControls, keyOf, rowLabel, type CoreFill, type TmaState } from '../types'
 
 /**
  * O mapa em papel: cabeçalho, a lâmina desenhada e a tabela de respostas.
@@ -21,6 +21,7 @@ export const TMA_PAPER_CSS = `
 .tma-legend i { display:inline-block; width:10px; height:10px; border-radius:999px; border:1px solid #9aa3b2; box-sizing:border-box; }
 .tma-legend i.partial { border:1px dashed #6a4cff; background:#f3f0ff; }
 .tma-legend i.complete { border-color:#6a4cff; background:#ded7ff; }
+.tma-legend i.control { border-color:#b45309; background:#fdf3e3; }
 .tma-tables { display:grid; gap:16px; align-items:start; }
 .tma-tables table { width:100%; border-collapse:collapse; font-size:11px; }
 .tma-tables th, .tma-tables td { border:1px solid #d9dde4; padding:3px 6px; text-align:left; vertical-align:top; word-break:break-word; }
@@ -40,6 +41,7 @@ export interface PaperLabels {
   empty: string
   partial: string
   complete: string
+  control: string
   footer: string
 }
 
@@ -56,10 +58,12 @@ const DOT_FILL: Record<CoreFill, { fill: string; stroke: string; dash?: string }
   partial: { fill: '#f3f0ff', stroke: '#6a4cff', dash: '2 2' },
   complete: { fill: '#ded7ff', stroke: '#6a4cff' },
 }
+const DOT_CONTROL: { fill: string; stroke: string; dash?: string } = { fill: '#fdf3e3', stroke: '#b45309' }
 
 export const TmaPaper = forwardRef<HTMLDivElement, TmaPaperProps>(function TmaPaper({ state, columns, locale, labels }, ref) {
   const order = buildOrder(state.rows, state.cols)
   const multi = state.fields.length > 1
+  const withControls = hasControls(state)
   const chunks = splitEven(order, Math.max(1, columns))
   const date = new Date().toLocaleString(locale, { dateStyle: 'long', timeStyle: 'short' })
 
@@ -93,6 +97,11 @@ export const TmaPaper = forwardRef<HTMLDivElement, TmaPaperProps>(function TmaPa
         <span>
           <i className="complete" /> {labels.complete}
         </span>
+        {withControls && (
+          <span>
+            <i className="control" /> {labels.control}
+          </span>
+        )}
       </div>
 
       <div className="tma-section">{state.fields.map((field) => field.label).join(' · ')}</div>
@@ -102,6 +111,7 @@ export const TmaPaper = forwardRef<HTMLDivElement, TmaPaperProps>(function TmaPa
             <thead>
               <tr>
                 <th className="coord">{labels.coordinate}</th>
+                {withControls && <th>{labels.control}</th>}
                 {state.fields.map((field) => (
                   <th key={field.id}>{field.label}</th>
                 ))}
@@ -110,9 +120,11 @@ export const TmaPaper = forwardRef<HTMLDivElement, TmaPaperProps>(function TmaPa
             <tbody>
               {chunk.map(([r, c]) => {
                 const answers = state.results[keyOf(r, c)] ?? {}
+                const control = controlOf(state, r, c)
                 return (
                   <tr key={keyOf(r, c)}>
                     <td className="coord">{coordOf(r, c)}</td>
+                    {withControls && <td className={control === null ? 'empty' : undefined}>{control ?? '—'}</td>}
                     {state.fields.map((field) => {
                       const value = (answers[field.id] ?? '').trim()
                       return (
@@ -177,18 +189,27 @@ function MapSvg({ state }: { state: TmaState }) {
             {rowLabel(row)}
           </text>
           {Array.from({ length: state.cols }, (_, col) => {
-            const style = DOT_FILL[fillOf(state.results[keyOf(row, col)], state.fields)]
+            const control = controlOf(state, row, col)
+            const style = control !== null ? DOT_CONTROL : DOT_FILL[fillOf(state.results[keyOf(row, col)], state.fields)]
+            const cx = label + col * pitch + pitch / 2
+            const cy = label + row * pitch + pitch / 2
             return (
-              <circle
-                key={keyOf(row, col)}
-                cx={label + col * pitch + pitch / 2}
-                cy={label + row * pitch + pitch / 2}
-                r={r}
-                fill={style.fill}
-                stroke={style.stroke}
-                strokeWidth={1.2}
-                strokeDasharray={style.dash}
-              />
+              <g key={keyOf(row, col)}>
+                <circle cx={cx} cy={cy} r={r} fill={style.fill} stroke={style.stroke} strokeWidth={1.2} strokeDasharray={style.dash} />
+                {control !== null && (
+                  <text
+                    x={cx}
+                    y={cy + 3}
+                    textAnchor="middle"
+                    fontSize="8"
+                    fontWeight="700"
+                    fill="#b45309"
+                    fontFamily="Inter, 'Segoe UI', system-ui, sans-serif"
+                  >
+                    C
+                  </text>
+                )}
+              </g>
             )
           })}
         </g>

@@ -5,6 +5,8 @@ import { Badge } from '@/components/ui/Badge'
 import { TOOL_CATEGORIES, availableTools, comingSoonTools, toolsByCategory } from '@/data/tools'
 import { useAuth } from '@/hooks/useAuth'
 
+import dashboardBanner from '@/assets/dashboard_banner.jpg'
+
 export default function DashboardPage() {
   const { t } = useTranslation()
   const { user, profile } = useAuth()
@@ -21,11 +23,28 @@ export default function DashboardPage() {
 
   return (
     <div className="shell py-10">
-      <header>
-        <h1 className="text-2xl font-semibold tracking-tight text-ink">
-          {firstName ? t('dashboard.greeting', { name: firstName }) : t('dashboard.greetingFallback')}
-        </h1>
-        <p className="mt-1.5 text-sm text-ink-muted">{t('dashboard.subtitle')}</p>
+      <header className="relative overflow-hidden rounded-2xl bg-elevated border border-line p-6 sm:p-10 shadow-sm flex flex-col sm:flex-row items-center justify-between min-h-[14rem]">
+        <div className="relative z-10 max-w-md w-full">
+          <h1 className="text-3xl font-semibold tracking-tight text-ink">
+            {firstName ? t('dashboard.greeting', { name: firstName }) : t('dashboard.greetingFallback')}
+          </h1>
+          <p className="mt-2 text-base text-ink-muted leading-relaxed">
+            {t('dashboard.subtitle')}
+          </p>
+        </div>
+        
+        {/* Desktop Banner fade */}
+        <div 
+          className="absolute right-0 top-0 bottom-0 w-[55%] hidden sm:block pointer-events-none select-none" 
+          style={{ maskImage: 'linear-gradient(to right, transparent, black 30%)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 30%)' }}
+        >
+          <img src={dashboardBanner} alt="" className="w-full h-full object-cover opacity-90" draggable={false} />
+        </div>
+        
+        {/* Mobile Banner */}
+        <div className="sm:hidden w-full h-40 mt-6 rounded-xl overflow-hidden relative">
+           <img src={dashboardBanner} alt="" className="w-full h-full object-cover" draggable={false} />
+        </div>
       </header>
 
       <div className="mt-8 grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-3">

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { ArrowUpRight, Lock } from 'lucide-react'
-import type { Tool } from '@/data/tools'
+import { ArrowUpRight, Construction, Lock } from 'lucide-react'
+import { isShipped, type Tool } from '@/data/tools'
 import { Badge } from '@/components/ui/Badge'
 import { cn } from '@/lib/cn'
 
@@ -14,7 +14,8 @@ interface ToolCardProps {
 export function ToolCard({ tool, variant = 'dashboard' }: ToolCardProps) {
   const { t } = useTranslation()
   const Icon = tool.icon
-  const isAvailable = tool.status === 'available' && Boolean(tool.path)
+  const isAvailable = isShipped(tool)
+  const preview = tool.status === 'preview'
 
   const body = (
     <>
@@ -31,10 +32,18 @@ export function ToolCard({ tool, variant = 'dashboard' }: ToolCardProps) {
         </span>
 
         {isAvailable ? (
-          <ArrowUpRight
-            className="size-4 text-ink-faint transition-colors group-hover:text-accent"
-            aria-hidden
-          />
+          <span className="flex items-center gap-2">
+            {preview && (
+              <Badge className="border-warning/40 bg-warning-soft text-warning normal-case tracking-normal">
+                <Construction className="size-3" aria-hidden />
+                {t('common.underConstruction')}
+              </Badge>
+            )}
+            <ArrowUpRight
+              className="size-4 text-ink-faint transition-colors group-hover:text-accent"
+              aria-hidden
+            />
+          </span>
         ) : (
           <Badge>
             <Lock className="size-3" aria-hidden />

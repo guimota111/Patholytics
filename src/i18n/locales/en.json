@@ -7,6 +7,7 @@
     "saved": "Saved",
     "cancel": "Cancel",
     "back": "Back",
+    "underConstruction": "Under construction",
     "comingSoon": "Coming soon",
     "language": "Language",
     "theme": "Theme",
@@ -36,25 +37,56 @@
     "hero": {
       "eyebrow": "For practising pathologists",
       "title": "The pathologist's toolkit, sharpened",
+      "subtitle": "One place for the calculations and lookups that come up mid-report: grading, pTNM staging, field conversion, differential diagnosis and the grossing routines. Everything runs in your browser, with the reference next to the result.",
       "ctaPrimary": "Create free account",
       "ctaSecondary": "Log in",
-      "scrollCue": "Scroll to use each tool right here"
+      "scrollCue": "Scroll for a preview of each tool"
     },
-    "openTool": "Open tool",
-    "disclaimer": "Tools are for professional use by qualified pathologists. Output supports — it never replaces — your judgement. The demos on this page run in your browser only and are never saved.",
+    "openTool": "Open the full tool",
+    "disclaimer": "Professional tools for qualified pathologists. The result supports — never replaces — your judgement. The previews on this page are cut-down versions of the tools; they run only in your browser and are not saved.",
     "nav": {
       "label": "Page sections",
       "inicio": "Start",
+      "peles": "Inflammatory skin",
+      "marcadores": "Marker Helper",
+      "bichos": "Bug catalogue",
+      "corpos-estranhos": "Foreign bodies",
+      "mohs": "Mohs frozen section",
       "prostata": "Prostate",
       "mama": "Breast",
       "estadiamento": "Staging",
       "campos": "Microscope fields",
       "cobranca": "CBHPM billing",
       "arquivo": "Report archive",
-      "tma": "TMA mapper",
+      "ferramentas": "All tools",
       "conta": "Create account"
     },
     "snaps": {
+      "skin": {
+        "eyebrow": "Inflammatory skin",
+        "title": "From the reaction pattern to the differential, with what to look for",
+        "body": "Mark the low-power pattern and the findings you can see: the hypotheses reorder themselves, and each one names the key finding still missing."
+      },
+      "markers": {
+        "eyebrow": "Immunohistochemistry",
+        "title": "The stains you already have, and the one that splits the candidates",
+        "body": "Every marker carries its published positivity rate in each tumour. Mark positive or negative and watch the list reorder — and which antibody to order next."
+      },
+      "bugs": {
+        "eyebrow": "Bug catalogue",
+        "title": "Septate hyphae? Broad-based budding? Filter by what you see",
+        "body": "Fungi, parasites and bacteria described by their morphology on the slide, with photographs. Tick the features and the catalogue narrows to the name."
+      },
+      "foreign": {
+        "eyebrow": "Foreign bodies",
+        "title": "That material nobody can name",
+        "body": "Fillers, sutures, implants, crystals and contaminants, filtered by the clinical history and by how they behave under polarised light."
+      },
+      "mohs": {
+        "eyebrow": "Frozen section",
+        "title": "The Mohs specimen on the clock, with the report coming out with it",
+        "body": "Rotate the cutting axis, divide the specimen into quadrants and click the ones with tumour: the clock labels, the cassettes and the report lines rebuild themselves."
+      },
       "prostate": {
         "eyebrow": "Prostate",
         "title": "The whole radical prostatectomy in one table and one 3D model",
@@ -73,7 +105,7 @@
       "fields": {
         "eyebrow": "Fields and counts",
         "title": "How many mm² is your 40× field?",
-        "body": "The number engraved on your eyepiece gives the diameter, the area and the conversion of your count — including the breast mitotic cut-offs for your own microscope."
+        "body": "The number engraved on your eyepiece gives your field's diameter and area — and how many fields you must walk to cover the area that tumour's protocol requires."
       },
       "billing": {
         "eyebrow": "Bench",
@@ -84,11 +116,6 @@
         "eyebrow": "Bench",
         "title": "Your report templates one search away",
         "body": "Folders, tags, favourites and one-click copy. Search by title, text or tag and take the finished template straight to your editor."
-      },
-      "tma": {
-        "eyebrow": "Bench",
-        "title": "A tissue microarray, core by core",
-        "body": "Walk the slide in reading order and write each core's result; at the end the whole column comes out ready to paste into a spreadsheet."
       }
     },
     "demo": {
@@ -113,9 +140,13 @@
       },
       "fields": {
         "scopeLabel": "Your microscope and your count",
-        "breastLabel": "Breast mitotic score (CAP / NHSBSP)",
-        "scoreIs": "With this count, the mitotic score is {{score}}.",
-        "scoreNeedsTen": "The breast score is defined over 10 consecutive fields — set the fields counted to 10."
+        "tumorLabel": "What you are counting",
+        "tumor": {
+          "gist": "GIST",
+          "melanoma": "Melanoma"
+        },
+        "answerLabel": "How many fields you need to see",
+        "required": "Area required"
       },
       "billing": {
         "pieceLabel": "Specimen on the bench",
@@ -126,13 +157,50 @@
         "treeLabel": "Archive — search and select",
         "noMatch": "Nothing matches that term."
       },
-      "tma": {
-        "columnLabel": "Table ready for the spreadsheet"
+      "catalog": {
+        "filterLabel": "Filter by what you see",
+        "searchPlaceholder": "Search by name…",
+        "resultsLabel": "What is left",
+        "count": "{{shown}} of {{total}} entries",
+        "empty": "Nothing matches — drop a filter."
+      },
+      "skin": {
+        "patternLabel": "Reaction pattern (low power)",
+        "findingsLabel": "What you can see",
+        "resultsLabel": "Hypotheses, in order",
+        "lookFor": "Look for:",
+        "hint": "Tick one finding and watch the order change. The tool adds the clinical data and a side-by-side comparison.",
+        "empty": "Pick a pattern or a finding to start."
+      },
+      "markers": {
+        "caseLabel": "The case",
+        "caseText": "Lung mass, core biopsy: atypical glandular cells with desmoplasia.",
+        "panelLabel": "What has come back from the lab",
+        "positive": "Positive",
+        "negative": "Negative",
+        "hint": "The percentage next to each marker is its published rate in that tumour — the score is built from it.",
+        "resultsLabel": "Diagnoses, in order",
+        "nextLabel": "What best splits the leaders"
+      },
+      "mohs": {
+        "pieceLabel": "The specimen from above",
+        "rotateBack": "Rotate the axis half an hour back",
+        "rotateForward": "Rotate the axis half an hour forward",
+        "shape": {
+          "circle": "Whole specimen",
+          "halfmoon": "Half-moon"
+        },
+        "divisions": "{{count}} quadrants",
+        "tumor": "tumour",
+        "tumorType": "basal cell carcinoma",
+        "hint": "Click a quadrant to mark tumour at that margin.",
+        "cassettesLabel": "Quadrants and cassettes",
+        "reportLabel": "The report text"
       }
     },
     "cta": {
       "title": "Create an account and take your cases with you",
-      "subtitle": "Nothing above is saved. With an account, cases, templates and preferences stay in sync across your devices.",
+      "subtitle": "The previews above are cut-down, and nothing is saved. With an account you get the full tools, and your cases, templates and preferences sync across your devices.",
       "button": "Create free account"
     },
     "footer": {
@@ -148,7 +216,13 @@
       "disclaimer": "Medical disclaimer",
       "rights": "All rights reserved.",
       "placeholderNote": "Institutional pages are placeholders while the product is in beta."
-    }
+    },
+    "tools": {
+      "eyebrow": "Everything in the box",
+      "title": "{{count}} tools, one for each stop in the report",
+      "body": "Beyond the previews above: the catalogues, the differential helpers and the bench routines — too many for one screen, all of them ready. Click any card to open it."
+    },
+    "previewNote": "This is a simplified preview: the full tool lives in the portal."
   },
   "auth": {
     "login": {
@@ -276,8 +350,8 @@
       "description": "Cellularity estimation from a trephine biopsy image, compared against age-expected ranges."
     },
     "ackerman": {
-      "name": "Ackerman Would Be Proud",
-      "description": "Dermatopathology differentials organised by reaction pattern and architecture."
+      "name": "Inflammatory skin",
+      "description": "Correlates clinical data and reaction patterns to organise dermatopathology differentials."
     },
     "tma": {
       "name": "TMA Mapper",
@@ -289,7 +363,7 @@
     },
     "reportArchive": {
       "name": "Report archive",
-      "description": "Your report templates and notes in folders, with search, tags, favourites and one-click copy — synced to your account."
+      "description": "A catalogue of templates the community feeds, crediting whoever sent each one, plus your own library to keep and adapt what matters."
     },
     "billing": {
       "name": "Billing check (CBHPM)",
@@ -310,6 +384,14 @@
     "foreignCatalog": {
       "name": "Foreign body catalogue",
       "description": "Fillers, sutures, talc and the like: filter by where they turn up and the clinical setting, and send in your photos."
+    },
+    "ihcScores": {
+      "name": "IHC scores",
+      "description": "Hormone receptors, HER2 (breast and gastric), PD-L1, Ki-67, H-score, MMR and p53: from the count or the pattern to the result and the report line."
+    },
+    "grading": {
+      "name": "Other grading systems",
+      "description": "Nottingham, FNCLCC, WHO/ISUP renal, tumour regression, OLGA/OLGIM, Marsh, METAVIR/Ishak, MASLD, Banff and lupus nephritis on a single page."
     }
   },
   "stager": {
@@ -390,6 +472,17 @@
     "editFieldsTitle": "Edit core fields",
     "editFieldsWarning": "Removing a field deletes its answers in every core.",
     "saveFields": "Save fields",
+    "legendControl": "Control",
+    "controlLabel": "Is this core a control?",
+    "controlDefault": "Control",
+    "controlOther": "Other control",
+    "controlPlaceholder": "Other: tonsil, placenta…",
+    "controlClear": "Not a control",
+    "controlHint": "Controls are flagged on the map and in the table, and are left out of the case-core count.",
+    "controlTitle": "Control: {{label}}",
+    "controlCount_one": "{{count}} control",
+    "controlCount_other": "{{count}} controls",
+    "controlColumn": "Control",
     "legendPartial": "Partial",
     "export": "Export",
     "exportTitle": "Export results",
@@ -1388,21 +1481,14 @@
     "envFile": ".env"
   },
   "archive": {
-    "subtitle": "Your report templates and notes in a tree of categories, searchable by title, text or tag, with favourites and a copy button. Stored in your account and synced across your devices.",
-    "privacy": "The archive is private: only your account reads and writes it. Use Export to keep a JSON copy — and Import to bring it back or migrate from another archive.",
+    "subtitle": "A catalogue of report templates the community feeds, and a library of your own to keep and adapt what matters. Search by title, text or tag, with a copy button.",
+    "privacy": "Your library is private: only your account reads and writes it. The catalogue is shared — whatever you publish there appears to every user, signed with your name. Use Export to keep a JSON copy.",
     "loadError": "The archive could not be loaded. Check your connection and reload the page.",
     "roots": {
       "reports": "Reports",
       "notes": "Notes",
       "favorites": "Favourites",
       "favoritesEmpty": "Star a template to see it here."
-    },
-    "seed": {
-      "headNeck": "Head and neck",
-      "neuro": "Neuro",
-      "gi": "GI",
-      "hemato": "Haemato",
-      "dermato": "Dermato"
     },
     "toolbar": {
       "search": "Search category, title, text or #tag…",
@@ -1431,7 +1517,7 @@
       "selectHint": "Click to select · double-click to open"
     },
     "panel": {
-      "empty": "Select a report or a note on the left to see the template here.",
+      "empty": "Select a report or a note to see the template here.",
       "copy": "Copy template",
       "copied": "Copied",
       "copyError": "Could not copy — select the text and copy it manually.",
@@ -1468,6 +1554,37 @@
       "deleteConfirm": "Delete \"{{label}}\"?",
       "deleteCascade": "Every subcategory, report and note inside it will be removed too.",
       "error": "Something went wrong while saving. Try again."
+    },
+    "tabs": {
+      "catalog": "Catalogue",
+      "library": "My library"
+    },
+    "shared": {
+      "by": "Added by {{name}}",
+      "copyOf": "Copied from the catalogue, by {{name}}",
+      "anonymous": "Contributor",
+      "save": "Save to my library",
+      "saved": "Already in your library",
+      "saveTitle": "Save to my library",
+      "saveIntro": "“{{label}}”, by {{name}}, becomes a template of your own — adapt it to your service without touching the original.",
+      "alreadySaved": "You already have a copy of this template in {{path}}. Saving again creates a second one.",
+      "chooseFolder": "Which folder?",
+      "banner": "Community catalogue: anyone can publish a template, and it appears signed. Folders are kept by the curators. Spotted a mistake? Use the flag on the template.",
+      "bannerCurator": "You are the curator: you can create and reorganise folders, edit or delete any template, and import a whole archive.",
+      "pickFolderFirst": "Pick the catalogue folder the template goes into first."
+    },
+    "contributors": {
+      "link": "Top contributors",
+      "back": "back to the archive",
+      "title": "Top contributors",
+      "subtitle": "Who feeds the shared catalogue. Ranked by templates published; total copies breaks the tie.",
+      "reports_one": "{{count}} template",
+      "reports_other": "{{count}} templates",
+      "copies_one": "{{count}} copy",
+      "copies_other": "{{count}} copies",
+      "since": "since {{date}}",
+      "empty": "Nobody has published to the catalogue yet. The first template could be yours.",
+      "houseNote": "The archive the tool ships with."
     }
   },
   "billing": {
@@ -1524,6 +1641,8 @@
     "systemCount": "{{n}} specimens"
   },
   "macroscopy": {
+    "wipTitle": "Under construction.",
+    "wipBody": "This manual is still being written: only the digestive system has routines so far, and they have not been reviewed. Do not use it as a bench reference until this notice goes away.",
     "subtitle": "Every specimen's grossing routine, step by step, organised by system. Pick the system, then the specimen on the bench.",
     "systems": "systems",
     "protocolCount_one": "{{count}} routine",
@@ -1773,6 +1892,108 @@
       "tooBig": "The photo is still too large after shrinking. Crop to the region of interest and try again."
     }
   },
+  "inflammatorySkin": {
+    "subtitle": "Pick the reaction pattern, tick what the clinic tells you and what the slide shows; the tool ranks the hypotheses, says what fitted, what weighs against, and what is still worth looking for on the slide.",
+    "search": "Search by name",
+    "searchPlaceholder": "Already have a hypothesis? Type: lichen planus, Sweet, lupus…",
+    "clearSearch": "Clear search",
+    "step1Title": "What is the reaction pattern?",
+    "step1Hint": "At scanning power, where is the disease? Tick more than one when the biopsy is mixed; each entry's main pattern weighs more than its secondary ones.",
+    "step2Title": "What does the clinic tell you?",
+    "step2Hint": "Tick only what is present. The absence of a finding excludes nothing.",
+    "step3Title": "What does the slide show?",
+    "step3Hint": "Walk the compartments from top to bottom. Each ticked finding raises the entries that predict it and lowers those that list it as contrary.",
+    "step4Title": "Hypotheses",
+    "step4Hint": "Most to least compatible. Open each one for what to look for on the slide, the clues and what not to confuse it with. The order supports reasoning; it is not a conclusion.",
+    "patternGroup": {
+      "epidermal": "Epidermis and junction",
+      "dermal": "Dermis",
+      "blister": "Blisters and pustules",
+      "adnexal": "Adnexa",
+      "deep": "Subcutis"
+    },
+    "clinicalGroup": {
+      "who": "Who",
+      "course": "Course",
+      "lesion": "Lesion",
+      "where": "Where",
+      "context": "Context"
+    },
+    "histologyGroup": {
+      "corneum": "Stratum corneum",
+      "epidermis": "Epidermis",
+      "junction": "Junction and blisters",
+      "infiltrate": "Dermal infiltrate",
+      "stroma": "Vessels and stroma",
+      "adnexa": "Adnexa",
+      "subcutis": "Subcutis",
+      "special": "Organisms, stains and IF"
+    },
+    "empty": "Tick a pattern, a clinical item or a finding, or type a name, to see hypotheses.",
+    "noResults": "Nothing fits well enough. Remove a finding, rethink the dominant pattern or search by name.",
+    "clearAll": "clear case",
+    "showMore": "Show {{n}} more hypotheses",
+    "showLess": "Show fewer",
+    "alsoConsider": "Also consider",
+    "alsoConsiderHint": "Entries from another reaction pattern that still explain several of the ticked items, so mixed biopsies are not forgotten.",
+    "compare": "Compare the top {{n}}",
+    "compareHide": "Close comparison",
+    "compareHint": "Finding",
+    "compareSelected": "ticked",
+    "legendHallmark": "key finding",
+    "legendYes": "compatible",
+    "legendAgainst": "weighs against",
+    "matchPrimary": "main pattern",
+    "matchSecondary": "secondary pattern",
+    "matchHallmark": "{{n}} key finding(s)",
+    "matchHistology": "{{n}} from the slide",
+    "matchClinical": "{{n}} clinical",
+    "matchLookFor": "look for {{n}}",
+    "againstNote": "listed as contrary by this entry",
+    "unexplainedNote": "ticked, but not predicted by this entry",
+    "rowLookFor": "Look for on the slide",
+    "rowLookForHint": "Key findings of this diagnosis that have not been ticked yet.",
+    "rowClues": "What supports it",
+    "rowAgainst": "Weighs against",
+    "rowMimics": "Do not confuse with",
+    "rowNext": "Next step",
+    "rowSources": "Sources",
+    "freq": {
+      "common": "common",
+      "rare": "rare"
+    },
+    "disclaimer": "Educational aid for the differential diagnosis of inflammatory dermatoses. It does not replace slide review, clinicopathological correlation, exclusion of infectious agents with stains and culture, immunofluorescence when indicated, or current diagnostic criteria."
+  },
+  "feedback": {
+    "button": "Report an error",
+    "title": "Report an error",
+    "kindLabel": "What is it about?",
+    "kind": {
+      "content": "Content error",
+      "bug": "The tool failed",
+      "suggestion": "Suggestion",
+      "other": "Other"
+    },
+    "about": "About:",
+    "messageLabel": "What is wrong?",
+    "messageHint": "The more specific, the faster the fix. Where you can, cite the source that contradicts what is written.",
+    "placeholder": {
+      "content": "E.g.: in the lichen planus entry, parakeratosis is listed as compatible, but the classic finding is orthokeratosis (Weedon, ch. 3).",
+      "bug": "What you did, what you expected and what happened.",
+      "suggestion": "What would make this screen serve your day better?",
+      "other": "Write freely."
+    },
+    "wantsReply": "I would like a reply about this report",
+    "contactLabel": "Email for the reply",
+    "privacy": "Sent along: the screen you are on, the item you pointed at, your account email and your browser. Nothing from the case you are reviewing is sent.",
+    "send": "Send report",
+    "sending": "Sending…",
+    "failed": "Could not send right now. Try again in a moment.",
+    "sentTitle": "Report sent",
+    "sentBody": "Thank you. Every correction starts with a report like this one.",
+    "close": "Close",
+    "reportItem": "Report an error in this entry"
+  },
   "cysts": {
     "subtitle": "Say where the cyst is and what lines it; the tool lists the possible names and what tells them apart. Covers true cysts and pseudocysts across the body.",
     "search": "Search by name",
@@ -1794,9 +2015,9 @@
     "featuresTitle": "Helpful findings",
     "featuresHint": "Each finding you tick moves cysts that have it up the list and those that lack it down.",
     "featureGroup": {
-      "lining": "In the epithelium:",
-      "wall": "In the wall:",
-      "contents": "In the contents:"
+      "lining": "In the epithelium",
+      "wall": "In the wall",
+      "contents": "In the contents"
     },
     "step3Title": "Suggestions",
     "step3Hint": "Most to least likely; among ties, common cysts come before rare ones. Open each one for the clues and the look-alikes.",
@@ -1879,6 +2100,7 @@
     "nVariable": "{{n}} variable",
     "nNoData": "{{n}} no data",
     "morphScore": "morphology {{hit}}/{{total}}",
+    "morphVariant": "variant",
     "ageOff": "atypical age",
     "sexOff": "sex mismatch",
     "expand": "Open",
@@ -1909,5 +2131,27 @@
     "nextHint": "Markers that best separate the top candidates. The number is the expected percentage in each.",
     "disclaimer": "A reasoning aid: percentages come from the literature cited in each entry and vary with clone, fixation and antigen retrieval. The list does not replace correlation with the clinical picture, the whole slide and your own laboratory controls.",
     "plausibilityHint": "Plausibility relative to the top candidate"
+  },
+  "lightbox": {
+    "open": "View larger",
+    "close": "Close",
+    "prev": "Previous photo",
+    "next": "Next photo",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "reset": "Fit to screen",
+    "counter": "{{i}} of {{n}}",
+    "hint": "Click the photo to zoom in · scroll to change magnification · arrow keys to change photo · Esc to close"
+  },
+  "suites": {
+    "searchPlaceholder": "Search by name, system or organ",
+    "scores": {
+      "subtitle": "Immunohistochemistry scores that depend on a count or a pattern. Fill in, read the notes and copy the sentence into the report.",
+      "disclaimer": "Support tool. Cut-offs follow the guidelines and labels cited in each calculator; the final result, the clone used and the report check are the pathologist's responsibility. Calculator content is in Portuguese."
+    },
+    "grading": {
+      "subtitle": "Grading systems and histological scores that do not belong in the Stager. Each calculator carries its reference and a ready report line.",
+      "disclaimer": "Support tool. Criteria follow the references cited in each calculator; the final grade and the report check are the pathologist's responsibility. Calculator content is in Portuguese."
+    }
   }
 }

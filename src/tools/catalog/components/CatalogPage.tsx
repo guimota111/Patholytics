@@ -1,9 +1,12 @@
 import { useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, ArrowUpRight, Camera, Info, Search, X } from 'lucide-react'
+import { ArrowLeft, ArrowUpRight, Camera, Info, Search, X, ZoomIn } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
+import { Lightbox } from '@/components/ui/Lightbox'
 import { Button, ButtonLink } from '@/components/ui/Button'
+import { ReportButton } from '@/components/feedback/ReportButton'
+import { TopicGroup, TopicList } from '@/components/ui/didactic'
 import { RichText } from '@/tools/macroscopy/richtext'
 import { cn } from '@/lib/cn'
 import { FACET_KINDS, facetLabel, filterEntries, findEntry, type Catalog, type CatalogEntry } from '../types'
@@ -77,36 +80,37 @@ function CatalogIndex({ catalog }: { catalog: Catalog }) {
             </span>
           </label>
 
-          {FACET_KINDS.map((kind) => {
-            const facets = catalog[kind]
-            if (facets.length === 0) return null
-            return (
-              <div key={kind}>
-                <p className="mb-2 text-[0.6875rem] font-semibold tracking-wider text-ink-faint uppercase">{t(`catalog.facets.${kind}`)}</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {facets.map((facet) => {
-                    const active = selected.has(facet.id)
-                    return (
-                      <button
-                        key={facet.id}
-                        type="button"
-                        aria-pressed={active}
-                        onClick={() => toggle(facet.id)}
-                        className={cn(
-                          'rounded-full border px-2.5 py-1 text-xs transition-colors',
-                          active
-                            ? 'border-accent bg-accent-soft text-accent-ink'
-                            : 'border-line bg-surface text-ink-muted hover:border-line-strong hover:text-ink',
-                        )}
-                      >
-                        {facet.label}
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-            )
-          })}
+          <TopicList>
+            {FACET_KINDS.map((kind) => {
+              const facets = catalog[kind]
+              if (facets.length === 0) return null
+              return (
+                <TopicGroup key={kind} label={t(`catalog.facets.${kind}`)} selected={facets.filter((f) => selected.has(f.id)).map((f) => f.label)}>
+                  <div className="flex flex-wrap gap-1.5">
+                    {facets.map((facet) => {
+                      const active = selected.has(facet.id)
+                      return (
+                        <button
+                          key={facet.id}
+                          type="button"
+                          aria-pressed={active}
+                          onClick={() => toggle(facet.id)}
+                          className={cn(
+                            'rounded-full border px-2.5 py-1 text-xs transition-colors',
+                            active
+                              ? 'border-accent bg-accent-soft text-accent-ink'
+                              : 'border-line bg-surface text-ink-muted hover:border-line-strong hover:text-ink',
+                          )}
+                        >
+                          {facet.label}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </TopicGroup>
+              )
+            })}
+          </TopicList>
 
           {filtering && (
             <button type="button" onClick={clear} className="inline-flex items-center gap-1.5 text-xs text-ink-muted transition-colors hover:text-ink">
@@ -189,6 +193,8 @@ function EntryCard({ catalog, entry }: { catalog: Catalog; entry: CatalogEntry }
 function CatalogEntryView({ catalog, entry }: { catalog: Catalog; entry: CatalogEntry }) {
   const { t } = useTranslation()
   const [submitting, setSubmitting] = useState(false)
+  /** Índice da foto aberta em tela cheia; null quando nenhuma está. */
+  const [zoomed, setZoomed] = useState<number | null>(null)
   const Icon = catalog.icon
   const sections = FACET_KINDS.map((kind) => ({ kind, ids: entry[kind] })).filter((s) => s.ids.length > 0)
 
@@ -240,7 +246,18 @@ function CatalogEntryView({ catalog, entry }: { catalog: Catalog; entry: Catalog
               <ul className="grid gap-4 p-5 sm:grid-cols-2">
                 {entry.photos.map((photo, i) => (
                   <li key={i} className="overflow-hidden rounded-md border border-line bg-surface">
-                    <img src={photo.src} alt={photo.caption ?? entry.name} className="aspect-[4/3] w-full object-cover" loading="lazy" />
+                    <button
+                      type="button"
+                      onClick={() => setZoomed(i)}
+                      className="group relative block w-full cursor-zoom-in"
+                      aria-label={t('lightbox.open')}
+                      title={t('lightbox.open')}
+                    >
+                      <img src={photo.src} alt={photo.caption ?? entry.name} className="aspect-[4/3] w-full object-cover" loading="lazy" />
+                      <span className="absolute right-2 bottom-2 flex size-7 items-center justify-center rounded-md bg-black/55 text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                        <ZoomIn className="size-4" aria-hidden />
+                      </span>
+                    </button>
                     <div className="px-3 py-2 text-xs">
                       {(photo.caption || photo.stain) && (
                         <p className="text-ink">{[photo.caption, photo.stain].filter(Boolean).join(' · ')}</p>
@@ -271,8 +288,21 @@ function CatalogEntryView({ catalog, entry }: { catalog: Catalog; entry: Catalog
         </aside>
       </div>
 
+      <div className="mt-6 flex justify-end">
+        <ReportButton target={{ tool: catalog.id === 'bugs' ? 'bichos' : 'corpos-estranhos', itemId: entry.id, itemName: entry.name }} />
+      </div>
+
       <Footer />
       {submitting && <SubmitModal catalog={catalog} entry={entry} onClose={() => setSubmitting(false)} />}
+      {zoomed !== null && (
+        <Lightbox
+          photos={entry.photos}
+          index={zoomed}
+          onIndexChange={setZoomed}
+          onClose={() => setZoomed(null)}
+          alt={entry.name}
+        />
+      )}
     </div>
   )
 }

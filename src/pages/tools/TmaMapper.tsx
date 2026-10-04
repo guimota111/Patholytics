@@ -9,7 +9,7 @@ import { TmaFocus } from '@/tools/tma/components/TmaFocus'
 import { TmaGrid } from '@/tools/tma/components/TmaGrid'
 import { TmaSetup } from '@/tools/tma/components/TmaSetup'
 import { tsvText } from '@/tools/tma/export'
-import { FILL_CLASS } from '@/tools/tma/fill'
+import { CONTROL_CLASS, FILL_CLASS } from '@/tools/tma/fill'
 import { useTmaMapper } from '@/tools/tma/useTmaMapper'
 import { cn } from '@/lib/cn'
 
@@ -25,14 +25,17 @@ export default function TmaMapperPage() {
     hydrated,
     state,
     total,
+    controlCount,
     atLast,
     currentCore,
     currentAnswers,
+    currentControl,
     filledCount,
     start,
     reset,
     setFields,
     setAnswer,
+    setControl,
     goTo,
     next,
     previous,
@@ -47,7 +50,12 @@ export default function TmaMapperPage() {
     if (!state) return
     try {
       await navigator.clipboard.writeText(
-        tsvText(state, { header: true, coordinate: true, coordinateLabel: t('tma.coordinateColumn') }),
+        tsvText(state, {
+          header: true,
+          coordinate: true,
+          coordinateLabel: t('tma.coordinateColumn'),
+          controlLabel: t('tma.controlColumn'),
+        }),
       )
     } catch {
       return
@@ -135,6 +143,7 @@ export default function TmaMapperPage() {
                 <Legend className={FILL_CLASS.empty} label={t('tma.legendEmpty')} />
                 {multi && <Legend className={FILL_CLASS.partial} label={t('tma.legendPartial')} />}
                 <Legend className={FILL_CLASS.complete} label={t('tma.legendFilled')} />
+                <Legend className={CONTROL_CLASS} label={t('tma.legendControl')} />
                 <Legend className={cn(FILL_CLASS.empty, 'ring-2 ring-accent')} label={t('tma.legendCurrent')} />
               </div>
 
@@ -153,6 +162,7 @@ export default function TmaMapperPage() {
                 </div>
                 <p className="tabular mt-2 text-xs text-ink-faint">
                   {t('tma.progress', { filled: filledCount, total })}
+                  {controlCount > 0 && ` · ${t('tma.controlCount', { count: controlCount })}`}
                 </p>
               </div>
             </div>
@@ -164,8 +174,10 @@ export default function TmaMapperPage() {
             total={total}
             fields={state.fields}
             answers={currentAnswers}
+            control={currentControl}
             atLast={atLast}
             onAnswer={setAnswer}
+            onControl={setControl}
             onPrevious={previous}
             onNext={next}
             onEditFields={() => setEditingFields(true)}

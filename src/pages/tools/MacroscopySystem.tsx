@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowUpRight, Hammer } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
-import { Crumbs, MANUAL_PATH, ManualFooter, MissingNote } from '@/tools/macroscopy/components/ManualChrome'
+import { Crumbs, MANUAL_PATH, ManualFooter, ManualNotice, MissingNote } from '@/tools/macroscopy/components/ManualChrome'
 import { findSystem } from '@/tools/macroscopy/content'
 
 /** Um sistema do manual: as peças dele, uma por cartão. */
@@ -36,6 +36,8 @@ export default function MacroscopySystemPage() {
           <span className="tabular">{t('macroscopy.protocolCount', { count })}</span>
         </Badge>
       </header>
+
+      <ManualNotice />
 
       {count === 0 ? (
         <div className="mt-8 rounded-lg border border-dashed border-line bg-surface px-6 py-14 text-center">

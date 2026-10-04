@@ -9,6 +9,7 @@ import { gleasonText } from '../format'
 import { groupColor } from '../mapping'
 import type { CaseGlobals, CellData, MappingConfig, Pattern } from '../types'
 import { Toggle, compactInputClass } from '@/components/ui/fields'
+import { ScrollX } from '@/components/ui/ScrollX'
 
 interface CassetteTableProps {
   mapping: MappingConfig
@@ -60,8 +61,10 @@ export function CassetteTable({ mapping, globals, analysis, theme, selected, onS
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-ink-muted">{t(ofCassette ? 'prostate.table.hintOfCassette' : 'prostate.table.hintOfTumor')}</p>
-        <div className="flex items-center gap-3">
-          <Toggle checked={more} onChange={setMore} label={t('prostate.table.moreColumns')} />
+        {/* Em 320 px o interruptor era espremido a uma palavra por linha ao lado
+            do botão; `shrink-0` mais a quebra o mandam para a linha de baixo. */}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <Toggle checked={more} onChange={setMore} label={t('prostate.table.moreColumns')} className="shrink-0" />
           <Button type="button" size="sm" variant="ghost" onClick={onClear}>
             <Eraser className="size-4" aria-hidden />
             {t('prostate.table.clear')}
@@ -69,11 +72,11 @@ export function CassetteTable({ mapping, globals, analysis, theme, selected, onS
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-md border border-line">
+      <ScrollX className="rounded-md border border-line" innerClassName="rounded-md">
         <table ref={tableRef} className="w-full min-w-[640px] text-sm">
           <thead className="bg-surface text-xs tracking-wider text-ink-faint uppercase">
             <tr className="border-b border-line">
-              <th className="px-3 py-2 text-left font-medium">{t('prostate.table.cassette')}</th>
+              <th className="sticky left-0 z-1 bg-surface px-3 py-2 text-left font-medium">{t('prostate.table.cassette')}</th>
               <th className="px-2 py-2 text-left font-medium">{t('prostate.table.tumor')}</th>
               <th className="px-2 py-2 text-left font-medium">{t('prostate.table.g4')}</th>
               <th className="px-2 py-2 text-left font-medium">{t('prostate.table.g5')}</th>
@@ -89,8 +92,8 @@ export function CassetteTable({ mapping, globals, analysis, theme, selected, onS
           <tbody>
             {groups.map((g) => (
               <Fragment key={g.key}>
-                <tr className="bg-surface/70">
-                  <td colSpan={colSpan} className="px-3 py-1.5 text-xs font-semibold text-ink-muted">
+                <tr className="bg-surface">
+                  <td colSpan={colSpan} className="sticky left-0 z-1 px-3 py-1.5 text-xs font-semibold text-ink-muted">
                     <span className="mr-2 inline-block size-2.5 rounded-sm align-middle" style={{ background: g.color }} aria-hidden />
                     {g.title}
                     <span className="tabular ml-2 font-normal">
@@ -107,9 +110,9 @@ export function CassetteTable({ mapping, globals, analysis, theme, selected, onS
                     <tr
                       key={id}
                       onClick={() => onSelect(isSel ? null : id)}
-                      className={cn('border-b border-line/70 transition-colors', isSel ? 'bg-accent-soft/60' : 'hover:bg-surface/60')}
+                      className={cn('border-b border-line/70 transition-colors', isSel ? 'bg-accent-soft' : 'bg-elevated hover:bg-surface')}
                     >
-                      <td className="px-3 py-1.5">
+                      <td className="sticky left-0 z-1 bg-inherit px-3 py-1.5">
                         <div className="flex items-center gap-2">
                           <span
                             className="inline-block size-3 shrink-0 rounded-sm border border-line"
@@ -222,7 +225,7 @@ export function CassetteTable({ mapping, globals, analysis, theme, selected, onS
             ))}
           </tbody>
         </table>
-      </div>
+      </ScrollX>
     </div>
   )
 }

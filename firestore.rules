@@ -37,6 +37,81 @@ service cloud.firestore {
       allow read, write: if isOwner(uid);
     }
 
+    // Catalogo compartilhado de laudos: a arvore que todos os usuarios leem.
+    // A estrutura de pastas e da curadoria; as folhas sao de quem as publicou.
+    match /sharedArchive/{nodeId} {
+      allow read: if request.auth != null;
+
+      // A curadoria escreve qualquer no. E o que permite semear o acervo da
+      // casa (folhas com `authorUid` vazio, assinadas como Patholytics) e
+      // restaurar um backup preservando o credito de terceiros. Repare que
+      // isCurator() vem antes de qualquer get(): a importacao em lote nao
+      // gasta nenhuma leitura e cabe no teto por requisicao.
+      allow create, update, delete: if isCurator();
+
+      // Fora da curadoria, so laudo e nota, em nome proprio: a estrutura de
+      // pastas e o mapa que o acervo inteiro usa para se achar, e um usuario
+      // nao a desmonta.
+      allow create: if request.auth != null
+                    && sharedShape()
+                    && incoming().type in ['report', 'note']
+                    && incoming().authorUid == request.auth.uid
+                    && incoming().authorName.size() >= 2
+                    && !reservedCredit(incoming().authorName)
+                    && incoming().copyCount == 0;
+
+      // O autor edita e move a propria folha. `authorUid` e `authorName` ficam
+      // de fora das chaves mutaveis: o credito nao se reescreve depois.
+      allow update: if isLeafAuthor()
+                    && sharedShape()
+                    && changedKeys().hasOnly(['label', 'content', 'tags', 'parentId', 'updatedAt']);
+      allow delete: if isLeafAuthor();
+
+      // Contador de copias: qualquer leitor soma 1, e nada mais. Larga no
+      // sujeito, estreitissima no efeito.
+      allow update: if request.auth != null
+                    && changedKeys().hasOnly(['copyCount'])
+                    && incoming().copyCount == resource.data.get('copyCount', 0) + 1;
+
+      // Forma fechada do documento compartilhado: sem campo a mais (nada de
+      // despejo de lixo num registro que todos leem) e sem campo a menos.
+      function sharedShape() {
+        return incoming().keys().hasOnly(SHARED_KEYS())
+               && incoming().keys().hasAll(SHARED_KEYS())
+               && incoming().parentId is string && incoming().parentId.size() <= 64
+               && incoming().label is string
+               && incoming().label.size() >= 1 && incoming().label.size() <= 200
+               && incoming().content is string && incoming().content.size() <= 20000
+               && incoming().icon is string && incoming().icon.size() <= 8
+               && incoming().tags is list && incoming().tags.size() <= 12
+               && incoming().tags.join(',').size() <= 300
+               && incoming().authorUid is string && incoming().authorUid.size() <= 64
+               && incoming().authorName is string && incoming().authorName.size() <= 120
+               && incoming().copyCount is int && incoming().copyCount >= 0
+               && incoming().createdAt is timestamp
+               && incoming().updatedAt is timestamp;
+      }
+
+      // Ninguem assina como a casa a nao ser a casa.
+      function reservedCredit(name) {
+        return name.lower().trim() in ['patholytics', 'equipe patholytics', 'patholytics oficial'];
+      }
+    }
+
+    // As chaves que um no do catalogo tem — todas, e so essas.
+    function SHARED_KEYS() {
+      return ['parentId', 'type', 'label', 'content', 'icon', 'tags',
+              'copyCount', 'authorUid', 'authorName', 'createdAt', 'updatedAt'];
+    }
+
+    // Autor da folha, olhando o documento como esta no banco (`resource`), nao
+    // como esta sendo gravado.
+    function isLeafAuthor() {
+      return request.auth != null
+             && resource.data.authorUid == request.auth.uid
+             && resource.data.type != 'category';
+    }
+
     // Catálogos (bichos, corpos estranhos): fotos que os usuários mandam para
     // a curadoria. Quem está logado só cria, em nome próprio e dentro do
     // tamanho; ninguém lê pelo cliente — a curadoria é feita no console.
@@ -51,6 +126,40 @@ service cloud.firestore {
                     && incoming().credit is string && incoming().credit.size() <= 120
                     && incoming().image is string && incoming().image.size() <= 900000;
       allow read, update, delete: if false;
+    }
+
+    // Relatos de erro: qualquer pessoa logada cria em nome próprio, ninguém
+    // edita nem apaga pelo cliente, e só a curadoria lê. A leitura pelo
+    // console do Firebase não passa por estas regras; a permissão abaixo
+    // existe para o dia em que houver uma caixa de entrada dentro do app.
+    match /feedback/{id} {
+      allow create: if request.auth != null
+                    && incoming().uid == request.auth.uid
+                    && incoming().status == 'open'
+                    && incoming().kind in ['content', 'bug', 'suggestion', 'other']
+                    && incoming().message is string
+                    && incoming().message.size() >= 3 && incoming().message.size() <= 4000
+                    && incoming().route is string && incoming().route.size() <= 300
+                    && incoming().agent is string && incoming().agent.size() <= 300
+                    && incoming().language is string && incoming().language.size() <= 20
+                    && optionalString(incoming().tool, 60)
+                    && optionalString(incoming().itemId, 120)
+                    && optionalString(incoming().itemName, 200)
+                    && optionalString(incoming().contact, 200);
+      allow read: if isCurator();
+      allow update, delete: if false;
+    }
+
+    // Quem cuida do conteúdo. Ponha aqui o e-mail de cada curador.
+    function isCurator() {
+      return request.auth != null
+             && request.auth.token.email_verified == true
+             && request.auth.token.email in ['guimota1@gmail.com'];
+    }
+
+    // Campo opcional: ausente, nulo, ou texto dentro do limite.
+    function optionalString(value, max) {
+      return value == null || (value is string && value.size() <= max);
     }
 
     function isOwner(uid) {

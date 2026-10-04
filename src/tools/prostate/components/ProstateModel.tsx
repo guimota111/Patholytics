@@ -355,7 +355,7 @@ export interface ProstateModelHandle {
 }
 
 const ProstateModel = forwardRef<ProstateModelHandle, ProstateModelProps>(function ProstateModel(
-  { mapping, analysis, theme, selected, onSelect, heightClass = 'h-[420px]' },
+  { mapping, analysis, theme, selected, onSelect, heightClass = 'h-[19rem] sm:h-[420px]' },
   ref,
 ) {
   const { t, i18n } = useTranslation()

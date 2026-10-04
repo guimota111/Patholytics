@@ -21,11 +21,15 @@ export function LogoMark({ className }: { className?: string }) {
   )
 }
 
-export function Logo({ className }: { className?: string }) {
+export function Logo({ className, labelClassName }: { className?: string; labelClassName?: string }) {
   return (
     <span className={cn('inline-flex items-center gap-2', className)}>
-      <LogoMark className="size-6 text-accent" />
-      <span className="text-[0.9375rem] font-semibold tracking-tight text-ink">Patholytics</span>
+      <LogoMark className="size-6 shrink-0 text-accent" />
+      {/* As barras do topo escondem o nome nos aparelhos mais estreitos
+          (`labelClassName`); a gaveta e o rodapé, que têm espaço, mantêm. */}
+      <span className={cn('text-[0.9375rem] font-semibold tracking-tight text-ink', labelClassName)}>
+        Patholytics
+      </span>
     </span>
   )
 }

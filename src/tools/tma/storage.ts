@@ -47,11 +47,17 @@ function parseState(parsed: Partial<TmaState>, legacyLabel: string): TmaState | 
   for (const [key, value] of Object.entries(parsed.results ?? {})) {
     if (value && typeof value === 'object') results[key] = value as CoreAnswers
   }
+  // Mapas gravados antes dos controles não têm o campo.
+  const controls: Record<string, string> = {}
+  for (const [key, value] of Object.entries(parsed.controls ?? {})) {
+    if (typeof value === 'string') controls[key] = value
+  }
   return {
     rows: parsed.rows,
     cols: parsed.cols,
     fields: fields.length > 0 ? fields : [defaultField(legacyLabel)],
     results,
+    controls,
     current: typeof parsed.current === 'number' ? parsed.current : 0,
   }
 }
@@ -68,6 +74,7 @@ function migrate(parsed: Partial<LegacyState>, legacyLabel: string): TmaState | 
     cols: parsed.cols,
     fields: [field],
     results,
+    controls: {},
     current: typeof parsed.current === 'number' ? parsed.current : 0,
   }
 }

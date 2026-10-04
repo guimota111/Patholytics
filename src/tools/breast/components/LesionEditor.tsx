@@ -173,7 +173,7 @@ export function LesionEditor({ map, setMap, selected, onSelect, compact = false 
                           ) as Lesion['measured'],
                         }))
                       }
-                      className="text-xs text-accent hover:underline"
+                      className="inline-flex min-h-9 items-center text-xs text-accent hover:underline sm:min-h-0"
                     >
                       {t('breast.lesion.fillFromModel')}
                     </button>

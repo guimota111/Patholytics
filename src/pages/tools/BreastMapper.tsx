@@ -61,7 +61,7 @@ function BreastMapper({ module }: { module: Module }) {
             to={`/tools/breast/${m}`}
             aria-current={m === module ? 'page' : undefined}
             className={cn(
-              'rounded-md px-4 py-2 text-sm font-medium transition-colors',
+              'flex-1 rounded-md px-2 py-2.5 text-center text-sm font-medium transition-colors sm:flex-none sm:px-4 sm:py-2',
               m === module ? 'bg-elevated text-ink shadow-subtle' : 'text-ink-muted hover:text-ink',
             )}
           >
@@ -116,7 +116,7 @@ function ModelCard({ children, title, hint }: { children: React.ReactNode; title
 }
 
 const fallback = (
-  <div className="flex h-[460px] items-center justify-center">
+  <div className="flex h-[21rem] items-center justify-center sm:h-[460px]">
     <Spinner />
   </div>
 )

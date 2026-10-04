@@ -8,6 +8,7 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Minus, Plus, Search, X } from 'lucide-react'
+import { TopicGroup, TopicList } from '@/components/ui/didactic'
 import { cn } from '@/lib/cn'
 import { normalize, type MarkerInput, type Result } from '../match'
 import { MARKERS, PATTERN_LABELS, findMarker, type Marker, type Pattern } from '../types'
@@ -69,8 +70,11 @@ export function MarkerPicker({ markers, onSet }: Props) {
         )}
       </div>
 
-      <div>
-        <p className="mb-2 text-xs font-medium tracking-wide text-ink-muted uppercase">{t('markers.quickPanel')}</p>
+      <TopicList>
+        <TopicGroup
+          label={t('markers.quickPanel')}
+          selected={QUICK.filter((id) => markers.has(id)).map((id) => `${findMarker(id)?.label} ${markers.get(id)?.result === 'pos' ? '+' : '−'}`)}
+        >
         <div className="flex flex-wrap gap-1.5">
           {QUICK.map((id) => {
             const m = findMarker(id)
@@ -91,7 +95,8 @@ export function MarkerPicker({ markers, onSet }: Props) {
             )
           })}
         </div>
-      </div>
+        </TopicGroup>
+      </TopicList>
 
       {tested.length > 0 && (
         <ul className="divide-y divide-line rounded-md border border-line bg-surface">

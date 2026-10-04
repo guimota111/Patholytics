@@ -1,7 +1,7 @@
 import { useEffect, useRef, type RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FILL_CLASS } from '../fill'
-import { colLabel, coordOf, fillOf, keyOf, rowLabel, type CoreFill, type TmaState } from '../types'
+import { CONTROL_CLASS, FILL_CLASS } from '../fill'
+import { colLabel, controlOf, coordOf, fillOf, keyOf, rowLabel, type CoreFill, type TmaState } from '../types'
 import { cn } from '@/lib/cn'
 
 interface TmaGridProps {
@@ -37,7 +37,7 @@ export function TmaGrid({ state, onSelect }: TmaGridProps) {
   }, [current])
 
   return (
-    <div ref={scrollerRef} className="overflow-x-auto">
+    <div ref={scrollerRef} className="scroll-x">
       <div
         role="grid"
         aria-label={t('tma.mapLabel')}
@@ -90,12 +90,16 @@ function Row({ row, state, onSelect, currentRef }: RowProps) {
         const index = row * state.cols + col
         const answers = state.results[keyOf(row, col)]
         const fill = fillOf(answers, state.fields)
+        const control = controlOf(state, row, col)
         const isCurrent = index === state.current
         const coord = coordOf(row, col)
-        const summary = state.fields
-          .map((field) => (answers?.[field.id] ?? '').trim())
+        const summary = [
+          control !== null ? t('tma.controlTitle', { label: control }) : '',
+          ...state.fields.map((field) => (answers?.[field.id] ?? '').trim()),
+        ]
           .filter(Boolean)
           .join(' · ')
+        const stateLabel = control !== null ? t('tma.controlTitle', { label: control }) : t(FILL_KEY[fill])
 
         return (
           <button
@@ -104,14 +108,16 @@ function Row({ row, state, onSelect, currentRef }: RowProps) {
             type="button"
             onClick={() => onSelect(index)}
             aria-current={isCurrent ? 'true' : undefined}
-            aria-label={t('tma.coreLabel', { coord, state: t(FILL_KEY[fill]) })}
+            aria-label={t('tma.coreLabel', { coord, state: stateLabel })}
             title={summary ? `${coord}: ${summary}` : coord}
             className={cn(
-              'size-7 rounded-full border transition-colors',
-              FILL_CLASS[fill],
+              'flex size-7 items-center justify-center rounded-full border text-[0.6875rem] font-semibold leading-none transition-colors',
+              control !== null ? CONTROL_CLASS : FILL_CLASS[fill],
               isCurrent && 'ring-2 ring-accent ring-offset-2 ring-offset-elevated',
             )}
-          />
+          >
+            {control !== null && <span aria-hidden>C</span>}
+          </button>
         )
       })}
     </>

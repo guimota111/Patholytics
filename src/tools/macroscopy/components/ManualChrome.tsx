@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ChevronRight, Info } from 'lucide-react'
+import { ChevronRight, Construction, Info } from 'lucide-react'
 import { ButtonLink } from '@/components/ui/Button'
 
 export const MANUAL_PATH = '/tools/macroscopia'
@@ -25,6 +25,26 @@ export function Crumbs({ items }: { items: { label: string; to?: string }[] }) {
         </Fragment>
       ))}
     </nav>
+  )
+}
+
+/**
+ * O manual ainda está em construção: só o sistema digestório tem roteiros e
+ * nenhum foi revisado. O aviso fica nas três páginas até o conteúdo fechar.
+ */
+export function ManualNotice() {
+  const { t } = useTranslation()
+
+  return (
+    <div
+      role="note"
+      className="mt-6 flex items-start gap-3 rounded-lg border border-warning/40 bg-warning-soft px-4 py-3 text-sm leading-relaxed text-ink"
+    >
+      <Construction className="mt-0.5 size-4 shrink-0 text-warning" aria-hidden />
+      <p>
+        <span className="font-semibold text-warning">{t('macroscopy.wipTitle')}</span> {t('macroscopy.wipBody')}
+      </p>
+    </div>
   )
 }
 

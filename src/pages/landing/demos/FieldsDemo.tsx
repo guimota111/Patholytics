@@ -1,25 +1,30 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NumField, SelectField } from '@/components/ui/fields'
-import { breastRowFor, breastScore } from '@/tools/fov/breastScore'
 import {
   DEFAULT_CONFIG,
   OBJECTIVES,
   areaOfDiameter,
-  densityPerMm2,
   fieldDiameter,
   fieldsToCover,
   fmt,
 } from '@/tools/fov/optics'
+import { REQUIREMENTS } from '@/tools/fov/requirements'
+import { cn } from '@/lib/cn'
 import { DemoFrame, DemoLabel, DemoStats } from '../SnapSection'
+
+/* Dois tumores em que o número de campos muda mais entre microscópios: o GIST
+   pede 5 mm² (os "50 HPF" antigos) e o melanoma, 1 mm². O resto da tabela
+   fica na ferramenta. */
+const DEMO_IDS = ['gist', 'melanoma']
+const DEMO_REQUIREMENTS = DEMO_IDS.map((id) => REQUIREMENTS.find((r) => r.id === id)!)
 
 export default function FieldsDemo() {
   const { t, i18n } = useTranslation()
   const lang = i18n.language
   const [fieldNumber, setFieldNumber] = useState<number | null>(DEFAULT_CONFIG.fieldNumber)
   const [objective, setObjective] = useState(40)
-  const [count, setCount] = useState<number | null>(14)
-  const [fields, setFields] = useState<number | null>(10)
+  const [requirementId, setRequirementId] = useState(DEMO_IDS[0])
 
   const config = { ...DEFAULT_CONFIG, fieldNumber: fieldNumber ?? 0 }
   const valid = (fieldNumber ?? 0) > 0
@@ -27,17 +32,17 @@ export default function FieldsDemo() {
   const area = valid ? areaOfDiameter(diameter) : NaN
   const perMm2 = valid ? fieldsToCover(1, area) : null
 
-  // A tabela mitótica de mama (CAP/NHSBSP) é lida pelo diâmetro do campo de 40×.
-  const at40 = valid ? fieldDiameter(config, 40) : NaN
-  const row = valid ? breastRowFor(at40) : null
-  const density = valid && count !== null && fields ? densityPerMm2(count, fields, area) : null
-  const score = row && count !== null && fields === 10 ? breastScore(row, count) : null
+  const requirement = DEMO_REQUIREMENTS.find((r) => r.id === requirementId)!
+  const cover = valid ? fieldsToCover(requirement.areaMm2!, area) : null
+  const covered = cover ? cover.rounded * area : NaN
+  const divisor = cover ? covered / requirement.reportPerMm2! : NaN
+  const needsDivision = cover ? Math.abs(divisor - 1) > 0.005 : false
 
   const stats = [
     { label: t('fov.colDiameter'), value: valid ? `${fmt(diameter, 3, lang)} mm` : '—' },
     { label: t('fov.colArea'), value: valid ? `${fmt(area, 3, lang)} mm²` : '—' },
     { label: t('fov.colPerMm2'), value: perMm2 ? fmt(perMm2.exact, 1, lang) : '—' },
-    { label: t('fov.perMm2Label'), value: density !== null ? fmt(density, 2, lang) : '—' },
+    { label: t('landing.demo.fields.required'), value: `${fmt(requirement.areaMm2!, 2, lang)} mm²` },
   ]
 
   return (
@@ -59,8 +64,28 @@ export default function FieldsDemo() {
             onChange={(value) => setObjective(Number(value))}
             options={OBJECTIVES.map((o) => ({ value: String(o), label: `${o}×` }))}
           />
-          <NumField label={t('fov.count')} value={count} onChange={setCount} min={0} />
-          <NumField label={t('fov.fieldsCounted')} value={fields} onChange={setFields} min={1} />
+        </div>
+
+        <div className="mt-4">
+          <DemoLabel>{t('landing.demo.fields.tumorLabel')}</DemoLabel>
+          <div className="flex flex-wrap gap-2">
+            {DEMO_REQUIREMENTS.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setRequirementId(item.id)}
+                aria-pressed={requirementId === item.id}
+                className={cn(
+                  'rounded-lg border-2 px-4 py-2.5 text-sm font-medium transition-colors',
+                  requirementId === item.id
+                    ? 'border-accent bg-accent-soft text-accent-ink'
+                    : 'border-line bg-surface text-ink-muted hover:border-line-strong hover:text-ink',
+                )}
+              >
+                {t(`landing.demo.fields.tumor.${item.id}`)}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="mt-4">
@@ -69,44 +94,42 @@ export default function FieldsDemo() {
       </DemoFrame>
 
       <DemoFrame className="flex flex-col justify-center">
-        <DemoLabel>{t('landing.demo.fields.breastLabel')}</DemoLabel>
-        {row ? (
+        <DemoLabel>{t('landing.demo.fields.answerLabel')}</DemoLabel>
+        {cover ? (
           <>
-            <p className="text-sm leading-relaxed text-ink-muted">
-              {t('fov.breastIntro', { diameter: fmt(row.diameter, 2, lang), area: fmt(row.area, 3, lang) })}
+            <p className="tabular text-3xl font-bold text-accent-ink">
+              {t('fov.countFieldsBig', { fields: cover.rounded, objective })}
             </p>
-
-            <ul className="mt-3 grid gap-px overflow-hidden rounded-md border border-line bg-line sm:grid-cols-3">
-              {[
-                { n: 1, label: t('fov.score1', { n: row.score1Max }) },
-                { n: 2, label: t('fov.score2', { from: row.score1Max + 1, to: row.score2Max }) },
-                { n: 3, label: t('fov.score3', { n: row.score2Max + 1 }) },
-              ].map((item) => (
-                <li
-                  key={item.n}
-                  className={
-                    score === item.n
-                      ? 'bg-accent-soft px-3 py-2.5 text-sm font-medium text-accent-ink'
-                      : 'bg-surface px-3 py-2.5 text-sm text-ink-muted'
-                  }
-                >
-                  {item.label}
-                </li>
-              ))}
-            </ul>
-
-            <p className="tabular mt-4 text-lg font-semibold text-ink">
-              {count ?? 0} <span className="text-sm font-normal text-ink-muted">{t('fov.breastUnit')}</span>
-            </p>
-            <p className="mt-1 text-sm text-ink-muted">
-              {score ? t('landing.demo.fields.scoreIs', { score }) : t('landing.demo.fields.scoreNeedsTen')}
-            </p>
-
-            {row.clamped && (
-              <p className="mt-3 text-xs leading-relaxed text-danger">
-                {t('fov.breastClamped', { diameter: fmt(at40, 2, lang) })}
+            {needsDivision ? (
+              <p className="tabular mt-2 text-base font-semibold text-ink">
+                {t('fov.divideBig', {
+                  divisor: fmt(divisor, 1, lang),
+                  unit: fmt(requirement.reportPerMm2!, 2, lang),
+                })}
+              </p>
+            ) : (
+              <p className="mt-2 text-sm text-ink">
+                {t('fov.noDivide', { unit: fmt(requirement.reportPerMm2!, 2, lang) })}
               </p>
             )}
+
+            <p className="tabular mt-3 text-xs leading-relaxed text-ink-muted">
+              {t('fov.coverInfo', {
+                covered: fmt(covered, 2, lang),
+                area: fmt(requirement.areaMm2!, 2, lang),
+                exact: fmt(cover.exact, 1, lang),
+              })}
+            </p>
+
+            <p className="mt-4 border-t border-line pt-4 text-sm leading-relaxed text-ink-muted">
+              {requirement.thresholds}
+            </p>
+            {requirement.legacy && (
+              <p className="mt-2 text-xs leading-relaxed text-ink-faint">{requirement.legacy.label}</p>
+            )}
+            <p className="mt-3 text-xs text-ink-faint">
+              {t('fov.reqSource')}: {requirement.source}
+            </p>
           </>
         ) : (
           <p className="text-sm text-ink-faint">{t('fov.invalid')}</p>

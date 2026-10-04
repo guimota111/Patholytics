@@ -24,6 +24,7 @@ import {
 } from '../types'
 import { compactLabels } from '../format'
 import { compactInputClass } from '@/components/ui/fields'
+import { ScrollX } from '@/components/ui/ScrollX'
 
 interface MappingCardProps {
   mapping: MappingConfig
@@ -153,7 +154,7 @@ export function MappingCard({ mapping, setMapping, templates, onSaveTemplate, on
       </div>
 
       {/* Editor dos grupos. */}
-      <div className="overflow-x-auto">
+      <ScrollX>
         <table className="w-full min-w-[840px] text-sm">
           <thead className="text-xs tracking-wider text-ink-faint uppercase">
             <tr className="border-b border-line">
@@ -252,7 +253,7 @@ export function MappingCard({ mapping, setMapping, templates, onSaveTemplate, on
             })}
           </tbody>
         </table>
-      </div>
+      </ScrollX>
 
       <div className="flex flex-wrap items-center gap-2">
         <Button type="button" size="sm" variant="secondary" onClick={addGroup}>
