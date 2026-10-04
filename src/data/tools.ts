@@ -8,6 +8,7 @@ import {
   FlaskConical,
   Gauge,
   Gem,
+  GitBranch,
   Grid3x3,
   ListTree,
   Receipt,
@@ -126,6 +127,14 @@ export const TOOLS: Tool[] = [
     category: 'differential',
     status: 'available',
     path: '/tools/marcadores',
+  },
+  {
+    id: 'algorithms',
+    i18nKey: 'algorithms',
+    icon: GitBranch,
+    category: 'differential',
+    status: 'available',
+    path: '/tools/algoritmos',
   },
   {
     id: 'ackerman',

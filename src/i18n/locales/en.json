@@ -341,6 +341,10 @@
       "name": "Marker Helper",
       "description": "Turn a morphology into a ranked differential and a focused IHC panel."
     },
+    "algorithms": {
+      "name": "Differential algorithms",
+      "description": "Living algorithms for one situation at a time: answer what the slide and the stains show and watch the candidates reorder. Starts with renal oncocytic neoplasms."
+    },
     "ki67": {
       "name": "Ki-67 Calculator",
       "description": "Hotspot proliferation index from an uploaded field, with the count open to correction."
@@ -2153,5 +2157,85 @@
       "subtitle": "Grading systems and histological scores that do not belong in the Stager. Each calculator carries its reference and a ready report line.",
       "disclaimer": "Support tool. Criteria follow the references cited in each calculator; the final grade and the report check are the pathologist's responsibility. Calculator content is in Portuguese."
     }
+  },
+  "algorithms": {
+    "subtitle": "Smaller, sharper tools than the Marker Helper: each algorithm covers one situation only, with the questions that matter there. Answer what the slide and the stains show, in any order; the candidate list reorders with every answer and the tool points to the next question that best separates what is left.",
+    "count_one": "algorithm",
+    "count_other": "algorithms",
+    "nEntities": "{{n}} entities",
+    "nQuestions": "{{n}} questions",
+    "scopeLabel": "When to use:",
+    "revised": "Revised {{date}}",
+    "remove": "Remove",
+    "clearAll": "clear all",
+    "clearQuestion": "clear",
+    "suggested": "next step",
+    "groupHint": {
+      "clinica": "What comes with the requisition and the gross. Nothing is mandatory: answer what you have.",
+      "morfologia": "What you see on H&E. The dominant architecture is the first split of the algorithm; the rest refines it.",
+      "imuno": "Mark only what was run. Each result lifts the candidates that show it and lowers those that do not.",
+      "molecular": "If sequencing, FISH or karyotype results are already in."
+    },
+    "conclusionTitle": "So far",
+    "conclusionNone": "Answer what you have: the list reacts to every answer.",
+    "conclusionOpen": "Still open: {{name}} leads, with {{n}} still in play.",
+    "conclusionAllExcluded": "No candidate fits everything you answered. Revisit an answer or use the fallback category at the bottom of the page.",
+    "conclusionFavours": "Favours {{name}}. Still in play: {{rivals}}.",
+    "noRivals": "none",
+    "conclusionStrong": "The profile settles on {{name}}. Check the criteria in its entry before signing out.",
+    "nAnswered": "{{n}} answers given",
+    "candidatesTitle": "Candidates",
+    "candidatesHint": "Most to least plausible. Click to open the entry and see what fit.",
+    "nExcluded": "{{n}} practically excluded",
+    "standing": {
+      "lider": "leading",
+      "em-jogo": "in play",
+      "improvavel": "unlikely",
+      "excluido": "excluded"
+    },
+    "verdict": {
+      "bate": "fits",
+      "possivel": "possible",
+      "contra": "against",
+      "exclui": "excludes"
+    },
+    "likelihood": {
+      "tipico": "typical of this entity",
+      "comum": "common in this entity",
+      "possivel": "possible in this entity",
+      "raro": "rare in this entity",
+      "nunca": "practically never in this entity"
+    },
+    "nFit": "{{n}} fit",
+    "nAgainst": "{{n}} against",
+    "nExcludes": "{{n}} exclude",
+    "plausibilityHint": "Plausibility relative to the top candidate",
+    "nextTitle": "Next step",
+    "nextHint": "The unanswered question that best separates the top candidates, and what to expect in each.",
+    "nextEmpty": "No remaining question separates the top candidates.",
+    "nextSettled": "Only one candidate is still in play. Check the criteria in its entry.",
+    "rowAnswers": "Your answers",
+    "rowKeys": "Defining features",
+    "rowIhc": "IHC",
+    "rowMolecular": "Molecular",
+    "rowBehavior": "Behaviour",
+    "rowPitfalls": "Pitfalls",
+    "rowSources": "Sources",
+    "schemaTitle": "Algorithm map",
+    "schemaHint": "The branches of the classic algorithm, lit by your answers: active when everything the branch asks for was answered and fits, partial when it fits but something is still unanswered, closed when an answer contradicts it.",
+    "branch": {
+      "ativo": "active",
+      "parcial": "partial",
+      "aberto": "not assessed",
+      "fechado": "closed"
+    },
+    "adviceTitle": "Bench advice",
+    "fallbackTitle": "If nothing fits",
+    "sourcesTitle": "Sources",
+    "notFound": "Algorithm not found",
+    "notFoundBody": "The identifier in the address does not match any algorithm.",
+    "backToList": "Back to the algorithms",
+    "disclaimer": "Support tool for reasoning: the frequencies come from the literature cited in each algorithm and summarise small series for several new entities. The list does not replace correlation with the clinical picture, the whole slide, your laboratory's controls and, where the entity demands it, molecular confirmation.",
+    "nextStart": "Start wherever you like (dominant architecture and CK7 with CD117 usually pay off most). From the first answer on, the question that best separates the candidates shows up here."
   }
 }

@@ -221,6 +221,19 @@ src/
   tools/          one folder per tool — logic, storage and its own components
 ```
 
+### Differential algorithms (`src/tools/algorithms/`)
+
+Smaller, situation-specific cousins of the Marker Helper. Each algorithm is a
+content file under `content/` declaring its questions (closed options, grouped
+as clinical, morphology, IHC, molecular), its candidate entities (each one
+rating every option as typical / common / possible / rare / never) and a
+branch map of the classic algorithm. `match.ts` turns the answers into a
+ranked list (sum of log-likelihoods, as in the Marker Helper), picks the next
+unanswered question with the highest expected information gain, and lights the
+branches of the map. To add an algorithm, write a new content file and list it
+in `content/index.ts`; routes, index and UI need no change. The first one
+covers renal oncocytic and eosinophilic neoplasms.
+
 ## Adding a tool later
 
 1. Build the page under `src/pages/tools/`.
