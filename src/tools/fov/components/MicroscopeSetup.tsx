@@ -3,21 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
+import { BigChip, MoreSection } from '@/components/ui/didactic'
 import { cn } from '@/lib/cn'
-import {
-  COMMON_FIELD_NUMBERS,
-  OBJECTIVES,
-  fieldArea,
-  fieldDiameter,
-  fieldsToCover,
-  fmt,
-  isConfigValid,
-  type MicroscopeConfig,
-} from '../optics'
-import { BigChip, MoreSection, ResultBox } from '@/components/ui/didactic'
-import { ScrollX } from '@/components/ui/ScrollX'
+import { COMMON_FIELD_NUMBERS, OBJECTIVES, fmt, type MicroscopeConfig } from '../optics'
 
-interface MicroscopeCardProps {
+interface MicroscopeSetupProps {
   config: MicroscopeConfig
   onChange: (patch: Partial<MicroscopeConfig>) => void
   onReset: () => void
@@ -25,53 +15,21 @@ interface MicroscopeCardProps {
 
 const num = (value: string) => (value === '' ? NaN : Number(value))
 
-/** Um quadrado de 1 mm ao lado do círculo do campo, na mesma escala. */
-function FieldIllustration({ diameter, label }: { diameter: number; label: string }) {
-  const S = 88 // px por mm
-  const r = Math.min((diameter * S) / 2, S)
-  const cx = S * 1.5 + r + 2
-  // Largura mínima para a legenda centrada sob o círculo não ser cortada.
-  const width = cx + Math.max(r, 60) + 4
-  return (
-    <svg width={width} height={S + 26} viewBox={`0 0 ${width} ${S + 26}`} aria-hidden className="max-w-full shrink-0">
-      <rect x={1} y={1} width={S} height={S} fill="none" stroke="var(--color-ink-faint)" strokeWidth={1.5} strokeDasharray="4 3" />
-      <text x={1 + S / 2} y={S + 18} textAnchor="middle" fontSize="11" fill="var(--color-ink-muted)">
-        1 mm²
-      </text>
-      <circle
-        cx={cx}
-        cy={1 + S / 2}
-        r={r}
-        fill="color-mix(in oklab, var(--color-accent) 25%, transparent)"
-        stroke="var(--color-accent)"
-        strokeWidth={2}
-      />
-      <text x={cx} y={S + 18} textAnchor="middle" fontSize="11" fill="var(--color-ink-muted)">
-        {label}
-      </text>
-    </svg>
-  )
-}
-
-/** Objetiva usual de contagem: tudo que aparece em destaque se refere a ela. */
-const MAIN_OBJECTIVE = 40
-
-export function MicroscopeCard({ config, onChange, onReset }: MicroscopeCardProps) {
+/**
+ * Qual é o microscópio: o número de campo da ocular, em chips, e atrás de um
+ * botão o resto (lente intermediária, diâmetro medido com micrômetro).
+ */
+export function MicroscopeSetup({ config, onChange, onReset }: MicroscopeSetupProps) {
   const { t, i18n } = useTranslation()
   const lang = i18n.language
-  const valid = isConfigValid(config)
-
   const isCommon = (COMMON_FIELD_NUMBERS as readonly number[]).includes(config.fieldNumber)
   const [customOpen, setCustomOpen] = useState(config.mode === 'fieldNumber' && !isCommon)
 
-  const d = valid ? fieldDiameter(config, MAIN_OBJECTIVE) : NaN
-  const a = valid ? fieldArea(config, MAIN_OBJECTIVE) : NaN
-  const per1 = valid ? fieldsToCover(1, a) : null
-
   return (
-    <div className="space-y-5">
-      {config.mode === 'fieldNumber' && (
+    <div className="space-y-4">
+      {config.mode === 'fieldNumber' ? (
         <>
+          <p className="text-sm text-ink-muted">{t('fov.fieldNumberAsk')}</p>
           <div className="flex flex-wrap items-center gap-2">
             {COMMON_FIELD_NUMBERS.map((fn) => (
               <BigChip
@@ -103,25 +61,13 @@ export function MicroscopeCard({ config, onChange, onReset }: MicroscopeCardProp
             />
           )}
         </>
-      )}
-
-      {!valid ? (
-        <p className="text-sm text-danger">{t('fov.invalid')}</p>
       ) : (
-        <ResultBox>
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
-            <div className="min-w-0 flex-1">
-              <p className="text-sm text-ink-muted">{t('fov.field40Title')}</p>
-              <p className="tabular mt-1 text-2xl font-semibold text-accent-ink">
-                Ø {fmt(d, 2, lang)} mm · {fmt(a, 3, lang)} mm²
-              </p>
-              <p className="mt-1.5 text-sm text-ink">
-                {t('fov.field40Fields', { n: per1!.rounded })}
-              </p>
-            </div>
-            <FieldIllustration diameter={d} label={t('fov.fieldLabel')} />
-          </div>
-        </ResultBox>
+        <p className="text-sm text-ink-muted">
+          {t('fov.measuredSummary', {
+            diameter: fmt(config.measuredDiameterMm, 3, lang),
+            objective: config.measuredObjective,
+          })}
+        </p>
       )}
 
       <MoreSection label={t('fov.advancedLabel')}>
@@ -200,48 +146,6 @@ export function MicroscopeCard({ config, onChange, onReset }: MicroscopeCardProp
           {t('fov.reset')}
         </Button>
       </MoreSection>
-
-      {valid && (
-        <MoreSection label={t('fov.tableLabel')}>
-          <ScrollX>
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-line text-left text-xs tracking-wider text-ink-faint uppercase">
-                  <th className="py-2 pr-3 font-medium">{t('fov.colObjective')}</th>
-                  <th className="py-2 pr-3 font-medium">{t('fov.colDiameter')}</th>
-                  <th className="py-2 pr-3 font-medium">{t('fov.colArea')}</th>
-                  <th className="py-2 pr-3 font-medium">{t('fov.colPerMm2')}</th>
-                  <th className="py-2 font-medium">{t('fov.colPer2Mm2')}</th>
-                </tr>
-              </thead>
-              <tbody className="tabular">
-                {OBJECTIVES.map((o) => {
-                  const od = fieldDiameter(config, o)
-                  const oa = fieldArea(config, o)
-                  const p1 = fieldsToCover(1, oa)
-                  const p2 = fieldsToCover(2, oa)
-                  return (
-                    <tr key={o} className={cn('border-b border-line/60', o === MAIN_OBJECTIVE && 'bg-accent-soft/40')}>
-                      <td className="py-2 pr-3 text-ink">
-                        {o}× <span className="text-ink-faint">({o * 10}×)</span>
-                      </td>
-                      <td className="py-2 pr-3 text-ink">{fmt(od, 3, lang)} mm</td>
-                      <td className="py-2 pr-3 text-ink">{fmt(oa, 3, lang)} mm²</td>
-                      <td className="py-2 pr-3 text-ink">
-                        {p1.rounded} <span className="text-ink-faint">({fmt(p1.exact, 1, lang)})</span>
-                      </td>
-                      <td className="py-2 text-ink">
-                        {p2.rounded} <span className="text-ink-faint">({fmt(p2.exact, 1, lang)})</span>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-            </ScrollX>
-            <p className="mt-3 text-xs leading-relaxed text-ink-faint">{t('fov.formula')}</p>
-        </MoreSection>
-      )}
     </div>
   )
 }

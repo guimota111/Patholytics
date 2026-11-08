@@ -509,15 +509,65 @@
     "paperFooter": "Gerado no Patholytics. O mapa fica só no navegador de quem o leu; este papel é a única cópia fora dele."
   },
   "fov": {
-    "subtitle": "Três passos: diga qual é o seu microscópio, converta a sua contagem entre campos e mm² (nos dois sentidos), e veja quantos campos contar em cada tumor.",
-    "step1Title": "Qual é o seu microscópio?",
-    "step1Hint": "Olhe a ocular: ela tem um número gravado, como \"10x/22\". O segundo número (o número de campo) é tudo o que precisamos.",
+    "subtitle": "Diga onde você está laudando e qual é o seu campo; a ferramenta responde o que você quer saber: o tamanho do campo, a sua contagem em mm² (ou em campos), e quantos campos — ou quantos mm² — cada tumor pede.",
+    "step1Title": "Estou laudando em…",
+    "step1Hint": "No microscópio, o campo é o da sua ocular e objetiva. Na tele (lâmina digital), o visualizador mede em mm² e a máscara pede \"campos\": precisamos de um campo de referência.",
+    "settingLabel": "Onde você está laudando",
+    "setting": {
+      "microscope": {
+        "name": "Microscópio",
+        "hint": "Olho na ocular. Quero saber o que valem os meus campos e quantos contar."
+      },
+      "tele": {
+        "name": "Tele / lâmina digital",
+        "hint": "Conto na tela, em mm². Preciso traduzir para os campos da máscara, e vice-versa."
+      }
+    },
+    "step2MicroscopeTitle": "Qual é o seu microscópio, e em que objetiva você está?",
+    "step2MicroscopeHint": "Olhe a ocular: ela tem um número gravado, como \"10x/22\". O segundo número (o número de campo) é tudo o que precisamos. Depois, a objetiva em uso.",
+    "step2TeleTitle": "Qual \"campo de grande aumento\" a máscara assume?",
+    "step2TeleHint": "Na lâmina digital não há ocular. Quando a máscara diz \"10 campos\", ela assume um campo de algum microscópio — o do seu serviço, ou o padrão que o protocolo usa.",
+    "step3Title": "O que você quer saber?",
+    "step3Hint": {
+      "microscope": "Escolha, e o resto da conversa aparece aqui embaixo, já com o seu campo na objetiva escolhida.",
+      "tele": "Escolha, e a resposta vem em mm² — a unidade que o visualizador mede — a partir do campo de referência acima."
+    },
+    "goalLabel": "O que você quer saber",
+    "goal": {
+      "microscope": {
+        "fieldSize": {
+          "name": "O tamanho do meu campo",
+          "hint": "Diâmetro e área em cada objetiva, e quantos campos cobrem 1 e 2 mm²."
+        },
+        "convertCount": {
+          "name": "Converter a minha contagem",
+          "hint": "Contei x mitoses em y campos: quanto é por mm², por 2 mm², por 10 mm²?"
+        },
+        "tumor": {
+          "name": "Quantos campos contar neste tumor",
+          "hint": "Melanoma, NET, GIST, mama… cada protocolo pede uma área: veja quantos campos seus isso dá."
+        }
+      },
+      "tele": {
+        "fieldsToArea": {
+          "name": "Quantos mm² são N campos",
+          "hint": "A máscara pede \"10 campos de grande aumento\": que área medir na lâmina digital?"
+        },
+        "convertArea": {
+          "name": "Converter a minha contagem",
+          "hint": "Contei x mitoses em y mm²: quanto é \"em 10 campos\", como a máscara pede?"
+        },
+        "tumor": {
+          "name": "Quanta área contar neste tumor",
+          "hint": "Melanoma, NET, GIST, mama… veja a área que o protocolo pede e o valor para laudar."
+        }
+      }
+    },
+    "fieldNumberAsk": "Número de campo da ocular (o segundo número gravado nela):",
     "otherChip": "Outro…",
     "fieldNumber": "Número de campo (FN)",
     "fieldNumberHint": "O segundo número gravado na ocular (ex.: 10x/21 → 21).",
-    "field40Title": "Na objetiva de 40× (a usada para contar mitoses), cada campo seu tem:",
-    "field40Fields": "≈ {{n}} campos cobrem 1 mm²",
-    "fieldLabel": "seu campo no 40×",
+    "measuredSummary": "Campo medido com micrômetro: Ø {{diameter}} mm na objetiva {{objective}}×. As outras objetivas são derivadas dessa medida.",
     "advancedLabel": "Meu microscópio tem lente intermediária, ou medi o campo com micrômetro",
     "modeFieldNumber": "Usar o número da ocular",
     "modeMeasured": "Usar um diâmetro medido",
@@ -528,21 +578,34 @@
     "tubeFactorHint": "Deixe em 1× a menos que o estativo tenha trocador de aumento ou lente intermediária.",
     "reset": "Voltar ao padrão",
     "invalid": "Informe valores positivos para calcular os campos.",
-    "tableLabel": "Ver a tabela com todos os aumentos",
+    "objectiveAsk": "Objetiva que você está usando:",
+    "objectiveUsed": "Objetiva",
+    "hpfTag": "grande aumento",
+    "fieldAtTitle": "No {{objective}}×, cada campo seu tem:",
+    "fieldAtFields": "≈ {{n}} campos cobrem 1 mm² · ≈ {{two}} campos cobrem 2 mm²",
+    "fieldLabel": "seu campo no {{objective}}×",
+    "refAsk": "Campo de grande aumento (objetiva 40×) que a máscara assume:",
+    "refMine": "O microscópio do meu serviço",
+    "refDiameter": "Campo de referência",
+    "refCustomDiameter": "Diâmetro do campo de referência (mm)",
+    "refCustomHint": "Diâmetro do campo no 40× que a máscara ou o artigo assume.",
+    "refResultTitle": "Campo de referência:",
+    "refResultFields": "10 campos = {{ten}} mm² · ≈ {{perMm2}} campos por mm²",
     "colObjective": "Objetiva (total)",
     "colDiameter": "Diâmetro do campo",
     "colArea": "Área do campo",
     "colPerMm2": "Campos por 1 mm²",
     "colPer2Mm2": "Campos por 2 mm²",
+    "colTen": "10 campos",
     "formula": "Diâmetro = número de campo ÷ (objetiva × fator de tubo); área = π·(d/2)². O nº de campos é arredondado para o inteiro mais próximo, como nas tabelas da CAP e da OMS; o valor exato está entre parênteses.",
-    "step2Title": "Converta a sua contagem",
-    "step2Hint": "Escolha o sentido e complete a frase — o resultado aparece na hora. Contou ao microscópio? Converta campos para mm². Contou na lâmina digital (telepatologia) e a máscara pede \"em 10 campos\"? Converta mm² para campos.",
+    "compareTitle": "Seu campo no {{objective}}× comparado aos campos que os protocolos assumem:",
+    "compareChip": "{{ratio}}× o campo de Ø {{diameter}} mm ({{label}})",
+    "compareHint": "Acima de 1×, o seu campo é maior que o de referência e você conta mais figuras por campo; abaixo de 1×, menos. É por isso que critérios \"por 10 HPF\" sem o diâmetro não são seguros.",
     "sentencePre": "Contei",
     "sentenceMid": "mitoses em",
-    "sentenceFields": "campos, na objetiva de",
+    "sentenceAtObjective": "campos, na objetiva de {{objective}}×.",
     "count": "Mitoses (ou outras figuras) contadas",
-    "fieldsCounted": "Campos contados",
-    "objectiveUsed": "Objetiva",
+    "fieldsCounted": "Campos",
     "resultIs": "Isso equivale a",
     "perMm2Label": "mitoses por mm²",
     "resultPer": "por {{unit}} mm²",
@@ -551,49 +614,60 @@
     "summary": "{{count}} mitoses em {{fields}} campos a {{objective}}× (campo Ø {{diameter}} mm, {{fieldArea}} mm²; área total {{area}} mm²) = {{perMm2}} mitoses/mm² ({{per2}} por 2 mm²).",
     "copy": "Copiar frase para o laudo",
     "copied": "Copiado",
-    "refToggle": "Comparar com critérios antigos (\"por 10 HPF\")",
-    "refHint": "Critérios antigos são escritos como \"por 10 HPF\" de um diâmetro específico. Isto converte a sua densidade para essa convenção.",
-    "refDiameter": "Campo de referência",
-    "refCustom": "Diâmetro personalizado…",
-    "refCustomDiameter": "Diâmetro de referência (mm)",
-    "refResult": "Sua contagem corresponde a {{value}} por 10 campos de Ø {{diameter}} mm ({{area}} mm²).",
+    "refToggle": "E em critérios antigos, \"por 10 HPF\"?",
+    "refHint": "Critérios antigos são escritos como \"por 10 HPF\" de um diâmetro específico. Isto converte a sua densidade para cada uma dessas convenções.",
+    "revRefChip": "{{value}} por 10 campos de Ø {{diameter}} mm",
     "reverseToggle": "Tenho um limiar (ex.: ≥ 4/mm²) — quantas mitoses são nos meus campos?",
     "reverseHint": "Dado um critério por mm² (ou por 2, 5, 10 mm²), quantas figuras isso significa nos campos que você preencheu acima.",
     "valuePer": "Valor do critério",
     "unitArea": "Denominador do critério",
     "reverseResult": "{{value}} por {{unit}} mm² = {{count}} figuras em {{fields}} campos a {{objective}}×.",
-    "dirLabel": "Sentido da conversão",
-    "dirToMm2": "Campos → mm²",
-    "dirToFields": "mm² → campos (telepatologia)",
-    "revIntro": "Na lâmina digital a contagem sai por área (o visualizador mede em mm²). Diga quanto contou e em que área, e em quantos campos de qual objetiva a máscara do laudo quer o número.",
     "areaMeasured": "Área examinada (mm²)",
-    "revSentenceArea": "mm². Quero laudar em",
-    "revResultLabel": "mitoses em {{fields}} campos a {{objective}}×",
-    "revFieldInfo": "Seu campo a essa objetiva: Ø {{diameter}} mm, {{fieldArea}} mm²; {{fields}} campos cobrem {{covered}} mm².",
-    "revRefTitle": "Se a máscara assume um campo de referência (\"10 HPF\" de um diâmetro fixo):",
-    "revRefChip": "{{value}} por 10 campos de Ø {{diameter}} mm",
+    "revSentenceArea": "mm². A máscara pede o número em",
+    "revSentenceFields": "campos de grande aumento.",
+    "revResultLabel": "mitoses em {{fields}} campos",
+    "revFieldInfo": "Campo de referência: Ø {{diameter}} mm, {{fieldArea}} mm²; {{fields}} campos cobrem {{covered}} mm².",
     "revDensity": "Densidade: {{perMm2}} mitoses/mm²",
     "revEmpty": "Preencha quantas mitoses contou e em quantos mm².",
-    "revSummary": "{{count}} mitoses em {{area}} mm² ({{perMm2}} mitoses/mm²) = {{result}} mitoses em {{fields}} campos a {{objective}}× (campo Ø {{diameter}} mm, {{fieldArea}} mm²; {{fields}} campos = {{covered}} mm²).",
-    "step3Title": "Quantos campos devo contar?",
-    "step3Hint": "Cada tumor pede uma área diferente. Escolha o tumor e receba a instrução pronta para o seu microscópio.",
+    "revSummary": "{{count}} mitoses em {{area}} mm² ({{perMm2}} mitoses/mm²) = {{result}} mitoses em {{fields}} campos de grande aumento (campo de referência Ø {{diameter}} mm, {{fieldArea}} mm²; {{fields}} campos = {{covered}} mm²).",
+    "ftaPre": "A máscara pede a contagem em",
+    "ftaPost": "campos de grande aumento.",
+    "ftaResultTitle": "Na lâmina digital, meça e conte em",
+    "ftaResultHint": "{{fields}} campos de Ø {{diameter}} mm ({{fieldArea}} mm² cada).",
+    "ftaSquare": "Equivale a um quadrado de {{side}} × {{side}} mm.",
+    "ftaSummary": "{{fields}} campos de grande aumento (campo de referência Ø {{diameter}} mm, {{fieldArea}} mm²) = {{area}} mm².",
     "pickDisease": "Tumor / situação",
     "pickPlaceholder": "Escolha o tumor…",
     "pickEmpty": "Escolha um tumor acima para ver a instrução.",
     "groupMitoses": "Contagem de mitoses",
     "groupOther": "Outras contagens",
+    "protocolAsks": "O protocolo pede {{area}} mm². Então, para você:",
     "countFieldsBig": "Conte {{fields}} campos na objetiva {{objective}}×",
+    "countFieldsConsecutive": "Conte {{fields}} campos consecutivos na objetiva {{objective}}×",
+    "measureBig": "Meça {{area}} mm² na lâmina digital e conte",
     "divideBig": "…e divida o total por {{divisor}} (o laudo é por {{unit}} mm²)",
     "noDivide": "O total já é o valor a laudar (por {{unit}} mm²).",
     "coverInfo": "Esses campos cobrem {{covered}} mm²; o protocolo pede {{area}} mm² ({{exact}} campos exatos).",
+    "teleAreaHint": "Para comparar: isso são {{fields}} campos de Ø {{diameter}} mm.",
+    "countedPre": "Contei",
+    "countedInFields": "mitoses nesses {{fields}} campos.",
+    "countedInArea": "mitoses nesses {{area}} mm².",
+    "countedResult": "= {{value}} por {{unit}} mm² — o valor a laudar.",
     "breastIntro": "Conte 10 campos consecutivos no hot spot, na objetiva 40×. Para o seu campo (Ø {{diameter}} mm, {{area}} mm²), os cortes são:",
+    "breastTeleTitle": "A tabela de Nottingham é por 10 campos. Para o campo de referência escolhido:",
+    "breastTeleHint": "São 10 campos de Ø {{diameter}} mm ({{area}} mm² cada), no hot spot. Os cortes dessa linha da tabela:",
+    "breastObjective": "A tabela da CAP é para a objetiva 40×. Troque a objetiva no passo 2 para ler os cortes certos.",
     "score1": "Score 1: até {{n}}",
     "score2": "Score 2: {{from}} a {{to}}",
     "score3": "Score 3: {{n}} ou mais",
     "breastUnit": "mitoses somadas nos 10 campos",
+    "breastResult": "Score mitótico {{score}}",
     "breastClamped": "Seu diâmetro ({{diameter}} mm) está fora da faixa 0,40–0,69 mm da tabela da CAP; usou-se a linha mais próxima — confirme antes de graduar.",
     "reqUndefined": "A fonte não define o tamanho do campo, então não existe conversão segura para mm². Registre o diâmetro do seu campo ao laudar.",
+    "undefinedMicroscope": "Para registro: 10 campos seus no {{objective}}× (Ø {{diameter}} mm) somam {{area}} mm².",
+    "undefinedTele": "Para registro: 10 campos do campo de referência (Ø {{diameter}} mm) somam {{area}} mm².",
     "reqLegacy": "Referência histórica — {{label}}: equivale a {{fields}} campos a {{objective}}× ({{exact}} exato).",
+    "reqLegacyTele": "Referência histórica — {{label}}: equivale a {{area}} mm².",
     "reqSource": "Fonte",
     "method": {
       "hotspot": "hot spot",
@@ -737,14 +811,19 @@
       "marginMm": "Extensão na margem (mm)",
       "marginPattern": "Gleason na margem",
       "epe": "EEP",
-      "epeType": "Tipo de EEP"
+      "epeType": "Tipo de EEP",
+      "nodule": "Nódulo nº",
+      "noduleHint": "Opcional: force a separação ou a união dos nódulos. Em branco, vale a vizinhança no mapa.",
+      "nodulePlaceholder": "auto"
     },
     "warnings": {
       "invalidCell": "Cassete {{label}}: G4 + G5 maior que o permitido.",
       "patternWithoutTumor": "Cassete {{label}}: padrões informados sem % de tumor.",
       "marginWithoutTumor": "Cassete {{label}}: margem comprometida sem tumor informado.",
       "epeWithoutTumor": "Cassete {{label}}: extensão extraprostática sem tumor informado.",
-      "lnCount": "Linfonodos positivos maior que os examinados."
+      "lnCount": "Linfonodos positivos maior que os examinados.",
+      "higherGradeNodule": "Nódulo {{n}} (cassetes {{cells}}) tem Gleason {{gleason}}, maior que o do nódulo graduado: relate-o à parte, como pede a CAP.",
+      "unmappedNodules": "Há cassetes sem grupo com tumor: sem lugar no mapa, cada um conta como nódulo separado. Mapeie-os ou numere o nódulo na tabela."
     },
     "results": {
       "volume": "Volume",
@@ -766,11 +845,16 @@
       "empty": "Preencha o % de tumor de pelo menos um cassete.",
       "marginFree": "Livres",
       "marginFocal": "Focalmente comprometida",
-      "marginExtensive": "Extensamente comprometida"
+      "marginExtensive": "Extensamente comprometida",
+      "gleasonDominant": "Gleason · nódulo dominante",
+      "gleasonNodule": "Gleason · nódulo {{n}}",
+      "gleasonGland": "Gleason · glândula inteira",
+      "nodulesShort": "{{n}} nódulos",
+      "globalShort": "glândula {{text}}"
     },
     "map": {
       "title2d": "Mapa dos cassetes",
-      "hint2d": "Uma tira por grupo, um quadrado por cassete (do ápice para a base). Cor = pior padrão presente (3 verde, 4 amarelo, 5 vermelho); intensidade = % de tumor. Clique num cassete para destacá-lo na tabela e no 3D.",
+      "hint2d": "Uma tira por grupo, um quadrado por cassete (do ápice para a base). Cor = pior padrão presente (3 verde, 4 amarelo, 5 vermelho); intensidade = % de tumor. Clique num cassete para destacá-lo na tabela e no 3D. Com tumor multifocal, o número no canto é o do nódulo.",
       "apexToBase": "ápice → base",
       "title3d": "Modelo 3D",
       "hint3dCard": "Arraste para girar, role para aproximar. Cor = pior padrão presente (3 verde, 4 amarelo, 5 vermelho); intensidade = % de tumor; vesículas e ductos aparecem atrás da base quando mapeados.",
@@ -783,7 +867,8 @@
       "resetView": "Recentrar",
       "apex": "Ápice",
       "base": "Base",
-      "baseToApex": "base → ápice"
+      "baseToApex": "base → ápice",
+      "legendNodule": "nº do nódulo (tumor multifocal)"
     },
     "summary": {
       "and": "e",
@@ -828,7 +913,17 @@
       "lymphNodeCells": ". Linfonodos com metástase nos cassetes: {{cells}}",
       "lymphNodes": ". Linfonodos: {{positive}} positivo(s) de {{total}} examinado(s)",
       "stagingTitle": "ESTADIAMENTO (sugestão — conferir critérios)",
-      "staging": ". {{pT}} {{pN}} · {{r}}"
+      "staging": ". {{pT}} {{pN}} · {{r}}",
+      "gradeScopeNodule": ". Tumor multifocal ({{count}} nódulos): gradação do nódulo {{n}} (cassetes {{cells}}), conforme CAP/ISUP",
+      "gradeScopeGland": ". Tumor multifocal ({{count}} nódulos): gradação da glândula inteira, ponderada",
+      "gleasonGlobal": ". Glândula inteira, ponderada: Gleason {{text}} — grupo {{gg}}",
+      "higherGradeNodule": ". Nódulo {{n}} (cassetes {{cells}}) com grau maior: Gleason {{text}} — grupo {{gg}} (relatar à parte)",
+      "nodulesTitle": "NÓDULOS",
+      "unifocal": ". Unifocal: um nódulo contíguo no mapa",
+      "multifocal": ". Multifocal: {{count}} nódulos que não se comunicam no mapa",
+      "nodule": "  - Nódulo {{n}}{{dominant}}: cassetes {{cells}} ({{where}}) · {{gland}}% do órgão · Gleason {{gleason}} (grupo {{gg}}){{epe}}{{margin}}",
+      "dominantTag": " (dominante)",
+      "noduleMargin": "margem em {{n}} cassete(s)"
     },
     "span": {
       "apexToBase": "Do ápice para a base",
@@ -864,7 +959,7 @@
       "deleteConfirm": "Confirmar exclusão",
       "resetDefault": "Restaurar padrão",
       "defaultName": "Padrão",
-      "defaultTemplate": "Produto de prostatectomia radical:\n- Adenocarcinoma acinar prostático.\n. Graduação histológica: Gleason [gleason].\n. Grupo prognóstico: [grupo].\n. Porcentagem de Gleason 4 na amostra: [g4]%.\n. Padrão cribriforme: [cribriforme].\n. Volume aproximado da neoplasia: [volume]% do órgão acometido.\n. Tamanho do nódulo dominante: [nodulo] mm.\n. Invasão angiolinfática: [ivl].\n. Invasão perineural: [perineural].\n. Invasão de vesículas seminais: [vesiculas].\n. Invasão de ductos deferentes: [ductos].\n\n- Extensão extraprostática: [eep].\n\n- Margens cirúrgicas:\n. Margem circunferencial: [margem_circunferencial].\n. Margem apical: [margem_apical].\n. Margem vesical: [margem_vesical].\n\n- Outros achados:\n. Neoplasia intraepitelial prostática de alto grau: [nip].\n\n- Estadiamento patológico (pTNM, AJCC 8ª edição): pT[pT] pN[pN]",
+      "defaultTemplate": "Produto de prostatectomia radical:\n- Adenocarcinoma acinar prostático.\n. Graduação histológica: Gleason [gleason].\n. Grupo prognóstico: [grupo].\n. Porcentagem de Gleason 4 na amostra: [g4]%.\n. Padrão cribriforme: [cribriforme].\n. Volume aproximado da neoplasia: [volume]% do órgão acometido.\n. Tamanho do nódulo dominante: [nodulo] mm.\n. Nódulos tumorais: [nodulos].\n. Invasão angiolinfática: [ivl].\n. Invasão perineural: [perineural].\n. Invasão de vesículas seminais: [vesiculas].\n. Invasão de ductos deferentes: [ductos].\n\n- Extensão extraprostática: [eep].\n\n- Margens cirúrgicas:\n. Margem circunferencial: [margem_circunferencial].\n. Margem apical: [margem_apical].\n. Margem vesical: [margem_vesical].\n\n- Outros achados:\n. Neoplasia intraepitelial prostática de alto grau: [nip].\n\n- Estadiamento patológico (pTNM, AJCC 8ª edição): pT[pT] pN[pN]",
       "editor": "Texto do modelo",
       "editorHint": "Clique num parâmetro para inseri-lo no cursor, ou arraste-o até o ponto do texto. Colchetes com outra coisa dentro ficam como estão — use [  ] para lacunas que você preenche à mão.",
       "unknown": "Não conheço {{keys}} — confira a grafia na lista ao lado.",
@@ -907,7 +1002,10 @@
         "nip": "NIP de alto grau",
         "linfonodos": "Linfonodos",
         "pT": "pT",
-        "pN": "pN"
+        "pN": "pN",
+        "gleason_global": "Gleason da glândula inteira",
+        "nodulo_maior_grau": "Nódulo de maior grau (frase)",
+        "nodulos": "Nódulos (frase)"
       },
       "values": {
         "present": "presente",
@@ -932,8 +1030,26 @@
         "in": "em",
         "lymphNodes": "{{positive}} de {{total}} linfonodos comprometidos",
         "notDetectedM": "não detectado",
-        "notAssessedM": "não avaliado"
+        "notAssessedM": "não avaliado",
+        "noduleItem": "nódulo {{n}} (cassetes {{cells}}, {{where}}): Gleason {{gleason}}, grupo {{gg}}, {{pct}}% do órgão",
+        "nodulesUnifocal": "unifocal",
+        "nodulesMultifocal": "multifocal, {{count}} nódulos — {{list}}",
+        "noHigherGrade": "nenhum nódulo com grau maior que o dominante"
       }
+    },
+    "nodules": {
+      "title": "Tumor multifocal: {{n}} nódulos separados no mapa",
+      "hint": "Cassetes com tumor que se tocam formam um nódulo. A CAP e a ISUP pedem o Gleason do nódulo dominante (o maior); escolha abaixo de qual nódulo sai o Gleason do laudo.",
+      "gradeBy": "Gleason do laudo",
+      "dominant": "Nódulo dominante",
+      "nodule": "Nódulo {{n}}",
+      "labelled": "(nº {{n}} na tabela)",
+      "cassettes": "cassetes {{cells}}",
+      "margin": "margem",
+      "wholeGland": "Glândula inteira, ponderada",
+      "wholeGlandHint": "como se fosse um tumor só",
+      "higherGrade": "O nódulo {{n}} tem grau maior ({{gleason}}, grupo {{gg}}) que o do laudo: a CAP pede que ele seja relatado à parte — o parâmetro [nodulo_maior_grau] já traz o texto.",
+      "fixHint": "O mapa errou a separação? Ligue \"mais colunas\" na tabela e numere os nódulos: cassetes com o mesmo número viram um nódulo; números diferentes nunca se unem."
     }
   },
   "breast": {

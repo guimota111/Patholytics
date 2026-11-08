@@ -7,7 +7,8 @@
 
 import type { TFunction } from 'i18next'
 import type { Analysis, MarginFocus, SiteRef } from './analysis'
-import { fmtN, gleasonText, joinList } from './format'
+import { compactLabels, fmtN, gleasonText, joinList } from './format'
+import type { Nodule } from './nodules'
 import { DEFAULT_REPORT_ID, type CaseState, type ReportStore, type ReportTemplate, type Side } from './types'
 
 export type ParamGroup = 'grade' | 'extent' | 'margins' | 'other' | 'staging'
@@ -71,6 +72,22 @@ export function buildParams(state: CaseState, a: Analysis, t: TFunction, locale:
 
   const epeSites = [...new Set(a.epe.cells.map((e) => siteName(e.site)))]
 
+  /** "nódulo 2 (cassetes 15-16, lobo esquerdo posterior): Gleason 4+4, grupo 4, 3% do órgão" */
+  const noduleText = (nd: Nodule) =>
+    r('noduleItem', {
+      n: nd.index,
+      cells: compactLabels(nd.cells.map((c) => c.cell.label)),
+      where: nd.groupNames.filter(Boolean).map((g) => g.charAt(0).toLowerCase() + g.slice(1)).join(', ') || t('prostate.unmappedGroup'),
+      gleason: gleasonText(nd.gleason),
+      gg: nd.gleason.gradeGroup,
+      pct: n(nd.pctOfGland, 0),
+    })
+  const nodulesText = !a.nodules.length
+    ? '—'
+    : a.focality === 'unifocal'
+      ? r('nodulesUnifocal')
+      : r('nodulesMultifocal', { count: a.nodules.length, list: a.nodules.map(noduleText).join('; ') })
+
   const P = (key: string, group: ParamGroup, value: string): ReportParam => ({
     key,
     label: t(`prostate.report.params.${key}`),
@@ -81,6 +98,9 @@ export function buildParams(state: CaseState, a: Analysis, t: TFunction, locale:
   return [
     P('gleason', 'grade', a.gleason ? gleasonText(a.gleason) : '—'),
     P('grupo', 'grade', a.gleason ? String(a.gleason.gradeGroup) : '—'),
+    P('gleason_global', 'grade', a.global.gleason ? gleasonText(a.global.gleason) : '—'),
+    P('nodulo_maior_grau', 'grade', a.higherGradeNodule ? noduleText(a.higherGradeNodule) : r('noHigherGrade')),
+    P('nodulos', 'extent', nodulesText),
     P('g4', 'grade', a.shares ? n(a.shares.p4, 0) : '—'),
     P('g5', 'grade', a.shares ? n(a.shares.p5, 0) : '—'),
     P(

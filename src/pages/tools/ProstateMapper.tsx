@@ -98,7 +98,7 @@ export default function ProstateMapperPage() {
 
           <div className="grid items-start gap-6 2xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
             <StepCard number={3} title={t('prostate.step3Title')} hint={t('prostate.step3Hint')}>
-              <ResultsCard analysis={analysis} onExport={() => void exportImage()} exporting={exporting}>
+              <ResultsCard analysis={analysis} globals={state.globals} setGlobals={setGlobals} onExport={() => void exportImage()} exporting={exporting}>
                 <ReportBuilder
                   params={params}
                   reports={c.reports}

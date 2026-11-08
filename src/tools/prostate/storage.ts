@@ -37,6 +37,8 @@ export const DEFAULT_GLOBALS: CaseGlobals = {
   hgpin: 'notAssessed',
   noduleMmA: null,
   noduleMmB: null,
+  gradeScope: 'nodule',
+  indexNodule: null,
 }
 
 export const DEFAULT_CASE: CaseState = { mapping: DEFAULT_MAPPING, cells: {}, globals: DEFAULT_GLOBALS }
@@ -89,6 +91,7 @@ function sanitizeCell(raw: unknown): CellData {
     marginMm: num(p.marginMm),
     marginPattern: p.marginPattern === 3 || p.marginPattern === 4 || p.marginPattern === 5 ? p.marginPattern : null,
     epe: oneOf(p.epe, ['none', 'focal', 'established'] as const, 'none'),
+    nodule: Number.isInteger(p.nodule) && (p.nodule as number) >= 1 ? (p.nodule as number) : null,
   }
 }
 
@@ -116,6 +119,8 @@ function sanitizeGlobals(raw: unknown): CaseGlobals {
     hgpin: oneOf(p.hgpin, presence, DEFAULT_GLOBALS.hgpin),
     noduleMmA: num(p.noduleMmA),
     noduleMmB: num(p.noduleMmB),
+    gradeScope: oneOf(p.gradeScope, ['nodule', 'gland'] as const, DEFAULT_GLOBALS.gradeScope),
+    indexNodule: typeof p.indexNodule === 'string' && /^n\d+$/.test(p.indexNodule) ? p.indexNodule : null,
   }
 }
 

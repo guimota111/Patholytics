@@ -4,21 +4,46 @@ import { AlertTriangle, ImageDown } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import type { Analysis } from '../analysis'
 import { fmtN, gleasonText } from '../format'
+import type { CaseGlobals } from '../types'
+import { NodulesPanel } from './NodulesPanel'
 
 interface ResultsCardProps {
   analysis: Analysis
+  globals: CaseGlobals
+  setGlobals: (patch: Partial<CaseGlobals>) => void
   onExport?: () => void
   exporting?: boolean
   /** O montador de laudo, abaixo dos números. */
   children?: ReactNode
 }
 
-export function ResultsCard({ analysis: a, onExport, exporting = false, children }: ResultsCardProps) {
+export function ResultsCard({ analysis: a, globals, setGlobals, onExport, exporting = false, children }: ResultsCardProps) {
   const { t, i18n } = useTranslation()
   const n = (v: number | null | undefined, d = 1) => fmtN(v, d, i18n.language)
 
   const g = a.gleason
   const warnings = a.warnings.map((w) => t(`prostate.warnings.${w.key}`, w.params ?? {}))
+
+  // Com vários nódulos, o Gleason do cartão é o do nódulo índice e o rótulo
+  // diz isso; a glândula ponderada fica na linha de baixo, para comparação.
+  const multifocal = a.focality === 'multifocal'
+  const gleasonLabel = !multifocal
+    ? 'Gleason'
+    : a.index
+      ? a.index.index === 1
+        ? t('prostate.results.gleasonDominant')
+        : t('prostate.results.gleasonNodule', { n: a.index.index })
+      : t('prostate.results.gleasonGland')
+  const gleasonSub = g
+    ? [
+        `${t('prostate.results.gradeGroup')} ${g.gradeGroup}`,
+        multifocal ? t('prostate.results.nodulesShort', { n: a.nodules.length }) : null,
+        multifocal && a.index && a.global.gleason ? t('prostate.results.globalShort', { text: gleasonText(a.global.gleason) }) : null,
+        g.tertiary ? t('prostate.results.tertiaryShort', { p: g.tertiary.pattern }) : null,
+      ]
+        .filter(Boolean)
+        .join(' · ')
+    : undefined
 
   const marginSites = [...new Set(a.margins.foci.map((f) => f.groupName || t(`prostate.site.${f.site}`)))]
   const tiles: { label: string; value: string; sub?: string; small?: boolean }[] = [
@@ -28,9 +53,9 @@ export function ResultsCard({ analysis: a, onExport, exporting = false, children
       sub: a.tumorGrams !== null ? `≈ ${n(a.tumorGrams, 2)} g` : t('prostate.results.involved', { n: a.involvedCells, total: a.prostateCells }),
     },
     {
-      label: 'Gleason',
+      label: gleasonLabel,
       value: g ? gleasonText(g) : '—',
-      sub: g ? `${t('prostate.results.gradeGroup')} ${g.gradeGroup}${g.tertiary ? ` · ${t('prostate.results.tertiaryShort', { p: g.tertiary.pattern })}` : ''}` : undefined,
+      sub: gleasonSub,
     },
     { label: t('prostate.results.g4'), value: a.shares ? `${n(a.shares.p4)}%` : '—', sub: a.cribriformOfG4 !== null ? t('prostate.results.cribShort', { pct: n(a.cribriformOfG4) }) : undefined },
     { label: t('prostate.results.g5'), value: a.shares ? `${n(a.shares.p5)}%` : '—' },
@@ -64,6 +89,8 @@ export function ResultsCard({ analysis: a, onExport, exporting = false, children
           </div>
         ))}
       </dl>
+
+      <NodulesPanel analysis={a} globals={globals} setGlobals={setGlobals} />
 
       {warnings.length > 0 && (
         <ul className="space-y-1">

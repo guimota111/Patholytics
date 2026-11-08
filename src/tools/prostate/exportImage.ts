@@ -86,7 +86,17 @@ export async function renderCaseImage(input: ExportInput): Promise<Blob> {
         : t('prostate.export.cribNo')
   const tiles: { label: string; value: string; sub: string; color?: string }[] = [
     { label: t('prostate.results.volume'), value: `${n(a.volumePct)}%`, sub: a.tumorGrams !== null ? `≈ ${n(a.tumorGrams, 2)} g` : t('prostate.results.involved', { n: a.involvedCells, total: a.prostateCells }) },
-    { label: 'Gleason', value: g ? gleasonText(g) : '—', sub: g?.tertiary ? t('prostate.results.tertiaryShort', { p: g.tertiary.pattern }) : '' },
+    {
+      label: a.index ? (a.index.index === 1 ? t('prostate.results.gleasonDominant') : t('prostate.results.gleasonNodule', { n: a.index.index })) : 'Gleason',
+      value: g ? gleasonText(g) : '—',
+      sub: [
+        a.focality === 'multifocal' ? t('prostate.results.nodulesShort', { n: a.nodules.length }) : null,
+        a.index && a.global.gleason ? t('prostate.results.globalShort', { text: gleasonText(a.global.gleason) }) : null,
+        g?.tertiary ? t('prostate.results.tertiaryShort', { p: g.tertiary.pattern }) : null,
+      ]
+        .filter(Boolean)
+        .join(' · '),
+    },
     { label: t('prostate.export.gradeGroup'), value: g ? String(g.gradeGroup) : '—', sub: 'ISUP / OMS' },
     { label: t('prostate.results.g4'), value: a.shares ? `${n(a.shares.p4)}%` : '—', sub: cribText, color: PATTERN_HEX[4] },
     { label: t('prostate.results.g5'), value: a.shares ? `${n(a.shares.p5)}%` : '—', sub: '', color: PATTERN_HEX[5] },

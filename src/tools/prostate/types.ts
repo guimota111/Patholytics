@@ -73,6 +73,12 @@ export interface CellData {
   marginMm: number | null
   marginPattern: Pattern | null
   epe: EpeStatus
+  /**
+   * Número do nódulo, quando o patologista quer corrigir o mapa: cassetes com
+   * o mesmo número formam um nódulo; números diferentes nunca se unem; sem
+   * número, vale a vizinhança no mapa.
+   */
+  nodule: number | null
 }
 
 export const EMPTY_CELL: CellData = {
@@ -85,6 +91,7 @@ export const EMPTY_CELL: CellData = {
   marginMm: null,
   marginPattern: null,
   epe: 'none',
+  nodule: null,
 }
 
 export type G45Mode = 'ofTumor' | 'ofCassette'
@@ -92,6 +99,8 @@ export type DetailMode = 'global' | 'perCassette'
 export type Presence = 'notAssessed' | 'absent' | 'present'
 export type SeminalVesicles = 'notIdentified' | 'free' | 'right' | 'left' | 'bilateral'
 export type BladderNeck = 'notAssessed' | 'free' | 'involved'
+/** De onde sai o Gleason do laudo: do nódulo índice (CAP/ISUP) ou da glândula inteira ponderada. */
+export type GradeScope = 'nodule' | 'gland'
 
 export interface CaseGlobals {
   g45Mode: G45Mode
@@ -113,6 +122,9 @@ export interface CaseGlobals {
   /** Maiores eixos do nódulo dominante, em mm — só o patologista mede. */
   noduleMmA: number | null
   noduleMmB: number | null
+  gradeScope: GradeScope
+  /** Chave do nódulo escolhido para o Gleason do laudo; `null` = o dominante (maior). */
+  indexNodule: string | null
 }
 
 export interface CaseState {

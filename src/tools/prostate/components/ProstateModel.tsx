@@ -24,14 +24,11 @@ import { cn } from '@/lib/cn'
 import type { Analysis, CellResult } from '../analysis'
 import { cellColor, EPE_HEX, MARGIN_HEX, strokeColor, type Theme } from '../heat'
 import { buildCells, specificity } from '../mapping'
+import { spanRange, taper, X, Y, Z } from '../geometry'
 import { cellName, fmtN, gleasonText } from '../format'
 import type { CassetteGroup, MappingConfig, Side } from '../types'
 
-const X = 2.0 // meia-largura (D–E)
-const Y = 1.45 // meia-altura (anterior–posterior)
-const Z = 2.2 // meio-comprimento (ápice–base)
 const UNMAPPED = '__unmapped'
-const taper = (z: number) => 1 + 0.16 * (z / Z)
 
 /** Ponto da esfera unitária → superfície da glândula. */
 function toSurface(v: THREE.Vector3): THREE.Vector3 {
@@ -47,16 +44,6 @@ function toSurface(v: THREE.Vector3): THREE.Vector3 {
     y = v.y * Y * f
   }
   return new THREE.Vector3(x, y, z)
-}
-
-/** Os cones de ápice e base são só as pontinhas: ~9 % do comprimento cada. */
-const CONE = 0.18 * Z
-
-/** Faixa de z do grupo e se os cassetes correm do ápice para a base. */
-const spanRange = (span: CassetteGroup['span']): { z0: number; z1: number; reversed: boolean } => {
-  if (span === 'apexOnly') return { z0: -Z, z1: -Z + CONE, reversed: false }
-  if (span === 'baseOnly') return { z0: Z - CONE, z1: Z, reversed: false }
-  return { z0: -Z, z1: Z, reversed: span === 'baseToApex' }
 }
 
 interface GroupSlots {

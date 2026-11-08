@@ -2,8 +2,8 @@ import { useEffect, type ReactNode } from 'react'
 import { X } from 'lucide-react'
 
 /**
- * Dialogo simples o bastante para as quatro caixas do organizador. O foco nao
- * e aprisionado: sao formularios curtos, e o Escape sempre fecha.
+ * Dialogo simples para os formularios curtos das ferramentas. O foco nao e
+ * aprisionado, e o Escape sempre fecha.
  */
 export function Modal({
   title,

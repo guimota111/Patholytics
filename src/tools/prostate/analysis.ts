@@ -6,6 +6,7 @@
 
 import { buildCells, type MappingWarnings } from './mapping'
 import { dominantPattern, gradeGleason, worstPattern, type GleasonResult, type PatternShares } from './gleason'
+import { findNodules, higherGradeThan, type Nodule } from './nodules'
 import {
   EMPTY_CELL,
   type CaseState,
@@ -73,6 +74,8 @@ export interface Warning {
   params?: Record<string, string | number>
 }
 
+export type Focality = 'unifocal' | 'multifocal'
+
 export interface Analysis {
   cells: CellResult[]
   mappingWarnings: MappingWarnings
@@ -80,8 +83,23 @@ export interface Analysis {
   involvedCells: number
   volumePct: number
   tumorGrams: number | null
+  /**
+   * Gradação do laudo. Com um só nódulo (ou escopo "glândula"), é a glândula
+   * ponderada; com vários, é a do nódulo índice — o dominante, salvo escolha
+   * do patologista — como pedem CAP e ISUP.
+   */
   shares: PatternShares | null
   gleason: GleasonResult | null
+  /** Glândula inteira ponderada pelo volume de cada cassete, sempre. */
+  global: { shares: PatternShares | null; gleason: GleasonResult | null }
+  /** Nódulos separados no mapa, do maior para o menor. */
+  nodules: Nodule[]
+  focality: Focality | null
+  dominant: Nodule | null
+  /** O nódulo cujo Gleason vai para o laudo; `null` quando se gradua a glândula inteira. */
+  index: Nodule | null
+  /** Nódulo não índice com grupo de grau maior que o do índice — a CAP pede que seja citado. */
+  higherGradeNodule: Nodule | null
   cribriformOfG4: number | null
   cribriformOfTumor: number | null
   idc: Presence
@@ -204,6 +222,24 @@ export function analyze(state: CaseState): Analysis {
 
   const overall = aggregate('all', '', prostate, glandCells)
   const volumePct = overall.pctOfGland
+
+  // Nódulos: componentes conexos no mapa. O Gleason do laudo sai do nódulo
+  // índice quando há mais de um (CAP: nódulo dominante), salvo escopo "glândula".
+  const nodules = findNodules(prostate, glandCells)
+  const focality: Focality | null = nodules.length === 0 ? null : nodules.length === 1 ? 'unifocal' : 'multifocal'
+  const dominant = nodules[0] ?? null
+  const chosen = globals.indexNodule ? (nodules.find((n) => n.key === globals.indexNodule) ?? dominant) : dominant
+  const index = globals.gradeScope === 'gland' || nodules.length <= 1 ? null : chosen
+  const higherGradeNodule = higherGradeThan(nodules, index ?? dominant)
+  const gradedShares = index ? index.shares : overall.shares
+  const gradedGleason = index ? index.gleason : overall.gleason
+  if (index && higherGradeNodule) {
+    warnings.push({
+      key: 'higherGradeNodule',
+      params: { n: higherGradeNodule.index, cells: higherGradeNodule.cells.map((c) => c.cell.label).join(', '), gleason: `${higherGradeNodule.gleason.primary}+${higherGradeNodule.gleason.secondary}` },
+    })
+  }
+  if (nodules.length > 1 && nodules.some((n) => n.cells.some((c) => !c.cell.group))) warnings.push({ key: 'unmappedNodules' })
   const tumorGrams =
     globals.weightGrams && globals.weightGrams > 0 ? (globals.weightGrams * volumePct) / 100 : null
 
@@ -223,7 +259,7 @@ export function analyze(state: CaseState): Analysis {
     cribriformOfG4 = den > 0 ? num / den : null
   }
   const cribriformOfTumor =
-    cribriformOfG4 !== null && overall.shares ? (cribriformOfG4 * overall.shares.p4) / 100 : null
+    cribriformOfG4 !== null && gradedShares ? (cribriformOfG4 * gradedShares.p4) / 100 : null
 
   // Carcinoma intraductal.
   const idcCells = globals.idcMode === 'perCassette' ? cells.filter((c) => c.data.idc).map((c) => c.cell) : []
@@ -313,8 +349,14 @@ export function analyze(state: CaseState): Analysis {
     involvedCells: overall.cellsInvolved,
     volumePct,
     tumorGrams,
-    shares: overall.shares,
-    gleason: overall.gleason,
+    shares: gradedShares,
+    gleason: gradedGleason,
+    global: { shares: overall.shares, gleason: overall.gleason },
+    nodules,
+    focality,
+    dominant,
+    index,
+    higherGradeNodule,
     cribriformOfG4,
     cribriformOfTumor,
     idc,

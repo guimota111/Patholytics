@@ -33,10 +33,21 @@ export function buildSummary(state: CaseState, a: Analysis, t: TFunction, locale
   L.push('', k('gradeTitle'))
   if (a.gleason && a.shares) {
     const g = a.gleason
+    if (a.focality === 'multifocal') {
+      L.push(
+        a.index
+          ? k('gradeScopeNodule', { n: a.index.index, cells: compactLabels(a.index.cells.map((c) => c.cell.label)), count: a.nodules.length })
+          : k('gradeScopeGland', { count: a.nodules.length }),
+      )
+    }
     L.push(k('gleason', { text: gleasonText(g), gg: g.gradeGroup }))
     L.push(k('patterns', { p3: n(a.shares.p3), p4: n(a.shares.p4), p5: n(a.shares.p5) }))
     if (g.tertiary) L.push(k('tertiary', { pattern: g.tertiary.pattern, pct: n(g.tertiary.pct) }))
     if (g.ignoredMinor) L.push(k('ignoredMinor', { pattern: g.ignoredMinor.pattern, pct: n(g.ignoredMinor.pct) }))
+    if (a.index && a.global.gleason) L.push(k('gleasonGlobal', { text: gleasonText(a.global.gleason), gg: a.global.gleason.gradeGroup }))
+    if (a.higherGradeNodule) {
+      L.push(k('higherGradeNodule', { n: a.higherGradeNodule.index, cells: compactLabels(a.higherGradeNodule.cells.map((c) => c.cell.label)), text: gleasonText(a.higherGradeNodule.gleason), gg: a.higherGradeNodule.gleason.gradeGroup }))
+    }
   } else {
     L.push(k('noTumor'))
   }
@@ -68,6 +79,28 @@ export function buildSummary(state: CaseState, a: Analysis, t: TFunction, locale
   if (a.laterality) L.push(k('laterality', { value: t(`prostate.laterality.${a.laterality}`) }))
   const involvedCells = a.cells.filter((c) => c.tumor > 0 && c.cell.tissue === 'prostate')
   if (involvedCells.length) L.push(k('cellsList', { cells: compactLabels(involvedCells.map((c) => c.cell.label)) }))
+
+  if (a.nodules.length) {
+    L.push('', k('nodulesTitle'))
+    L.push(k(a.focality === 'multifocal' ? 'multifocal' : 'unifocal', { count: a.nodules.length }))
+    if (a.focality === 'multifocal') {
+      for (const nd of a.nodules) {
+        L.push(
+          k('nodule', {
+            n: nd.index,
+            dominant: nd.index === 1 ? k('dominantTag') : '',
+            cells: compactLabels(nd.cells.map((c) => c.cell.label)),
+            where: nd.groupNames.filter(Boolean).join(', ') || t('prostate.unmappedGroup'),
+            gland: n(nd.pctOfGland),
+            gleason: gleasonText(nd.gleason),
+            gg: nd.gleason.gradeGroup,
+            epe: nd.epe !== 'none' ? ` · ${t('prostate.results.epe')} ${t(`prostate.epe.${nd.epe}`)}` : '',
+            margin: nd.marginFoci ? ` · ${k('noduleMargin', { n: nd.marginFoci })}` : '',
+          }),
+        )
+      }
+    }
+  }
 
   L.push('', k('marginsTitle'))
   if (a.margins.foci.length) {
