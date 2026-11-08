@@ -44,6 +44,13 @@ export function CassetteMap({ mapping, analysis, theme, selected, onSelect }: Ca
       cells: byGroup.get(g.id) ?? [],
     }),
   )
+  // Com mais de um nódulo, cada cassete com tumor ganha o número do seu nódulo.
+  const noduleOf = new Map<string, number>()
+  if (analysis.nodules.length > 1) {
+    for (const nodule of analysis.nodules) for (const c of nodule.cells) noduleOf.set(c.cell.id, nodule.index)
+  }
+  const indexKey = analysis.index?.key ?? null
+
   const unmapped = byGroup.get('__unmapped')
   if (unmapped?.length) rows.push({ key: '__unmapped', name: t('prostate.unmappedGroup'), color: 'var(--color-ink-faint)', meta: '', span: null, cells: unmapped })
 
@@ -62,6 +69,8 @@ export function CassetteMap({ mapping, analysis, theme, selected, onSelect }: Ca
             <div className="flex flex-wrap items-center gap-1.5">
               {row.cells.map((r) => {
                 const isSel = selected === r.cell.id
+                const noduleIndex = noduleOf.get(r.cell.id)
+                const inIndex = noduleIndex !== undefined && indexKey !== null && analysis.nodules.find((n) => n.index === noduleIndex)?.key === indexKey
                 return (
                   <button
                     key={r.cell.id}
@@ -79,6 +88,17 @@ export function CassetteMap({ mapping, analysis, theme, selected, onSelect }: Ca
                     }}
                   >
                     {r.cell.label}
+                    {noduleIndex !== undefined && (
+                      <span
+                        className={cn(
+                          'tabular absolute -bottom-1.5 -left-1.5 flex h-4 min-w-4 items-center justify-center rounded-full border border-elevated px-0.5 text-[0.6rem] font-bold leading-none',
+                          inIndex ? 'bg-accent text-white' : 'bg-ink text-elevated',
+                        )}
+                        aria-label={t('prostate.nodules.nodule', { n: noduleIndex })}
+                      >
+                        {noduleIndex}
+                      </span>
+                    )}
                     {r.data.epe !== 'none' && (
                       <span
                         className="absolute -top-1 -right-1 size-3 rounded-full border-2 border-elevated"
@@ -112,6 +132,12 @@ export function CassetteMap({ mapping, analysis, theme, selected, onSelect }: Ca
           <span className="inline-block size-2.5 rounded-full" style={{ background: EPE_HEX }} />
           {t('prostate.map.legendEpe')}
         </span>
+        {noduleOf.size > 0 && (
+          <span className="inline-flex items-center gap-1.5">
+            <span className="tabular flex size-4 items-center justify-center rounded-full bg-ink text-[0.6rem] font-bold text-elevated">2</span>
+            {t('prostate.map.legendNodule')}
+          </span>
+        )}
       </div>
     </div>
   )

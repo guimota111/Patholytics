@@ -737,14 +737,19 @@
       "marginMm": "Extent at margin (mm)",
       "marginPattern": "Gleason at margin",
       "epe": "EPE",
-      "epeType": "EPE type"
+      "epeType": "EPE type",
+      "nodule": "Nodule no.",
+      "noduleHint": "Optional: force nodules apart or together. Blank means the map neighbourhood decides.",
+      "nodulePlaceholder": "auto"
     },
     "warnings": {
       "invalidCell": "Cassette {{label}}: G4 + G5 above the allowed maximum.",
       "patternWithoutTumor": "Cassette {{label}}: patterns entered without tumour %.",
       "marginWithoutTumor": "Cassette {{label}}: positive margin without tumour entered.",
       "epeWithoutTumor": "Cassette {{label}}: extraprostatic extension without tumour entered.",
-      "lnCount": "Positive lymph nodes exceed the number examined."
+      "lnCount": "Positive lymph nodes exceed the number examined.",
+      "higherGradeNodule": "Nodule {{n}} (cassettes {{cells}}) is Gleason {{gleason}}, higher than the graded nodule: report it separately, as CAP asks.",
+      "unmappedNodules": "Ungrouped cassettes carry tumour: with no place on the map, each counts as a separate nodule. Map them or number the nodule in the table."
     },
     "results": {
       "volume": "Volume",
@@ -766,11 +771,16 @@
       "empty": "Enter the tumour % of at least one cassette.",
       "marginFree": "Free",
       "marginFocal": "Focally involved",
-      "marginExtensive": "Extensively involved"
+      "marginExtensive": "Extensively involved",
+      "gleasonDominant": "Gleason · dominant nodule",
+      "gleasonNodule": "Gleason · nodule {{n}}",
+      "gleasonGland": "Gleason · whole gland",
+      "nodulesShort": "{{n}} nodules",
+      "globalShort": "gland {{text}}"
     },
     "map": {
       "title2d": "Cassette map",
-      "hint2d": "One strip per group, one square per cassette (apex to base). Colour = worst pattern present (3 green, 4 yellow, 5 red); intensity = tumour %. Click a cassette to highlight it in the table and in 3D.",
+      "hint2d": "One strip per group, one square per cassette (apex to base). Colour = worst pattern present (3 green, 4 yellow, 5 red); intensity = tumour %. Click a cassette to highlight it in the table and in 3D. With a multifocal tumour, the number in the corner is the nodule number.",
       "apexToBase": "apex → base",
       "title3d": "3D model",
       "hint3dCard": "Drag to rotate, scroll to zoom. Colour = worst pattern present (3 green, 4 yellow, 5 red); intensity = tumour %; seminal vesicles and ducts appear behind the base when mapped.",
@@ -783,7 +793,8 @@
       "resetView": "Recentre",
       "apex": "Apex",
       "base": "Base",
-      "baseToApex": "base → apex"
+      "baseToApex": "base → apex",
+      "legendNodule": "nodule no. (multifocal tumour)"
     },
     "summary": {
       "and": "and",
@@ -828,7 +839,17 @@
       "lymphNodeCells": ". Lymph nodes with metastasis in cassettes: {{cells}}",
       "lymphNodes": ". Lymph nodes: {{positive}} positive of {{total}} examined",
       "stagingTitle": "STAGING (suggestion — verify criteria)",
-      "staging": ". {{pT}} {{pN}} · {{r}}"
+      "staging": ". {{pT}} {{pN}} · {{r}}",
+      "gradeScopeNodule": ". Multifocal tumour ({{count}} nodules): grade of nodule {{n}} (cassettes {{cells}}), per CAP/ISUP",
+      "gradeScopeGland": ". Multifocal tumour ({{count}} nodules): grade of the whole gland, weighted",
+      "gleasonGlobal": ". Whole gland, weighted: Gleason {{text}} — group {{gg}}",
+      "higherGradeNodule": ". Nodule {{n}} (cassettes {{cells}}) of higher grade: Gleason {{text}} — group {{gg}} (report separately)",
+      "nodulesTitle": "NODULES",
+      "unifocal": ". Unifocal: one contiguous nodule on the map",
+      "multifocal": ". Multifocal: {{count}} nodules that do not communicate on the map",
+      "nodule": "  - Nodule {{n}}{{dominant}}: cassettes {{cells}} ({{where}}) · {{gland}}% of gland · Gleason {{gleason}} (group {{gg}}){{epe}}{{margin}}",
+      "dominantTag": " (dominant)",
+      "noduleMargin": "margin in {{n}} cassette(s)"
     },
     "span": {
       "apexToBase": "Apex to base",
@@ -864,7 +885,7 @@
       "deleteConfirm": "Confirm deletion",
       "resetDefault": "Restore default",
       "defaultName": "Default",
-      "defaultTemplate": "Radical prostatectomy specimen:\n- Prostatic acinar adenocarcinoma.\n. Histologic grade: Gleason [gleason].\n. Grade group: [grupo].\n. Percentage of Gleason pattern 4: [g4]%.\n. Cribriform pattern: [cribriforme].\n. Approximate tumour volume: [volume]% of the gland.\n. Dominant nodule size: [nodulo] mm.\n. Lymphovascular invasion: [ivl].\n. Perineural invasion: [perineural].\n. Seminal vesicle invasion: [vesiculas].\n. Vas deferens invasion: [ductos].\n\n- Extraprostatic extension: [eep].\n\n- Surgical margins:\n. Circumferential margin: [margem_circunferencial].\n. Apical margin: [margem_apical].\n. Bladder neck margin: [margem_vesical].\n\n- Other findings:\n. High-grade prostatic intraepithelial neoplasia: [nip].\n\n- Pathologic stage (pTNM, AJCC 8th edition): pT[pT] pN[pN]",
+      "defaultTemplate": "Radical prostatectomy specimen:\n- Prostatic acinar adenocarcinoma.\n. Histologic grade: Gleason [gleason].\n. Grade group: [grupo].\n. Percentage of Gleason pattern 4: [g4]%.\n. Cribriform pattern: [cribriforme].\n. Approximate tumour volume: [volume]% of the gland.\n. Dominant nodule size: [nodulo] mm.\n. Tumour nodules: [nodulos].\n. Lymphovascular invasion: [ivl].\n. Perineural invasion: [perineural].\n. Seminal vesicle invasion: [vesiculas].\n. Vas deferens invasion: [ductos].\n\n- Extraprostatic extension: [eep].\n\n- Surgical margins:\n. Circumferential margin: [margem_circunferencial].\n. Apical margin: [margem_apical].\n. Bladder neck margin: [margem_vesical].\n\n- Other findings:\n. High-grade prostatic intraepithelial neoplasia: [nip].\n\n- Pathologic stage (pTNM, AJCC 8th edition): pT[pT] pN[pN]",
       "editor": "Template text",
       "editorHint": "Click a parameter to insert it at the cursor, or drag it to the spot in the text. Brackets with anything else inside stay as they are — use [  ] for blanks you fill by hand.",
       "unknown": "Unknown {{keys}} — check the spelling against the list beside.",
@@ -907,7 +928,10 @@
         "nip": "High-grade PIN",
         "linfonodos": "Lymph nodes",
         "pT": "pT",
-        "pN": "pN"
+        "pN": "pN",
+        "gleason_global": "Whole-gland Gleason",
+        "nodulo_maior_grau": "Higher-grade nodule (sentence)",
+        "nodulos": "Nodules (sentence)"
       },
       "values": {
         "present": "present",
@@ -932,8 +956,26 @@
         "in": "at",
         "lymphNodes": "{{positive}} of {{total}} lymph nodes involved",
         "notDetectedM": "not identified",
-        "notAssessedM": "not assessed"
+        "notAssessedM": "not assessed",
+        "noduleItem": "nodule {{n}} (cassettes {{cells}}, {{where}}): Gleason {{gleason}}, group {{gg}}, {{pct}}% of gland",
+        "nodulesUnifocal": "unifocal",
+        "nodulesMultifocal": "multifocal, {{count}} nodules — {{list}}",
+        "noHigherGrade": "no nodule of higher grade than the dominant one"
       }
+    },
+    "nodules": {
+      "title": "Multifocal tumour: {{n}} separate nodules on the map",
+      "hint": "Tumour-bearing cassettes that touch form one nodule. CAP and ISUP ask for the Gleason of the dominant (largest) nodule; choose below which nodule the report Gleason comes from.",
+      "gradeBy": "Report Gleason",
+      "dominant": "Dominant nodule",
+      "nodule": "Nodule {{n}}",
+      "labelled": "(no. {{n}} in the table)",
+      "cassettes": "cassettes {{cells}}",
+      "margin": "margin",
+      "wholeGland": "Whole gland, weighted",
+      "wholeGlandHint": "as if it were a single tumour",
+      "higherGrade": "Nodule {{n}} has a higher grade ({{gleason}}, group {{gg}}) than the reported one: CAP asks for it to be reported separately — the [nodulo_maior_grau] parameter carries the text.",
+      "fixHint": "Did the map split them wrongly? Turn on \"more columns\" in the table and number the nodules: cassettes with the same number become one nodule; different numbers never merge."
     }
   },
   "breast": {

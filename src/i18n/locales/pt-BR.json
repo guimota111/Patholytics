@@ -737,14 +737,19 @@
       "marginMm": "Extensão na margem (mm)",
       "marginPattern": "Gleason na margem",
       "epe": "EEP",
-      "epeType": "Tipo de EEP"
+      "epeType": "Tipo de EEP",
+      "nodule": "Nódulo nº",
+      "noduleHint": "Opcional: force a separação ou a união dos nódulos. Em branco, vale a vizinhança no mapa.",
+      "nodulePlaceholder": "auto"
     },
     "warnings": {
       "invalidCell": "Cassete {{label}}: G4 + G5 maior que o permitido.",
       "patternWithoutTumor": "Cassete {{label}}: padrões informados sem % de tumor.",
       "marginWithoutTumor": "Cassete {{label}}: margem comprometida sem tumor informado.",
       "epeWithoutTumor": "Cassete {{label}}: extensão extraprostática sem tumor informado.",
-      "lnCount": "Linfonodos positivos maior que os examinados."
+      "lnCount": "Linfonodos positivos maior que os examinados.",
+      "higherGradeNodule": "Nódulo {{n}} (cassetes {{cells}}) tem Gleason {{gleason}}, maior que o do nódulo graduado: relate-o à parte, como pede a CAP.",
+      "unmappedNodules": "Há cassetes sem grupo com tumor: sem lugar no mapa, cada um conta como nódulo separado. Mapeie-os ou numere o nódulo na tabela."
     },
     "results": {
       "volume": "Volume",
@@ -766,11 +771,16 @@
       "empty": "Preencha o % de tumor de pelo menos um cassete.",
       "marginFree": "Livres",
       "marginFocal": "Focalmente comprometida",
-      "marginExtensive": "Extensamente comprometida"
+      "marginExtensive": "Extensamente comprometida",
+      "gleasonDominant": "Gleason · nódulo dominante",
+      "gleasonNodule": "Gleason · nódulo {{n}}",
+      "gleasonGland": "Gleason · glândula inteira",
+      "nodulesShort": "{{n}} nódulos",
+      "globalShort": "glândula {{text}}"
     },
     "map": {
       "title2d": "Mapa dos cassetes",
-      "hint2d": "Uma tira por grupo, um quadrado por cassete (do ápice para a base). Cor = pior padrão presente (3 verde, 4 amarelo, 5 vermelho); intensidade = % de tumor. Clique num cassete para destacá-lo na tabela e no 3D.",
+      "hint2d": "Uma tira por grupo, um quadrado por cassete (do ápice para a base). Cor = pior padrão presente (3 verde, 4 amarelo, 5 vermelho); intensidade = % de tumor. Clique num cassete para destacá-lo na tabela e no 3D. Com tumor multifocal, o número no canto é o do nódulo.",
       "apexToBase": "ápice → base",
       "title3d": "Modelo 3D",
       "hint3dCard": "Arraste para girar, role para aproximar. Cor = pior padrão presente (3 verde, 4 amarelo, 5 vermelho); intensidade = % de tumor; vesículas e ductos aparecem atrás da base quando mapeados.",
@@ -783,7 +793,8 @@
       "resetView": "Recentrar",
       "apex": "Ápice",
       "base": "Base",
-      "baseToApex": "base → ápice"
+      "baseToApex": "base → ápice",
+      "legendNodule": "nº do nódulo (tumor multifocal)"
     },
     "summary": {
       "and": "e",
@@ -828,7 +839,17 @@
       "lymphNodeCells": ". Linfonodos com metástase nos cassetes: {{cells}}",
       "lymphNodes": ". Linfonodos: {{positive}} positivo(s) de {{total}} examinado(s)",
       "stagingTitle": "ESTADIAMENTO (sugestão — conferir critérios)",
-      "staging": ". {{pT}} {{pN}} · {{r}}"
+      "staging": ". {{pT}} {{pN}} · {{r}}",
+      "gradeScopeNodule": ". Tumor multifocal ({{count}} nódulos): gradação do nódulo {{n}} (cassetes {{cells}}), conforme CAP/ISUP",
+      "gradeScopeGland": ". Tumor multifocal ({{count}} nódulos): gradação da glândula inteira, ponderada",
+      "gleasonGlobal": ". Glândula inteira, ponderada: Gleason {{text}} — grupo {{gg}}",
+      "higherGradeNodule": ". Nódulo {{n}} (cassetes {{cells}}) com grau maior: Gleason {{text}} — grupo {{gg}} (relatar à parte)",
+      "nodulesTitle": "NÓDULOS",
+      "unifocal": ". Unifocal: um nódulo contíguo no mapa",
+      "multifocal": ". Multifocal: {{count}} nódulos que não se comunicam no mapa",
+      "nodule": "  - Nódulo {{n}}{{dominant}}: cassetes {{cells}} ({{where}}) · {{gland}}% do órgão · Gleason {{gleason}} (grupo {{gg}}){{epe}}{{margin}}",
+      "dominantTag": " (dominante)",
+      "noduleMargin": "margem em {{n}} cassete(s)"
     },
     "span": {
       "apexToBase": "Do ápice para a base",
@@ -864,7 +885,7 @@
       "deleteConfirm": "Confirmar exclusão",
       "resetDefault": "Restaurar padrão",
       "defaultName": "Padrão",
-      "defaultTemplate": "Produto de prostatectomia radical:\n- Adenocarcinoma acinar prostático.\n. Graduação histológica: Gleason [gleason].\n. Grupo prognóstico: [grupo].\n. Porcentagem de Gleason 4 na amostra: [g4]%.\n. Padrão cribriforme: [cribriforme].\n. Volume aproximado da neoplasia: [volume]% do órgão acometido.\n. Tamanho do nódulo dominante: [nodulo] mm.\n. Invasão angiolinfática: [ivl].\n. Invasão perineural: [perineural].\n. Invasão de vesículas seminais: [vesiculas].\n. Invasão de ductos deferentes: [ductos].\n\n- Extensão extraprostática: [eep].\n\n- Margens cirúrgicas:\n. Margem circunferencial: [margem_circunferencial].\n. Margem apical: [margem_apical].\n. Margem vesical: [margem_vesical].\n\n- Outros achados:\n. Neoplasia intraepitelial prostática de alto grau: [nip].\n\n- Estadiamento patológico (pTNM, AJCC 8ª edição): pT[pT] pN[pN]",
+      "defaultTemplate": "Produto de prostatectomia radical:\n- Adenocarcinoma acinar prostático.\n. Graduação histológica: Gleason [gleason].\n. Grupo prognóstico: [grupo].\n. Porcentagem de Gleason 4 na amostra: [g4]%.\n. Padrão cribriforme: [cribriforme].\n. Volume aproximado da neoplasia: [volume]% do órgão acometido.\n. Tamanho do nódulo dominante: [nodulo] mm.\n. Nódulos tumorais: [nodulos].\n. Invasão angiolinfática: [ivl].\n. Invasão perineural: [perineural].\n. Invasão de vesículas seminais: [vesiculas].\n. Invasão de ductos deferentes: [ductos].\n\n- Extensão extraprostática: [eep].\n\n- Margens cirúrgicas:\n. Margem circunferencial: [margem_circunferencial].\n. Margem apical: [margem_apical].\n. Margem vesical: [margem_vesical].\n\n- Outros achados:\n. Neoplasia intraepitelial prostática de alto grau: [nip].\n\n- Estadiamento patológico (pTNM, AJCC 8ª edição): pT[pT] pN[pN]",
       "editor": "Texto do modelo",
       "editorHint": "Clique num parâmetro para inseri-lo no cursor, ou arraste-o até o ponto do texto. Colchetes com outra coisa dentro ficam como estão — use [  ] para lacunas que você preenche à mão.",
       "unknown": "Não conheço {{keys}} — confira a grafia na lista ao lado.",
@@ -907,7 +928,10 @@
         "nip": "NIP de alto grau",
         "linfonodos": "Linfonodos",
         "pT": "pT",
-        "pN": "pN"
+        "pN": "pN",
+        "gleason_global": "Gleason da glândula inteira",
+        "nodulo_maior_grau": "Nódulo de maior grau (frase)",
+        "nodulos": "Nódulos (frase)"
       },
       "values": {
         "present": "presente",
@@ -932,8 +956,26 @@
         "in": "em",
         "lymphNodes": "{{positive}} de {{total}} linfonodos comprometidos",
         "notDetectedM": "não detectado",
-        "notAssessedM": "não avaliado"
+        "notAssessedM": "não avaliado",
+        "noduleItem": "nódulo {{n}} (cassetes {{cells}}, {{where}}): Gleason {{gleason}}, grupo {{gg}}, {{pct}}% do órgão",
+        "nodulesUnifocal": "unifocal",
+        "nodulesMultifocal": "multifocal, {{count}} nódulos — {{list}}",
+        "noHigherGrade": "nenhum nódulo com grau maior que o dominante"
       }
+    },
+    "nodules": {
+      "title": "Tumor multifocal: {{n}} nódulos separados no mapa",
+      "hint": "Cassetes com tumor que se tocam formam um nódulo. A CAP e a ISUP pedem o Gleason do nódulo dominante (o maior); escolha abaixo de qual nódulo sai o Gleason do laudo.",
+      "gradeBy": "Gleason do laudo",
+      "dominant": "Nódulo dominante",
+      "nodule": "Nódulo {{n}}",
+      "labelled": "(nº {{n}} na tabela)",
+      "cassettes": "cassetes {{cells}}",
+      "margin": "margem",
+      "wholeGland": "Glândula inteira, ponderada",
+      "wholeGlandHint": "como se fosse um tumor só",
+      "higherGrade": "O nódulo {{n}} tem grau maior ({{gleason}}, grupo {{gg}}) que o do laudo: a CAP pede que ele seja relatado à parte — o parâmetro [nodulo_maior_grau] já traz o texto.",
+      "fixHint": "O mapa errou a separação? Ligue \"mais colunas\" na tabela e numere os nódulos: cassetes com o mesmo número viram um nódulo; números diferentes nunca se unem."
     }
   },
   "breast": {

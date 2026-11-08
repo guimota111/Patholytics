@@ -55,7 +55,7 @@ export function CassetteTable({ mapping, globals, analysis, theme, selected, onS
   const unmapped = analysis.cells.filter((c) => !c.cell.group)
   if (unmapped.length) groups.push({ key: '__unmapped', title: t('prostate.unmappedGroup'), color: 'var(--color-ink-faint)', rows: unmapped })
 
-  const colSpan = 6 + (more ? 2 : 0) + (perCrib ? 1 : 0) + (perIdc ? 1 : 0)
+  const colSpan = 6 + (more ? 3 : 0) + (perCrib ? 1 : 0) + (perIdc ? 1 : 0)
 
   return (
     <div className="space-y-4">
@@ -86,6 +86,11 @@ export function CassetteTable({ mapping, globals, analysis, theme, selected, onS
               {more && <th className="px-2 py-2 text-left font-medium">{t('prostate.table.marginDetail')}</th>}
               <th className="px-2 py-2 text-left font-medium">{t('prostate.table.epe')}</th>
               {more && <th className="px-2 py-2 text-left font-medium">{t('prostate.table.epeType')}</th>}
+              {more && (
+                <th className="px-2 py-2 text-left font-medium" title={t('prostate.table.noduleHint')}>
+                  {t('prostate.table.nodule')}
+                </th>
+              )}
               <th className="px-3 py-2 text-right font-medium">Gleason</th>
             </tr>
           </thead>
@@ -205,6 +210,24 @@ export function CassetteTable({ mapping, globals, analysis, theme, selected, onS
                               <option value="focal">{t('prostate.epe.focal')}</option>
                               <option value="established">{t('prostate.epe.established')}</option>
                             </select>
+                          )}
+                        </td>
+                      )}
+                      {more && (
+                        <td className="w-20 px-2 py-1.5" onClick={(e) => e.stopPropagation()}>
+                          {!nonProstate && (
+                            <input
+                              type="number"
+                              inputMode="numeric"
+                              min={1}
+                              step={1}
+                              value={d.nodule ?? ''}
+                              onChange={(e) => setCell(id, { nodule: e.target.value === '' ? null : Math.max(1, Math.floor(Number(e.target.value))) })}
+                              onFocus={(e) => e.currentTarget.select()}
+                              placeholder={t('prostate.table.nodulePlaceholder')}
+                              className={compactInputClass}
+                              aria-label={t('prostate.table.nodule')}
+                            />
                           )}
                         </td>
                       )}
