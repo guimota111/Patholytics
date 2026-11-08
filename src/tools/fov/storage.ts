@@ -1,12 +1,16 @@
+import { DEFAULT_PREFS, REFERENCE_FIELDS, type FlowPrefs, type RefId } from './flow'
 import { DEFAULT_CONFIG, type MicroscopeConfig } from './optics'
 
 /**
- * A configuração do microscópio fica no navegador, por usuário — mesma razão
- * do mapa de TMA: estações de trabalho são compartilhadas.
+ * A configuração do microscópio e as escolhas do fluxo ficam no navegador,
+ * por usuário — mesma razão do mapa de TMA: estações de trabalho são
+ * compartilhadas.
  */
 const PREFIX = 'patholytics.fov.v1'
+const PREFS_PREFIX = 'patholytics.fov.prefs.v1'
 
 export const storageKey = (uid: string | null | undefined) => `${PREFIX}:${uid ?? 'anon'}`
+const prefsKey = (uid: string | null | undefined) => `${PREFS_PREFIX}:${uid ?? 'anon'}`
 
 export function loadConfig(uid: string | null | undefined): MicroscopeConfig {
   try {
@@ -32,5 +36,31 @@ export function saveConfig(uid: string | null | undefined, config: MicroscopeCon
     localStorage.setItem(storageKey(uid), JSON.stringify(config))
   } catch {
     // sem persistência a ferramenta continua funcionando na sessão
+  }
+}
+
+const REF_IDS: RefId[] = ['mine', 'custom', ...REFERENCE_FIELDS.map((r) => r.id)]
+
+export function loadPrefs(uid: string | null | undefined): FlowPrefs {
+  try {
+    const raw = localStorage.getItem(prefsKey(uid))
+    if (!raw) return DEFAULT_PREFS
+    const p = JSON.parse(raw) as Partial<FlowPrefs>
+    return {
+      setting: p.setting === 'microscope' || p.setting === 'tele' ? p.setting : null,
+      objective: typeof p.objective === 'number' && p.objective > 0 ? p.objective : DEFAULT_PREFS.objective,
+      refId: REF_IDS.includes(p.refId as RefId) ? (p.refId as RefId) : DEFAULT_PREFS.refId,
+      refCustom: typeof p.refCustom === 'number' && p.refCustom > 0 ? p.refCustom : DEFAULT_PREFS.refCustom,
+    }
+  } catch {
+    return DEFAULT_PREFS
+  }
+}
+
+export function savePrefs(uid: string | null | undefined, prefs: FlowPrefs): void {
+  try {
+    localStorage.setItem(prefsKey(uid), JSON.stringify(prefs))
+  } catch {
+    // idem
   }
 }
